@@ -1,79 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Sphere Commerce Company | Official Portal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-dark: #0a192f;
-            --bg-card: #112240;
-            --accent: #64ffda;
-            --text-light: #ccd6f6;
-            --text-dim: #8892b0;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Sphere Commerce | Mentor Benson</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="hero-content">
+      <h1>Welcome to Online Sphere Commerce</h1>
+      <p>Trusted digital platform for e-commerce, learning, and consulting.</p>
+      <a href="#products" class="btn-primary">Explore Products</a>
+    </div>
+  </header>
 
-        body {
-            font-family: 'Open Sans', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-light);
-            margin: 0;
-            padding: 0;
-            line-height: 1.8;
-            text-align: center;
-        }
+  <!-- About Section -->
+  <section id="about">
+    <h2>About Us</h2>
+    <p>Founded by Mentor Benson, Online Sphere Commerce blends local relevance with global reach. 
+       We provide e-commerce solutions, digital learning, and consulting services tailored for modern entrepreneurs.</p>
+  </section>
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 60px 20px;
-        }
+  <!-- Gallery Section -->
+  <section id="gallery">
+    <h2>Gallery</h2>
+    <div class="gallery-grid">
+      <img src="images/photo1.jpg" alt="Business showcase">
+      <img src="images/photo2.jpg" alt="Certificate">
+      <img src="images/photo3.jpg" alt="Event">
+    </div>
+  </section>
 
-        header { margin-bottom: 60px; }
-        h1 { font-family: 'Montserrat', sans-serif; font-size: 2.8rem; color: var(--accent); margin: 0; text-transform: uppercase; }
-        .mentor-subtitle { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; color: var(--text-dim); font-weight: 700; letter-spacing: 6px; margin-top: 10px; }
+  <!-- Products Section -->
+  <section id="products">
+    <h2>Our Products</h2>
+    <div class="product-list">
+      <div class="product-card">
+        <h3>Digital Course</h3>
+        <p>Learn digital marketing and e-commerce strategies.</p>
+        <button class="btn-secondary">Buy Now</button>
+      </div>
+      <div class="product-card">
+        <h3>Consulting Session</h3>
+        <p>One-on-one mentorship with Benson.</p>
+        <button class="btn-secondary">Book Now</button>
+      </div>
+    </div>
+  </section>
 
-        /* Mission & Vision Section */
-        .mv-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-bottom: 70px; }
-        .mv-card { border: 1px solid var(--accent); padding: 40px; border-radius: 15px; background: rgba(100, 255, 218, 0.05); }
-        .mv-card h2 { font-family: 'Montserrat', sans-serif; color: #fff; text-transform: uppercase; font-size: 1.6rem; margin-bottom: 20px; }
+  <!-- Payment Section -->
+  <section id="payment">
+    <h2>Secure Payment</h2>
+    <form id="mpesaForm" method="POST" action="/process_payment">
+      <label for="phone">Enter Phone Number (Safaricom):</label>
+      <input type="text" id="phone" name="phone" placeholder="2547XXXXXXXX" required>
 
-        /* Service Grid Section */
-        .section-title { font-family: 'Montserrat', sans-serif; font-size: 2rem; color: #fff; margin-bottom: 40px; border-bottom: 2px solid var(--accent); display: inline-block; padding-bottom: 10px; }
-        .service-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-bottom: 80px;
-        }
+      <label for="amount">Amount (KES):</label>
+      <input type="number" id="amount" name="amount" required>
 
-        .service-card {
-            background: var(--bg-card);
-            padding: 35px;
-            border-radius: 16px;
-            border: 1px solid rgba(100, 255, 218, 0.1);
-            transition: 0.4s ease;
-        }
+      <button type="submit" class="btn-primary">Pay with M-PESA</button>
+    </form>
+    <p>Payments are processed securely via M-PESA STK Push.</p>
+  </section>
 
-        .service-card:hover { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 20px 40px rgba(2, 12, 27, 0.8); }
-        .service-card b { font-family: 'Montserrat', sans-serif; display: block; margin-bottom: 12px; font-size: 1.3rem; }
+  <!-- Contact Section -->
+  <section id="contact">
+    <h2>Contact Us</h2>
+    <p>Email: info@onlinespherecommerce.com</p>
+    <p>Phone: +2547XXXXXXXX</p>
+  </section>
 
-        /* Distinct Colors for Each Service */
-        .c1 { color: #ff6b6b; } .c2 { color: #4facfe; } .c3 { color: #ffd93d; } .c4 { color: #6bffbc; }
-        .c5 { color: #ff9ff3; } .c6 { color: #a29bfe; } .c7 { color: #fab1a0; } .c8 { color: #00d2ff; }
-        .c9 { color: #ff9f43; } .c10 { color: #54a0ff; } .c11 { color: #5f27cd; } .c12 { color: #ff6b6b; }
-        .c13 { color: #1dd1a1; } .c14 { color: #feca57; }
-
-        /* Activation Box */
-        .activation-box {
-            background: linear-gradient(145deg, #112240, #0a192f);
-            border: 2px solid var(--accent);
-            padding: 60px 40px;
-            border-radius: 24px;
-            max-width: 850px;
-            margin: 0 auto;
-        }
-
-        .price { font-size: 3.5rem; font-weight: 800; color: #fff; margin: 20px 0; }
-        .phone { font-size: 2.5rem; color: var(--accent); font-weight: 700; letter-spacing: 2px; display: block; margin: 25px 0; background
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 Online Sphere Commerce | Mentor Benson</p>
+  </footer>
+</body>
+</html>
