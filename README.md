@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en">">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -175,8 +175,7 @@
   <!-- About Section -->
   <section id="about">
     <h2>About Us</h2>
-    <p>Founded by Mentor Benson, Online Sphere Commerce blends local relevance with global reach. 
-       We provide e-commerce solutions, digital learning, and consulting services tailored for modern entrepreneurs.</p>
+    <p>Founded by Mentor Benson, Online Sphere Commerce blends local relevance with global reach. We are dedicated to empowering individuals and businesses to achieve their aspirations through innovative e-commerce solutions and insightful consulting. Our platform thrives on core values of trust, efficiency, and responsiveness. By providing cutting-edge tools and resources, Online Sphere Commerce stands as a transformative vehicle for people seeking steady growth in a highly competitive digital age.</p>
   </section>
 
   <!-- Gallery Section -->
