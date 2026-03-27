@@ -4,7 +4,163 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Online Sphere Commerce | Mentor Benson</title>
-  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* General Reset */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f9f9f9;
+    }
+
+    h1, h2, h3 {
+      color: #003366; /* Professional dark blue */
+    }
+
+    p {
+      color: #555; /* Subtle gray for readability */
+      margin: 10px 0;
+    }
+
+    a {
+      color: #0066cc; /* Link blue */
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .btn-primary, .btn-secondary {
+      display: inline-block;
+      padding: 10px 20px;
+      margin: 10px 0;
+      font-size: 1rem;
+      font-weight: bold;
+      text-align: center;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .btn-primary {
+      background-color: #0078d7;
+    }
+
+    .btn-primary:hover {
+      background-color: #005a9e;
+    }
+
+    .btn-secondary {
+      background-color: #29a329;
+    }
+
+    .btn-secondary:hover {
+      background-color: #1d751d;
+    }
+
+    .hero {
+      background: linear-gradient(rgba(0, 0, 51, 0.7), rgba(0, 0, 51, 0.7)), url('images/hero-bg.jpg') no-repeat center center/cover;
+      color: #fff;
+      text-align: center;
+      padding: 100px 20px;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+    }
+
+    section {
+      padding: 40px 20px;
+      background: #fff;
+      margin: 20px auto;
+      max-width: 1000px;
+      border-radius: 10px;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    section#about {
+      background: #eaf4fc;
+    }
+
+    .gallery-grid {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .gallery-grid img {
+      width: 100%;
+      max-width: 300px;
+      border-radius: 10px;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    #products .product-list {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .product-card {
+      background: #fafafa;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 20px;
+      flex: 1;
+      min-width: 280px;
+      text-align: center;
+      box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    .product-card h3 {
+      color: #003366;
+    }
+
+    form {
+      margin-top: 20px;
+      background: #f7f7f7;
+      border: 1px solid #ddd;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      color: #555;
+    }
+
+    input, button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      border: 1px solid #bbb;
+      font-size: 1rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #003366;
+      color: #fff;
+    }
+
+    footer p {
+      margin: 0;
+    }
+  </style>
 </head>
 <body>
   <!-- Hero Section -->
