@@ -23,7 +23,7 @@
         /* NAVIGATION TABS */
         nav { background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
         .nav-container { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; padding: 10px 0; }
-        .logo-text { font-weight: 900; font-size: 1.4em; color: var(--primary); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .logo-text { font-weight: 900; font-size: 1.4em; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
         .tab-bar { display: flex; justify-content: center; width: 100%; background: #f8f9fa; border-top: 1px solid #eee; overflow-x: auto; }
         .tab-bar a { padding: 15px 20px; text-decoration: none; color: #555; font-weight: 700; font-size: 0.8em; text-transform: uppercase; white-space: nowrap; border-bottom: 3px solid transparent; transition: 0.3s; }
         .tab-bar a:hover { color: var(--primary); background: white; border-bottom: 3px solid var(--primary); }
@@ -36,55 +36,44 @@
         .section-title { font-size: 2.2em; margin: 60px 0 30px; font-weight: 800; text-transform: uppercase; }
 
         /* 1. MISSION */
-        .mission-box { 
-            background: white; padding: 50px 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); 
-            border-top: 10px solid var(--accent-2); margin: -80px auto 40px; max-width: 900px; 
-        }
-        .mission-box h2 { color: var(--accent-2); margin-top: 0; text-transform: uppercase; }
+        .mission-box { background: white; padding: 50px 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); border-top: 10px solid var(--accent-2); margin: -80px auto 40px; max-width: 900px; }
 
-        /* 2. SERVICES (20 ITEMS - 4 COLUMNS) */
+        /* 2. 20 SERVICES */
         .services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 50px; }
         .service-card { background: white; padding: 18px; border-radius: 12px; border: 1px solid #eee; text-align: left; border-left: 5px solid var(--primary); }
         .service-card h3 { font-size: 0.9em; margin: 0; color: var(--primary); font-weight: 800; text-transform: uppercase; }
-        .service-card p { font-size: 0.8em; color: #666; margin-top: 5px; line-height: 1.3; }
+        .service-card p { font-size: 0.8em; color: #666; margin-top: 5px; }
 
-        /* 3. STRATEGIC LEADERSHIP (RESTORED PREVIOUS INFO) */
+        /* 3. STRATEGIC LEADERSHIP */
         .admin-box { background: var(--dark); padding: 70px 40px; border-radius: 25px; margin: 50px auto; border: 3px solid var(--gold); color: white; }
-        .admin-box p { font-size: 1.1em; max-width: 800px; margin: 10px auto; opacity: 0.9; }
         .highlighted-quote { background-color: var(--gold); color: black; font-size: 1.5em; font-weight: 900; padding: 25px; display: inline-block; border-radius: 15px; margin: 20px 0; }
 
-        /* 4. WHY CHOOSE US & PACKAGES */
+        /* 4. WHY CHOOSE US */
         .grid-flex { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; }
-        .card-item { background: white; padding: 30px; border-radius: 15px; width: 320px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .fee { font-size: 2.2em; font-weight: 900; color: var(--gold); margin: 15px 0; }
+        .card-item { background: white; padding: 30px; border-radius: 15px; width: 320px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: left; }
 
-        /* 5. SUCCESS GALLERY */
-        .success-card { border-left: 5px solid var(--secondary); text-align: left; }
+        /* 5. ACTIVATION PACKAGES */
+        .fee { font-size: 2.2em; font-weight: 900; color: var(--gold); margin: 15px 0; text-align: center; }
 
-        /* 6. COMMUNITY */
-        .whatsapp-group-box { background: #e9f7ef; padding: 60px 20px; border-radius: 25px; margin: 80px auto; max-width: 950px; border: 2px solid var(--whatsapp); }
-
-        /* 7. SECURE ACTIVATION (PHOTO STYLE) */
-        .payment-section { background: white; padding: 60px 40px; border-radius: 25px; margin: 80px auto; max-width: 850px; border: 1px solid #ccc; text-align: left; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        /* 6. M-PESA SECURE ACTIVATION (PHOTO STYLE) */
+        .payment-section { background: white; padding: 60px 40px; border-radius: 25px; margin: 80px auto; max-width: 850px; border: 1px solid #ccc; text-align: left; }
         .step-list { list-style: none; padding: 0; }
         .step-list li { margin-bottom: 20px; padding-left: 50px; position: relative; font-size: 1.1em; color: #555; }
         .step-list li::before { content: attr(data-step); position: absolute; left: 0; top: 0; background: #6c757d; color: white; width: 32px; height: 32px; border-radius: 50%; text-align: center; line-height: 32px; font-weight: bold; }
-        
-        .verify-btn { 
-            display: block; width: 100%; background: #4a5d4e; color: white; 
-            text-transform: uppercase; font-weight: 800; padding: 20px; 
-            border-radius: 50px; text-decoration: none; text-align: center;
-            letter-spacing: 1px; border: none; margin-top: 30px; cursor: pointer;
-        }
+        .verify-btn { display: block; width: 100%; background: #4a5d4e; color: white; text-transform: uppercase; font-weight: 800; padding: 20px; border-radius: 50px; text-decoration: none; text-align: center; margin-top: 30px; cursor: pointer; border: none; }
 
-        /* 8. CONTACT US SECTION */
-        .contact-section { background: #fff; padding: 60px 20px; border-radius: 25px; margin: 60px auto; max-width: 900px; border: 1px solid #eee; }
+        /* 7. CONTACT US SECTION (REMEMBERED) */
+        .contact-box { background: #fff; padding: 60px 20px; border-radius: 25px; margin: 60px auto; max-width: 900px; border: 1px solid #eee; }
 
-        /* BUTTONS & FOOTER */
-        .btn { display: inline-block; padding: 15px 35px; border-radius: 50px; text-decoration: none; font-weight: 800; transition: 0.3s; margin: 10px; cursor: pointer; text-transform: uppercase; border: none; }
+        /* 8. 5 FAQS */
+        .faq-item { background: white; padding: 25px; border-radius: 15px; text-align: left; border-right: 8px solid var(--primary); margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.03); }
+
+        /* BUTTONS */
+        .btn { display: inline-block; padding: 15px 35px; border-radius: 50px; text-decoration: none; font-weight: 800; transition: 0.3s; margin: 10px; text-transform: uppercase; cursor: pointer; }
         .btn-gold { background: var(--gold); color: black; }
         .btn-whatsapp { background: var(--whatsapp); color: white; }
         .btn-email { background: var(--accent-2); color: white; }
+        
         footer { padding: 50px; background: #111; color: #777; }
 
         @media (max-width: 1100px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -102,9 +91,6 @@
         <a href="#services">Services</a>
         <a href="#admin">Leadership</a>
         <a href="#packages">Activation</a>
-        <a href="#success">Success</a>
-        <a href="#community">Community</a>
-        <a href="#payment">M-Pesa</a>
         <a href="#contact">Contact Us</a>
         <a href="#faq">FAQs</a>
     </div>
@@ -123,29 +109,29 @@
 
     <h2 id="services" class="section-title" style="color: var(--primary);">Professional Solutions</h2>
     <div class="services-grid">
-        <div class="service-card"><h3>Academic Writing</h3><p>Detailed research, essays, and technical literature analysis.</p></div>
+        <div class="service-card"><h3>Academic Writing</h3><p>Research, essays, and technical literature analysis.</p></div>
         <div class="service-card"><h3>Transcription</h3><p>Accurate audio-to-text conversion services.</p></div>
-        <div class="service-card"><h3>Data Entry</h3><p>Fast and precise data management and digital typing.</p></div>
+        <div class="service-card"><h3>Data Entry</h3><p>Fast and precise digital typing and management.</p></div>
         <div class="service-card"><h3>Virtual Assistance</h3><p>Expert administrative and remote business support.</p></div>
         <div class="service-card"><h3>Content Writing</h3><p>Engaging blogs, articles, and sales copywriting.</p></div>
         <div class="service-card"><h3>Graphic Design</h3><p>Professional logos, branding, and visual content.</p></div>
-        <div class="service-card"><h3>Website Design</h3><p>Custom, responsive, and modern website development.</p></div>
-        <div class="service-card"><h3>Digital Marketing</h3><p>Strategic SEO, social ads, and email campaigns.</p></div>
-        <div class="service-card"><h3>Social Media</h3><p>Management and growth for professional profiles.</p></div>
-        <div class="service-card"><h3>Proofreading</h3><p>Polishing documents for grammar and total clarity.</p></div>
+        <div class="service-card"><h3>Website Design</h3><p>Custom, responsive, and modern development.</p></div>
+        <div class="service-card"><h3>Digital Marketing</h3><p>Strategic SEO, social ads, and campaigns.</p></div>
+        <div class="service-card"><h3>Social Media</h3><p>Management and growth for brand profiles.</p></div>
+        <div class="service-card"><h3>Proofreading</h3><p>Polishing documents for grammar and clarity.</p></div>
         <div class="service-card"><h3>Translation</h3><p>Precise multi-language professional translation.</p></div>
         <div class="service-card"><h3>Online Tutoring</h3><p>Expert coaching and specialized skill mentorship.</p></div>
-        <div class="service-card"><h3>Bookkeeping</h3><p>Reliable accounting and financial tracking support.</p></div>
+        <div class="service-card"><h3>Bookkeeping</h3><p>Reliable accounting and financial tracking.</p></div>
         <div class="service-card"><h3>Customer Support</h3><p>Professional interaction for client satisfaction.</p></div>
-        <div class="service-card"><h3>Video Editing</h3><p>High-quality post-production for audio and video.</p></div>
+        <div class="service-card"><h3>Video Editing</h3><p>High-quality post-production for digital media.</p></div>
         <div class="service-card"><h3>E-commerce</h3><p>Full management for Shopify and Amazon stores.</p></div>
         <div class="service-card"><h3>Resume & CV</h3><p>Strategic building of career-defining documents.</p></div>
-        <div class="service-card"><h3>Programming</h3><p>Custom software and automation script development.</p></div>
-        <div class="service-card"><h3>Voice-over</h3><p>Clear, professional, and engaging audio narration.</p></div>
-        <div class="service-card"><h3>Market Analysis</h3><p>Data-driven research and strategic business insights.</p></div>
+        <div class="service-card"><h3>Programming</h3><p>Custom software and automation development.</p></div>
+        <div class="service-card"><h3>Voice-over</h3><p>Clear and engaging professional audio narration.</p></div>
+        <div class="service-card"><h3>Market Analysis</h3><p>Data-driven research and business insights.</p></div>
     </div>
 
-    <div id="admin" class="admin-box">
+    <section id="admin" class="admin-box">
         <h3>Strategic Leadership</h3>
         <p>Connect with our administration for high-level management and project inquiries. We ensure the highest standards of professional delivery and strategic growth for all our partners.</p>
         <div class="highlighted-quote">
@@ -153,13 +139,13 @@
         </div>
         <br>
         <a href="https://wa.me/254741723223" class="btn btn-gold">Connect with Admin</a>
-    </div>
+    </section>
 
     <h2 class="section-title">Why Choose Us?</h2>
     <div class="grid-flex">
-        <div class="card-item" style="border-bottom: 5px solid var(--primary);"><h3>Absolute Privacy</h3><p>Strict confidentiality for all client data.</p></div>
-        <div class="card-item" style="border-bottom: 5px solid var(--accent-1);"><h3>Fast Delivery</h3><p>Efficient project turnarounds within 48 hours.</p></div>
-        <div class="card-item" style="border-bottom: 5px solid var(--secondary);"><h3>Expert Quality</h3><p>High precision across all digital tasks.</p></div>
+        <div class="card-item" style="border-bottom: 5px solid var(--primary);"><h3>Absolute Privacy</h3><p>We maintain strict confidentiality for all client data and project details.</p></div>
+        <div class="card-item" style="border-bottom: 5px solid var(--accent-1);"><h3>Fast Delivery</h3><p>We respect your time. Most projects are completed within 24 to 48 hours.</p></div>
+        <div class="card-item" style="border-bottom: 5px solid var(--secondary);"><h3>Expert Quality</h3><p>Our team consists of specialists ensuring high precision in every task.</p></div>
     </div>
 
     <h2 id="packages" class="section-title" style="color: var(--gold);">Account Activation</h2>
@@ -169,20 +155,8 @@
         <div class="card-item"><h3>Professional</h3><div class="fee">KES 1,500</div><a href="#payment" class="btn btn-gold">Select</a></div>
     </div>
 
-    <h2 id="success" class="section-title" style="color: var(--secondary);">Success Gallery</h2>
-    <div class="grid-flex">
-        <div class="card-item success-card"><p><strong>Literature Analysis Project</strong></p><p style="color:var(--secondary); font-weight:bold;">Paid: KES 15,000+</p></div>
-        <div class="card-item success-card"><p><strong>Full Web Development</strong></p><p style="color:var(--secondary); font-weight:bold;">Paid: KES 8,500+</p></div>
-    </div>
-
-    <section id="community" class="whatsapp-group-box">
-        <h2>Join Our Official Community</h2>
-        <p>Get real-time updates and earning reports in our WhatsApp Group.</p>
-        <a href="#" target="_blank" class="btn btn-whatsapp">Join WhatsApp Group</a>
-    </section>
-
     <section id="payment" class="payment-section">
-        <h2 style="color: #4a5d4e; margin-top: 0; font-size: 1.4em;">Activation Steps</h2>
+        <h2 style="color: #4a5d4e; margin-top: 0; font-size: 1.4em;">Secure Activation Steps</h2>
         <ul class="step-list">
             <li data-step="1">Open <strong>M-PESA</strong> > Lipa na M-PESA.</li>
             <li data-step="2">Select <strong>Buy Goods and Services</strong>.</li>
@@ -192,15 +166,22 @@
         <a href="https://wa.me/254741723223" class="verify-btn">Verify Activation</a>
     </section>
 
-    <section id="contact" class="contact-section">
+    <section id="contact" class="contact-box">
         <h2 class="section-title">Contact Us</h2>
-        <a href="https://wa.me/254741723223" class="btn btn-whatsapp">WhatsApp Us</a>
-        <a href="mailto:support@onlinesphere.com" class="btn btn-email">Email Us</a>
+        <p>Get in touch with our team for support or business inquiries.</p>
+        <div style="margin-top: 20px;">
+            <a href="https://wa.me/254741723223" class="btn btn-whatsapp">WhatsApp Us</a>
+            <a href="mailto:support@onlinesphere.com" class="btn btn-email">Email Us</a>
+        </div>
     </section>
 
-    <section id="faq" class="faq-section">
-        <h2 class="section-title" style="color: var(--accent-1);">FAQs</h2>
-        <div class="faq-item"><h4>How long is activation?</h4><p>Verified accounts are active within 10-30 minutes.</p></div>
+    <section id="faq">
+        <h2 class="section-title" style="color: var(--accent-1);">Frequently Asked Questions</h2>
+        <div class="faq-item"><h4>How long does account activation take?</h4><p>Once you verify your payment, accounts are typically activated within 10 to 30 minutes.</p></div>
+        <div class="faq-item"><h4>Are there guaranteed daily tasks?</h4><p>Yes, our community portal is updated daily with fresh projects for all skill levels.</p></div>
+        <div class="faq-item"><h4>How do I receive my payments?</h4><p>All earnings are disbursed directly to your registered M-PESA number upon project approval.</p></div>
+        <div class="faq-item"><h4>Can I work on multiple services?</h4><p>Absolutely. You are encouraged to pick tasks that match your diverse skill sets.</p></div>
+        <div class="faq-item"><h4>Is my data secure?</h4><p>Yes, we use end-to-end encryption to protect all freelancer and client communication.</p></div>
     </section>
 </div>
 
