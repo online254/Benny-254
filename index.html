@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Sphere Commerce Company | Professional Services</title>
+    <title>Online Sphere Commerce Company | Full Business Portal</title>
     <style>
         :root {
             --primary: #004a99;    /* Blue */
             --secondary: #28a745;  /* Green */
             --accent-1: #6f42c1;   /* Purple */
             --accent-2: #fd7e14;   /* Orange */
-            --gold: #d4af37;       /* Gold for requested sections */
+            --gold: #d4af37;       /* Gold */
             --dark: #1a1a1a;
             --light: #f4f7f6;
         }
@@ -20,7 +20,7 @@
         
         nav { background: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
         .logo { font-weight: 800; font-size: 1.2em; color: var(--primary); text-transform: uppercase; }
-        .nav-links a { text-decoration: none; color: var(--dark); margin-left: 20px; font-weight: 600; font-size: 0.9em; }
+        .nav-links a { text-decoration: none; color: var(--dark); margin-left: 20px; font-weight: 600; font-size: 0.85em; }
 
         header { background: linear-gradient(135deg, #004a99 0%, #6f42c1 100%); color: white; padding: 80px 20px; text-align: center; }
         header h1 { font-size: 2.5em; margin: 0; }
@@ -30,8 +30,12 @@
 
         .grid-centered { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; margin: 0 auto; }
 
+        /* MISSION SECTION */
+        .mission-box { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); border-left: 10px solid var(--accent-2); margin: -80px auto 40px; position: relative; max-width: 800px; text-align: left; }
+        .mission-box h2 { color: var(--accent-2); margin-top: 0; }
+
         /* MULTI-COLOR SERVICES */
-        .card { background: white; padding: 25px; border-radius: 15px; width: 260px; text-align: left; border: 1px solid #eee; }
+        .card { background: white; padding: 25px; border-radius: 15px; width: 260px; text-align: left; border: 1px solid #eee; transition: 0.3s; }
         .c-blue { border-top: 5px solid var(--primary); }
         .c-purple { border-top: 5px solid var(--accent-1); }
         .c-orange { border-top: 5px solid var(--accent-2); }
@@ -40,38 +44,35 @@
         .bg-purple { background: #f3e5f5; color: var(--accent-1); }
         .bg-orange { background: #fff3e0; color: var(--accent-2); }
 
-        /* GOLD REGISTRATION SECTION */
-        .gold-section-title { color: var(--gold); font-size: 2.2em; margin-top: 60px; font-weight: 900; }
-        .registration-notice { background: #fffdf0; border: 2px solid var(--gold); padding: 20px; border-radius: 10px; margin: 20px auto; max-width: 800px; color: #856404; font-weight: bold; }
+        /* WHY CHOOSE US */
+        .benefit { background: white; padding: 25px; border-radius: 10px; width: 280px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-bottom: 4px solid var(--primary); }
 
-        .package-card { background: white; padding: 35px 20px; border-radius: 15px; width: 280px; text-align: center; border: 2px solid #eee; transition: 0.3s; }
-        .package-card:hover { border-color: var(--gold); transform: translateY(-5px); }
-        .package-name { font-size: 1.4em; font-weight: 800; color: var(--dark); margin-bottom: 10px; }
+        /* GOLD REGISTRATION PACKAGES */
+        .registration-notice { background: #fffdf0; border: 2px solid var(--gold); padding: 20px; border-radius: 10px; margin: 20px auto; max-width: 800px; color: #856404; font-weight: bold; }
+        .package-card { background: white; padding: 35px 20px; border-radius: 15px; width: 280px; text-align: center; border: 2px solid #eee; }
         .fee { font-size: 2.2em; font-weight: 900; color: var(--gold); margin: 10px 0; }
-        .fee span { font-size: 0.5em; color: #777; }
-        
         .tier-gold { border: 3px solid var(--gold) !important; background: linear-gradient(180deg, #fff 0%, #fffef0 100%); position: relative; }
         .popular-badge { background: var(--gold); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.7em; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); }
 
-        /* SUCCESS GALLERY (Green/Vibrant) */
+        /* SUCCESS GALLERY (Green) */
         .success-item { background: white; padding: 25px; border-radius: 10px; width: 260px; text-align: left; border-left: 5px solid var(--secondary); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         .money-tag { display: inline-block; background: var(--secondary); color: white; padding: 5px 12px; border-radius: 4px; font-weight: bold; margin-top: 10px; }
 
+        /* FAQS */
+        .faq-item { background: white; margin-bottom: 15px; padding: 20px; border-radius: 12px; text-align: left; border-right: 5px solid var(--primary); box-shadow: 0 4px 10px rgba(0,0,0,0.03); max-width: 800px; margin-inline: auto; }
+
         /* GOLD ADMIN SECTION */
         .admin-box { background: var(--dark); padding: 60px 40px; border-radius: 20px; margin: 60px auto; text-align: center; max-width: 900px; border: 3px solid var(--gold); color: white; }
-        .admin-box h3 { color: var(--gold); font-size: 2.2em; text-transform: uppercase; margin-bottom: 20px; }
-        .highlighted-quote { background-color: var(--gold); color: black; font-size: 1.5em; font-weight: 900; padding: 20px; display: inline-block; border-radius: 10px; margin-bottom: 40px; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4); }
+        .admin-box h3 { color: var(--gold); font-size: 2em; text-transform: uppercase; }
+        .highlighted-quote { background-color: var(--gold); color: black; font-size: 1.5em; font-weight: 900; padding: 20px; display: inline-block; border-radius: 10px; margin: 30px 0; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4); }
 
-        /* Buttons */
+        /* Buttons & Footer */
         .btn { display: inline-block; padding: 14px 35px; border-radius: 50px; text-decoration: none; font-weight: bold; transition: 0.3s; margin: 10px; }
         .btn-gold { background: var(--gold); color: black; }
-        .btn-purple { background: var(--accent-1); color: white; }
         .btn-green { background: var(--secondary); color: white; }
-        .btn-blue { background: var(--primary); color: white; }
-
         footer { padding: 40px; background: #eee; color: #666; font-size: 0.9em; }
 
-        @media (max-width: 768px) { .card, .package-card, .success-item { width: 100%; } }
+        @media (max-width: 768px) { .card, .package-card, .success-item, .benefit { width: 100%; } }
     </style>
 </head>
 <body>
@@ -80,7 +81,7 @@
     <div class="logo">Online Sphere Commerce</div>
     <div class="nav-links">
         <a href="#services">Services</a>
-        <a href="#packages">Packages</a>
+        <a href="#packages">Work Tiers</a>
         <a href="#success">Earnings</a>
         <a href="#admin">Admin</a>
     </div>
@@ -92,7 +93,12 @@
 </header>
 
 <div class="container">
-    <h2 id="services" class="section-title" style="color: var(--primary);">Our Services</h2>
+    <section class="mission-box">
+        <h2>Our Mission</h2>
+        <p>To provide high-quality digital solutions while empowering a community of skilled individuals to excel in the global online marketplace. We believe in accuracy, efficiency, and the power of professional growth.</p>
+    </section>
+
+    <h2 id="services" class="section-title" style="color: var(--primary);">Professional Solutions</h2>
     <div class="grid-centered">
         <div class="card c-blue">
             <h3>Editorial & Writing</h3>
@@ -107,35 +113,47 @@
         <div class="card c-orange">
             <h3>Creative Tech</h3>
             <ul><li>Web Design</li><li>Image Refinement</li></ul>
-            <div class="how-done bg-orange">Method: Pro Editing</div>
+            <div class="how-done bg-orange">Method: Pro Editing Software</div>
         </div>
     </div>
 
-    <h2 id="packages" class="gold-section-title">Job Access Packages</h2>
-    <div class="registration-notice">
-        Account activation requires a one-time registration fee. 
-        This amount reflects on your Dashboard balance immediately.
+    <h2 class="section-title">Why Choose Us?</h2>
+    <div class="grid-centered">
+        <div class="benefit">
+            <h3>Absolute Privacy</h3>
+            <p>Your project details are handled with total confidentiality.</p>
+        </div>
+        <div class="benefit">
+            <h3>Fast Delivery</h3>
+            <p>Most tasks are completed within 24-48 hours with top precision.</p>
+        </div>
+        <div class="benefit">
+            <h3>Simple Clarity</h3>
+            <p>We transform complex requirements into easy-to-understand solutions.</p>
+        </div>
     </div>
 
+    <h2 id="packages" class="section-title" style="color: var(--gold);">Account Activation Packages</h2>
+    <div class="registration-notice">
+        One-time registration fee required for activation. Reflected on your Dashboard balance.
+    </div>
     <div class="grid-centered">
         <div class="package-card">
-            <div class="package-name">Starter Pool</div>
-            <div class="fee"><span>KES</span> 500</div>
+            <h3>Starter Pool</h3>
+            <div class="fee">KES 500</div>
             <p>Access basic entry-level tasks.</p>
             <a href="https://wa.me/254741723223" class="btn btn-gold">Activate</a>
         </div>
-
         <div class="package-card tier-gold">
-            <div class="popular-badge">MAXIMUM EARNINGS</div>
-            <div class="package-name">Executive Pool</div>
-            <div class="fee"><span>KES</span> 2,500</div>
-            <p>Full access to high-paying premium tasks.</p>
+            <div class="popular-badge">MAXIMUM PROFIT</div>
+            <h3>Executive Pool</h3>
+            <div class="fee">KES 2,500</div>
+            <p>Full access to premium and technical tasks.</p>
             <a href="https://wa.me/254741723223" class="btn btn-gold">Activate</a>
         </div>
-
         <div class="package-card">
-            <div class="package-name">Professional Pool</div>
-            <div class="fee"><span>KES</span> 1,500</div>
+            <h3>Professional Pool</h3>
+            <div class="fee">KES 1,500</div>
             <p>Access mid-level SEO & VA projects.</p>
             <a href="https://wa.me/254741723223" class="btn btn-gold">Activate</a>
         </div>
@@ -157,23 +175,34 @@
         </div>
     </div>
 
+    <h2 id="faq" class="section-title" style="color: var(--accent-1);">Frequently Asked Questions</h2>
+    <div class="faq-item">
+        <h4>How do I start a project?</h4>
+        <p>Message us on WhatsApp. We discuss your needs and provide a quote immediately.</p>
+    </div>
+    <div class="faq-item">
+        <h4>What is your revision policy?</h4>
+        <p>We offer unlimited revisions until you are completely satisfied.</p>
+    </div>
+    <div class="faq-item">
+        <h4>Can I learn to earn on this platform?</h4>
+        <p>Yes! We offer mentorship for individuals ready to learn ICT skills.</p>
+    </div>
+
     <div id="admin" class="admin-box">
         <h3>Strategic Leadership</h3>
-        <p>Our platform is built on transparency and technical excellence.</p>
-        
+        <p>Leadership built on transparency and technical proficiency.</p>
         <div class="highlighted-quote">
             "Your background does not define your future; your willingness to learn does. Join us, and let’s grow together."
         </div>
-
-        <div style="display: flex; justify-content: center; width: 100%;">
+        <div style="display: flex; justify-content: center;">
             <a href="https://wa.me/254741723223" class="btn btn-gold">Connect with Admin</a>
         </div>
     </div>
 
-    <section id="payment" style="background: white; padding: 40px; border-radius: 15px; border: 2px solid var(--secondary); margin: 40px auto; max-width: 600px;">
+    <section id="payment" style="background: white; padding: 40px; border: 2px solid var(--secondary); margin: 40px auto; max-width: 600px; border-radius: 15px;">
         <h2 style="color: var(--secondary);">Secure Activation</h2>
-        <p>Pay via M-PESA Till and send the code to Admin.</p>
-        <p><strong>Till: XXXXXX</strong></p>
+        <p>Pay via M-PESA Till: <strong>XXXXXX</strong></p>
         <a href="https://wa.me/254741723223" class="btn btn-green">Confirm via WhatsApp</a>
     </section>
 </div>
