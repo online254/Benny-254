@@ -13,12 +13,13 @@
             --gold: #d4af37;
             --dark: #1a1a1a;
             --light: #f4f7f6;
+            --danger: #ff4d4d;
         }
 
         html { scroll-behavior: smooth; }
         body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; color: var(--dark); margin: 0; background-color: var(--light); text-align: center; }
 
-        /* PROFESSIONAL GATEWAY */
+        /* AUTH GATEWAY */
         #gatewayOverlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(135deg, #004a99 0%, #6f42c1 100%);
@@ -29,59 +30,48 @@
             box-shadow: 0 20px 50px rgba(0,0,0,0.3); text-align: left;
         }
         .auth-card h2 { margin: 0 0 10px; color: var(--primary); font-size: 1.6em; font-weight: 800; text-transform: uppercase; }
-        .auth-card p { font-size: 0.9em; color: #666; margin-bottom: 20px; }
         
         .input-group { margin-bottom: 15px; }
         .input-group label { display: block; font-size: 0.8em; font-weight: 700; color: #444; margin-bottom: 5px; text-transform: uppercase; }
         .auth-card input { 
             width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 8px; 
-            box-sizing: border-box; font-size: 1em; transition: 0.3s;
+            box-sizing: border-box; font-size: 1em;
         }
-        .auth-card input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 8px rgba(0,74,153,0.1); }
 
         .btn-auth-submit { 
             width: 100%; background: var(--secondary); color: white; border: none; padding: 16px; 
             border-radius: 8px; font-weight: 800; cursor: pointer; text-transform: uppercase; margin-top: 10px;
         }
-        .auth-footer { text-align: center; margin-top: 20px; font-size: 0.85em; color: #666; }
-        .auth-link { color: var(--primary); font-weight: 800; cursor: pointer; text-decoration: underline; }
+        .auth-link { color: var(--primary); font-weight: 800; cursor: pointer; text-decoration: underline; font-size: 0.85em; }
 
-        /* DASHBOARD LAYOUT */
+        /* DASHBOARD ELEMENTS */
         #mainContent { display: none; }
         nav { background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
         .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; }
         .logo-text { font-weight: 900; font-size: 1.2em; color: var(--primary); text-transform: uppercase; }
-        .btn-logout { border: 2px solid #ff4d4d; color: #ff4d4d; padding: 6px 15px; border-radius: 6px; text-decoration: none; font-weight: 800; font-size: 0.8em; }
-
-        .tab-bar { display: flex; justify-content: center; width: 100%; background: #f8f9fa; border-top: 1px solid #eee; overflow-x: auto; }
-        .tab-bar a { padding: 15px 20px; text-decoration: none; color: #555; font-weight: 700; font-size: 0.75em; text-transform: uppercase; white-space: nowrap; }
+        .btn-logout { border: 2px solid var(--danger); color: var(--danger); padding: 6px 15px; border-radius: 6px; text-decoration: none; font-weight: 800; font-size: 0.8em; }
 
         header { background: linear-gradient(135deg, #004a99 0%, #6f42c1 100%); color: white; padding: 60px 20px; }
+        .welcome-banner { background: rgba(255,255,255,0.1); display: inline-block; padding: 10px 25px; border-radius: 50px; margin-top: 15px; font-weight: 700; border: 1px solid rgba(255,255,255,0.3); }
+
         .container { max-width: 1200px; margin: auto; padding: 20px; }
-        .section-title { font-size: 2em; margin: 50px 0 30px; font-weight: 800; text-transform: uppercase; color: var(--primary); }
+        .section-title { font-size: 2.2em; margin: 50px 0 30px; font-weight: 800; text-transform: uppercase; color: var(--primary); }
 
-        /* SERVICES & GRIDS */
+        /* GRID STYLING */
         .services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
-        .service-card { background: white; padding: 15px; border-radius: 10px; border-left: 5px solid var(--primary); text-align: left; border: 1px solid #eee; border-left-width: 5px; }
-        .grid-flex { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
-        .item-card { background: white; padding: 25px; border-radius: 12px; width: 280px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: left; }
+        .service-card { background: white; padding: 15px; border-radius: 10px; border-left: 5px solid var(--primary); text-align: left; border: 1px solid #eee; }
         
-        /* CONTACT BOXES */
+        .why-us-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 40px auto; max-width: 1000px; }
+        .why-card { background: #fff; padding: 30px; border-radius: 15px; text-align: center; border-bottom: 4px solid var(--secondary); box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
+
         .box-section { background: white; padding: 40px; border-radius: 20px; margin: 40px auto; max-width: 850px; border: 1px solid #eee; }
-        .btn-action { display: inline-block; padding: 16px 30px; border-radius: 50px; text-decoration: none; font-weight: 900; text-transform: uppercase; margin: 10px; font-size: 0.85em; min-width: 180px; }
+        .btn-action { display: inline-block; padding: 16px 30px; border-radius: 50px; text-decoration: none; font-weight: 900; text-transform: uppercase; margin: 10px; font-size: 0.85em; }
         .btn-whatsapp { background: var(--whatsapp); color: white; }
-        .btn-email { background: var(--email); color: white; }
 
-        /* ACTIVATION */
         .activation-box { background: white; padding: 50px 30px; border-radius: 20px; margin: 60px auto; max-width: 950px; border: 3px solid var(--gold); }
-        .price-tag { font-size: 2.5em; font-weight: 900; color: var(--gold); }
-
-        /* FOOTER */
         footer { padding: 60px 20px; background: #111; color: #aaa; border-top: 5px solid var(--primary); }
-        .footer-line { margin-bottom: 10px; font-weight: 600; display: block; font-size: 0.9em; }
 
-        @media (max-width: 900px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 600px) { .services-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 900px) { .services-grid { grid-template-columns: repeat(2, 1fr); } .why-us-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -89,43 +79,34 @@
 <div id="gatewayOverlay">
     <div class="auth-card" id="authCard">
         <h2 id="authTitle">Join Online Sphere</h2>
-        <p id="authSubtitle">Start your journey to digital wealth today.</p>
-        
         <div class="input-group" id="nameGroup">
             <label>Full Name</label>
             <input type="text" id="authName" placeholder="Enter Official Names">
         </div>
-        
         <div class="input-group">
             <label>M-Pesa Number</label>
-            <input type="tel" id="authPhone" placeholder="07XXXXXXXX" inputmode="numeric" 
-            oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+            <input type="tel" id="authPhone" placeholder="07XXXXXXXX" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
         </div>
-        
         <div class="input-group">
-            <label>Secure Password</label>
+            <label>Password</label>
             <input type="password" id="authPass" placeholder="••••••••">
         </div>
-
-        <button class="btn-auth-submit" onclick="handleAuth()">Access Portal</button>
-        
-        <div class="auth-footer">
-            <div id="toggleText">Already a member? <span class="auth-link" onclick="toggleAuth()">Sign In</span></div>
-            <div style="margin-top: 10px;"><span class="auth-link" onclick="showReset()">Forgot Password?</span></div>
+        <button class="btn-auth-submit" id="mainAuthBtn" onclick="handleAuth()">Access Portal</button>
+        <div style="text-align:center; margin-top:15px;">
+            <span id="toggleLink" class="auth-link" onclick="toggleAuth()">Already a member? Sign In</span><br><br>
+            <span class="auth-link" onclick="showReset()">Forgot Password?</span>
         </div>
     </div>
 
     <div class="auth-card" id="resetCard" style="display:none;">
-        <h2>Reset Password</h2>
-        <p>Enter your registered M-Pesa number to receive a recovery code via SMS.</p>
+        <h2>Verify Account</h2>
+        <p style="font-size: 0.85em; color: #666;">Enter your registered phone to receive a security code.</p>
         <div class="input-group">
-            <label>Registered Phone</label>
+            <label>Phone Number</label>
             <input type="tel" id="resetPhone" placeholder="07XXXXXXXX" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
         </div>
-        <button class="btn-auth-submit" onclick="performReset()" style="background: var(--primary);">Send Reset Link</button>
-        <div class="auth-footer">
-            <span class="auth-link" onclick="hideReset()">Back to Login</span>
-        </div>
+        <button class="btn-auth-submit" onclick="performReset()" style="background: var(--primary);">Send Verification Code</button>
+        <div style="text-align:center; margin-top:15px;"><span class="auth-link" onclick="hideReset()">Back to Login</span></div>
     </div>
 </div>
 
@@ -135,152 +116,136 @@
             <div class="logo-text">ONLINE SPHERE</div>
             <a href="javascript:void(0)" class="btn-logout" onclick="logout()">Logout</a>
         </div>
-        <div class="tab-bar">
-            <a href="#services">Services</a><a href="#success">Success</a><a href="#contact">Contact</a><a href="#payment">Activation</a><a href="#faq">FAQs</a>
-        </div>
     </nav>
 
-    <header><h1>MEMBER DASHBOARD</h1><p>Professional Digital Wealth Solutions | Official Kenyan Hub</p></header>
+    <header>
+        <h1>MEMBER DASHBOARD</h1>
+        <div class="welcome-banner">Welcome, Member: <span id="userNameDisplay" style="color: var(--secondary);">User</span></div>
+        <p style="margin-top:10px;">Official Digital Wealth Hub • Verified Account</p>
+    </header>
 
     <div class="container">
-        <h2 id="services" class="section-title">20 Professional Services</h2>
+        <h2 class="section-title">Why Choose Us</h2>
+        <div class="why-us-grid">
+            <div class="why-card"><span>💸</span><h4>Instant Payouts</h4><p>Earnings sent to M-Pesa immediately upon completion.</p></div>
+            <div class="why-card"><span>🛡️</span><h4>Verified Secure</h4><p>End-to-end encryption for all member data.</p></div>
+            <div class="why-card"><span>⭐</span><h4>Expert Support</h4><p>24/7 desk to assist with task allocation.</p></div>
+        </div>
+
+        <h2 class="section-title">Available Tasks</h2>
         <div class="services-grid">
-            <div class="service-card"><h3>Academic Writing</h3><p>Research & literature analysis.</p></div>
-            <div class="service-card"><h3>Transcription</h3><p>Audio to daily cash conversion.</p></div>
-            <div class="service-card"><h3>Data Entry</h3><p>High-speed typing tasks.</p></div>
-            <div class="service-card"><h3>Virtual Assistant</h3><p>Remote business support.</p></div>
-            <div class="service-card"><h3>Content Writing</h3><p>Blogs & paid articles.</p></div>
-            <div class="service-card"><h3>Graphic Design</h3><p>Paid logos & branding.</p></div>
-            <div class="service-card"><h3>Web Design</h3><p>High-ticket development.</p></div>
-            <div class="service-card"><h3>Digital Marketing</h3><p>SEO & ad campaigns.</p></div>
-            <div class="service-card"><h3>Social Media</h3><p>Paid profile management.</p></div>
-            <div class="service-card"><h3>Proofreading</h3><p>Review & get paid.</p></div>
-            <div class="service-card"><h3>Translation</h3><p>Multi-language tasks.</p></div>
-            <div class="service-card"><h3>Online Tutoring</h3><p>Skill-based earnings.</p></div>
-            <div class="service-card"><h3>Bookkeeping</h3><p>Financial accounting.</p></div>
-            <div class="service-card"><h3>Customer Support</h3><p>Live chat earnings.</p></div>
-            <div class="service-card"><h3>Video Editing</h3><p>Media creation pay.</p></div>
-            <div class="service-card"><h3>E-commerce</h3><p>Sales & commissions.</p></div>
-            <div class="service-card"><h3>Resume Design</h3><p>Paid career services.</p></div>
-            <div class="service-card"><h3>Programming</h3><p>Software & automation.</p></div>
-            <div class="service-card"><h3>Voice-over</h3><p>Paid audio recording.</p></div>
-            <div class="service-card"><h3>Market Analysis</h3><p>Paid research insights.</p></div>
+            <div class="service-card"><h3>Academic Writing</h3><p>Research projects.</p></div>
+            <div class="service-card"><h3>Transcription</h3><p>Audio-to-text tasks.</p></div>
+            <div class="service-card"><h3>Data Entry</h3><p>Daily typing work.</p></div>
+            <div class="service-card"><h3>Graphic Design</h3><p>Paid logo design.</p></div>
         </div>
 
-        <h2 id="success" class="section-title">Success Gallery</h2>
-        <div class="grid-flex">
-            <div class="item-card success-card"><strong>Premium Project</strong><p style="color:var(--secondary); font-weight:900;">Paid: KES 15,000+</p></div>
-            <div class="item-card success-card"><strong>Web Development</strong><p style="color:var(--secondary); font-weight:900;">Paid: KES 8,500+</p></div>
-            <div class="item-card success-card"><strong>Daily Typing</strong><p style="color:var(--secondary); font-weight:900;">Paid: KES 5,200+</p></div>
-        </div>
-
-        <section id="contact" class="box-section">
-            <h2 style="color:var(--primary); margin-top:0;">Contact Us</h2>
-            <p>Support is active 24/7 for activation help and task assistance.</p>
-            <a href="https://wa.me/254741723223" class="btn-action btn-whatsapp">WhatsApp Support</a>
-            <a href="mailto:onlinespherecommerce@gmail.com" class="btn-action btn-email">Email Us Now</a>
-        </section>
-
-        <section id="community" class="box-section" style="border: 2px solid var(--whatsapp);">
-            <h2 style="color:var(--whatsapp); margin-top:0;">Join Our Community</h2>
-            <p>Connect with 5,000+ active earners for real-time task alerts.</p>
-            <a href="https://wa.me/254741723223" class="btn-action btn-whatsapp">Join WhatsApp Group</a>
+        <section class="box-section">
+            <h2 style="color:var(--primary); margin-top:0;">Contact Support</h2>
+            <a href="https://wa.me/254741723223" class="btn-action btn-whatsapp">WhatsApp Desk</a>
         </section>
 
         <section id="payment" class="activation-box">
-            <h2 style="color: var(--primary); margin-top:0;">Secure Account Activation</h2>
-            <div class="grid-flex">
-                <div class="item-card"><h3>Starter</h3><div class="price-tag">500 KES</div></div>
-                <div class="item-card" style="border: 2px solid var(--gold);"><h3>Executive</h3><div class="price-tag">2,500 KES</div></div>
-                <div class="item-card"><h3>Professional</h3><div class="price-tag">1,500 KES</div></div>
-            </div>
-            <div style="text-align:left; margin-top:25px; background:#f9f9f9; padding:20px; border-radius:12px;">
-                <p>1. Open <strong>M-PESA</strong> > Lipa na M-PESA.</p>
-                <p>2. Select <strong>Buy Goods and Services</strong>.</p>
-                <p>3. Enter Till: <strong style="color: var(--primary);">XXXXXX</strong></p>
-                <p>4. Enter Amount for your package & PIN to activate.</p>
-            </div>
-        </section>
-
-        <section id="faq">
-            <h2 class="section-title">FAQs</h2>
-            <div style="max-width:800px; margin:auto; text-align:left;">
-                <p><strong>How fast do I earn?</strong><br>You can start completing tasks immediately after activation.</p>
-                <p><strong>How do I withdraw?</strong><br>Daily payouts are sent instantly to your registered M-Pesa number.</p>
+            <h2 style="color: var(--primary); margin-top:0;">Secure Activation</h2>
+            <div style="background:#f9f9f9; padding:20px; border-radius:12px; text-align:left;">
+                <p>1. Go to M-PESA > Buy Goods and Services.</p>
+                <p>2. Till: <strong style="color: var(--primary);">XXXXXX</strong></p>
+                <p>3. Activate your account to start earning.</p>
             </div>
         </section>
     </div>
 
     <footer>
-        <span class="footer-line">Verified & Registered by Online Sphere Commerce Co. Ltd &copy; 2026</span>
-        <span class="footer-line">Official Headquarters: Kenya • Secure End-to-End Encrypted Portal</span>
-        <span class="footer-line" style="color:var(--secondary);">100% Reliable • Trusted by 5,000+ Kenyan Professionals</span>
+        <span>Online Sphere Commerce Co. Ltd &copy; 2026</span>
     </footer>
 </div>
 
 <script>
     let isLog = false;
-    
-    window.onload = function() { 
-        if (localStorage.getItem('authSphere')) showPortal(); 
+    let attempts = 0;
+    const MAX_ATTEMPTS = 3;
+
+    window.onload = function() {
+        const savedAuth = localStorage.getItem('authSphere');
+        const savedName = localStorage.getItem('sphereUserName');
+        if (savedAuth && savedName) {
+            document.getElementById('userNameDisplay').innerText = savedName;
+            showPortal();
+        }
     };
 
     function toggleAuth() {
         isLog = !isLog;
         document.getElementById('authTitle').innerText = isLog ? "Member Sign In" : "Join Online Sphere";
         document.getElementById('nameGroup').style.display = isLog ? "none" : "block";
-        document.getElementById('toggleText').innerHTML = isLog ? 
-            'New member? <span class="auth-link" onclick="toggleAuth()">Create Account</span>' : 
-            'Already a member? <span class="auth-link" onclick="toggleAuth()">Sign In</span>';
-    }
-
-    function showReset() {
-        document.getElementById('authCard').style.display = 'none';
-        document.getElementById('resetCard').style.display = 'block';
-    }
-
-    function hideReset() {
-        document.getElementById('resetCard').style.display = 'none';
-        document.getElementById('authCard').style.display = 'block';
-    }
-
-    function performReset() {
-        const phone = document.getElementById('resetPhone').value;
-        if (phone.length < 10) {
-            alert("Please enter a valid 10-digit M-Pesa number.");
-            return;
-        }
-        alert("A secure password reset link has been sent to " + phone + " via SMS.");
-        hideReset();
+        document.getElementById('toggleLink').innerText = isLog ? "New? Create Account" : "Already a member? Sign In";
     }
 
     function handleAuth() {
+        const nameInput = document.getElementById('authName').value;
         const phone = document.getElementById('authPhone').value;
         const pass = document.getElementById('authPass').value;
+        const btn = document.getElementById('mainAuthBtn');
+
+        if (phone.length < 10) return alert("Error: Invalid phone number.");
         
-        if (phone.length < 10) {
-            alert("Please enter a valid 10-digit M-Pesa number.");
+        // Check lockout
+        if (attempts >= MAX_ATTEMPTS) {
+            alert("SECURITY LOCK: Too many failed attempts. Try again in 5 minutes.");
             return;
         }
-        if (pass.length < 4) {
-            alert("Password must be at least 4 characters.");
-            return;
-        }
+
+        btn.innerText = "Authenticating...";
+        btn.disabled = true;
+
+        setTimeout(() => {
+            // SIMULATED AUTH LOGIC
+            // If Signing Up: Save name. If Logging In: Check simulated pass.
+            if (!isLog) { // SIGN UP
+                if (!nameInput) {
+                    alert("Please enter your Full Name.");
+                    resetBtn(btn);
+                    return;
+                }
+                localStorage.setItem('sphereUserName', nameInput);
+                localStorage.setItem('authSphere', 'true');
+                document.getElementById('userNameDisplay').innerText = nameInput;
+                showPortal();
+            } else { // LOGIN
+                if (pass !== "1234") { // Simulate a real check
+                    attempts++;
+                    alert("ACCESS DENIED: Incorrect password. Attempt " + attempts + " of " + MAX_ATTEMPTS);
+                    resetBtn(btn);
+                } else {
+                    localStorage.setItem('authSphere', 'true');
+                    showPortal();
+                }
+            }
+        }, 1500);
+    }
+
+    function resetBtn(b) { b.innerText = "Access Portal"; b.disabled = false; }
+
+    function performReset() {
+        const p = document.getElementById('resetPhone').value;
+        if(p.length < 10) return alert("Enter valid number.");
         
-        localStorage.setItem('authSphere', 'true');
-        showPortal();
+        const code = Math.floor(100000 + Math.random() * 900000);
+        alert("SECURITY CODE: [" + code + "] generated for " + p + ".\n(Simulated SMS Gateway Delivery)");
+        
+        const verify = prompt("Enter the 6-digit code sent to your phone:");
+        if (verify == code) {
+            const newPass = prompt("Code Verified. Set your new password:");
+            if(newPass) { alert("Password Updated Successfully."); hideReset(); }
+        } else {
+            alert("Incorrect code. Reset failed.");
+        }
     }
 
-    function showPortal() {
-        document.getElementById('gatewayOverlay').style.display = 'none';
-        document.getElementById('mainContent').style.display = 'block';
-        window.scrollTo(0,0);
-    }
-
-    function logout() {
-        localStorage.removeItem('authSphere');
-        location.reload();
-    }
+    function showReset() { document.getElementById('authCard').style.display='none'; document.getElementById('resetCard').style.display='block'; }
+    function hideReset() { document.getElementById('resetCard').style.display='none'; document.getElementById('authCard').style.display='block'; }
+    function showPortal() { document.getElementById('gatewayOverlay').style.display='none'; document.getElementById('mainContent').style.display='block'; window.scrollTo(0,0); }
+    function logout() { localStorage.clear(); location.reload(); }
 </script>
 </body>
 </html>
