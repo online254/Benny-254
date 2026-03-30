@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Sphere Commerce Company | Official Portal</title>
+    <title>Online Sphere Commerce Company | Member Portal</title>
     <style>
         :root {
             --primary: #004a99;
@@ -20,7 +20,7 @@
         html { scroll-behavior: smooth; }
         body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; color: var(--dark); margin: 0; background-color: var(--light); text-align: center; }
 
-        /* --- GATEWAY SCREEN (Shown when not logged in) --- */
+        /* ACCESS GATEWAY */
         #gatewayOverlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(135deg, #004a99 0%, #6f42c1 100%);
@@ -31,62 +31,56 @@
             box-shadow: 0 20px 50px rgba(0,0,0,0.3); text-align: left;
         }
         .auth-card h2 { margin: 0 0 10px; color: var(--primary); font-size: 1.8em; font-weight: 800; text-transform: uppercase; }
-        .auth-card p { color: #666; margin-bottom: 25px; font-size: 0.9em; }
-        .auth-card input { width: 100%; padding: 14px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 1em; }
-        .btn-auth-submit { width: 100%; background: var(--secondary); color: white; border: none; padding: 16px; border-radius: 8px; font-weight: 800; cursor: pointer; text-transform: uppercase; font-size: 1em; }
-        .auth-toggle-link { text-align: center; margin-top: 20px; font-size: 0.9em; color: #777; cursor: pointer; }
-        .auth-toggle-link span { color: var(--primary); font-weight: 800; }
+        .auth-card input { width: 100%; padding: 14px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        .btn-auth-submit { width: 100%; background: var(--secondary); color: white; border: none; padding: 16px; border-radius: 8px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
 
-        /* --- MAIN WEBSITE CONTENT (Hidden by default) --- */
+        /* MAIN WEBSITE */
         #mainContent { display: none; }
 
-        /* NAVIGATION */
         nav { background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
         .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; }
         .logo-text { font-weight: 900; font-size: 1.2em; color: var(--primary); text-transform: uppercase; }
-        .btn-logout { border: 2px solid #ff4d4d; color: #ff4d4d; padding: 6px 18px; border-radius: 6px; text-decoration: none; font-weight: 800; cursor: pointer; }
+        .btn-logout { border: 2px solid #ff4d4d; color: #ff4d4d; padding: 6px 15px; border-radius: 6px; text-decoration: none; font-weight: 800; font-size: 0.8em; }
 
         .tab-bar { display: flex; justify-content: center; width: 100%; background: #f8f9fa; border-top: 1px solid #eee; overflow-x: auto; }
-        .tab-bar a { padding: 15px 20px; text-decoration: none; color: #555; font-weight: 700; font-size: 0.8em; text-transform: uppercase; border-bottom: 3px solid transparent; }
+        .tab-bar a { padding: 15px 20px; text-decoration: none; color: #555; font-weight: 700; font-size: 0.75em; text-transform: uppercase; white-space: nowrap; }
 
-        /* SECTIONS */
-        header { background: linear-gradient(135deg, #004a99 0%, #6f42c1 100%); color: white; padding: 80px 20px; }
-        .container { max-width: 1250px; margin: auto; padding: 40px 20px; }
-        .section-title { font-size: 2.2em; margin: 60px 0 30px; font-weight: 800; text-transform: uppercase; }
-        .mission-box { background: white; padding: 50px 40px; border-radius: 20px; border-top: 10px solid var(--accent-2); margin: -60px auto 40px; max-width: 900px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); }
+        header { background: linear-gradient(135deg, #004a99 0%, #6f42c1 100%); color: white; padding: 60px 20px; }
+        .container { max-width: 1200px; margin: auto; padding: 40px 20px; }
+        .section-title { font-size: 2em; margin: 50px 0 30px; font-weight: 800; text-transform: uppercase; color: var(--primary); }
 
         /* SERVICES GRID */
         .services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
-        .service-card { background: white; padding: 18px; border-radius: 12px; border: 1px solid #eee; text-align: left; border-left: 5px solid var(--primary); }
-        .service-card h3 { font-size: 0.85em; margin: 0; color: var(--primary); text-transform: uppercase; font-weight: 800; }
-        .service-card p { font-size: 0.8em; color: #666; margin-top: 5px; }
+        .service-card { background: white; padding: 15px; border-radius: 10px; border: 1px solid #eee; text-align: left; border-left: 5px solid var(--primary); }
+        .service-card h3 { font-size: 0.85em; margin: 0; color: var(--primary); font-weight: 800; text-transform: uppercase; }
 
         /* LEADERSHIP */
-        .admin-box { background: var(--dark); padding: 70px 40px; border-radius: 25px; margin: 50px auto; border: 3px solid var(--gold); color: white; }
-        .highlighted-quote { background-color: var(--gold); color: black; font-size: 1.5em; font-weight: 900; padding: 25px; border-radius: 15px; display: inline-block; margin: 20px 0; }
+        .admin-box { background: var(--dark); padding: 60px 30px; border-radius: 20px; margin: 50px auto; border: 3px solid var(--gold); color: white; }
+        .highlighted-quote { background-color: var(--gold); color: black; font-size: 1.4em; font-weight: 900; padding: 20px; border-radius: 10px; display: inline-block; margin: 20px 0; }
 
-        /* SUCCESS GALLERY */
-        .grid-flex { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; }
-        .card-item { background: white; padding: 30px; border-radius: 15px; width: 300px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: left; }
-        .success-card { border-left: 5px solid var(--secondary); }
+        /* PACKAGES */
+        .grid-flex { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+        .card-item { background: white; padding: 25px; border-radius: 12px; width: 280px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: left; }
+        .fee { font-size: 2em; font-weight: 900; color: var(--gold); margin: 10px 0; text-align: center; }
 
-        /* M-PESA ACTIVATION */
-        .payment-section { background: white; padding: 60px 40px; border-radius: 25px; margin: 80px auto; max-width: 850px; border: 1px solid #ccc; text-align: left; }
+        /* ACTIVATION MPESA */
+        .payment-section { background: white; padding: 50px 30px; border-radius: 20px; margin: 60px auto; max-width: 800px; border: 1px solid #ccc; text-align: left; }
+        .activation-note { background: #fffde7; padding: 20px; border-left: 5px solid var(--gold); margin-bottom: 25px; font-weight: 700; color: #444; }
         .step-list { list-style: none; padding: 0; }
-        .step-list li { margin-bottom: 20px; padding-left: 50px; position: relative; font-size: 1.1em; }
-        .step-list li::before { content: attr(data-step); position: absolute; left: 0; top: 0; background: #6c757d; color: white; width: 32px; height: 32px; border-radius: 50%; text-align: center; line-height: 32px; font-weight: bold; }
-        .verify-btn-photo { display: block; width: 100%; background: #4a5d4e; color: white; text-transform: uppercase; font-weight: 800; padding: 20px; border-radius: 50px; text-decoration: none; text-align: center; margin-top: 30px; cursor: pointer; }
+        .step-list li { margin-bottom: 15px; padding-left: 45px; position: relative; font-size: 1.05em; }
+        .step-list li::before { content: attr(data-step); position: absolute; left: 0; top: 0; background: #6c757d; color: white; width: 30px; height: 30px; border-radius: 50%; text-align: center; line-height: 30px; font-weight: bold; }
+        
+        /* CONTACT US */
+        .contact-box { background: white; padding: 50px; border-radius: 20px; margin: 60px auto; max-width: 800px; border: 1px solid #eee; text-align: center; }
+        .btn-whatsapp { background: var(--whatsapp); color: white; display: inline-block; padding: 16px 40px; border-radius: 50px; text-decoration: none; font-weight: 900; text-transform: uppercase; font-size: 1.1em; }
 
-        /* FAQ */
-        .faq-item { background: white; padding: 25px; border-radius: 15px; text-align: left; border-right: 8px solid var(--primary); margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.03); }
+        /* JOIN COMMUNITY (SECOND TO LAST) */
+        .community-box { background: white; padding: 40px; border-radius: 20px; border: 2px solid var(--whatsapp); margin: 60px auto; max-width: 800px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center; }
+        .community-box h2 { color: var(--whatsapp); margin-top: 0; text-transform: uppercase; }
 
-        .btn { display: inline-block; padding: 15px 35px; border-radius: 50px; text-decoration: none; font-weight: 800; margin: 10px; text-transform: uppercase; }
-        .btn-whatsapp { background: var(--whatsapp); color: white; }
-        .btn-gold { background: var(--gold); color: black; }
+        footer { padding: 40px; background: #111; color: #666; border-top: 5px solid var(--primary); }
 
-        footer { padding: 50px; background: #111; color: #777; border-top: 5px solid var(--primary); }
-
-        @media (max-width: 1000px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 900px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 600px) { .services-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
@@ -94,107 +88,97 @@
 
 <div id="gatewayOverlay">
     <div class="auth-card">
-        <h2 id="authTitle">Sign Up</h2>
-        <p id="authDesc">Register with your M-Pesa number to access the portal.</p>
-        <div id="authError" style="color: red; font-size: 0.8em; margin-bottom: 10px; display: none;"></div>
-        
+        <h2 id="authTitle">Join Online Sphere</h2>
         <input type="text" id="authName" placeholder="Full Name">
-        <input type="tel" id="authPhone" placeholder="M-Pesa Number (e.g. 07...)">
+        <input type="tel" id="authPhone" placeholder="M-Pesa Number">
         <input type="password" id="authPass" placeholder="Password">
-        
-        <button class="btn-auth-submit" onclick="handleAuth()" id="authBtn">Create Account</button>
-        
-        <div class="auth-toggle-link" id="authToggle" onclick="toggleAuthMode()">
-            Already a member? <span>Sign In</span>
-        </div>
+        <button class="btn-auth-submit" onclick="handleAuth()">Enter Portal</button>
+        <div style="text-align:center; margin-top:20px; cursor:pointer; font-size:0.9em; color:#777;" onclick="toggleAuth()">Already a member? <span style="color:var(--primary); font-weight:800;">Sign In</span></div>
     </div>
 </div>
 
 <div id="mainContent">
     <nav>
-        <div class="nav-container">
-            <div class="logo-text">ONLINE SPHERE COMMERCE</div>
-            <div style="display:flex; align-items:center; gap:15px;">
-                <span id="userNameDisplay" style="font-weight:bold; color:var(--primary);"></span>
-                <a href="javascript:void(0)" class="btn-logout" onclick="logout()">Logout</a>
-            </div>
-        </div>
+        <div class="nav-container"><div class="logo-text">ONLINE SPHERE COMMERCE</div><a href="javascript:void(0)" class="btn-logout" onclick="logout()">Logout</a></div>
         <div class="tab-bar">
-            <a href="#mission">Mission</a>
-            <a href="#services">Services</a>
-            <a href="#admin">Leadership</a>
-            <a href="#payment">Activation</a>
-            <a href="#faq">FAQs</a>
+            <a href="#services">Services</a><a href="#admin">Leadership</a><a href="#packages">Packages</a><a href="#payment">Activation</a><a href="#contact">Contact Us</a><a href="#community">Community</a>
         </div>
     </nav>
 
-    <header>
-        <h1>OFFICIAL MEMBER PORTAL</h1>
-        <p>Professional Excellence • Digital Growth • Global Reach</p>
-    </header>
+    <header><h1>MEMBER DASHBOARD</h1><p>Professional Solutions | Voi, Kenya</p></header>
 
     <div class="container">
-        <section id="mission" class="mission-box">
-            <h2>Our Mission</h2>
-            <p>To provide high-quality digital solutions while empowering a community of skilled individuals to excel in the global online marketplace.</p>
-        </section>
-
-        <h2 id="services" class="section-title" style="color: var(--primary);">Professional Solutions</h2>
+        <h2 id="services" class="section-title">20 Professional Services</h2>
         <div class="services-grid">
-            <div class="service-card"><h3>Academic Writing</h3><p>Research, essays, and technical literature analysis.</p></div>
-            <div class="service-card"><h3>Transcription</h3><p>Accurate audio-to-text conversion services.</p></div>
-            <div class="service-card"><h3>Data Entry</h3><p>Fast and precise digital typing and management.</p></div>
-            <div class="service-card"><h3>Virtual Assistance</h3><p>Expert administrative and remote business support.</p></div>
-            <div class="service-card"><h3>Content Writing</h3><p>Engaging blogs, articles, and sales copywriting.</p></div>
-            <div class="service-card"><h3>Graphic Design</h3><p>Professional logos, branding, and visual content.</p></div>
-            <div class="service-card"><h3>Website Design</h3><p>Custom, responsive, and modern development.</p></div>
-            <div class="service-card"><h3>Digital Marketing</h3><p>Strategic SEO, social ads, and campaigns.</p></div>
-            <div class="service-card"><h3>Social Media</h3><p>Management and growth for brand profiles.</p></div>
-            <div class="service-card"><h3>Proofreading</h3><p>Polishing documents for grammar and clarity.</p></div>
-            <div class="service-card"><h3>Translation</h3><p>Precise multi-language professional translation.</p></div>
-            <div class="service-card"><h3>Online Tutoring</h3><p>Expert coaching and specialized skill mentorship.</p></div>
-            <div class="service-card"><h3>Bookkeeping</h3><p>Reliable accounting and financial tracking.</p></div>
-            <div class="service-card"><h3>Customer Support</h3><p>Professional interaction for client satisfaction.</p></div>
-            <div class="service-card"><h3>Video Editing</h3><p>High-quality post-production for digital media.</p></div>
-            <div class="service-card"><h3>E-commerce</h3><p>Full management for Shopify and Amazon stores.</p></div>
-            <div class="service-card"><h3>Resume & CV</h3><p>Strategic building of career-defining documents.</p></div>
-            <div class="service-card"><h3>Programming</h3><p>Custom software and automation development.</p></div>
-            <div class="service-card"><h3>Voice-over</h3><p>Clear and engaging professional audio narration.</p></div>
-            <div class="service-card"><h3>Market Analysis</h3><p>Data-driven research and business insights.</p></div>
+            <div class="service-card"><h3>Academic Writing</h3><p>Research and technical essays.</p></div>
+            <div class="service-card"><h3>Transcription</h3><p>Audio-to-text conversion.</p></div>
+            <div class="service-card"><h3>Data Entry</h3><p>Fast digital management.</p></div>
+            <div class="service-card"><h3>Virtual Assistance</h3><p>Remote business support.</p></div>
+            <div class="service-card"><h3>Content Writing</h3><p>Blogs and copywriting.</p></div>
+            <div class="service-card"><h3>Graphic Design</h3><p>Logos and branding.</p></div>
+            <div class="service-card"><h3>Website Design</h3><p>Custom development.</p></div>
+            <div class="service-card"><h3>Digital Marketing</h3><p>SEO and ad campaigns.</p></div>
+            <div class="service-card"><h3>Social Media</h3><p>Profile management.</p></div>
+            <div class="service-card"><h3>Proofreading</h3><p>Grammar and clarity.</p></div>
+            <div class="service-card"><h3>Translation</h3><p>Multi-language support.</p></div>
+            <div class="service-card"><h3>Online Tutoring</h3><p>Professional coaching.</p></div>
+            <div class="service-card"><h3>Bookkeeping</h3><p>Reliable accounting.</p></div>
+            <div class="service-card"><h3>Customer Support</h3><p>Client satisfaction.</p></div>
+            <div class="service-card"><h3>Video Editing</h3><p>Post-production media.</p></div>
+            <div class="service-card"><h3>E-commerce</h3><p>Shopify/Amazon stores.</p></div>
+            <div class="service-card"><h3>Resume & CV</h3><p>Career-defining docs.</p></div>
+            <div class="service-card"><h3>Programming</h3><p>Software and automation.</p></div>
+            <div class="service-card"><h3>Voice-over</h3><p>Professional narration.</p></div>
+            <div class="service-card"><h3>Market Analysis</h3><p>Business insights.</p></div>
         </div>
 
         <section id="admin" class="admin-box">
             <h3>Strategic Leadership</h3>
-            <p>Connect with our administration for high-level management and project inquiries.</p>
             <div class="highlighted-quote">"Your background does not define your future; your willingness to learn does."</div>
-            <br><br>
-            <a href="https://wa.me/254741723223" class="btn btn-gold">Connect with Admin</a>
+            <br><br><a href="https://wa.me/254741723223" style="background:var(--gold); color:black; padding:15px 30px; text-decoration:none; border-radius:50px; font-weight:800; text-transform:uppercase;">Message Admin</a>
         </section>
 
-        <h2 class="section-title" style="color: var(--secondary);">Success Gallery</h2>
+        <h2 id="packages" class="section-title">Activation Packages</h2>
         <div class="grid-flex">
-            <div class="card-item success-card"><p><strong>Literature Analysis</strong></p><p style="color:var(--secondary); font-weight:bold;">Paid: KES 15,000+</p></div>
-            <div class="card-item success-card"><p><strong>Web Development</strong></p><p style="color:var(--secondary); font-weight:bold;">Paid: KES 8,500+</p></div>
+            <div class="card-item"><h3>Starter</h3><div class="fee">KES 500</div><p style="font-size:0.8em; color:#777;">Entry-level access to basic writing and data entry tasks.</p></div>
+            <div class="card-item" style="border: 2px solid var(--gold);"><h3>Executive</h3><div class="fee">KES 2,500</div><p style="font-size:0.8em; color:#777;">Priority access to high-paying web and marketing projects.</p></div>
+            <div class="card-item"><h3>Professional</h3><div class="fee">KES 1,500</div><p style="font-size:0.8em; color:#777;">Standard access to specialized tutoring and design tasks.</p></div>
         </div>
 
         <section id="payment" class="payment-section">
-            <h2 style="color: #4a5d4e; margin-top: 0; font-size: 1.4em;">Secure Activation Steps</h2>
+            <h2 style="color: var(--primary); margin-top:0;">Secure Account Activation</h2>
+            <div class="activation-note">
+                NOTE: A one-time account activation is required to verify your M-Pesa identity and enable your payment withdrawal portal.
+            </div>
             <ul class="step-list">
                 <li data-step="1">Open <strong>M-PESA</strong> > Lipa na M-PESA.</li>
                 <li data-step="2">Select <strong>Buy Goods and Services</strong>.</li>
-                <li data-step="3">Enter Till: <strong style="color: var(--primary);">XXXXXX</strong></li>
-                <li data-step="4">Enter the <strong>Amount</strong> and your PIN.</li>
+                <li data-step="3">Enter Till Number: <strong style="color: var(--primary);">XXXXXX</strong></li>
+                <li data-step="4">Enter the <strong>Registration Fee</strong> for your package.</li>
             </ul>
-            <a href="https://wa.me/254741723223" class="verify-btn-photo">Verify Activation</a>
+        </section>
+
+        <section id="contact" class="contact-box">
+            <h2 class="section-title" style="margin-top:0;">Contact Us</h2>
+            <p>Questions about your account? Our team is available 24/7 on WhatsApp.</p>
+            <br>
+            <a href="https://wa.me/254741723223" class="btn-whatsapp">Chat with Support</a>
+        </section>
+
+        <section id="community" class="community-box">
+            <h2>Join Our Community</h2>
+            <p>Connect with over 5,000+ digital professionals in Kenya. Get real-time alerts on new tasks and mentorship.</p>
+            <br>
+            <a href="https://wa.me/254741723223" class="btn-whatsapp">Join Official WhatsApp Group</a>
         </section>
 
         <section id="faq">
-            <h2 class="section-title" style="color: var(--accent-1);">Frequently Asked Questions</h2>
-            <div class="faq-item"><h4>How long does activation take?</h4><p>Accounts are active within 10 to 30 minutes of verification.</p></div>
-            <div class="faq-item"><h4>Are there daily tasks?</h4><p>Yes, fresh assignments are updated daily.</p></div>
-            <div class="faq-item"><h4>How are payments made?</h4><p>Earnings go directly to your registered M-Pesa number.</p></div>
-            <div class="faq-item"><h4>Can I work multiple tasks?</h4><p>Yes, any task matching your skill set is available.</p></div>
-            <div class="faq-item"><h4>Is my data safe?</h4><p>We use end-to-end encryption for all members.</p></div>
+            <h2 class="section-title">FAQs</h2>
+            <div class="faq-item"><h4>Activation Time?</h4><p>Verified accounts are active within 10-30 minutes.</p></div>
+            <div class="faq-item"><h4>Daily Tasks?</h4><p>Yes, assignments are updated every 24 hours.</p></div>
+            <div class="faq-item"><h4>Payments?</h4><p>Disbursed directly to your M-Pesa number.</p></div>
+            <div class="faq-item"><h4>Task Limit?</h4><p>Work on unlimited tasks based on your skills.</p></div>
+            <div class="faq-item"><h4>Security?</h4><p>Protected by secure end-to-end encryption.</p></div>
         </section>
     </div>
 
@@ -202,65 +186,19 @@
 </div>
 
 <script>
-    let isLogin = false;
-
-    // Check if user is already logged in on page load
-    window.onload = function() {
-        const user = localStorage.getItem('currentUser');
-        if (user) {
-            showWebsite(JSON.parse(user).name);
-        }
-    };
-
-    function toggleAuthMode() {
-        isLogin = !isLogin;
-        document.getElementById('authTitle').innerText = isLogin ? "Sign In" : "Sign Up";
-        document.getElementById('authDesc').innerText = isLogin ? "Enter your credentials to access the portal." : "Register with your M-Pesa number to access the portal.";
-        document.getElementById('authName').style.display = isLogin ? "none" : "block";
-        document.getElementById('authBtn').innerText = isLogin ? "Login" : "Create Account";
-        document.getElementById('authToggle').innerHTML = isLogin ? "Not a member yet? <span>Sign Up</span>" : "Already a member? <span>Sign In</span>";
+    let isLog = false;
+    window.onload = function() { if (localStorage.getItem('auth')) show(); };
+    function toggleAuth() {
+        isLog = !isLog;
+        document.getElementById('authTitle').innerText = isLog ? "Sign In" : "Join Online Sphere";
+        document.getElementById('authName').style.display = isLog ? "none" : "block";
     }
-
-    function handleAuth() {
-        const name = document.getElementById('authName').value;
-        const phone = document.getElementById('authPhone').value;
-        const pass = document.getElementById('authPass').value;
-        const error = document.getElementById('authError');
-
-        if (!phone || !pass || (!isLogin && !name)) {
-            error.innerText = "Please fill in all fields.";
-            error.style.display = "block";
-            return;
-        }
-
-        if (isLogin) {
-            const saved = localStorage.getItem('u_' + phone);
-            if (saved && JSON.parse(saved).pass === pass) {
-                localStorage.setItem('currentUser', saved);
-                showWebsite(JSON.parse(saved).name);
-            } else {
-                error.innerText = "Invalid phone number or password.";
-                error.style.display = "block";
-            }
-        } else {
-            const newUser = { name, phone, pass };
-            localStorage.setItem('u_' + phone, JSON.stringify(newUser));
-            localStorage.setItem('currentUser', JSON.stringify(newUser));
-            showWebsite(name);
-        }
-    }
-
-    function showWebsite(name) {
+    function handleAuth() { localStorage.setItem('auth', 't'); show(); }
+    function show() {
         document.getElementById('gatewayOverlay').style.display = 'none';
         document.getElementById('mainContent').style.display = 'block';
-        document.getElementById('userNameDisplay').innerText = "Member: " + name;
     }
-
-    function logout() {
-        localStorage.removeItem('currentUser');
-        location.reload();
-    }
+    function logout() { localStorage.removeItem('auth'); location.reload(); }
 </script>
-
 </body>
 </html>
