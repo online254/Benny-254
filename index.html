@@ -14,41 +14,41 @@
 
         body { font-family: 'Inter', sans-serif; line-height: 1.6; color: var(--dark); margin: 0; background-color: var(--light); }
         
-        /* Navigation */
         nav { background: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
         .logo { font-weight: bold; font-size: 1.4em; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
 
-        /* Hero Section */
         header { background: linear-gradient(135deg, var(--primary), #003366); color: white; padding: 80px 20px; text-align: center; }
         header h1 { font-size: 2.8em; margin: 0; letter-spacing: 2px; }
         header p { font-size: 1.2em; opacity: 0.9; margin-top: 10px; }
 
         .container { max-width: 1200px; margin: auto; padding: 40px 20px; }
 
-        /* Mission Section */
         .mission-box { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-top: 5px solid var(--secondary); margin-top: -80px; position: relative; }
-        .mission-box h2 { color: var(--primary); margin-top: 0; }
-
-        /* Services Grid */
-        .services-title { text-align: center; margin: 60px 0 30px; font-size: 2.2em; color: var(--primary); }
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 350px)); gap: 25px; justify-content: center; margin: 0 auto; }
         
-        .card { background: white; padding: 30px; border-radius: 12px; transition: 0.3s; border: 1px solid #eee; position: relative; overflow: hidden; }
-        .card:hover { transform: translateY(-10px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-color: var(--primary); }
-        .card h3 { color: var(--primary); font-size: 1.3em; margin-bottom: 15px; border-left: 4px solid var(--secondary); padding-left: 10px; }
-        .card ul { padding-left: 20px; margin: 0; color: #555; }
-        .card li { margin-bottom: 8px; list-style-type: none; position: relative; }
-        .card li::before { content: "✓"; position: absolute; left: -20px; color: var(--secondary); font-weight: bold; }
+        /* Tab Navigation Styling */
+        .tabs-container { margin-top: 60px; text-align: center; }
+        .tabs-menu { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 20px; }
+        .tab-link { padding: 15px 25px; border: none; background: #e0e0e0; cursor: pointer; font-weight: bold; border-radius: 8px; transition: 0.3s; color: var(--primary); }
+        .tab-link.active { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(0,74,153,0.3); }
 
-        /* Contact Section */
+        /* Tab Content Styling */
+        .tab-content { display: none; background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-left: 6px solid var(--secondary); margin-bottom: 40px; }
+        .tab-content.active { display: block; animation: fadeIn 0.5s ease; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .process-box { background: #f0f7f1; padding: 20px; border-radius: 10px; margin-top: 20px; border-left: 4px solid var(--secondary); }
+        .process-box h4 { margin: 0 0 10px 0; color: var(--secondary); text-transform: uppercase; font-size: 0.9em; }
+
+        /* Payment & CTA */
+        .payment-section { background: white; padding: 40px; border-radius: 15px; margin-top: 40px; text-align: center; border: 2px solid var(--secondary); }
         .cta { background: var(--dark); color: white; padding: 60px 20px; text-align: center; border-radius: 15px; margin-top: 60px; }
         .btn { display: inline-block; padding: 15px 35px; border-radius: 50px; text-decoration: none; font-weight: bold; margin: 10px; transition: 0.3s; }
         .btn-green { background: var(--secondary); color: white; }
-        .btn-green:hover { background: #218838; transform: scale(1.05); }
 
         footer { text-align: center; padding: 40px; color: #888; font-size: 0.9em; border-top: 1px solid #ddd; margin-top: 40px; }
 
-        @media (max-width: 768px) { header h1 { font-size: 1.8em; } }
+        @media (max-width: 768px) { header h1 { font-size: 1.8em; } .tab-link { width: 100%; } }
     </style>
 </head>
 <body>
@@ -69,81 +69,92 @@
         <p>To provide diverse, high-quality online business services by leveraging skilled professionals and modern technology. We are committed to accuracy, efficiency, and total customer satisfaction in every project we undertake.</p>
     </section>
 
-    <h2 class="services-title">Premium Business Solutions</h2>
-    
-    <div class="grid">
-        <div class="card">
-            <h3>Writing & Editorial</h3>
-            <ul>
-                <li>Academic & Content Writing</li>
-                <li>Professional Copywriting</li>
-                <li>Proofreading & Editing</li>
-                <li>Resume & CV Development</li>
-                <li>Translation Services</li>
-            </ul>
-        </div>
-
-        <div class="card">
-            <h3>Digital Growth</h3>
-            <ul>
-                <li>Search Engine Optimization (SEO)</li>
-                <li>Social Media Management</li>
-                <li>Email Marketing & Ads</li>
-                <li>Market Analysis</li>
-                <li>Content Strategy</li>
-            </ul>
-        </div>
-
-        <div class="card">
-            <h3>Virtual Assistance</h3>
-            <ul>
-                <li>Data Entry & Management</li>
-                <li>Virtual Office Support</li>
-                <li>Customer Service Support</li>
-                <li>Bookkeeping & Accounting</li>
-                <li>Transcription Services</li>
-            </ul>
-        </div>
-
-        <div class="card">
-            <h3>Creative & Technical</h3>
-            <ul>
-                <li>Graphic Design & Branding</li>
-                <li>Web Design & Development</li>
-                <li>Video & Audio Editing</li>
-                <li>Programming Solutions</li>
-                <li>E-commerce Management</li>
-            </ul>
-        </div>
-    </div>
-<section class="payment-section" style="background: white; padding: 40px; border-radius: 15px; margin-top: 40px; text-align: center; border: 2px solid #28a745;">
-    <h2 style="color: #28a745;">Secure Payment Portal</h2>
-    <p>Pay securely via M-PESA for your services.</p>
-    
-    <div style="background: #f9f9f9; padding: 20px; border-radius: 10px; display: inline-block; min-width: 300px;">
-        <h3 style="margin: 0; color: #333;">Lipa Na M-PESA</h3>
-        <hr style="border: 0; border-top: 1px solid #ddd; margin: 15px 0;">
-        <p><strong>Till Number:</strong> <span style="color: #28a745; font-size: 1.2em;">XXXXXX</span></p>
-        <p><strong>Store Name:</strong> Online Sphere Commerce</p>
+    <div class="tabs-container">
+        <h2 style="color: var(--primary); margin-bottom: 30px; font-size: 2.2em;">Premium Business Solutions</h2>
         
-        <a href="https://wa.me/254741723223?text=I%20want%20to%20make%20a%20payment%20for%20my%20order" 
-           class="btn" style="background: #28a745; color: white; border-radius: 5px; padding: 10px 20px; text-decoration: none; display: block; margin-top: 10px;">
-           Confirm Payment via WhatsApp
-        </a>
+        <div class="tabs-menu">
+            <button class="tab-link active" onclick="showService(event, 'writing')">Writing & Editorial</button>
+            <button class="tab-link" onclick="showService(event, 'growth')">Digital Growth</button>
+            <button class="tab-link" onclick="showService(event, 'va')">Virtual Assistance</button>
+            <button class="tab-link" onclick="showService(event, 'creative')">Creative & Technical</button>
+        </div>
+
+        <div id="writing" class="tab-content active">
+            <h3>Writing & Editorial Services</h3>
+            <p>We deliver polished academic and professional documents that communicate your message clearly and effectively.</p>
+            <div class="process-box">
+                <h4>How It Is Done:</h4>
+                <p>We begin by analyzing your specific instructions to ensure full alignment. Our writers draft the content using simple, direct language to maximize understanding. Finally, each piece undergoes a strict proofreading process to eliminate errors and enhance flow before delivery.</p>
+            </div>
+        </div>
+
+        <div id="growth" class="tab-content">
+            <h3>Digital Growth & Strategy</h3>
+            <p>Expand your online presence and reach your target audience through data-driven marketing techniques.</p>
+            <div class="process-box">
+                <h4>How It Is Done:</h4>
+                <p>We perform market research to identify the best keywords and trends for your niche. We then optimize your website for SEO and manage your social media schedules to keep your brand visible and engaging for potential clients 24/7.</p>
+            </div>
+        </div>
+
+        <div id="va" class="tab-content">
+            <h3>Virtual Assistance & Support</h3>
+            <p>Reliable administrative support designed to streamline your daily operations and save you time.</p>
+            <div class="process-box">
+                <h4>How It Is Done:</h4>
+                <p>We utilize cloud-based tools like Google Workspace for seamless collaboration. Tasks such as data entry, bookkeeping, and customer support are tracked in real-time, and we maintain constant communication via WhatsApp to provide regular status updates.</p>
+            </div>
+        </div>
+
+        <div id="creative" class="tab-content">
+            <h3>Creative & Technical Solutions</h3>
+            <p>High-quality web development and visual media editing to help your brand stand out visually.</p>
+            <div class="process-box">
+                <h4>How It Is Done:</h4>
+                <p>For web design, we write clean HTML and CSS to ensure fast, mobile-friendly sites. For image and video editing, we use professional software to refine poses, adjust lighting, and clean backgrounds, ensuring every visual meets a high professional standard.</p>
+            </div>
+        </div>
     </div>
-</section>
+
+    <section class="payment-section">
+        <h2 style="color: var(--secondary);">Secure Payment Portal</h2>
+        <p>Pay securely via M-PESA for your services.</p>
+        <div style="background: #f9f9f9; padding: 20px; border-radius: 10px; display: inline-block; min-width: 300px;">
+            <h3 style="margin: 0; color: #333;">Lipa Na M-PESA</h3>
+            <hr style="border: 0; border-top: 1px solid #ddd; margin: 15px 0;">
+            <p><strong>Till Number:</strong> <span style="color: var(--secondary); font-size: 1.2em;">XXXXXX</span></p>
+            <p><strong>Store Name:</strong> Online Sphere Commerce</p>
+            <a href="https://wa.me/254741723223?text=I%20want%20to%20make%20a%20payment" class="btn btn-green" style="border-radius: 5px; padding: 10px 20px; display: block; margin-top: 10px;">Confirm Payment via WhatsApp</a>
+        </div>
+    </section>
+
     <section class="cta">
         <h2>Partner with Mentor Benson</h2>
         <p>Expert consulting and professional services tailored to your needs.</p>
-<a href="mailto:Muthinibenson7@gmail.com?subject=Inquiry%20from%20Online%20Sphere%20Commerce&body=Hello%20Mentor%20Benson," class="btn btn-green">Send Email</a>
-      <a href="https://wa.me/254741723223?text=Hello%20Mentor%20Benson" class="btn btn-green" style="background:#25D366; color:white;">WhatsApp Us</a>
+        <a href="mailto:Muthinibenson7@gmail.com?subject=Inquiry" class="btn btn-green">Send Email</a>
+        <a href="https://wa.me/254741723223?text=Hello%20Mentor%20Benson" class="btn btn-green" style="background:#25D366;">WhatsApp Us</a>
     </section>
 </div>
 
 <footer>
-    <p>&copy; 2026 Online Sphere Commerce Company. All Rights Reserved. <br>
-    Mentorship • Commerce • Professional Growth</p>
+    <p>&copy; 2026 Online Sphere Commerce Company. All Rights Reserved. <br> Mentorship • Commerce • Professional Growth</p>
 </footer>
+
+<script>
+    function showService(evt, serviceName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].classList.remove("active");
+        }
+        tablinks = document.getElementsByClassName("tab-link");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].classList.remove("active");
+        }
+        document.getElementById(serviceName).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
+</script>
 
 </body>
 </html>
