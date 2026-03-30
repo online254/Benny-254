@@ -24,23 +24,26 @@
         .container { max-width: 1200px; margin: auto; padding: 40px 20px; }
 
         .mission-box { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-top: 5px solid var(--secondary); margin-top: -80px; position: relative; }
+        .mission-box h2 { color: var(--primary); margin-top: 0; }
+
+        .services-title { text-align: center; margin: 60px 0 30px; font-size: 2.2em; color: var(--primary); }
         
-        /* Tab Navigation Styling */
-        .tabs-container { margin-top: 60px; text-align: center; }
-        .tabs-menu { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 20px; }
-        .tab-link { padding: 15px 25px; border: none; background: #e0e0e0; cursor: pointer; font-weight: bold; border-radius: 8px; transition: 0.3s; color: var(--primary); }
-        .tab-link.active { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(0,74,153,0.3); }
+        /* Restored Grid Layout */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; justify-content: center; margin: 0 auto; }
+        
+        .card { background: white; padding: 30px; border-radius: 12px; transition: 0.3s; border: 1px solid #eee; display: flex; flex-direction: column; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-color: var(--primary); }
+        .card h3 { color: var(--primary); font-size: 1.3em; margin-bottom: 15px; border-left: 4px solid var(--secondary); padding-left: 10px; }
+        
+        .card ul { padding-left: 20px; margin: 0 0 20px 0; color: #555; flex-grow: 1; }
+        .card li { margin-bottom: 8px; list-style-type: none; position: relative; font-size: 0.95em; }
+        .card li::before { content: "✓"; position: absolute; left: -20px; color: var(--secondary); font-weight: bold; }
 
-        /* Tab Content Styling */
-        .tab-content { display: none; background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-left: 6px solid var(--secondary); margin-bottom: 40px; }
-        .tab-content.active { display: block; animation: fadeIn 0.5s ease; }
+        /* How It's Done Section within Cards */
+        .how-done { background: #f9f9f9; padding: 15px; border-radius: 8px; border-top: 2px solid var(--secondary); margin-top: 10px; }
+        .how-done h4 { margin: 0 0 5px 0; font-size: 0.85em; color: var(--secondary); text-transform: uppercase; letter-spacing: 1px; }
+        .how-done p { margin: 0; font-size: 0.88em; color: #666; line-height: 1.4; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .process-box { background: #f0f7f1; padding: 20px; border-radius: 10px; margin-top: 20px; border-left: 4px solid var(--secondary); }
-        .process-box h4 { margin: 0 0 10px 0; color: var(--secondary); text-transform: uppercase; font-size: 0.9em; }
-
-        /* Payment & CTA */
         .payment-section { background: white; padding: 40px; border-radius: 15px; margin-top: 40px; text-align: center; border: 2px solid var(--secondary); }
         .cta { background: var(--dark); color: white; padding: 60px 20px; text-align: center; border-radius: 15px; margin-top: 60px; }
         .btn { display: inline-block; padding: 15px 35px; border-radius: 50px; text-decoration: none; font-weight: bold; margin: 10px; transition: 0.3s; }
@@ -48,7 +51,7 @@
 
         footer { text-align: center; padding: 40px; color: #888; font-size: 0.9em; border-top: 1px solid #ddd; margin-top: 40px; }
 
-        @media (max-width: 768px) { header h1 { font-size: 1.8em; } .tab-link { width: 100%; } }
+        @media (max-width: 768px) { header h1 { font-size: 1.8em; } }
     </style>
 </head>
 <body>
@@ -69,49 +72,62 @@
         <p>To provide diverse, high-quality online business services by leveraging skilled professionals and modern technology. We are committed to accuracy, efficiency, and total customer satisfaction in every project we undertake.</p>
     </section>
 
-    <div class="tabs-container">
-        <h2 style="color: var(--primary); margin-bottom: 30px; font-size: 2.2em;">Premium Business Solutions</h2>
-        
-        <div class="tabs-menu">
-            <button class="tab-link active" onclick="showService(event, 'writing')">Writing & Editorial</button>
-            <button class="tab-link" onclick="showService(event, 'growth')">Digital Growth</button>
-            <button class="tab-link" onclick="showService(event, 'va')">Virtual Assistance</button>
-            <button class="tab-link" onclick="showService(event, 'creative')">Creative & Technical</button>
-        </div>
-
-        <div id="writing" class="tab-content active">
-            <h3>Writing & Editorial Services</h3>
-            <p>We deliver polished academic and professional documents that communicate your message clearly and effectively.</p>
-            <div class="process-box">
-                <h4>How It Is Done:</h4>
-                <p>We begin by analyzing your specific instructions to ensure full alignment. Our writers draft the content using simple, direct language to maximize understanding. Finally, each piece undergoes a strict proofreading process to eliminate errors and enhance flow before delivery.</p>
+    <h2 class="services-title">Premium Business Solutions</h2>
+    
+    <div class="grid">
+        <div class="card">
+            <h3>Writing & Editorial</h3>
+            <ul>
+                <li>Academic & Content Writing</li>
+                <li>Professional Copywriting</li>
+                <li>Proofreading & Editing</li>
+                <li>Resume & CV Development</li>
+            </ul>
+            <div class="how-done">
+                <h4>How It's Done:</h4>
+                <p>We analyze instructions deeply, draft using simple language for clarity, and proofread strictly to ensure zero errors before delivery.</p>
             </div>
         </div>
 
-        <div id="growth" class="tab-content">
-            <h3>Digital Growth & Strategy</h3>
-            <p>Expand your online presence and reach your target audience through data-driven marketing techniques.</p>
-            <div class="process-box">
-                <h4>How It Is Done:</h4>
-                <p>We perform market research to identify the best keywords and trends for your niche. We then optimize your website for SEO and manage your social media schedules to keep your brand visible and engaging for potential clients 24/7.</p>
+        <div class="card">
+            <h3>Digital Growth</h3>
+            <ul>
+                <li>SEO Optimization</li>
+                <li>Social Media Management</li>
+                <li>Email Marketing & Ads</li>
+                <li>Market Analysis</li>
+            </ul>
+            <div class="how-done">
+                <h4>How It's Done:</h4>
+                <p>We research trends, optimize keywords for search engines, and schedule consistent content to keep your brand visible and active.</p>
             </div>
         </div>
 
-        <div id="va" class="tab-content">
-            <h3>Virtual Assistance & Support</h3>
-            <p>Reliable administrative support designed to streamline your daily operations and save you time.</p>
-            <div class="process-box">
-                <h4>How It Is Done:</h4>
-                <p>We utilize cloud-based tools like Google Workspace for seamless collaboration. Tasks such as data entry, bookkeeping, and customer support are tracked in real-time, and we maintain constant communication via WhatsApp to provide regular status updates.</p>
+        <div class="card">
+            <h3>Virtual Assistance</h3>
+            <ul>
+                <li>Data Entry & Management</li>
+                <li>Virtual Office Support</li>
+                <li>Bookkeeping</li>
+                <li>Transcription Services</li>
+            </ul>
+            <div class="how-done">
+                <h4>How It's Done:</h4>
+                <p>We use Google Workspace to manage tasks in real-time, providing daily WhatsApp updates to keep your business running smoothly.</p>
             </div>
         </div>
 
-        <div id="creative" class="tab-content">
-            <h3>Creative & Technical Solutions</h3>
-            <p>High-quality web development and visual media editing to help your brand stand out visually.</p>
-            <div class="process-box">
-                <h4>How It Is Done:</h4>
-                <p>For web design, we write clean HTML and CSS to ensure fast, mobile-friendly sites. For image and video editing, we use professional software to refine poses, adjust lighting, and clean backgrounds, ensuring every visual meets a high professional standard.</p>
+        <div class="card">
+            <h3>Creative & Technical</h3>
+            <ul>
+                <li>Graphic Design & Branding</li>
+                <li>Web Development</li>
+                <li>Video & Audio Editing</li>
+                <li>Image Refinement</li>
+            </ul>
+            <div class="how-done">
+                <h4>How It's Done:</h4>
+                <p>We write clean code for fast websites and use professional software to smooth features and adjust backgrounds in photos.</p>
             </div>
         </div>
     </div>
@@ -139,22 +155,6 @@
 <footer>
     <p>&copy; 2026 Online Sphere Commerce Company. All Rights Reserved. <br> Mentorship • Commerce • Professional Growth</p>
 </footer>
-
-<script>
-    function showService(evt, serviceName) {
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tab-content");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].classList.remove("active");
-        }
-        tablinks = document.getElementsByClassName("tab-link");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].classList.remove("active");
-        }
-        document.getElementById(serviceName).classList.add("active");
-        evt.currentTarget.classList.add("active");
-    }
-</script>
 
 </body>
 </html>
