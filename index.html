@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Sphere Commerce Company | Complete Portal</title>
+    <title>Online Sphere Commerce Company | Expert Digital Portal</title>
     <style>
         :root {
             --primary: #004a99;    /* Blue */
@@ -27,7 +27,7 @@
         header { background: linear-gradient(135deg, #004a99 0%, #6f42c1 100%); color: white; padding: 80px 20px; text-align: center; }
         header h1 { font-size: 2.5em; margin: 0; text-transform: uppercase; }
 
-        .container { max-width: 1200px; margin: auto; padding: 40px 20px; }
+        .container { max-width: 1250px; margin: auto; padding: 40px 20px; }
         .section-title { font-size: 2em; margin: 50px 0 30px; font-weight: 800; text-transform: uppercase; }
 
         /* CENTERED MISSION */
@@ -37,22 +37,29 @@
         }
         .mission-box h2 { color: var(--accent-2); margin-top: 0; text-transform: uppercase; font-size: 1.8em; }
 
-        .grid-centered { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; margin: 0 auto; }
+        /* 4-COLUMN SERVICES GRID */
+        .services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 60px; }
+        .service-card { background: white; padding: 20px; border-radius: 12px; border: 1px solid #eee; text-align: left; transition: 0.3s; }
+        .service-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .service-card h3 { font-size: 1.05em; margin: 0; color: var(--primary); font-weight: 700; }
+        .service-card p { font-size: 0.85em; color: #666; margin-top: 8px; line-height: 1.4; }
 
-        /* SERVICES */
-        .card { background: white; padding: 25px; border-radius: 15px; width: 260px; border: 1px solid #eee; text-align: left; }
-        .c-blue { border-top: 5px solid var(--primary); }
-        .c-purple { border-top: 5px solid var(--accent-1); }
-        .c-orange { border-top: 5px solid var(--accent-2); }
-        .how-done { margin-top: 15px; padding: 8px; border-radius: 5px; font-size: 0.8em; font-weight: bold; text-align: center; }
-        .bg-blue { background: #eef4fb; color: var(--primary); }
-        .bg-purple { background: #f3e5f5; color: var(--accent-1); }
-        .bg-orange { background: #fff3e0; color: var(--accent-2); }
+        /* Color Borders for Service Variety */
+        .sb-blue { border-left: 4px solid var(--primary); }
+        .sb-purple { border-left: 4px solid var(--accent-1); }
+        .sb-orange { border-left: 4px solid var(--accent-2); }
+        .sb-green { border-left: 4px solid var(--secondary); }
+
+        /* GOLD STRATEGIC LEADERSHIP */
+        .admin-box { background: var(--dark); padding: 60px 40px; border-radius: 20px; margin: 40px auto; text-align: center; max-width: 1000px; border: 3px solid var(--gold); color: white; }
+        .admin-box h3 { color: var(--gold); font-size: 1.8em; text-transform: uppercase; margin-bottom: 20px; }
+        .highlighted-quote { background-color: var(--gold); color: black; font-size: 1.5em; font-weight: 900; padding: 25px; display: inline-block; border-radius: 10px; margin: 20px 0; max-width: 800px; }
 
         /* WHY CHOOSE US */
-        .benefit { background: white; padding: 25px; border-radius: 10px; width: 280px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-bottom: 4px solid var(--primary); text-align: left; }
+        .grid-3 { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; }
+        .benefit { background: white; padding: 25px; border-radius: 10px; width: 300px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-bottom: 4px solid var(--primary); text-align: left; }
 
-        /* WHATSAPP GROUP */
+        /* COMMUNITY / WHATSAPP */
         .whatsapp-group-box { background: #e9f7ef; padding: 50px 20px; border-radius: 20px; margin: 60px auto; max-width: 900px; border: 2px solid var(--whatsapp); }
 
         /* GOLD PACKAGES */
@@ -62,25 +69,21 @@
         .popular-badge { background: var(--gold); color: black; padding: 4px 12px; border-radius: 20px; font-size: 0.7em; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); font-weight: bold; }
 
         /* SUCCESS GALLERY */
-        .success-item { background: white; padding: 25px; border-radius: 10px; width: 260px; text-align: left; border-left: 5px solid var(--secondary); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .success-item { background: white; padding: 25px; border-radius: 10px; width: 280px; text-align: left; border-left: 5px solid var(--secondary); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         .money-tag { display: inline-block; background: var(--secondary); color: white; padding: 5px 12px; border-radius: 4px; font-weight: bold; margin-top: 10px; }
 
         /* FAQS */
         .faq-item { background: white; margin-bottom: 15px; padding: 20px; border-radius: 12px; text-align: left; border-right: 5px solid var(--primary); box-shadow: 0 4px 10px rgba(0,0,0,0.03); max-width: 800px; margin: 0 auto 15px; }
 
-        /* GOLD ADMIN SECTION */
-        .admin-box { background: var(--dark); padding: 60px 40px; border-radius: 20px; margin: 60px auto; text-align: center; max-width: 900px; border: 3px solid var(--gold); color: white; }
-        .admin-box h3 { color: var(--gold); font-size: 2em; text-transform: uppercase; }
-        .highlighted-quote { background-color: var(--gold); color: black; font-size: 1.5em; font-weight: 900; padding: 20px; display: inline-block; border-radius: 10px; margin: 30px 0; }
-
         /* Buttons & Footer */
-        .btn { display: inline-block; padding: 14px 35px; border-radius: 50px; text-decoration: none; font-weight: bold; transition: 0.3s; margin: 10px; }
+        .btn { display: inline-block; padding: 14px 35px; border-radius: 50px; text-decoration: none; font-weight: bold; transition: 0.3s; margin: 10px; cursor: pointer; border: none; }
         .btn-gold { background: var(--gold); color: black; }
         .btn-whatsapp { background: var(--whatsapp); color: white; }
         .btn-green { background: var(--secondary); color: white; }
         footer { padding: 40px; background: #eee; color: #666; font-size: 0.9em; }
 
-        @media (max-width: 768px) { .card, .package-card, .success-item, .benefit, .whatsapp-group-box { width: 100%; } }
+        @media (max-width: 1024px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { .services-grid { grid-template-columns: 1fr; } .package-card, .benefit, .success-item { width: 100%; } }
     </style>
 </head>
 <body>
@@ -106,49 +109,69 @@
         <p>To provide high-quality digital solutions while empowering a community of skilled individuals to excel in the global online marketplace.</p>
     </section>
 
-    <h2 id="services" class="section-title" style="color: var(--primary);">Our Services</h2>
-    <div class="grid-centered">
-        <div class="card c-blue">
-            <h3>Editorial & Writing</h3>
-            <ul><li>Academic Analysis</li><li>Content Creation</li></ul>
-            <div class="how-done bg-blue">Method: Expert Research</div>
+    <h2 id="services" class="section-title" style="color: var(--primary);">Professional Solutions</h2>
+    <div class="services-grid">
+        <div class="service-card sb-blue"><h3>Academic Writing</h3><p>High-quality research papers and essays.</p></div>
+        <div class="service-card sb-purple"><h3>Transcription Services</h3><p>Accurate audio-to-text conversion.</p></div>
+        <div class="service-card sb-orange"><h3>Data Entry</h3><p>Precise data management and typing.</p></div>
+        <div class="service-card sb-green"><h3>Virtual Assistance</h3><p>Reliable administrative support.</p></div>
+        
+        <div class="service-card sb-blue"><h3>Content & Copywriting</h3><p>Engaging web content and sales copy.</p></div>
+        <div class="service-card sb-purple"><h3>Graphic Design</h3><p>Logo, branding, and visual design.</p></div>
+        <div class="service-card sb-orange"><h3>Website Development</h3><p>Custom sites and web applications.</p></div>
+        <div class="service-card sb-green"><h3>Digital Marketing</h3><p>SEO, Ads, and Email marketing.</p></div>
+
+        <div class="service-card sb-blue"><h3>Social Media Management</h3><p>Growth-focused profile management.</p></div>
+        <div class="service-card sb-purple"><h3>Proofreading & Editing</h3><p>Refining text to perfection.</p></div>
+        <div class="service-card sb-orange"><h3>Translation Services</h3><p>Multi-language professional translation.</p></div>
+        <div class="service-card sb-green"><h3>Online Tutoring</h3><p>Expert-led educational support.</p></div>
+
+        <div class="service-card sb-blue"><h3>Accounting Support</h3><p>Bookkeeping and financial tracking.</p></div>
+        <div class="service-card sb-purple"><h3>Customer Support</h3><p>Professional client interaction.</p></div>
+        <div class="service-card sb-orange"><h3>Video & Audio Editing</h3><p>High-quality post-production.</p></div>
+        <div class="service-card sb-green"><h3>E-commerce Management</h3><p>Shopify, Amazon, and store growth.</p></div>
+
+        <div class="service-card sb-blue"><h3>Resume & CV Writing</h3><p>Professional career documents.</p></div>
+        <div class="service-card sb-purple"><h3>Programming</h3><p>Software and application development.</p></div>
+        <div class="service-card sb-orange"><h3>Voice-over Services</h3><p>Clear and engaging audio narratives.</p></div>
+        <div class="service-card sb-green"><h3>Market Analysis</h3><p>Strategic research and data insights.</p></div>
+    </div>
+
+    <div id="admin" class="admin-box">
+        <h3>Strategic Leadership</h3>
+        <p>Transparency and excellence at the core of our operations.</p>
+        <div class="highlighted-quote">
+            "Your background does not define your future; your willingness to learn does. Join us, and let’s grow together."
         </div>
-        <div class="card c-purple">
-            <h3>Virtual Assistance</h3>
-            <ul><li>Data Management</li><li>Admin Support</li></ul>
-            <div class="how-done bg-purple">Method: Cloud Workflow</div>
-        </div>
-        <div class="card c-orange">
-            <h3>Creative Tech</h3>
-            <ul><li>Web Design</li><li>Image Refinement</li></ul>
-            <div class="how-done bg-orange">Method: Professional Tools</div>
+        <div>
+            <a href="https://wa.me/254741723223" class="btn btn-gold">Connect with Admin</a>
         </div>
     </div>
 
     <h2 class="section-title">Why Choose Us?</h2>
-    <div class="grid-centered">
+    <div class="grid-3">
         <div class="benefit">
             <h3>Absolute Privacy</h3>
-            <p>Your project details are handled with total confidentiality.</p>
+            <p>Your projects and personal data are kept completely confidential.</p>
         </div>
         <div class="benefit">
             <h3>Fast Delivery</h3>
-            <p>Most tasks are completed within 24-48 hours with top precision.</p>
+            <p>Efficient workflows ensuring projects are completed on schedule.</p>
         </div>
         <div class="benefit">
             <h3>Simple Clarity</h3>
-            <p>We transform complex requirements into easy solutions.</p>
+            <p>We make complex tasks easy to understand and execute.</p>
         </div>
     </div>
 
     <section id="community" class="whatsapp-group-box">
         <h2>Join Our Official Community</h2>
-        <p>Join our growing network of experts for real-time task updates and earnings proof.</p>
-        <a href="YOUR_LINK_HERE" target="_blank" class="btn btn-whatsapp">Join WhatsApp Group</a>
+        <p>Stay updated with real-time tasks and daily earnings updates.</p>
+        <a href="#" target="_blank" class="btn btn-whatsapp">Join WhatsApp Group</a>
     </section>
 
-    <h2 id="packages" class="section-title gold-title" style="color: var(--gold);">Account Activation Packages</h2>
-    <div class="grid-centered">
+    <h2 id="packages" class="section-title" style="color: var(--gold);">Account Activation Packages</h2>
+    <div class="grid-3">
         <div class="package-card">
             <h3>Starter Pool</h3>
             <div class="fee">KES 500</div>
@@ -168,39 +191,29 @@
     </div>
 
     <h2 id="success" class="section-title" style="color: var(--secondary);">Success Gallery</h2>
-    <div class="grid-centered">
+    <div class="grid-3">
         <div class="success-item">
-            <h4>Literature Analysis</h4>
+            <h4>Project Milestone</h4>
             <span class="money-tag">Paid: KES 15,000+</span>
         </div>
         <div class="success-item">
-            <h4>Web Design</h4>
+            <h4>Technical Solution</h4>
             <span class="money-tag">Paid: KES 8,500+</span>
         </div>
         <div class="success-item">
-            <h4>VA Monthly Payout</h4>
+            <h4>Monthly Growth</h4>
             <span class="money-tag">Paid: KES 25,000 / mo</span>
         </div>
     </div>
 
     <h2 id="faq" class="section-title" style="color: var(--accent-1);">Frequently Asked Questions</h2>
     <div class="faq-item">
-        <h4>How do I start a project?</h4>
-        <p>Message us on WhatsApp. We discuss your needs and provide a quote immediately.</p>
+        <h4>How do I start?</h4>
+        <p>Message us on WhatsApp to discuss your requirements and get started instantly.</p>
     </div>
     <div class="faq-item">
-        <h4>Can I learn ICT skills here?</h4>
-        <p>Yes! We offer mentorship for individuals ready to excel in digital services.</p>
-    </div>
-
-    <div id="admin" class="admin-box">
-        <h3>Strategic Leadership</h3>
-        <div class="highlighted-quote">
-            "Your background does not define your future; your willingness to learn does. Join us, and let’s grow together."
-        </div>
-        <div>
-            <a href="https://wa.me/254741723223" class="btn btn-gold">Connect with Admin</a>
-        </div>
+        <h4>Is there mentorship?</h4>
+        <p>Yes, we guide individuals on how to master these digital skills effectively.</p>
     </div>
 
     <section id="payment" style="background: white; padding: 40px; border: 2px solid var(--secondary); margin: 40px auto; max-width: 600px; border-radius: 15px;">
