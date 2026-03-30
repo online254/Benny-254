@@ -90,7 +90,65 @@
     <div class="auth-card" id="authCard">
         <h2 id="authTitle">Join Online Sphere</h2>
         <p id="authSubtitle">Start your journey to digital wealth today.</p>
-        
+        <h2 class="section-title">Why Choose Us</h2>
+<div class="why-us-grid">
+    <div class="why-card">
+        <span class="icon-shield">💸</span>
+        <h4>Instant Payouts</h4>
+        <p>Earnings are sent directly to your M-Pesa immediately upon task completion. No delays, no waiting periods.</p>
+    </div>
+
+    <div class="why-card">
+        <span class="icon-shield">🛡️</span>
+        <h4>Verified Secure</h4>
+        <p>Your portal is fully encrypted and every task is vetted for member safety to ensure a protected workspace.</p>
+    </div>
+
+    <div class="why-card">
+        <span class="icon-shield">⭐</span>
+        <h4>Expert Support</h4>
+        <p>Our professional desk is available 24/7 to assist you with account activation and high-yield task allocation.</p>
+    </div>
+</div>
+<style>
+    .why-us-grid { 
+        display: grid; 
+        grid-template-columns: repeat(3, 1fr); 
+        gap: 20px; 
+        margin: 40px auto; 
+        max-width: 1000px; 
+        padding: 0 20px;
+    }
+    .why-card { 
+        background: #fff; 
+        padding: 30px; 
+        border-radius: 15px; 
+        text-align: center; 
+        border-bottom: 4px solid #1dbf73; /* Your Secondary Color */
+        box-shadow: 0 4px 10px rgba(0,0,0,0.03); 
+        transition: transform 0.3s ease;
+    }
+    .why-card:hover {
+        transform: translateY(-5px);
+    }
+    .why-card h4 { 
+        color: #004a99; /* Your Primary Color */
+        margin: 10px 0; 
+        text-transform: uppercase; 
+        font-size: 1.1em; 
+        font-weight: 800;
+    }
+    .icon-shield { 
+        font-size: 2.5em; 
+        margin-bottom: 10px; 
+        display: block; 
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 800px) {
+        .why-us-grid { grid-template-columns: 1fr; }
+    }
+</style>
         <div class="input-group" id="nameGroup">
             <label>Full Name</label>
             <input type="text" id="authName" placeholder="Enter Official Names">
