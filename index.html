@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Sphere Commerce Company | Professional Portal</title>
+    <title>Online Sphere Commerce Company | Complete Portal</title>
     <style>
         :root {
             --primary: #004a99;    /* Blue */
@@ -19,12 +19,10 @@
         html { scroll-behavior: smooth; }
         body { font-family: 'Inter', sans-serif; line-height: 1.6; color: var(--dark); margin: 0; background-color: var(--light); text-align: center; }
         
-        /* Centered Nav */
         nav { background: white; padding: 15px 5%; display: flex; flex-direction: column; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
         .logo-placeholder { font-weight: 800; font-size: 1.2em; color: var(--primary); text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px; }
-        .nav-links { display: flex; justify-content: center; gap: 25px; }
-        .nav-links a { text-decoration: none; color: var(--dark); font-weight: 600; font-size: 0.85em; transition: 0.3s; }
-        .nav-links a:hover { color: var(--primary); }
+        .nav-links { display: flex; justify-content: center; gap: 20px; }
+        .nav-links a { text-decoration: none; color: var(--dark); font-weight: 600; font-size: 0.85em; }
 
         header { background: linear-gradient(135deg, #004a99 0%, #6f42c1 100%); color: white; padding: 80px 20px; text-align: center; }
         header h1 { font-size: 2.5em; margin: 0; text-transform: uppercase; }
@@ -32,36 +30,17 @@
         .container { max-width: 1200px; margin: auto; padding: 40px 20px; }
         .section-title { font-size: 2em; margin: 50px 0 30px; font-weight: 800; text-transform: uppercase; }
 
-        /* CENTERED MISSION SECTION */
+        /* CENTERED MISSION */
         .mission-box { 
-            background: white; 
-            padding: 40px; 
-            border-radius: 20px; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.05); 
-            border-top: 8px solid var(--accent-2); 
-            margin: -80px auto 40px; 
-            position: relative; 
-            max-width: 850px; 
-            text-align: center; /* Centering the content inside */
+            background: white; padding: 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); 
+            border-top: 8px solid var(--accent-2); margin: -80px auto 40px; position: relative; max-width: 850px; text-align: center; 
         }
-        .mission-box h2 { 
-            color: var(--accent-2); 
-            margin-top: 0; 
-            text-align: center; /* Explicitly centering the heading */
-            text-transform: uppercase;
-            font-size: 1.8em;
-        }
-        .mission-box p {
-            max-width: 700px;
-            margin: 0 auto;
-            font-size: 1.1em;
-            color: #444;
-        }
+        .mission-box h2 { color: var(--accent-2); margin-top: 0; text-transform: uppercase; font-size: 1.8em; }
 
         .grid-centered { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; margin: 0 auto; }
 
-        /* SERVICES (Multi-Color) */
-        .card { background: white; padding: 25px; border-radius: 15px; width: 260px; border: 1px solid #eee; text-align: left; transition: 0.3s; }
+        /* SERVICES */
+        .card { background: white; padding: 25px; border-radius: 15px; width: 260px; border: 1px solid #eee; text-align: left; }
         .c-blue { border-top: 5px solid var(--primary); }
         .c-purple { border-top: 5px solid var(--accent-1); }
         .c-orange { border-top: 5px solid var(--accent-2); }
@@ -70,9 +49,11 @@
         .bg-purple { background: #f3e5f5; color: var(--accent-1); }
         .bg-orange { background: #fff3e0; color: var(--accent-2); }
 
-        /* COMMUNITY / WHATSAPP */
+        /* WHY CHOOSE US */
+        .benefit { background: white; padding: 25px; border-radius: 10px; width: 280px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-bottom: 4px solid var(--primary); text-align: left; }
+
+        /* WHATSAPP GROUP */
         .whatsapp-group-box { background: #e9f7ef; padding: 50px 20px; border-radius: 20px; margin: 60px auto; max-width: 900px; border: 2px solid var(--whatsapp); }
-        .whatsapp-group-box h2 { color: #128C7E; text-transform: uppercase; }
 
         /* GOLD PACKAGES */
         .package-card { background: white; padding: 35px 20px; border-radius: 15px; width: 280px; text-align: center; border: 2px solid #eee; }
@@ -84,19 +65,22 @@
         .success-item { background: white; padding: 25px; border-radius: 10px; width: 260px; text-align: left; border-left: 5px solid var(--secondary); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         .money-tag { display: inline-block; background: var(--secondary); color: white; padding: 5px 12px; border-radius: 4px; font-weight: bold; margin-top: 10px; }
 
+        /* FAQS */
+        .faq-item { background: white; margin-bottom: 15px; padding: 20px; border-radius: 12px; text-align: left; border-right: 5px solid var(--primary); box-shadow: 0 4px 10px rgba(0,0,0,0.03); max-width: 800px; margin: 0 auto 15px; }
+
         /* GOLD ADMIN SECTION */
         .admin-box { background: var(--dark); padding: 60px 40px; border-radius: 20px; margin: 60px auto; text-align: center; max-width: 900px; border: 3px solid var(--gold); color: white; }
         .admin-box h3 { color: var(--gold); font-size: 2em; text-transform: uppercase; }
-        .highlighted-quote { background-color: var(--gold); color: black; font-size: 1.5em; font-weight: 900; padding: 20px; display: inline-block; border-radius: 10px; margin: 30px 0; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4); }
+        .highlighted-quote { background-color: var(--gold); color: black; font-size: 1.5em; font-weight: 900; padding: 20px; display: inline-block; border-radius: 10px; margin: 30px 0; }
 
         /* Buttons & Footer */
         .btn { display: inline-block; padding: 14px 35px; border-radius: 50px; text-decoration: none; font-weight: bold; transition: 0.3s; margin: 10px; }
-        .btn-whatsapp { background: var(--whatsapp); color: white; }
         .btn-gold { background: var(--gold); color: black; }
+        .btn-whatsapp { background: var(--whatsapp); color: white; }
         .btn-green { background: var(--secondary); color: white; }
-        footer { padding: 40px; background: #eee; color: #666; font-size: 0.9em; text-align: center; }
-        
-        @media (max-width: 768px) { .card, .package-card, .success-item, .whatsapp-group-box { width: 100%; } .mission-box { margin-top: -40px; } }
+        footer { padding: 40px; background: #eee; color: #666; font-size: 0.9em; }
+
+        @media (max-width: 768px) { .card, .package-card, .success-item, .benefit, .whatsapp-group-box { width: 100%; } }
     </style>
 </head>
 <body>
@@ -107,27 +91,27 @@
         <a href="#services">Services</a>
         <a href="#community">Community</a>
         <a href="#packages">Work Tiers</a>
-        <a href="#admin">Admin</a>
+        <a href="#faq">FAQs</a>
     </div>
 </nav>
 
 <header>
     <h1>ONLINE SPHERE COMMERCE COMPANY</h1>
-    <p>Empowering Digital Growth • Professional Excellence</p>
+    <p>Professional Excellence • Digital Growth • Financial Independence</p>
 </header>
 
 <div class="container">
     <section class="mission-box">
         <h2>Our Mission</h2>
-        <p>To provide high-quality digital solutions while empowering a community of skilled individuals to excel in the global online marketplace. We believe in accuracy, efficiency, and the power of professional growth.</p>
+        <p>To provide high-quality digital solutions while empowering a community of skilled individuals to excel in the global online marketplace.</p>
     </section>
 
-    <h2 id="services" class="section-title" style="color: var(--primary);">Professional Solutions</h2>
+    <h2 id="services" class="section-title" style="color: var(--primary);">Our Services</h2>
     <div class="grid-centered">
         <div class="card c-blue">
             <h3>Editorial & Writing</h3>
             <ul><li>Academic Analysis</li><li>Content Creation</li></ul>
-            <div class="how-done bg-blue">Method: Research & Clarity</div>
+            <div class="how-done bg-blue">Method: Expert Research</div>
         </div>
         <div class="card c-purple">
             <h3>Virtual Assistance</h3>
@@ -137,17 +121,33 @@
         <div class="card c-orange">
             <h3>Creative Tech</h3>
             <ul><li>Web Design</li><li>Image Refinement</li></ul>
-            <div class="how-done bg-orange">Method: Pro Editing Software</div>
+            <div class="how-done bg-orange">Method: Professional Tools</div>
+        </div>
+    </div>
+
+    <h2 class="section-title">Why Choose Us?</h2>
+    <div class="grid-centered">
+        <div class="benefit">
+            <h3>Absolute Privacy</h3>
+            <p>Your project details are handled with total confidentiality.</p>
+        </div>
+        <div class="benefit">
+            <h3>Fast Delivery</h3>
+            <p>Most tasks are completed within 24-48 hours with top precision.</p>
+        </div>
+        <div class="benefit">
+            <h3>Simple Clarity</h3>
+            <p>We transform complex requirements into easy solutions.</p>
         </div>
     </div>
 
     <section id="community" class="whatsapp-group-box">
         <h2>Join Our Official Community</h2>
-        <p>Get real-time task updates, daily earnings proof, and professional guidance directly on your phone. Join our growing network of experts today!</p>
-        <a href="YOUR_WHATSAPP_GROUP_LINK_HERE" target="_blank" class="btn btn-whatsapp">Join WhatsApp Group</a>
+        <p>Join our growing network of experts for real-time task updates and earnings proof.</p>
+        <a href="YOUR_LINK_HERE" target="_blank" class="btn btn-whatsapp">Join WhatsApp Group</a>
     </section>
 
-    <h2 id="packages" class="section-title" style="color: var(--gold);">Account Activation Packages</h2>
+    <h2 id="packages" class="section-title gold-title" style="color: var(--gold);">Account Activation Packages</h2>
     <div class="grid-centered">
         <div class="package-card">
             <h3>Starter Pool</h3>
@@ -174,7 +174,7 @@
             <span class="money-tag">Paid: KES 15,000+</span>
         </div>
         <div class="success-item">
-            <h4>Web Design Project</h4>
+            <h4>Web Design</h4>
             <span class="money-tag">Paid: KES 8,500+</span>
         </div>
         <div class="success-item">
@@ -183,18 +183,27 @@
         </div>
     </div>
 
+    <h2 id="faq" class="section-title" style="color: var(--accent-1);">Frequently Asked Questions</h2>
+    <div class="faq-item">
+        <h4>How do I start a project?</h4>
+        <p>Message us on WhatsApp. We discuss your needs and provide a quote immediately.</p>
+    </div>
+    <div class="faq-item">
+        <h4>Can I learn ICT skills here?</h4>
+        <p>Yes! We offer mentorship for individuals ready to excel in digital services.</p>
+    </div>
+
     <div id="admin" class="admin-box">
         <h3>Strategic Leadership</h3>
-        <p>Leadership built on transparency and technical proficiency.</p>
         <div class="highlighted-quote">
             "Your background does not define your future; your willingness to learn does. Join us, and let’s grow together."
         </div>
-        <div style="display: flex; justify-content: center;">
+        <div>
             <a href="https://wa.me/254741723223" class="btn btn-gold">Connect with Admin</a>
         </div>
     </div>
 
-    <section id="payment" style="background: white; padding: 40px; border: 2px solid var(--secondary); margin: 40px auto; max-width: 600px; border-radius: 15px; border-bottom: 5px solid var(--secondary);">
+    <section id="payment" style="background: white; padding: 40px; border: 2px solid var(--secondary); margin: 40px auto; max-width: 600px; border-radius: 15px;">
         <h2 style="color: var(--secondary);">Secure Activation</h2>
         <p>Pay via M-PESA Till: <strong>XXXXXX</strong></p>
         <a href="https://wa.me/254741723223" class="btn btn-green">Confirm via WhatsApp</a>
@@ -202,7 +211,7 @@
 </div>
 
 <footer>
-    <p>&copy; 2026 Online Sphere Commerce Company • Voi, Kenya • Serving Globally</p>
+    <p>&copy; 2026 Online Sphere Commerce Company • Voi, Kenya</p>
 </footer>
 
 </body>
