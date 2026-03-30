@@ -7,7 +7,7 @@
     <style>
         :root {
             --primary: #004a99;
-            --secondary: #1dbf73; /* Fiverr Green */
+            --secondary: #1dbf73;
             --whatsapp: #25D366;
             --mpesa: #49aa47;
             --accent-1: #6f42c1;
@@ -20,80 +20,60 @@
         html { scroll-behavior: smooth; }
         body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; color: var(--dark); margin: 0; background-color: var(--light); text-align: center; }
         
-        /* 1. NAVIGATION & TABS */
+        /* NAVIGATION */
         nav { background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
         .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; }
-        .logo-text { font-weight: 900; font-size: 1.3em; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
+        .logo-text { font-weight: 900; font-size: 1.3em; color: var(--primary); text-transform: uppercase; }
         
-        .btn-login-nav { 
+        .btn-auth-nav { 
             border: 2px solid var(--primary); color: var(--primary); padding: 8px 24px; 
-            border-radius: 6px; text-decoration: none; font-weight: 800; transition: 0.3s; font-size: 0.9em;
+            border-radius: 6px; text-decoration: none; font-weight: 800; transition: 0.3s; font-size: 0.9em; cursor: pointer;
         }
-        .btn-login-nav:hover { background: var(--primary); color: white; }
+        .btn-auth-nav:hover { background: var(--primary); color: white; }
 
         .tab-bar { display: flex; justify-content: center; width: 100%; background: #f8f9fa; border-top: 1px solid #eee; overflow-x: auto; }
         .tab-bar a { padding: 15px 20px; text-decoration: none; color: #555; font-weight: 700; font-size: 0.8em; text-transform: uppercase; white-space: nowrap; border-bottom: 3px solid transparent; transition: 0.3s; }
         .tab-bar a:hover { color: var(--primary); background: white; border-bottom: 3px solid var(--primary); }
 
-        /* 2. AUTH MODAL (UPWORK/FIVERR STYLE) */
+        /* AUTH MODAL */
         .auth-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 2000; }
         .auth-modal { background: white; padding: 40px; border-radius: 12px; width: 90%; max-width: 400px; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.3); text-align: left; }
         .auth-modal h2 { margin: 0 0 10px; font-size: 1.8em; color: #333; }
-        .auth-modal p { color: #666; margin-bottom: 25px; font-size: 0.95em; }
-        .auth-modal input { width: 100%; padding: 14px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 1em; }
-        .btn-auth-submit { width: 100%; background: var(--secondary); color: white; border: none; padding: 16px; border-radius: 6px; font-weight: 800; cursor: pointer; font-size: 1em; text-transform: uppercase; }
+        .auth-modal input { width: 100%; padding: 14px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        .btn-auth-submit { width: 100%; background: var(--secondary); color: white; border: none; padding: 16px; border-radius: 6px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
         .close-modal { position: absolute; top: 15px; right: 20px; font-size: 1.8em; cursor: pointer; color: #bbb; }
-        .auth-toggle-link { text-align: center; margin-top: 20px; font-size: 0.9em; color: #777; cursor: pointer; }
-        .auth-toggle-link span { color: var(--primary); font-weight: 800; }
 
-        /* HEADER */
+        /* HERO & CONTENT */
         header { background: linear-gradient(135deg, #004a99 0%, #6f42c1 100%); color: white; padding: 100px 20px; }
-        header h1 { font-size: 2.5em; margin: 0; text-transform: uppercase; }
-
         .container { max-width: 1250px; margin: auto; padding: 40px 20px; }
         .section-title { font-size: 2.2em; margin: 60px 0 30px; font-weight: 800; text-transform: uppercase; }
+        
+        .mission-box { background: white; padding: 50px 40px; border-radius: 20px; border-top: 10px solid var(--accent-2); margin: -80px auto 40px; max-width: 900px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); }
 
-        /* MISSION */
-        .mission-box { background: white; padding: 50px 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); border-top: 10px solid var(--accent-2); margin: -80px auto 40px; max-width: 900px; }
-
-        /* 20 SERVICES GRID */
+        /* SERVICES */
         .services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 50px; }
         .service-card { background: white; padding: 18px; border-radius: 12px; border: 1px solid #eee; text-align: left; border-left: 5px solid var(--primary); }
-        .service-card h3 { font-size: 0.9em; margin: 0; color: var(--primary); font-weight: 800; text-transform: uppercase; }
-        .service-card p { font-size: 0.8em; color: #666; margin-top: 5px; }
+        .service-card h3 { font-size: 0.9em; margin: 0; color: var(--primary); text-transform: uppercase; }
 
-        /* STRATEGIC LEADERSHIP */
+        /* LEADERSHIP */
         .admin-box { background: var(--dark); padding: 70px 40px; border-radius: 25px; margin: 50px auto; border: 3px solid var(--gold); color: white; }
-        .highlighted-quote { background-color: var(--gold); color: black; font-size: 1.5em; font-weight: 900; padding: 25px; display: inline-block; border-radius: 15px; margin: 20px 0; }
+        .highlighted-quote { background-color: var(--gold); color: black; font-size: 1.5em; font-weight: 900; padding: 25px; border-radius: 15px; display: inline-block; }
 
-        /* WHY CHOOSE US & SUCCESS */
-        .grid-flex { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; }
-        .card-item { background: white; padding: 30px; border-radius: 15px; width: 320px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: left; }
-        .success-card { border-left: 5px solid var(--secondary); }
-
-        /* ACTIVATION */
-        .fee { font-size: 2.2em; font-weight: 900; color: var(--gold); margin: 15px 0; text-align: center; }
-
-        /* M-PESA ACTIVATION (PHOTO STYLE) */
-        .payment-section { background: white; padding: 60px 40px; border-radius: 25px; margin: 80px auto; max-width: 850px; border: 1px solid #ccc; text-align: left; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        /* M-PESA */
+        .payment-section { background: white; padding: 60px 40px; border-radius: 25px; margin: 80px auto; max-width: 850px; border: 1px solid #ccc; text-align: left; }
         .step-list { list-style: none; padding: 0; }
-        .step-list li { margin-bottom: 20px; padding-left: 50px; position: relative; font-size: 1.1em; color: #555; }
+        .step-list li { margin-bottom: 20px; padding-left: 50px; position: relative; }
         .step-list li::before { content: attr(data-step); position: absolute; left: 0; top: 0; background: #6c757d; color: white; width: 32px; height: 32px; border-radius: 50%; text-align: center; line-height: 32px; font-weight: bold; }
-        .verify-btn-photo { display: block; width: 100%; background: #4a5d4e; color: white; text-transform: uppercase; font-weight: 800; padding: 20px; border-radius: 50px; text-decoration: none; text-align: center; margin-top: 30px; border: none; cursor: pointer; }
+        .verify-btn-photo { display: block; width: 100%; background: #4a5d4e; color: white; text-transform: uppercase; font-weight: 800; padding: 20px; border-radius: 50px; text-decoration: none; text-align: center; margin-top: 30px; cursor: pointer; }
 
-        /* CONTACT & FAQ */
-        .contact-box { background: #fff; padding: 60px 20px; border-radius: 25px; margin: 60px auto; max-width: 900px; border: 1px solid #eee; }
-        .faq-item { background: white; padding: 25px; border-radius: 15px; text-align: left; border-right: 8px solid var(--primary); margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.03); }
-
-        .btn { display: inline-block; padding: 15px 35px; border-radius: 50px; text-decoration: none; font-weight: 800; transition: 0.3s; margin: 10px; text-transform: uppercase; cursor: pointer; }
+        .btn { display: inline-block; padding: 15px 35px; border-radius: 50px; text-decoration: none; font-weight: 800; margin: 10px; text-transform: uppercase; }
         .btn-whatsapp { background: var(--whatsapp); color: white; }
-        .btn-email { background: var(--accent-2); color: white; }
         .btn-gold { background: var(--gold); color: black; }
 
         footer { padding: 50px; background: #111; color: #777; }
 
         @media (max-width: 1100px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 768px) { .services-grid { grid-template-columns: 1fr; } .card-item { width: 100%; } }
+        @media (max-width: 768px) { .services-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -102,32 +82,29 @@
     <div class="auth-modal">
         <span class="close-modal" onclick="closeAuth()">×</span>
         <h2 id="authTitle">Join Online Sphere</h2>
-        <p id="authDesc">Sign up using your M-Pesa number to start earning.</p>
+        <div id="authErrorMessage" style="color: red; font-size: 0.8em; margin-bottom: 10px; display: none;"></div>
         <input type="text" id="authName" placeholder="Full Name">
-        <input type="tel" id="authPhone" placeholder="M-Pesa Number (e.g. 0712...)">
-        <input type="password" id="authPass" placeholder="Enter Password">
-        <button class="btn-auth-submit" onclick="submitAuth()" id="authBtn">Create Account</button>
-        <div class="auth-toggle-link" id="authToggle" onclick="toggleAuthMode()">Already a member? <span>Sign In</span></div>
+        <input type="tel" id="authPhone" placeholder="M-Pesa Number (e.g. 07...)">
+        <input type="password" id="authPass" placeholder="Create Password">
+        <button class="btn-auth-submit" onclick="processAuth()" id="authBtn">Create Account</button>
+        <div style="text-align:center; margin-top:20px; cursor:pointer;" onclick="toggleAuthMode()" id="authToggle">Already a member? <span style="color:var(--primary); font-weight:800;">Sign In</span></div>
     </div>
 </div>
 
 <nav>
     <div class="nav-container">
         <div class="logo-text">ONLINE SPHERE COMMERCE</div>
-        <a href="javascript:void(0)" class="btn-login-nav" onclick="openAuth()">Join / Sign In</a>
+        <div id="navUserActions">
+            <a href="javascript:void(0)" class="btn-auth-nav" id="mainAuthBtn" onclick="openAuth()">Join / Sign In</a>
+        </div>
     </div>
     <div class="tab-bar">
-        <a href="#mission">Mission</a>
-        <a href="#services">Services</a>
-        <a href="#admin">Leadership</a>
-        <a href="#packages">Activation</a>
-        <a href="#contact">Contact Us</a>
-        <a href="#faq">FAQs</a>
+        <a href="#mission">Mission</a> <a href="#services">Services</a> <a href="#admin">Leadership</a> <a href="#packages">Activation</a> <a href="#contact">Contact</a> <a href="#faq">FAQs</a>
     </div>
 </nav>
 
 <header>
-    <h1>ONLINE SPHERE COMMERCE COMPANY</h1>
+    <h1 id="welcomeHeader">ONLINE SPHERE COMMERCE COMPANY</h1>
     <p>Professional Excellence • Digital Growth • Global Reach</p>
 </header>
 
@@ -163,22 +140,108 @@
 
     <section id="admin" class="admin-box">
         <h3>Strategic Leadership</h3>
-        <p>Connect with our administration for high-level management and project inquiries. We ensure the highest standards of professional delivery and strategic growth for all our partners.</p>
-        <div class="highlighted-quote">
-            "Your background does not define your future; your willingness to learn does."
-        </div>
-        <br>
+        <p>High-level management ensuring professional delivery for all our partners.</p>
+        <div class="highlighted-quote">"Your background does not define your future; your willingness to learn does."</div>
+        <br><br>
         <a href="https://wa.me/254741723223" class="btn btn-gold">Connect with Admin</a>
     </section>
 
-    <h2 class="section-title">Why Choose Us?</h2>
-    <div class="grid-flex">
-        <div class="card-item" style="border-bottom: 5px solid var(--primary);"><h3>Absolute Privacy</h3><p>We maintain strict confidentiality for all client data and project details.</p></div>
-        <div class="card-item" style="border-bottom: 5px solid var(--accent-1);"><h3>Fast Delivery</h3><p>We respect your time. Most projects are completed within 24 to 48 hours.</p></div>
-        <div class="card-item" style="border-bottom: 5px solid var(--secondary);"><h3>Expert Quality</h3><p>Our team consists of specialists ensuring high precision in every task.</p></div>
-    </div>
+    <section id="payment" class="payment-section">
+        <h2 id="packages" style="color: #4a5d4e; margin-top: 0; font-size: 1.4em;">Secure Activation Steps</h2>
+        <ul class="step-list">
+            <li data-step="1">Open <strong>M-PESA</strong> > Lipa na M-PESA.</li>
+            <li data-step="2">Select <strong>Buy Goods and Services</strong>.</li>
+            <li data-step="3">Enter Till: <strong style="color: var(--primary);">XXXXXX</strong></li>
+            <li data-step="4">Enter the <strong>Amount</strong> and your PIN.</li>
+        </ul>
+        <a href="https://wa.me/254741723223" class="verify-btn-photo">Verify Activation</a>
+    </section>
 
-    <h2 class="section-title" style="color: var(--secondary);">Success Gallery</h2>
-    <div class="grid-flex">
-        <div class="card-item success-card"><p><strong>Literature Analysis</strong></p><p style="color:var(--secondary); font-weight:bold;">Paid: KES 15,000+</p></div>
-        <div class="card-item success-card"><p><strong>Web Development</strong></p><p style="color:var(--secondary); font-
+    <section id="contact" class="contact-box">
+        <h2 class="section-title">Contact Us</h2>
+        <a href="https://wa.me/254741723223" class="btn btn-whatsapp">WhatsApp Us</a>
+    </section>
+</div>
+
+<footer><p>&copy; 2026 Online Sphere Commerce Company • Voi, Kenya</p></footer>
+
+<script>
+    let isLoginMode = false;
+
+    // Load user on start
+    window.onload = function() {
+        const loggedUser = localStorage.getItem('currentUser');
+        if (loggedUser) {
+            updateUIForLoggedInUser(JSON.parse(loggedUser).name);
+        }
+    };
+
+    function openAuth() { document.getElementById('authOverlay').style.display = 'flex'; }
+    function closeAuth() { 
+        document.getElementById('authOverlay').style.display = 'none'; 
+        document.getElementById('authErrorMessage').style.display = 'none';
+    }
+
+    function toggleAuthMode() {
+        isLoginMode = !isLoginMode;
+        document.getElementById('authTitle').innerText = isLoginMode ? "Welcome Back" : "Join Online Sphere";
+        document.getElementById('authName').style.display = isLoginMode ? "none" : "block";
+        document.getElementById('authBtn').innerText = isLoginMode ? "Sign In" : "Create Account";
+        document.getElementById('authToggle').innerHTML = isLoginMode ? "Not a member? <span style='color:var(--primary); font-weight:800;'>Join now</span>" : "Already a member? <span style='color:var(--primary); font-weight:800;'>Sign In</span>";
+    }
+
+    function processAuth() {
+        const name = document.getElementById('authName').value;
+        const phone = document.getElementById('authPhone').value;
+        const pass = document.getElementById('authPass').value;
+        const errorDiv = document.getElementById('authErrorMessage');
+
+        if (!phone || !pass || (!isLoginMode && !name)) {
+            errorDiv.innerText = "Please fill all fields.";
+            errorDiv.style.display = "block";
+            return;
+        }
+
+        if (isLoginMode) {
+            // SIGN IN LOGIC
+            const savedUser = localStorage.getItem('user_' + phone);
+            if (savedUser) {
+                const userObj = JSON.parse(savedUser);
+                if (userObj.pass === pass) {
+                    localStorage.setItem('currentUser', savedUser);
+                    updateUIForLoggedInUser(userObj.name);
+                    closeAuth();
+                } else {
+                    errorDiv.innerText = "Incorrect password.";
+                    errorDiv.style.display = "block";
+                }
+            } else {
+                errorDiv.innerText = "No account found with this number.";
+                errorDiv.style.display = "block";
+            }
+        } else {
+            // SIGN UP LOGIC
+            const newUser = { name: name, phone: phone, pass: pass };
+            localStorage.setItem('user_' + phone, JSON.stringify(newUser));
+            localStorage.setItem('currentUser', JSON.stringify(newUser));
+            updateUIForLoggedInUser(name);
+            alert("Account created successfully!");
+            closeAuth();
+        }
+    }
+
+    function updateUIForLoggedInUser(name) {
+        document.getElementById('welcomeHeader').innerText = "WELCOME, " + name.toUpperCase();
+        document.getElementById('navUserActions').innerHTML = `
+            <span style="font-weight:bold; color:var(--primary); margin-right:15px;">Hi, ${name.split(' ')[0]}</span>
+            <a href="javascript:void(0)" class="btn-auth-nav" onclick="logout()">Logout</a>
+        `;
+    }
+
+    function logout() {
+        localStorage.removeItem('currentUser');
+        location.reload();
+    }
+</script>
+</body>
+</html>
