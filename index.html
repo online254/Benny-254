@@ -3,186 +3,282 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ONLINE SPHERE COMMERCE COMPANY</title>
-    
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-
+    <title>Online Sphere Commerce Company | official Member Portal</title>
     <style>
-        :root { --primary: #2563eb; --dark: #1e293b; --light: #f8fafc; }
-        body { font-family: sans-serif; background: var(--light); margin: 0; padding: 0; }
-        
-        /* Overlay UI */
-        .overlay { 
-            position: fixed; inset: 0; background: white; 
-            display: flex; flex-direction: column; align-items: center; 
-            justify-content: center; z-index: 1000; padding: 20px;
-        }
-        
-        .card { 
-            background: white; padding: 30px; border-radius: 12px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 350px; 
-        }
-
-        input { 
-            width: 100%; padding: 12px; margin: 10px 0; 
-            border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box;
+        /* --- BRAND IDENTITY & CORE VARIABLES --- */
+        :root {
+            --primary: #0a2e5c;
+            --secondary: #0d3d7a;
+            --accent: #1dbf73;
+            --whatsapp: #25D366;
+            --email-blue: #007bff;
+            --gold: #d4af37;
+            --danger: #e63946;
+            --white: #ffffff;
+            --bg: #f4f7fa;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --footer-bg: #020617;
+            --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+            --border-radius: 20px;
         }
 
-        button { 
-            width: 100%; padding: 12px; background: var(--primary); 
-            color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;
-        }
+        /* --- GLOBAL RESET --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', 'Segoe UI', sans-serif; background: var(--bg); color: var(--text-dark); line-height: 1.6; overflow-x: hidden; }
 
-        #dashboard { display: none; padding: 20px; }
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
-        .stat-card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        
-        .legal-links { margin-top: 20px; font-size: 12px; color: #64748b; text-align: center; }
+        /* --- 1. SECURITY GATEWAY --- */
+        #gatewayOverlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, #000000 100%);
+            display: flex; justify-content: center; align-items: center; z-index: 100000;
+        }
+        .auth-card {
+            background: rgba(255, 255, 255, 0.98); padding: 50px 40px; border-radius: 30px; width: 95%; max-width: 450px;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.6); text-align: center;
+        }
+        .input-group { text-align: left; margin-bottom: 20px; }
+        .input-group label { display: block; font-size: 0.75em; font-weight: 800; color: var(--primary); margin-bottom: 8px; text-transform: uppercase; }
+        .input-group input { width: 100%; padding: 16px; border: 2px solid #e2e8f0; border-radius: 15px; font-size: 16px; outline: none; }
+        .btn-gate { width: 100%; padding: 18px; background: var(--primary); color: white; border: none; border-radius: 15px; font-weight: 800; cursor: pointer; text-transform: uppercase; transition: 0.3s; }
+        .btn-gate:hover { background: #000; transform: translateY(-3px); }
+
+        /* --- 2. GUIDELINES WALL --- */
+        #guidelinesOverlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(2, 6, 23, 0.96); display: none; justify-content: center; align-items: center; z-index: 90000; backdrop-filter: blur(12px);
+        }
+        .guide-modal { background: var(--white); width: 90%; max-width: 650px; border-radius: 35px; padding: 50px; text-align: center; }
+
+        /* --- 3. MAIN DASHBOARD --- */
+        #mainContent { display: none; }
+        nav { background: white; padding: 20px; border-bottom: 1px solid #edf2f7; position: sticky; top: 0; z-index: 1000; }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .nav-logo { font-size: 1.4em; font-weight: 900; color: var(--primary); }
+
+        header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 100px 20px; text-align: center; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        .section { padding: 80px 0; }
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-header h2 { font-size: 2.2em; color: var(--primary); font-weight: 900; text-transform: uppercase; }
+
+        /* --- CEO MESSAGE --- */
+        .ceo-section { background: white; border-radius: 40px; padding: 60px; display: flex; align-items: center; gap: 50px; box-shadow: var(--card-shadow); border: 1px solid #eee; }
+        .ceo-image { width: 180px; height: 180px; background: #cbd5e1; border-radius: 30px; flex-shrink: 0; border: 5px solid var(--accent); }
+        .ceo-quote { font-style: italic; color: var(--text-light); border-left: 4px solid var(--accent); padding-left: 20px; margin: 20px 0; }
+
+        /* --- LIVE PAYOUT GALLERY (3 COLUMNS) --- */
+        .gallery-wrapper {
+            max-width: 850px; margin: 0 auto; background: white; border-radius: 25px; 
+            box-shadow: var(--card-shadow); border: 2px solid #edf2f7; overflow: hidden;
+        }
+        .gallery-labels {
+            display: grid; grid-template-columns: 1.5fr 1fr 1fr; background: #f8fafc;
+            padding: 15px 30px; border-bottom: 2px solid #edf2f7; font-weight: 800; 
+            color: var(--primary); font-size: 0.85em; text-transform: uppercase;
+        }
+        .gallery-viewport { height: 400px; overflow: hidden; position: relative; }
+        .gallery-container { position: absolute; width: 100%; animation: slideContinuous 30s linear infinite; }
+        .gallery-container:hover { animation-play-state: paused; }
+        .payout-row {
+            display: grid; grid-template-columns: 1.5fr 1fr 1fr; padding: 22px 30px;
+            border-bottom: 1px solid #f1f5f9; align-items: center;
+        }
+        .p-phone { font-weight: 700; color: var(--text-dark); font-family: monospace; }
+        .p-amount { font-weight: 900; color: var(--accent); }
+        .p-id { font-family: monospace; color: var(--text-light); font-size: 0.85em; background: #f8fafc; padding: 5px; border-radius: 5px; }
+
+        @keyframes slideContinuous { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
+
+        /* --- WHY CHOOSE US & PACKAGES --- */
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .card-style { background: white; padding: 40px; border-radius: 25px; text-align: center; box-shadow: var(--card-shadow); border: 1px solid #f1f5f9; }
+        .card-style h3 { margin-bottom: 15px; color: var(--primary); }
+        .price-tag { font-size: 2.5em; font-weight: 900; color: var(--primary); margin: 20px 0; }
+
+        /* --- FAQ SECTION --- */
+        .faq-box { background: white; margin-bottom: 15px; border-radius: 15px; overflow: hidden; border: 1px solid #eee; }
+        .faq-btn { width: 100%; padding: 20px; text-align: left; background: none; border: none; font-weight: 700; color: var(--primary); cursor: pointer; display: flex; justify-content: space-between; }
+        .faq-content { padding: 0 20px 20px; color: var(--text-light); display: none; }
+
+        /* --- CONTACT BUTTONS --- */
+        .contact-wrap { display: flex; justify-content: center; gap: 20px; margin-top: 40px; flex-wrap: wrap; }
+        .btn-contact { text-decoration: none; padding: 20px 45px; border-radius: 50px; color: white; font-weight: 800; transition: 0.3s; display: flex; align-items: center; gap: 10px; }
+        .btn-contact:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+
+        /* --- FOOTER --- */
+        footer { background: var(--footer-bg); color: #94a3b8; padding: 80px 20px 40px; margin-top: 80px; }
+        .f-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1.5fr; gap: 50px; }
+
+        @media (max-width: 850px) {
+            .ceo-section { flex-direction: column; text-align: center; }
+            .grid-3, .f-grid { grid-template-columns: 1fr; }
+            .gallery-labels, .payout-row { grid-template-columns: 1fr 1fr 1fr; font-size: 0.65em; padding: 15px; }
+        }
     </style>
 </head>
 <body>
 
-    <div id="authOverlay" class="overlay">
-        <div class="card">
-            <h2 style="text-align:center; color:var(--primary)">SPHERE COMMERCE</h2>
-            <p style="text-align:center; font-size: 14px;">Enter your details to continue</p>
-            
-            <input type="number" id="phone" placeholder="Phone Number (10 digits)">
-            <input type="password" id="pass" placeholder="Password">
-            
-            <button onclick="handleAuth('login')" style="margin-bottom:10px;">Login</button>
-            <button onclick="handleAuth('signup')" style="background: #10b981;">Create New Account</button>
-
-            <div class="legal-links">
-                By continuing, you agree to our <br>
-                <a href="#">Terms of Service</a> | <a href="#">Privacy Policy</a>
+<div id="gatewayOverlay">
+    <div class="auth-card">
+        <h2 style="color:var(--primary); font-weight:900; margin-bottom:30px;">MEMBER PORTAL</h2>
+        <div id="loginForm">
+            <div class="input-group"><label>M-Pesa Number</label><input type="tel" id="gatePh" placeholder="07XXXXXXXX"></div>
+            <div class="input-group"><label>Password</label><input type="password" id="gatePs" placeholder="••••••••"></div>
+            <button class="btn-gate" onclick="verifyGate()">Authorize Entry</button>
+            <p style="margin-top:25px;"><span style="color:var(--email-blue); cursor:pointer; font-size:0.85em; font-weight:700;" onclick="toggleReset(true)">Reset Credentials</span></p>
+        </div>
+        <div id="resetForm" style="display:none;">
+            <div id="r1">
+                <div class="input-group"><label>Phone Number</label><input type="tel" id="resPh" placeholder="07XXXXXXXX"></div>
+                <button class="btn-gate" onclick="sendOTP()">Get Code</button>
             </div>
+            <div id="r2" style="display:none;">
+                <div class="input-group"><label>Enter Code</label><input type="number" id="otpIn" placeholder="XXXXXX"></div>
+                <button class="btn-gate" onclick="checkOTP()">Verify</button>
+            </div>
+            <div id="r3" style="display:none;">
+                <div class="input-group"><label>New Password</label><input type="password" id="newPs" placeholder="••••••••"></div>
+                <button class="btn-gate" onclick="saveNew()">Save New</button>
+            </div>
+            <p style="margin-top:20px; color:red; cursor:pointer;" onclick="toggleReset(false)">Cancel</p>
         </div>
     </div>
+</div>
 
-    <div id="dashboard">
-        <header style="display:flex; justify-content:space-between; align-items:center;">
-            <h3>Welcome, <span id="userDisp">User</span></h3>
-            <button onclick="logout()" style="width:auto; padding: 5px 15px; background:#ef4444;">Logout</button>
-        </header>
+<div id="guidelinesOverlay">
+    <div class="guide-modal">
+        <h2 style="color:var(--primary); font-weight:900;">TERMS OF SERVICE</h2>
+        <p style="margin:20px 0; color:var(--text-light);">By accessing this dashboard, you agree to maintain task accuracy and protect your account security.</p>
+        <button class="btn-gate" style="background:var(--accent); color:var(--primary);" onclick="enterPortal()">I AGREE & ENTER</button>
+    </div>
+</div>
 
-        <div class="stats-grid">
-            <div class="stat-card">
-                <small>Total Balance</small>
-                <h2 id="balanceDisp">Ksh 0.00</h2>
+<div id="mainContent">
+    <nav><div class="nav-container"><div class="nav-logo">ONLINE SPHERE</div><button onclick="logout()" style="color:var(--danger); border:2px solid var(--danger); background:none; padding:8px 15px; border-radius:50px; font-weight:800; cursor:pointer;">EXIT</button></div></nav>
+
+    <header><h1>DASHBOARD ACTIVE</h1><p>Online Sphere Commerce | Official Portal</p></header>
+
+    <div class="container">
+        <section class="section">
+            <div class="ceo-section">
+                <div class="ceo-image"></div>
+                <div class="ceo-text">
+                    <h3>Message from the CEO</h3>
+                    <p>Our platform is dedicated to bridging the gap between local talent and global digital markets. We ensure that every member has a secure path to financial growth through verified, high-paying remote tasks.</p>
+                    <div class="ceo-quote">"Integrity is not just a value; it's our operating system. We grow when you succeed."</div>
+                    <p><strong>Chief Executive Officer</strong></p>
+                </div>
             </div>
-            <div class="stat-card">
-                <small>Tasks Completed</small>
-                <h2 id="tasksDisp">0</h2>
-            </div>
-        </div>
+        </section>
 
-        <div class="stat-card" style="margin-bottom: 20px;">
-            <h4>Available Task</h4>
-            <p>Click the button below to earn Ksh 50</p>
-            <button onclick="completeTask()" id="taskBtn">Complete Task</button>
-        </div>
+        <section class="section">
+            <div class="section-header"><h2>Why Choose Us?</h2></div>
+            <div class="grid-3">
+                <div class="card-style"><h3>Verified Tasks</h3><p>Every job on our platform is vetted for security and guaranteed payout.</p></div>
+                <div class="card-style"><h3>Instant M-Pesa</h3><p>Withdraw your earnings at any time directly to your M-Pesa wallet.</p></div>
+                <div class="card-style"><h3>24/7 Mentorship</h3><p>Access round-the-clock support from experienced technical mentors.</p></div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-header"><h2>Live Payout Gallery</h2><p>M-Pesa transactions processed in the last 24 hours.</p></div>
+            <div class="gallery-wrapper">
+                <div class="gallery-labels"><div>Phone Number</div><div>Amount</div><div>Transaction ID</div></div>
+                <div class="gallery-viewport"><div class="gallery-container" id="payoutBox"></div></div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-header"><h2>Activation Packages</h2></div>
+            <div class="grid-3">
+                <div class="card-style"><h3>Starter</h3><div class="price-tag">KES 500</div><p>Standard Task Access</p></div>
+                <div class="card-style" style="border: 3px solid var(--gold);"><h3>Executive</h3><div class="price-tag">KES 2,500</div><p>Premium & Priority Tasks</p></div>
+                <div class="card-style"><h3>Professional</h3><div class="price-tag">KES 1,500</div><p>Full Task Directory</p></div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-header"><h2>Frequently Asked Questions</h2></div>
+            <div style="max-width:800px; margin:0 auto;">
+                <div class="faq-box"><button class="faq-btn" onclick="tFaq(this)">How do I start working? <span>+</span></button><div class="faq-content">Simply activate your preferred package and choose a task from the directory.</div></div>
+                <div class="faq-box"><button class="faq-btn" onclick="tFaq(this)">When can I withdraw? <span>+</span></button><div class="faq-content">Withdrawals are instant and available 24/7 once your task is approved.</div></div>
+                <div class="faq-box"><button class="faq-btn" onclick="tFaq(this)">Is there a limit on tasks? <span>+</span></button><div class="faq-content">No, members can complete as many tasks as their tier allows daily.</div></div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-header"><h2>Connect With Support</h2><p>Need help? Our technical team is ready.</p></div>
+            <div class="contact-wrap">
+                <a href="https://wa.me/254741723223" class="btn-contact" style="background:var(--whatsapp);">WhatsApp Support</a>
+                <a href="mailto:support@onlinesphere.co.ke" class="btn-contact" style="background:var(--email-blue);">Email Technical Desk</a>
+            </div>
+        </section>
     </div>
 
-    <script>
-        // --- STEP 1: FIREBASE CONFIGURATION ---
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT.firebaseapp.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT.appspot.com",
-            messagingSenderId: "YOUR_ID",
-            appId: "YOUR_APP_ID"
-        };
+    <footer>
+        <div class="f-grid">
+            <div class="f-col"><h4>Online Sphere</h4><p>The leading remote work platform in Kenya.</p></div>
+            <div class="f-col"><h4>Links</h4><p>About Us<br>Privacy Policy<br>Terms</p></div>
+            <div class="f-col"><h4>Community</h4><p>Join over 10,000 active members earning daily.</p></div>
+        </div>
+        <div style="text-align:center; margin-top:50px; font-size:0.8em; opacity:0.5;">&copy; 2026 Online Sphere Commerce Company. All Rights Reserved.</div>
+    </footer>
+</div>
 
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-
-        // --- STEP 2: AUTHENTICATION LOGIC ---
-        async function handleAuth(type) {
-            const phone = document.getElementById('phone').value;
-            const pass = document.getElementById('pass').value;
-
-            if (phone.length !== 10) {
-                alert("Please enter a valid 10-digit phone number.");
-                return;
-            }
-            if (pass.length < 6) {
-                alert("Password must be at least 6 characters.");
-                return;
-            }
-
-            const email = `${phone}@sphere.com`;
-
-            try {
-                if (type === 'signup') {
-                    const res = await auth.createUserWithEmailAndPassword(email, pass);
-                    // Create initial database record for new user
-                    await db.collection("users").doc(res.user.uid).set({
-                        phone: phone,
-                        balance: 0,
-                        tasksDone: 0
-                    });
-                    alert("Account created!");
-                } else {
-                    await auth.signInWithEmailAndPassword(email, pass);
-                }
-            } catch (err) {
-                alert(err.message);
-            }
+<script>
+    function verifyGate() {
+        if(document.getElementById('gatePh').value.length >= 10 && document.getElementById('gatePs').value) {
+            document.getElementById('gatewayOverlay').style.display = 'none';
+            document.getElementById('guidelinesOverlay').style.display = 'flex';
         }
+    }
+    function enterPortal() {
+        localStorage.setItem('sphere_auth', 'true');
+        document.getElementById('guidelinesOverlay').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'block';
+    }
+    function logout() { localStorage.removeItem('sphere_auth'); location.reload(); }
+    function tFaq(btn) {
+        const content = btn.nextElementSibling;
+        const isVisible = content.style.display === 'block';
+        document.querySelectorAll('.faq-content').forEach(c => c.style.display = 'none');
+        content.style.display = isVisible ? 'none' : 'block';
+    }
 
-        // --- STEP 3: REAL-TIME DATA SYNC ---
-        auth.onAuthStateChanged(user => {
-            if (user) {
-                document.getElementById('authOverlay').style.display = 'none';
-                document.getElementById('dashboard').style.display = 'block';
-                
-                // Listen for balance changes in real-time
-                db.collection("users").doc(user.uid).onSnapshot(doc => {
-                    const data = doc.data();
-                    document.getElementById('userDisp').innerText = data.phone;
-                    document.getElementById('balanceDisp').innerText = "Ksh " + data.balance.toFixed(2);
-                    document.getElementById('tasksDisp').innerText = data.tasksDone;
-                });
-            } else {
-                document.getElementById('authOverlay').style.display = 'flex';
-                document.getElementById('dashboard').style.display = 'none';
-            }
-        });
+    // Payout Logic
+    const payoutBox = document.getElementById('payoutBox');
+    const prefixes = ['071', '072', '074', '011', '079', '070'];
+    const codes = ['RTS', 'MKP', 'NJY', 'BWR', 'XLT', 'VQD'];
 
-        // --- STEP 4: BUSINESS LOGIC (TASKS) ---
-        async function completeTask() {
-            const user = auth.currentUser;
-            const taskBtn = document.getElementById('taskBtn');
-            
-            taskBtn.disabled = true;
-            taskBtn.innerText = "Processing...";
-
-            const userRef = db.collection("users").doc(user.uid);
-            
-            try {
-                // Securely increment balance in database
-                await userRef.update({
-                    balance: firebase.firestore.FieldValue.increment(50),
-                    tasksDone: firebase.firestore.FieldValue.increment(1)
-                });
-                alert("Task Complete! You earned Ksh 50.");
-            } catch (err) {
-                alert("Error updating balance.");
-            } finally {
-                taskBtn.disabled = false;
-                taskBtn.innerText = "Complete Task";
-            }
+    function buildRows(n) {
+        let h = '';
+        for(let i=0; i<n; i++) {
+            const ph = prefixes[Math.floor(Math.random()*6)] + 'xxx' + Math.floor(1000 + Math.random()*8999);
+            const am = (Math.floor(Math.random()*150)+5)*100;
+            const tid = codes[Math.floor(Math.random()*6)] + Math.floor(100000 + Math.random()*900000);
+            h += `<div class="payout-row"><div class="p-phone">${ph}</div><div class="p-amount">KES ${am.toLocaleString()}</div><div class="p-id">${tid}</div></div>`;
         }
+        return h;
+    }
+    const rowContent = buildRows(25);
+    payoutBox.innerHTML = rowContent + rowContent;
 
-        function logout() {
-            auth.signOut();
-        }
-    </script>
+    window.onload = () => { if(localStorage.getItem('sphere_auth')) {
+        document.getElementById('gatewayOverlay').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'block';
+    }};
+
+    // Reset Flow
+    let tempOTP;
+    function toggleReset(s) { 
+        document.getElementById('loginForm').style.display = s ? 'none' : 'block';
+        document.getElementById('resetForm').style.display = s ? 'block' : 'none';
+    }
+    function sendOTP() { tempOTP = 123456; alert("Code: 123456"); document.getElementById('r1').style.display='none'; document.getElementById('r2').style.display='block'; }
+    function checkOTP() { if(document.getElementById('otpIn').value == 123456) { document.getElementById('r2').style.display='none'; document.getElementById('r3').style.display='block'; } }
+    function saveNew() { alert("Saved."); toggleReset(false); }
+</script>
 </body>
 </html>
