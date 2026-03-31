@@ -63,6 +63,19 @@
         .section-header { text-align: center; margin-bottom: 50px; }
         .section-header h2 { font-size: 2.2em; color: var(--primary); font-weight: 900; text-transform: uppercase; }
 
+        /* --- NEW DASHBOARD COMPONENTS --- */
+        .user-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: -50px; position: relative; z-index: 10; }
+        .stat-card { background: white; padding: 25px; border-radius: 20px; box-shadow: var(--card-shadow); border: 1px solid #e2e8f0; text-align: center; }
+        .stat-label { font-size: 0.75em; color: var(--text-light); text-transform: uppercase; font-weight: 800; margin-bottom: 5px; }
+        .stat-value { font-size: 1.3em; font-weight: 900; color: var(--primary); }
+        .action-tabs { display: flex; gap: 15px; margin-top: 25px; }
+        .tab-btn { flex: 1; padding: 18px; border: none; border-radius: 15px; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; font-size: 0.9em; }
+        .btn-deposit { background: var(--accent); color: white; }
+        .btn-withdraw { background: var(--primary); color: white; }
+        .activation-call { background: #fff9db; border: 2px dashed #f08c00; padding: 30px; border-radius: 25px; margin-top: 30px; text-align: center; }
+        .btn-activate { display: inline-block; margin-top: 15px; background: #f08c00; color: white; padding: 15px 40px; border-radius: 50px; text-decoration: none; font-weight: 800; transition: 0.3s; }
+        .btn-activate:hover { transform: scale(1.05); }
+
         /* --- CEO MESSAGE --- */
         .ceo-section { background: white; border-radius: 40px; padding: 60px; display: flex; align-items: center; gap: 50px; box-shadow: var(--card-shadow); border: 1px solid #eee; }
         .ceo-image { width: 180px; height: 180px; background: #cbd5e1; border-radius: 30px; flex-shrink: 0; border: 5px solid var(--accent); }
@@ -115,6 +128,7 @@
             .ceo-section { flex-direction: column; text-align: center; }
             .grid-3, .f-grid { grid-template-columns: 1fr; }
             .gallery-labels, .payout-row { grid-template-columns: 1fr 1fr 1fr; font-size: 0.65em; padding: 15px; }
+            .user-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -161,6 +175,27 @@
     <header><h1>DASHBOARD ACTIVE</h1><p>Online Sphere Commerce | Official Portal</p></header>
 
     <div class="container">
+        <div class="user-grid">
+            <div class="stat-card">
+                <div class="stat-label">Authorized Member</div>
+                <div class="stat-value" id="userDisplayName">Verifying...</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Current Balance</div>
+                <div class="stat-value" style="color:var(--danger);">KES 0.00</div>
+            </div>
+        </div>
+
+        <div class="action-tabs">
+            <button class="tab-btn btn-deposit" onclick="handleDeposit()">+ Deposit</button>
+            <button class="tab-btn btn-withdraw" onclick="handleWithdraw()">- Withdraw</button>
+        </div>
+
+        <div class="activation-call">
+            <h3 style="color:#d9480f;">🚀 Account Activation Required</h3>
+            <p style="color:#862e01;">Step in, work smart and grow. Activate your account to start making money now.</p>
+            <a href="#packages" class="btn-activate">ACTIVATE ACCOUNT NOW</a>
+        </div>
         <section class="section">
             <div class="ceo-section">
                 <div class="ceo-image"></div>
@@ -190,7 +225,7 @@
             </div>
         </section>
 
-        <section class="section">
+        <section class="section" id="packages">
             <div class="section-header"><h2>Activation Packages</h2></div>
             <div class="grid-3">
                 <div class="card-style"><h3>Starter</h3><div class="price-tag">KES 500</div><p>Standard Task Access</p></div>
@@ -229,17 +264,30 @@
 
 <script>
     function verifyGate() {
-        if(document.getElementById('gatePh').value.length >= 10 && document.getElementById('gatePs').value) {
+        const ph = document.getElementById('gatePh').value;
+        if(ph.length >= 10 && document.getElementById('gatePs').value) {
+            document.getElementById('userDisplayName').innerText = ph;
             document.getElementById('gatewayOverlay').style.display = 'none';
             document.getElementById('guidelinesOverlay').style.display = 'flex';
         }
     }
     function enterPortal() {
         localStorage.setItem('sphere_auth', 'true');
+        localStorage.setItem('sphere_user', document.getElementById('gatePh').value);
         document.getElementById('guidelinesOverlay').style.display = 'none';
         document.getElementById('mainContent').style.display = 'block';
     }
     function logout() { localStorage.removeItem('sphere_auth'); location.reload(); }
+    
+    function handleDeposit() {
+        alert("Initializing M-Pesa Payment Portal... Choose a package to proceed.");
+        document.getElementById('packages').scrollIntoView();
+    }
+    
+    function handleWithdraw() {
+        alert("Withdrawal Locked: Balance is KES 0.00. Activate account and complete tasks to withdraw.");
+    }
+
     function tFaq(btn) {
         const content = btn.nextElementSibling;
         const isVisible = content.style.display === 'block';
@@ -247,7 +295,6 @@
         content.style.display = isVisible ? 'none' : 'block';
     }
 
-    // Payout Logic
     const payoutBox = document.getElementById('payoutBox');
     const prefixes = ['071', '072', '074', '011', '079', '070'];
     const codes = ['RTS', 'MKP', 'NJY', 'BWR', 'XLT', 'VQD'];
@@ -265,12 +312,14 @@
     const rowContent = buildRows(25);
     payoutBox.innerHTML = rowContent + rowContent;
 
-    window.onload = () => { if(localStorage.getItem('sphere_auth')) {
-        document.getElementById('gatewayOverlay').style.display = 'none';
-        document.getElementById('mainContent').style.display = 'block';
-    }};
+    window.onload = () => { 
+        if(localStorage.getItem('sphere_auth')) {
+            document.getElementById('gatewayOverlay').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+            document.getElementById('userDisplayName').innerText = localStorage.getItem('sphere_user') || "Member";
+        }
+    };
 
-    // Reset Flow
     let tempOTP;
     function toggleReset(s) { 
         document.getElementById('loginForm').style.display = s ? 'none' : 'block';
