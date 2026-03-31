@@ -90,7 +90,22 @@
         .p-id { font-family: monospace; color: var(--text-light); font-size: 0.85em; background: #f8fafc; padding: 5px; border-radius: 5px; }
 
         @keyframes slideContinuous { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
+/* --- LIVE EARNINGS GRAPH --- */
+.graph-container {
+    background: white;
+    padding: 30px;
+    border-radius: 25px;
+    box-shadow: var(--card-shadow);
+    border: 2px solid #edf2f7;
+    max-width: 850px; /* This matches your gallery width for a neat look */
+    margin: 0 auto;
+    height: 400px;
+}
 
+#earningsChart {
+    width: 100% !important;
+    height: 100% !important;
+}
         /* --- WHY CHOOSE US & PACKAGES --- */
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
         .card-style { background: white; padding: 40px; border-radius: 25px; text-align: center; box-shadow: var(--card-shadow); border: 1px solid #f1f5f9; }
