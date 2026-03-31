@@ -5,13 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Sphere Commerce Company | Official Member Portal</title>
     <style>
-        /* --- BRAND IDENTITY & DYNAMIC THEMING --- */
         :root {
             --primary: #0a2e5c; --secondary: #0d3d7a; --accent: #1dbf73;
             --whatsapp: #25D366; --gold: #d4af37; --danger: #e63946;
             --white: #ffffff; --bg: #f4f7fa; --text-dark: #1e293b;
             --text-light: #64748b; --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-            --email-blue: #007bff;
         }
 
         [data-theme="dark"] {
@@ -19,13 +17,8 @@
             --text-light: #94a3b8; --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
         }
 
-        /* --- GLOBAL RESET --- */
         * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s, color 0.3s; }
-        html { scroll-behavior: smooth; }
-        body { font-family: 'Inter', 'Segoe UI', sans-serif; background: var(--bg); color: var(--text-dark); line-height: 1.6; }
-
-        /* --- UI COMPONENTS --- */
-        .theme-switch { position: fixed; bottom: 85px; right: 20px; z-index: 1000; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 50%; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-size: 1.2em; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text-dark); line-height: 1.6; overflow-x: hidden; }
         .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
         
         /* --- SECURITY GATEWAY --- */
@@ -33,51 +26,42 @@
         .auth-card { background: var(--white); padding: 40px; border-radius: 30px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
         .input-field { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 12px; border: 1px solid #ddd; outline: none; font-size: 16px; background: transparent; color: inherit; }
 
-        /* --- ONBOARDING TOUR --- */
-        #tourOverlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 95000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
-        .tour-box { background: var(--white); padding: 35px; border-radius: 30px; max-width: 380px; text-align: center; border: 3px solid var(--accent); }
-
-        /* --- DASHBOARD HEADER --- */
+        /* --- DASHBOARD ELEMENTS --- */
         #mainContent { display: none; }
         nav { background: var(--white); padding: 18px; border-bottom: 1px solid rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; }
-        header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 70px 20px; text-align: center; border-radius: 0 0 50px 50px; }
+        header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 60px 20px; text-align: center; border-radius: 0 0 50px 50px; }
+        .theme-switch { position: fixed; bottom: 85px; right: 20px; z-index: 1000; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 50%; cursor: pointer; }
 
-        .stories-container { display: flex; gap: 20px; overflow-x: auto; padding: 10px 0 30px; scrollbar-width: none; justify-content: center; }
-        .story-circle { flex: 0 0 70px; height: 70px; border-radius: 50%; border: 3px solid var(--accent); padding: 2px; cursor: pointer; }
-        .story-circle img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: #eee; }
-
-        /* --- CARDS & GRID --- */
-        .user-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: -50px; }
-        .card { background: var(--white); padding: 30px; border-radius: 25px; box-shadow: var(--card-shadow); }
+        /* --- CARDS & GRIDS --- */
+        .card { background: var(--white); padding: 30px; border-radius: 25px; box-shadow: var(--card-shadow); margin-top: 20px; }
+        .user-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: -40px; }
         .member-card { background: linear-gradient(135deg, #1e293b, #000); color: white; }
         .level-bar { height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; margin: 15px 0; }
         .level-fill { height: 100%; background: var(--accent); width: 15%; border-radius: 10px; }
 
-        /* --- TASK DIRECTORY & CALCULATOR --- */
-        .task-item { display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid rgba(0,0,0,0.05); filter: blur(4px); opacity: 0.6; }
-        .hot-badge { background: #fff5f5; color: #ff4d4d; font-size: 0.7em; padding: 4px 10px; border-radius: 6px; font-weight: 800; }
-        .slider { width: 100%; margin: 20px 0; accent-color: var(--accent); cursor: pointer; }
+        /* --- ACTIVATION PACKAGES --- */
+        .pkg-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 20px; }
+        .pkg-card { background: var(--white); padding: 30px; border-radius: 25px; text-align: center; border: 2px solid transparent; box-shadow: var(--card-shadow); }
+        .pkg-card.featured { border-color: var(--gold); transform: scale(1.03); }
+        .pkg-price { font-size: 2.2em; font-weight: 900; color: var(--primary); margin: 15px 0; }
 
-        /* --- FAQ SECTION --- */
-        .faq-item { margin-bottom: 10px; border-bottom: 1px solid rgba(0,0,0,0.05); }
-        .faq-trigger { width: 100%; text-align: left; background: none; border: none; padding: 15px 0; font-weight: 700; cursor: pointer; color: var(--text-dark); font-size: 1em; display: flex; justify-content: space-between; }
-        .faq-content { display: none; padding-bottom: 15px; font-size: 0.9em; color: var(--text-light); }
-
-        /* --- CONTACT HUB --- */
-        .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 30px; }
-        .contact-btn { padding: 15px; border-radius: 15px; text-decoration: none; color: white; font-weight: 800; text-align: center; display: block; font-size: 0.9em; }
-
-        /* --- TICKER --- */
-        .gallery-wrapper { background: var(--white); border-radius: 25px; overflow: hidden; margin: 30px 0; border: 1px solid rgba(0,0,0,0.05); }
+        /* --- LIVE PAYOUT GALLERY --- */
+        .gallery-wrapper { background: var(--white); border-radius: 25px; overflow: hidden; margin-top: 20px; border: 1px solid rgba(0,0,0,0.05); }
+        .gallery-header { display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 15px 25px; background: var(--primary); color: white; font-weight: 900; font-size: 0.8em; }
         .gallery-viewport { height: 250px; overflow: hidden; position: relative; }
-        .gallery-container { position: absolute; width: 100%; animation: slideContinuous 45s linear infinite; }
+        .gallery-container { position: absolute; width: 100%; animation: slideContinuous 40s linear infinite; }
         .payout-row { display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 15px 25px; border-bottom: 1px solid rgba(0,0,0,0.03); font-size: 0.85em; }
 
-        /* --- BUTTONS --- */
-        .btn-main { background: var(--primary); color: white; border: none; padding: 18px; border-radius: 15px; font-weight: 800; cursor: pointer; width: 100%; text-transform: uppercase; }
-        
-        #payoutPopup { position: fixed; bottom: 20px; left: 20px; background: var(--white); padding: 15px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border-left: 5px solid var(--accent); display: none; align-items: center; gap: 10px; z-index: 10000; animation: slideUp 0.5s; }
-        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        /* --- FAQ & CONTACT --- */
+        .faq-item { border-bottom: 1px solid rgba(0,0,0,0.05); padding: 15px 0; }
+        .faq-trigger { width: 100%; text-align: left; background: none; border: none; font-weight: 700; cursor: pointer; color: inherit; display: flex; justify-content: space-between; }
+        .faq-content { display: none; padding-top: 10px; font-size: 0.9em; color: var(--text-light); }
+        .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+        .btn-contact { padding: 15px; border-radius: 15px; text-decoration: none; color: white; text-align: center; font-weight: 800; }
+
+        /* --- UTILS --- */
+        .btn-main { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 12px; font-weight: 800; cursor: pointer; width: 100%; }
+        #payoutPopup { position: fixed; bottom: 20px; left: 20px; background: var(--white); padding: 15px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border-left: 5px solid var(--accent); display: none; z-index: 10000; }
         @keyframes slideContinuous { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
 
         @media (max-width: 850px) { .user-grid { grid-template-columns: 1fr; } }
@@ -89,112 +73,108 @@
 
 <div id="gatewayOverlay">
     <div class="auth-card">
-        <h2 style="color:var(--primary); margin-bottom:20px;">MEMBER PORTAL</h2>
+        <h2 style="color:var(--primary); margin-bottom:20px; font-weight:900;">MEMBER PORTAL</h2>
         <input type="tel" id="gatePh" placeholder="M-Pesa Number" class="input-field">
-        <input type="password" id="gatePs" placeholder="Portal Password" class="input-field">
+        <input type="password" id="gatePs" placeholder="Password" class="input-field">
         <button class="btn-main" onclick="verifyGate()">AUTHORIZE ENTRY</button>
-    </div>
-</div>
-
-<div id="tourOverlay">
-    <div class="tour-box">
-        <h3 id="tourTitle" style="color:var(--primary); font-weight:900;">Welcome!</h3>
-        <p id="tourText" style="margin:20px 0; color:var(--text-light);"></p>
-        <button onclick="nextTourStep()" class="btn-main" style="background:var(--accent); padding:12px;">NEXT STEP</button>
     </div>
 </div>
 
 <div id="mainContent">
     <nav><div class="container" style="display:flex; justify-content:space-between; align-items:center;">
-        <div style="font-weight:900; color:var(--primary); letter-spacing:1px;">ONLINE SPHERE</div>
+        <div style="font-weight:900; color:var(--primary);">ONLINE SPHERE</div>
         <div style="color:var(--danger); font-weight:800; cursor:pointer;" onclick="location.reload()">LOGOUT</div>
     </div></nav>
 
     <header>
         <div class="container">
-            <div class="stories-container">
-                <div class="story-circle" onclick="alert('Story: Agnes withdrew KES 5,400 today!')"><img src="https://img.icons8.com/color/96/user-female-circle--v1.png"></div>
-                <div class="story-circle" onclick="alert('Story: Benson upgraded to Executive Status!')"><img src="https://img.icons8.com/color/96/user-male-circle--v1.png"></div>
-                <div class="story-circle" onclick="alert('Story: Peter earned KES 1,200 in 20 minutes!')"><img src="https://img.icons8.com/color/96/administrator-male-circle.png"></div>
-            </div>
-            <h1 style="font-weight:900;">DASHBOARD ACTIVE</h1>
+            <h1 style="font-weight:900; letter-spacing:-1px;">DASHBOARD ACTIVE</h1>
+            <p style="opacity:0.8;">Welcome back to your workspace</p>
         </div>
     </header>
 
     <div class="container">
         <div class="user-grid">
-            <div class="card member-card" id="tour-card">
+            <div class="card member-card">
                 <p style="font-size:0.7em; opacity:0.7;">ACCOUNT HOLDER</p>
                 <h3 id="uName">07XXXXXXXX</h3>
                 <div class="level-bar"><div class="level-fill"></div></div>
                 <p style="font-size:0.7em;">LEVEL 1: NEWBIE STATUS</p>
             </div>
-            <div class="card" style="text-align:center;" id="tour-balance">
-                <p style="font-size:0.7em; font-weight:800;">CURRENT BALANCE</p>
-                <h2 style="color:var(--danger); font-size:2.2em;">KES 0.00</h2>
-                <button class="btn-main" style="background:var(--accent); padding:10px; margin-top:10px;" onclick="alert('Activation Required')">WITHDRAW NOW</button>
+            <div class="card" style="text-align:center;">
+                <p style="font-size:0.75em; font-weight:800; opacity:0.6;">ACCOUNT BALANCE</p>
+                <h2 style="color:var(--danger); font-size:2.2em; margin:5px 0;">KES 0.00</h2>
+                <div style="display:flex; gap:10px;">
+                    <button class="btn-main" style="background:var(--accent);" onclick="alert('Activation Required')">DEPOSIT</button>
+                    <button class="btn-main" onclick="alert('Balance too low')">WITHDRAW</button>
+                </div>
             </div>
         </div>
 
         <div class="user-grid" style="margin-top:20px;">
             <div class="card">
                 <h4 style="color:var(--primary); font-weight:900;">Our Mission</h4>
-                <p style="font-size:0.85em; color:var(--text-light); margin-top:10px;">To provide Kenyans with a safe, transparent digital workspace where every task completed earns instant M-Pesa value.</p>
+                <p style="font-size:0.85em; color:var(--text-light); margin-top:10px;">Providing Kenyans with a high-security portal for digital tasks with guaranteed instant M-Pesa payouts.</p>
             </div>
             <div class="card" style="border-left: 5px solid var(--accent);">
                 <h4 style="color:var(--primary); font-weight:900;">CEO Message</h4>
                 <p style="font-style:italic; font-size:0.85em; margin:10px 0;">"Integrity is our core operating system. We grow when you succeed."</p>
-                <p style="font-weight:900; font-size:0.7em;">- CHIEF EXECUTIVE OFFICER</p>
+                <p style="font-weight:900; font-size:0.7em;">- MANAGEMENT TEAM</p>
             </div>
         </div>
 
-        <div class="card" style="margin-top:20px; text-align:center;">
-            <h3 style="color:var(--primary); font-weight:900;">Earnings Estimator</h3>
-            <p style="font-size:0.85em; color:var(--text-light);">Daily Goal: <span id="tVal" style="font-weight:900; color:var(--accent);">5</span> Tasks</p>
-            <input type="range" min="1" max="40" value="5" class="slider" oninput="updateCalc(this.value)">
-            <div style="font-size:1.8em; font-weight:900;">KES <span id="eVal" style="color:var(--accent);">3,500</span>/week</div>
-        </div>
-
-        <div class="card" style="margin-top:20px;" id="tour-tasks">
-            <h3 style="color:var(--primary); font-weight:900; margin-bottom:15px;">Task Directory</h3>
-            <div class="task-item">
-                <div><strong>Ad Verification</strong> <span class="hot-badge" id="h1">12 slots</span></div>
-                <div style="color:var(--accent); font-weight:900;">KES 1,200</div>
+        <h3 style="text-align:center; margin-top:40px; font-weight:900;">Account Activation Tiers</h3>
+        <div class="pkg-grid">
+            <div class="pkg-card">
+                <h3>STARTER</h3>
+                <div class="pkg-price">KES 500</div>
+                <p style="font-size:0.8em; color:var(--text-light);">Access to basic data entry tasks and weekly withdrawals.</p>
+                <button class="btn-main" style="margin-top:20px;">ACTIVATE</button>
             </div>
-            <div class="task-item">
-                <div><strong>Data Entry Tier 1</strong> <span class="hot-badge" id="h2">5 slots</span></div>
-                <div style="color:var(--accent); font-weight:900;">KES 450</div>
+            <div class="pkg-card featured">
+                <div style="background:var(--gold); color:white; font-size:0.6em; padding:3px 10px; border-radius:50px; display:inline-block; margin-bottom:10px;">MOST POPULAR</div>
+                <h3>EXECUTIVE</h3>
+                <div class="pkg-price">KES 2,500</div>
+                <p style="font-size:0.8em; color:var(--text-light);">Priority task access, 24/7 withdrawals, and bonus levels.</p>
+                <button class="btn-main" style="background:var(--accent); margin-top:12px;">ACTIVATE</button>
             </div>
-        </div>
-
-        <div class="card" style="margin-top:20px;">
-            <h3 style="color:var(--primary); font-weight:900; margin-bottom:15px;">Frequently Asked Questions</h3>
-            <div class="faq-item">
-                <button class="faq-trigger" onclick="toggleFaq(0)">How do I start earning? <span>+</span></button>
-                <div class="faq-content">Choose a package, activate your account, and start completing tasks in the directory.</div>
-            </div>
-            <div class="faq-item">
-                <button class="faq-trigger" onclick="toggleFaq(1)">When can I withdraw? <span>+</span></button>
-                <div class="faq-content">Withdrawals are instant to M-Pesa once you reach the minimum threshold of KES 50.</div>
-            </div>
-            <div class="faq-item">
-                <button class="faq-trigger" onclick="toggleFaq(2)">Is the activation fee refundable? <span>+</span></button>
-                <div class="faq-content">The activation fee is a one-time commitment to secure your account and digital tools.</div>
+            <div class="pkg-card">
+                <h3>PRO</h3>
+                <div class="pkg-price">KES 1,500</div>
+                <p style="font-size:0.8em; color:var(--text-light);">Full directory access and standard daily payouts.</p>
+                <button class="btn-main" style="margin-top:20px;">ACTIVATE</button>
             </div>
         </div>
 
-        <div class="card" style="margin-top:20px; background: var(--primary); color: white;">
-            <h3 style="text-align:center;">Contact Support</h3>
-            <div class="contact-grid">
-                <a href="https://wa.me/254741723223" class="contact-btn" style="background:var(--whatsapp);">WhatsApp Support</a>
-                <a href="mailto:support@onlinesphere.co.ke" class="contact-btn" style="background:var(--email-blue);">Email Help Desk</a>
-                <a href="tel:+254741723223" class="contact-btn" style="background:var(--accent);">Call Agent</a>
-            </div>
-        </div>
-
-        <h3 style="text-align:center; margin-top:40px;">Live Payout Gallery</h3>
+        <h3 style="text-align:center; margin-top:40px; font-weight:900;">Verified Live Payouts</h3>
         <div class="gallery-wrapper">
+            <div class="gallery-header">
+                <div>Number</div>
+                <div>Amount</div>
+                <div>Transaction ID</div>
+            </div>
             <div class="gallery-viewport"><div class="gallery-container" id="tickerBox"></div></div>
+        </div>
+
+        <div class="card">
+            <h3 style="color:var(--primary); font-weight:900; margin-bottom:15px;">FAQs</h3>
+            <div class="faq-item">
+                <button class="faq-trigger" onclick="toggleFaq(0)">How do I start? <span>+</span></button>
+                <div class="faq-content">Select a package above, pay the activation fee, and start your tasks.</div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-trigger" onclick="toggleFaq(1)">Are payouts instant? <span>+</span></button>
+                <div class="faq-content">Yes, all withdrawals are sent instantly to your M-Pesa number.</div>
+            </div>
+        </div>
+
+        <div class="card" style="background:var(--primary); color:white;">
+            <h3 style="text-align:center;">Contact Official Support</h3>
+            <div class="contact-grid">
+                <a href="https://wa.me/254741723223" class="btn-contact" style="background:var(--whatsapp);">WhatsApp</a>
+                <a href="mailto:support@onlinesphere.co.ke" class="btn-contact" style="background:#444;">Email Support</a>
+                <a href="tel:+254741723223" class="btn-contact" style="background:var(--accent);">Call Agent</a>
+            </div>
         </div>
 
         <footer style="text-align:center; padding:50px 0; font-size:0.8em; color:var(--text-light);">
@@ -206,7 +186,6 @@
 <div id="payoutPopup">💰 <span id="pText"></span></div>
 
 <script>
-    // THEME & AUTH
     function toggleTheme() {
         const b = document.body;
         b.setAttribute('data-theme', b.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
@@ -218,73 +197,33 @@
             document.getElementById('gatewayOverlay').style.display = 'none';
             document.getElementById('mainContent').style.display = 'block';
             document.getElementById('uName').innerText = ph;
-            if(!localStorage.getItem('sphere_tour_done')) startTour();
             buildTicker();
         }
     }
 
-    // ONBOARDING TOUR LOGIC
-    let tourStep = 0;
-    const tourData = [
-        { title: "Member ID", text: "This card shows your level. Higher levels unlock higher pay!", el: "tour-card" },
-        { title: "Earnings", text: "Withdraw your earnings directly to M-Pesa instantly.", el: "tour-balance" },
-        { title: "Hot Tasks", text: "Grab tasks with limited slots before they run out!", el: "tour-tasks" }
-    ];
-
-    function startTour() {
-        document.getElementById('tourOverlay').style.display = 'flex';
-        updateTour();
+    function toggleFaq(i) {
+        const c = document.querySelectorAll('.faq-content');
+        c[i].style.display = (c[i].style.display === 'block') ? 'none' : 'block';
     }
 
-    function updateTour() {
-        document.getElementById('tourTitle').innerText = tourData[tourStep].title;
-        document.getElementById('tourText').innerText = tourData[tourStep].text;
-    }
-
-    function nextTourStep() {
-        tourStep++;
-        if(tourStep >= tourData.length) {
-            document.getElementById('tourOverlay').style.display = 'none';
-            localStorage.setItem('sphere_tour_done', 'true');
-        } else { updateTour(); }
-    }
-
-    // INTERACTIVE CALCULATOR
-    function updateCalc(v) {
-        document.getElementById('tVal').innerText = v;
-        document.getElementById('eVal').innerText = (v * 700 * 7).toLocaleString();
-    }
-
-    // SCARCITY COUNTERS
-    setInterval(() => {
-        document.getElementById('h1').innerText = Math.floor(Math.random()*15 + 1) + " slots";
-        document.getElementById('h2').innerText = Math.floor(Math.random()*6 + 1) + " slots";
-    }, 4000);
-
-    // FAQS
-    function toggleFaq(index) {
-        const contents = document.querySelectorAll('.faq-content');
-        const display = contents[index].style.display;
-        contents[index].style.display = (display === 'block') ? 'none' : 'block';
-    }
-
-    // TICKER & POPUPS
     function buildTicker() {
         const box = document.getElementById('tickerBox');
         let html = '';
         for(let i=0; i<30; i++) {
-            html += `<div class="payout-row"><div>072xxxx${Math.floor(100+Math.random()*800)}</div><div style="color:var(--accent); font-weight:900;">KES ${(Math.floor(Math.random()*50)+5)*100}</div><div style="opacity:0.5;">OS-${Math.floor(1000+Math.random()*9000)}</div></div>`;
+            let num = '07' + Math.floor(Math.random()*9) + 'xxxx' + Math.floor(100+Math.random()*800);
+            let amt = 'KES ' + (Math.floor(Math.random()*45)+5)*100;
+            let tid = 'OS-' + Math.floor(10000+Math.random()*89999);
+            html += `<div class="payout-row"><div>${num}</div><div style="color:var(--accent); font-weight:900;">${amt}</div><div style="opacity:0.5;">${tid}</div></div>`;
         }
         box.innerHTML = html + html;
     }
 
     setInterval(() => {
-        const names = ['0722***492', '0112***834', '0798***112', '0743***009'];
-        document.getElementById('pText').innerHTML = `<strong>${names[Math.floor(Math.random()*4)]}</strong> just withdrew KES ${(Math.floor(Math.random()*45)+5)*100}`;
-        document.getElementById('payoutPopup').style.display = 'flex';
+        const names = ['0722***492', '0112***834', '0798***112'];
+        document.getElementById('pText').innerHTML = `<strong>${names[Math.floor(Math.random()*3)]}</strong> withdrew KES ${(Math.floor(Math.random()*20)+5)*100}`;
+        document.getElementById('payoutPopup').style.display = 'block';
         setTimeout(() => { document.getElementById('payoutPopup').style.display = 'none'; }, 4000);
-    }, 13000);
+    }, 12000);
 </script>
 </body>
 </html>
-❣️
