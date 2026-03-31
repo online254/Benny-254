@@ -284,7 +284,44 @@
         document.getElementById('gatewayOverlay').style.display = 'none';
         document.getElementById('mainContent').style.display = 'block';
     }};
+<script>
+    // Existing Payout code stays here...
 
+    // Add this for the Graph:
+    const ctx = document.getElementById('earningsChart').getContext('2d');
+    const earningsChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['09:00', '09:15', '09:30', '09:45', '10:00'],
+            datasets: [{
+                data: [12000, 19000, 15000, 25000, 22000],
+                borderColor: '#1dbf73',
+                backgroundColor: 'rgba(29, 191, 115, 0.1)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } }
+        }
+    });
+
+    // Updates graph every 5 seconds
+    setInterval(() => {
+        const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const val = Math.floor(Math.random() * 20000) + 15000;
+        earningsChart.data.labels.push(time);
+        earningsChart.data.datasets[0].data.push(val);
+        if(earningsChart.data.labels.length > 10) {
+            earningsChart.data.labels.shift();
+            earningsChart.data.datasets[0].data.shift();
+        }
+        earningsChart.update();
+    }, 5000);
+</script>
     // Reset Flow
     let tempOTP;
     function toggleReset(s) { 
