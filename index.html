@@ -59,41 +59,47 @@
         .container { max-width: 1200px; margin: 0 auto; padding: 60px 20px; }
         .section-title { text-align: center; color: var(--primary); font-size: 2.2em; font-weight: 900; margin-bottom: 40px; text-transform: uppercase; }
 
-        /* --- SUCCESS GALLERY --- */
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 60px; }
-        .proof-card { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); text-align: center; border: 1px solid #eee; }
-        .proof-img { width: 100%; height: 200px; background: #eef2f6; border-radius: 10px; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; color: #adb5bd; font-weight: 700; }
-        .proof-info { font-size: 0.85em; font-weight: 700; color: var(--primary); }
+        /* --- MISSION & VISION --- */
+        .mv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 50px; }
+        .mv-card { background: white; padding: 30px; border-radius: 20px; border-left: 5px solid var(--accent); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
 
-        /* --- WHY & MISSION --- */
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 60px; }
-        .card-standard { background: white; padding: 35px 20px; border-radius: 20px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        /* --- SUCCESS GALLERY (RESTORED STYLE) --- */
+        .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 60px; }
+        .proof-card { background: white; padding: 30px; border-radius: 20px; text-align: center; border-bottom: 4px solid var(--primary); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .proof-card span { font-size: 2.5em; display: block; margin-bottom: 15px; }
 
-        /* --- TASK CATEGORIES (20) --- */
+        /* --- 20 TASK CATEGORIES --- */
         .task-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-bottom: 60px; }
         .task-item { background: #fff; padding: 20px; border-radius: 12px; border: 1px solid #eef2f6; text-align: center; font-weight: 700; color: var(--primary); transition: 0.3s; cursor: pointer; }
-        .task-item:hover { border-color: var(--accent); background: #fafafa; transform: scale(1.03); }
+        .task-item:hover { border-color: var(--accent); transform: translateY(-3px); }
 
-        /* --- CONTACT HUB & BUTTONS --- */
+        /* --- ACTIVATION PACKAGES --- */
+        .package-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-bottom: 60px; }
+        .p-card { background: white; padding: 40px 20px; border-radius: 24px; border: 1px solid #eee; text-align: center; position: relative; }
+        .p-card.hot { border: 3px solid var(--gold); transform: scale(1.05); z-index: 2; box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .fee { font-size: 2.5em; font-weight: 900; margin: 20px 0; color: var(--primary); }
+
+        /* --- FAQ SECTION --- */
+        .faq-item { background: white; margin-bottom: 10px; border-radius: 12px; border: 1px solid #eee; overflow: hidden; }
+        .faq-q { padding: 20px; font-weight: 800; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .faq-a { padding: 0 20px 20px; display: none; color: #666; border-top: 1px solid #f9f9f9; padding-top: 15px; }
+
+        /* --- CONTACT HUB --- */
         .contact-hub { background: white; padding: 60px; border-radius: 30px; text-align: center; border: 1px solid #eee; }
         .btn-flex { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 30px; }
         .btn-c { text-decoration: none; padding: 18px 35px; border-radius: 50px; color: white; font-weight: 800; display: flex; align-items: center; gap: 10px; transition: 0.3s; }
-        .btn-wa { background: var(--whatsapp); box-shadow: 0 10px 20px rgba(37,211,102,0.2); }
-        .btn-em { background: var(--email-blue); box-shadow: 0 10px 20px rgba(0,123,255,0.2); }
-        .btn-c:hover { transform: translateY(-3px); filter: brightness(1.1); }
+        .btn-wa { background: var(--whatsapp); }
+        .btn-em { background: var(--email-blue); }
 
         /* --- PREMIUM FOOTER --- */
-        footer { background: var(--footer-bg); color: #a0aec0; padding: 100px 20px 40px; margin-top: 100px; }
-        .f-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 50px; }
-        .f-col h4 { color: white; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1.5px; font-size: 1.1em; }
+        footer { background: var(--footer-bg); color: #a0aec0; padding: 80px 20px 20px; margin-top: 100px; }
+        .f-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 40px; }
         .f-links { list-style: none; padding: 0; }
-        .f-links li { margin-bottom: 12px; }
-        .f-links a { color: #a0aec0; text-decoration: none; transition: 0.3s; font-size: 0.9em; }
+        .f-links a { color: #a0aec0; text-decoration: none; font-size: 0.9em; transition: 0.3s; }
         .f-links a:hover { color: var(--accent); padding-left: 5px; }
 
         @media (max-width: 900px) {
-            .grid-3, .f-grid { grid-template-columns: 1fr; text-align: center; }
-            .btn-flex { flex-direction: column; }
+            .mv-grid, .gallery-grid, .package-grid, .f-grid { grid-template-columns: 1fr; text-align: center; }
         }
     </style>
 </head>
@@ -106,22 +112,22 @@
             <div class="input-box"><label>M-Pesa Number</label><input type="tel" id="gatePh" placeholder="07XXXXXXXX"></div>
             <div class="input-box"><label>Password</label><input type="password" id="gatePs" placeholder="••••••••"></div>
             <button class="btn-prime" onclick="verifyGate()">Authorize Securely</button>
-            <span style="color:var(--email-blue); font-size:0.8em; margin-top:15px; cursor:pointer; display:block;" onclick="toggleGate()">Security Reset / OTP</span>
+            <span style="color:var(--email-blue); font-size:0.8em; margin-top:15px; cursor:pointer; display:block;" onclick="toggleGate()">Forgot Password / Reset OTP</span>
         </div>
         <div id="resetForm" style="display:none;">
             <div id="rs1">
                 <div class="input-box"><label>Phone Number</label><input type="tel" id="rsPh" placeholder="07XXXXXXXX"></div>
-                <button class="btn-prime" onclick="sendOTP()">Request Reset Code</button>
+                <button class="btn-prime" onclick="sendOTP()">Request Code</button>
             </div>
             <div id="rs2" style="display:none;">
                 <div class="input-box"><label>OTP Code</label><input type="number" id="rsCode" placeholder="XXXXXX"></div>
-                <button class="btn-prime" onclick="verifyOTP()">Verify Code</button>
+                <button class="btn-prime" onclick="verifyOTP()">Verify Identity</button>
             </div>
             <div id="rs3" style="display:none;">
                 <div class="input-box"><label>New Password</label><input type="password" id="rsNew" placeholder="••••••••"></div>
                 <button class="btn-prime" onclick="saveReset()">Update Security</button>
             </div>
-            <span style="color:var(--danger); font-size:0.8em; margin-top:15px; cursor:pointer; display:block;" onclick="toggleGate()">Cancel Reset</span>
+            <span style="color:var(--danger); font-size:0.8em; margin-top:15px; cursor:pointer; display:block;" onclick="toggleGate()">Cancel</span>
         </div>
     </div>
 </div>
@@ -130,10 +136,10 @@
     <div class="guide-card">
         <h2 style="color:var(--primary);">Protocol Acceptance</h2>
         <div class="guide-text">
-            <strong>1. Accuracy:</strong> Academic and data tasks must maintain a 95% quality score.<br><br>
-            <strong>2. Payouts:</strong> Instant withdrawals apply only to verified account activities.<br><br>
-            <strong>3. Conduct:</strong> Professionalism is mandatory. Zero-tolerance for platform manipulation.<br><br>
-            <strong>4. Security:</strong> Do not share your login credentials or OTP codes with anyone.
+            <strong>1. Accuracy:</strong> Academic and data tasks must maintain 95% quality.<br><br>
+            <strong>2. Payouts:</strong> Instant withdrawals to M-Pesa only for verified activities.<br><br>
+            <strong>3. Conduct:</strong> Professionalism is mandatory at all levels.<br><br>
+            <strong>4. Security:</strong> Never share your login credentials or OTP codes.
         </div>
         <button class="btn-prime" style="background:var(--accent); color:var(--primary);" onclick="acceptRules()">I AGREE & ENTER DASHBOARD</button>
     </div>
@@ -142,26 +148,22 @@
 <div id="mainContent">
     <nav><div class="nav-flex"><div class="logo">ONLINE SPHERE</div><button onclick="killSession()" style="background:none; border:none; color:var(--danger); font-weight:800; cursor:pointer;">SIGN OUT</button></div></nav>
 
-    <header>
-        <h1>MEMBER COMMAND CENTER</h1>
-        <div class="user-tag">Identity Verified: Active Member</div>
-    </header>
+    <header><h1>MEMBER COMMAND CENTER</h1><div class="user-tag">Identity Verified: Active Member</div></header>
 
     <div class="container">
+        <div class="mv-grid">
+            <div class="mv-card"><h4>Our Mission</h4><p>Digitizing work for Kenyan youth through secure tasks.</p></div>
+            <div class="mv-card"><h4>Our Vision</h4><p>The premier East African hub for digital wealth.</p></div>
+        </div>
+
         <div class="section-title">Success & Payout Gallery</div>
         <div class="gallery-grid">
-            <div class="proof-card"><div class="proof-img">MPESA PROOF #1</div><div class="proof-info">Member: Benson | KES 4,500 Withdraw</div></div>
-            <div class="proof-card"><div class="proof-img">MPESA PROOF #2</div><div class="proof-info">Member: Agnes | KES 12,200 Withdraw</div></div>
-            <div class="proof-card"><div class="proof-img">MPESA PROOF #3</div><div class="proof-info">Member: Kevin | KES 2,800 Withdraw</div></div>
+            <div class="proof-card"><span>💸</span><h4>Benson Mutinda</h4><p>Withdrew KES 4,500 via M-Pesa</p></div>
+            <div class="proof-card"><span>💸</span><h4>Agnes</h4><p>Withdrew KES 12,200 via M-Pesa</p></div>
+            <div class="proof-card"><span>💸</span><h4>Kevin</h4><p>Withdrew KES 2,800 via M-Pesa</p></div>
         </div>
 
-        <div class="grid-3">
-            <div class="card-standard"><h3>Our Mission</h3><p>Digitizing the Kenyan economy through remote task opportunities.</p></div>
-            <div class="card-standard"><h3>Our Vision</h3><p>The #1 hub for digital freelancers in East Africa.</p></div>
-            <div class="card-standard"><h3>Our Promise</h3><p>Secure work, instant pay, and professional growth.</p></div>
-        </div>
-
-        <div class="section-title">Available Task Categories</div>
+        <div class="section-title">Work Categories</div>
         <div class="task-grid">
             <div class="task-item">Academic Writing</div><div class="task-item">Transcription</div><div class="task-item">Data Entry</div><div class="task-item">Virtual Assistant</div>
             <div class="task-item">SEO Content</div><div class="task-item">Graphic Design</div><div class="task-item">Web Development</div><div class="task-item">App Testing</div>
@@ -170,102 +172,77 @@
             <div class="task-item">CV Services</div><div class="task-item">Market Research</div><div class="task-item">Cyber Security</div><div class="task-item">Programming</div>
         </div>
 
-        <div class="section-title">Technical Support Hub</div>
+        <div class="section-title">Activation Packages</div>
+        <div class="package-grid">
+            <div class="p-card"><h3>Starter</h3><div class="fee">KES 500</div></div>
+            <div class="p-card hot"><h3>Executive</h3><div class="fee">KES 2,500</div></div>
+            <div class="p-card"><h3>Professional</h3><div class="fee">KES 1,500</div></div>
+        </div>
+
+        <div class="section-title">Frequently Asked Questions</div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How to activate? <span>+</span></div><div class="faq-a">Pay via the Till Number provided in your wallet dashboard.</div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Withdrawal time? <span>+</span></div><div class="faq-a">Withdrawals hit your M-Pesa instantly.</div></div>
+
         <div class="contact-hub">
-            <h2 style="color:var(--primary); margin:0;">Need Direct Assistance?</h2>
-            <p>Our help desk is online to assist with account activation and withdrawals.</p>
+            <h2 style="color:var(--primary);">Direct Support</h2>
             <div class="btn-flex">
-                <a href="https://wa.me/254741723223" class="btn-c btn-wa">WhatsApp Help Desk</a>
-                <a href="mailto:support@onlinesphere.co.ke" class="btn-c btn-em">Email Official Support</a>
+                <a href="https://wa.me/254741723223" class="btn-c btn-wa">WhatsApp Support</a>
+                <a href="mailto:support@onlinesphere.co.ke" class="btn-c btn-em">Email Support</a>
             </div>
         </div>
     </div>
 
     <footer>
         <div class="f-grid">
-            <div class="f-col">
-                <h4>Online Sphere</h4>
-                <p>Empowering the next generation of Kenyan digital experts. We connect you to global tasks and local payouts seamlessly.</p>
-            </div>
-            <div class="f-col">
-                <h4>Navigation</h4>
-                <ul class="f-links">
-                    <li><a href="#">Member Rules</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Task Catalog</a></li>
-                </ul>
-            </div>
-            <div class="f-col">
-                <h4>Member Resources</h4>
-                <ul class="f-links">
-                    <li><a href="#">Help Center</a></li>
-                    <li><a href="#">Mentor Login</a></li>
-                    <li><a href="#">Payment Proofs</a></li>
-                </ul>
-            </div>
-            <div class="f-col">
-                <h4>VIP Alerts</h4>
-                <p style="font-size: 0.8em;">Get notified of high-paying tasks.</p>
-                <input type="email" placeholder="Your Email" style="width:100%; padding:12px; border-radius:8px; border:none; margin-bottom:10px;">
-                <button style="width:100%; padding:10px; background:var(--accent); color:var(--primary); font-weight:900; border:none; border-radius:8px;">SUBSCRIBE</button>
-            </div>
+            <div class="f-col"><h4>Online Sphere</h4><p>Empowering Kenyan digital experts since 2024.</p></div>
+            <div class="f-col"><h4>Navigation</h4><ul class="f-links"><li><a href="#">About Us</a></li><li><a href="#">Terms</a></li><li><a href="#">Privacy</a></li></ul></div>
+            <div class="f-col"><h4>Support</h4><ul class="f-links"><li><a href="#">Help Center</a></li><li><a href="#">WhatsApp</a></li></ul></div>
+            <div class="f-col"><h4>Alerts</h4><input type="email" placeholder="Email" style="width:100%; padding:10px; border-radius:8px; border:none; margin-bottom:10px;"><button style="width:100%; padding:10px; background:var(--accent); border:none; font-weight:800; border-radius:8px;">SUBSCRIBE</button></div>
         </div>
-        <div style="text-align:center; margin-top:60px; padding-top:20px; border-top:1px solid rgba(255,255,255,0.05); font-size:0.8em;">
-            &copy; 2026 Online Sphere Commerce Company. All Rights Reserved.
-        </div>
+        <div style="text-align:center; margin-top:50px; font-size:0.8em; opacity:0.6;">&copy; 2026 Online Sphere Commerce Company. All Rights Reserved.</div>
     </footer>
 </div>
 
 <script>
     let codeCache = null;
-
     function verifyGate() {
         if(document.getElementById('gatePh').value && document.getElementById('gatePs').value) {
             document.getElementById('gatewayOverlay').style.display = 'none';
             document.getElementById('guidelinesOverlay').style.display = 'flex';
-        } else { alert("Input Error: Credentials missing."); }
+        } else { alert("Credentials required."); }
     }
-
     function acceptRules() {
-        localStorage.setItem('sphere_auth_v3', 'active');
+        localStorage.setItem('sphere_final_v5', 'active');
         document.getElementById('guidelinesOverlay').style.display = 'none';
         document.getElementById('mainContent').style.display = 'block';
-        window.scrollTo(0,0);
     }
-
     function sendOTP() {
         const ph = document.getElementById('rsPh').value;
-        if(ph.length < 10) return alert("Invalid Phone");
+        if(ph.length < 10) return alert("Invalid phone.");
         codeCache = Math.floor(100000 + Math.random() * 900000);
-        alert("SECURITY: Online Sphere OTP code is " + codeCache);
+        alert("OTP: " + codeCache);
         document.getElementById('rs1').style.display = 'none';
         document.getElementById('rs2').style.display = 'block';
     }
-
     function verifyOTP() {
         if(document.getElementById('rsCode').value == codeCache) {
             document.getElementById('rs2').style.display = 'none';
             document.getElementById('rs3').style.display = 'block';
-        } else { alert("Incorrect Code"); }
+        } else { alert("Wrong code."); }
     }
-
-    function saveReset() { alert("Security Credentials Updated!"); toggleGate(); }
-
+    function saveReset() { alert("Updated!"); toggleGate(); }
     function toggleGate() {
-        const login = document.getElementById('loginForm');
-        const reset = document.getElementById('resetForm');
-        login.style.display = login.style.display === 'none' ? 'block' : 'none';
-        reset.style.display = reset.style.display === 'none' ? 'block' : 'none';
+        const l = document.getElementById('loginForm');
+        const r = document.getElementById('resetForm');
+        l.style.display = l.style.display === 'none' ? 'block' : 'none';
+        r.style.display = r.style.display === 'none' ? 'block' : 'none';
     }
-
-    function killSession() { localStorage.removeItem('sphere_auth_v3'); location.reload(); }
-
-    window.onload = () => {
-        if(localStorage.getItem('sphere_auth_v3') === 'active') {
-            document.getElementById('gatewayOverlay').style.display = 'none';
-            document.getElementById('mainContent').style.display = 'block';
-        }
-    };
+    function killSession() { localStorage.removeItem('sphere_final_v5'); location.reload(); }
+    function toggleFaq(el) { const a = el.nextElementSibling; a.style.display = (a.style.display === 'block') ? 'none' : 'block'; }
+    window.onload = () => { if(localStorage.getItem('sphere_final_v5')) {
+        document.getElementById('gatewayOverlay').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'block';
+    }};
 </script>
 </body>
 </html>
