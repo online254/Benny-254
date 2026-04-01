@@ -200,7 +200,164 @@
             border-radius: 25px; 
             box-shadow: 0 0 20px var(--accent);
         }
+<div class="urgency-container">
+    <div class="live-tag">● LIVE SLOT MONITOR</div>
+    
+    <div class="urgency-content">
+        <h2 class="urgency-title">Financial Freedom Window Closing!</h2>
+        <p class="urgency-subtitle">Your unique earning ID is reserved for a limited time. Activate your chosen package now to secure your spot in today's KES 500,000 payout pool.</p>
+        
+        <div class="timer-box">
+            <div class="timer-segment">
+                <span id="hours">00</span>
+                <label>HRS</label>
+            </div>
+            <div class="timer-divider">:</div>
+            <div class="timer-segment">
+                <span id="minutes">59</span>
+                <label>MIN</label>
+            </div>
+            <div class="timer-divider">:</div>
+            <div class="timer-segment">
+                <span id="seconds">59</span>
+                <label>SEC</label>
+            </div>
+        </div>
 
+        <div class="progress-container">
+            <div class="progress-text">
+                <span>System Capacity: <strong>94% Full</strong></span>
+                <span id="slots-left">12 Spots Left</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="fill-bar"></div>
+            </div>
+        </div>
+        
+        <p class="income-msg">🚀 <strong>Don't wait:</strong> Members who activated in the last hour have already averaged KES 1,200 in commissions!</p>
+    </div>
+</div>
+
+<style>
+    .urgency-container {
+        background: linear-gradient(145deg, #ffffff, #f0f4f8);
+        border: 2px solid #e63946;
+        border-radius: 30px;
+        padding: 30px;
+        margin: 40px 0;
+        position: relative;
+        box-shadow: 0 15px 40px rgba(230, 57, 70, 0.15);
+        overflow: hidden;
+    }
+
+    [data-theme="dark"] .urgency-container {
+        background: #1e293b;
+        border-color: #ff4d5a;
+    }
+
+    .live-tag {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: #e63946;
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.7em;
+        font-weight: 900;
+        animation: pulse-red 2s infinite;
+    }
+
+    .urgency-title {
+        color: #0a2e5c;
+        font-size: 1.5em;
+        font-weight: 900;
+        margin-bottom: 10px;
+    }
+    [data-theme="dark"] .urgency-title { color: #f1f5f9; }
+
+    .urgency-subtitle {
+        color: #64748b;
+        font-size: 0.95em;
+        margin-bottom: 25px;
+    }
+
+    .timer-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+    .timer-segment {
+        text-align: center;
+    }
+
+    .timer-segment span {
+        display: block;
+        font-size: 2.2em;
+        font-weight: 900;
+        color: #e63946;
+        font-family: 'Monaco', monospace;
+    }
+
+    .timer-segment label {
+        font-size: 0.6em;
+        font-weight: 800;
+        color: #94a3b8;
+        letter-spacing: 1px;
+    }
+
+    .timer-divider {
+        font-size: 2em;
+        font-weight: 900;
+        color: #cbd5e1;
+        padding-bottom: 20px;
+    }
+
+    .progress-container {
+        margin-bottom: 20px;
+    }
+
+    .progress-text {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.85em;
+        margin-bottom: 8px;
+        font-weight: 700;
+    }
+
+    .progress-bar {
+        height: 10px;
+        background: #e2e8f0;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .progress-fill {
+        height: 100%;
+        width: 94%;
+        background: linear-gradient(90deg, #e63946, #ff8e97);
+        border-radius: 10px;
+        transition: width 2s ease-in-out;
+    }
+
+    .income-msg {
+        font-size: 0.9em;
+        background: #fdf2f2;
+        padding: 15px;
+        border-radius: 15px;
+        border-left: 5px solid #e63946;
+        color: #1e293b;
+    }
+
+    @keyframes pulse-red {
+        0% { opacity: 1; }
+        50% { opacity: 0.5; }
+        100% { opacity: 1; }
+    }
+</style>
         /* --- 7. EARNINGS CALCULATOR --- */
         .calc-wrapper {
             margin-top: 15px;
