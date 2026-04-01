@@ -342,7 +342,77 @@
         }
         .faq-panel { display: none; padding: 0 22px 22px; color: var(--text-light); font-size: 0.95em; }
 
-        /* --- 12. CONTACT HUB --- */
+        /* --- 12. HEATMAP STYLING --- */
+        .heatmap-container {
+            position: relative;
+            background: #0f172a; 
+            border-radius: 40px;
+            padding: 40px;
+            margin-top: 45px;
+            text-align: center;
+            overflow: hidden;
+            border: 2px solid var(--accent);
+        }
+
+        .kenya-svg {
+            width: 100%;
+            max-width: 450px;
+            height: auto;
+            filter: drop-shadow(0 0 15px rgba(29, 191, 115, 0.3));
+        }
+
+        .ping {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: var(--accent);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .ping::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: ping-pulse 2s ease-out infinite;
+        }
+
+        .ping-label {
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--white);
+            color: var(--primary);
+            padding: 6px 12px;
+            border-radius: 10px;
+            font-size: 0.75em;
+            font-weight: 900;
+            white-space: nowrap;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border: 1px solid var(--accent);
+            animation: fadeInOut 4s forwards;
+        }
+
+        @keyframes ping-pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(4); opacity: 0; }
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translate(-50%, 10px); }
+            15% { opacity: 1; transform: translate(-50%, 0); }
+            85% { opacity: 1; transform: translate(-50%, 0); }
+            100% { opacity: 0; transform: translate(-50%, -10px); }
+        }
+
+        /* --- 13. CONTACT HUB --- */
         .contact-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
@@ -363,7 +433,7 @@
             gap: 10px;
         }
 
-        /* --- 13. FLOATING POPUP --- */
+        /* --- 14. FLOATING POPUP --- */
         #payoutPopup { 
             position: fixed; 
             bottom: 30px; 
@@ -383,7 +453,7 @@
             to { transform: translateY(0); opacity: 1; } 
         }
 
-        /* --- 14. RESPONSIVE DESIGN --- */
+        /* --- 15. RESPONSIVE DESIGN --- */
         @media (max-width: 850px) { 
             .user-grid { grid-template-columns: 1fr; } 
             .pkg-card.featured { transform: none; margin: 20px 0; }
@@ -482,15 +552,16 @@
             </div>
         </div>
 
-        <div class="user-grid" style="margin-top:25px;">
-            <div class="card">
-                <h4 style="color:var(--primary); font-weight:900; font-size:1.2em;">Core Mission</h4>
-                <p style="font-size:0.9em; color:var(--text-light); margin-top:12px;">To create a decentralized digital economy where every Kenyan can monetize their time through verified e-commerce interactions.</p>
-            </div>
-            <div class="card" style="border-left: 8px solid var(--accent);">
-                <h4 style="color:var(--primary); font-weight:900; font-size:1.2em;">Message from the CEO</h4>
-                <p style="font-style:italic; font-size:0.9em; margin:12px 0; color:var(--text-dark); line-height:1.4;">"We prioritize reliability and speed. Your success on this platform is the foundation of our company's growth."</p>
-                <p style="font-weight:900; font-size:0.8em; color:var(--primary); text-transform:uppercase;">— B. Muthini | Founder & CEO</p>
+        <div class="heatmap-container" id="heatmap-section">
+            <div class="earners-badge" style="background:rgba(255,255,255,0.1); border:1px solid var(--accent);">📡 LIVE NETWORK ACTIVITY</div>
+            <h3 style="color:white; font-weight:900; font-size:1.8em; margin-bottom:10px;">Nationwide Earning Heatmap</h3>
+            <p style="color:var(--text-light); margin-bottom:30px;">Real-time task completions across Kenya.</p>
+            
+            <div style="position: relative; display: inline-block;">
+                <svg class="kenya-svg" viewBox="0 0 500 600" fill="#1e293b" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M220 20L280 50L350 120L450 250L480 350L400 550L300 580L150 550L50 450L20 300L100 100L220 20Z" />
+                </svg>
+                <div id="ping-canvas" style="position:absolute; inset:0;"></div>
             </div>
         </div>
 
@@ -572,29 +643,7 @@
                 <div>Transaction ID</div>
             </div>
             <div class="gallery-viewport">
-                <div class="gallery-scroll-container" id="payoutTicker">
-                    </div>
-            </div>
-        </div>
-
-        <div class="card" style="margin-top:50px;">
-            <h3 style="color:var(--primary); font-weight:900; font-size:1.6em; margin-bottom:25px; letter-spacing:-0.5px;">Common Questions (FAQs)</h3>
-            
-            <div class="faq-box">
-                <div class="faq-item">
-                    <button class="faq-btn" onclick="toggleFaqPanel(0)">How do I start earning? <span>+</span></button>
-                    <div class="faq-panel">Once you activate your account by choosing a package and completing the M-Pesa payment, your dashboard will reveal active tasks. Complete them and your balance updates instantly.</div>
-                </div>
-
-                <div class="faq-item">
-                    <button class="faq-btn" onclick="toggleFaqPanel(1)">Is there a withdrawal limit? <span>+</span></button>
-                    <div class="faq-panel">The minimum withdrawal amount is KES 50. Maximum daily limits depend on your membership level (Starter, Pro, or Executive).</div>
-                </div>
-
-                <div class="faq-item">
-                    <button class="faq-btn" onclick="toggleFaqPanel(2)">How many tasks can I do per day? <span>+</span></button>
-                    <div class="faq-panel">Tasks are updated hourly. As long as slots are available in the directory, you can perform as many tasks as your level allows.</div>
-                </div>
+                <div class="gallery-scroll-container" id="payoutTicker"></div>
             </div>
         </div>
 
@@ -619,16 +668,7 @@
             <div style="margin-bottom:20px; font-weight:900; color:var(--primary); font-size:1.2em; letter-spacing:1px;">
                 ONLINE SPHERE COMMERCE COMPANY
             </div>
-            <p style="max-width:600px; margin:0 auto 20px; line-height:1.8;">
-                The leading digital workspace platform in East Africa. Empowering members through secure e-commerce tasks and instant mobile payments since 2024.
-            </p>
-            <div style="display:flex; justify-content:center; gap:20px; font-weight:700; margin-bottom:20px;">
-                <span style="cursor:pointer;">Terms of Service</span>
-                <span style="cursor:pointer;">Privacy Policy</span>
-                <span style="cursor:pointer;">Task Guidelines</span>
-            </div>
             <p>&copy; 2026 Official Member Portal. All Rights Reserved.</p>
-            <p style="margin-top:12px; font-size:0.8em; opacity:0.7;">Verified Secure by Sphere-Armor™ & Safaricom M-Pesa API.</p>
         </footer>
     </div>
 </div>
@@ -644,12 +684,6 @@
 </div>
 
 <script>
-    /**
-     * ===========================================================
-     * CORE JAVASCRIPT ENGINE - ONLINE SPHERE PORTAL
-     * ===========================================================
-     */
-
     // 1. THEME MANAGEMENT
     function toggleInterfaceMode() {
         const body = document.body;
@@ -669,9 +703,7 @@
             return;
         }
 
-        // Visual transition
         const gateway = document.getElementById('gatewayOverlay');
-        gateway.style.transition = 'opacity 1s ease-out';
         gateway.style.opacity = '0';
         
         setTimeout(() => {
@@ -679,139 +711,80 @@
             document.getElementById('mainContent').style.display = 'block';
             document.getElementById('displayNum').innerText = phone;
             
-            // Check for Onboarding
-            if (!localStorage.getItem('sphere_onboarding_viewed')) {
-                setTimeout(initializeUserTour, 1200);
-            }
-            
             generatePayoutTickerData();
-            startScarcityEngine();
             startNotificationEngine();
+            startHeatmapEngine(); // TRIGGER THE HEATMAP
         }, 1000);
     }
 
-    // 3. USER ONBOARDING TOUR ENGINE
-    let currentTourIndex = 0;
-    const tourSteps = [
-        { 
-            label: "Member ID & Status", 
-            description: "Your M-Pesa number is your unique ID. Your level will increase as you complete more tasks, unlocking higher payments.", 
-            element: "profile-card" 
-        },
-        { 
-            label: "Wallet Controls", 
-            description: "Use these buttons to activate your account or withdraw your earnings. Payouts are sent directly to your phone.", 
-            element: "balance-card" 
-        },
-        { 
-            label: "Earning Projections", 
-            description: "Our calculator helps you plan your work week. The more tasks you complete, the higher your bonus multiplier grows.", 
-            element: "calculator-section" 
-        }
-    ];
+    // 3. HEATMAP ENGINE
+    function startHeatmapEngine() {
+        const cities = [
+            { name: 'Nairobi', x: 45, y: 55 },
+            { name: 'Mombasa', x: 75, y: 85 },
+            { name: 'Kisumu', x: 15, y: 40 },
+            { name: 'Eldoret', x: 25, y: 30 },
+            { name: 'Nakuru', x: 35, y: 45 },
+            { name: 'Machakos', x: 55, y: 60 }
+        ];
 
-    function initializeUserTour() {
-        document.getElementById('tourOverlay').style.display = 'flex';
-        renderTourStep();
+        setInterval(() => {
+            const city = cities[Math.floor(Math.random() * cities.length)];
+            const phone = "07" + Math.floor(Math.random() * 9) + "***" + Math.floor(100 + Math.random() * 899);
+            const amount = (Math.floor(Math.random() * 8) + 2) * 150;
+            createPing(city.x, city.y, `${phone} earned KES ${amount}`);
+        }, 4000);
     }
 
-    function renderTourStep() {
-        const step = tourSteps[currentTourIndex];
-        document.getElementById('tourLabel').innerText = step.label;
-        document.getElementById('tourDescription').innerText = step.description;
+    function createPing(x, y, message) {
+        const canvas = document.getElementById('ping-canvas');
+        if(!canvas) return;
+        const ping = document.createElement('div');
+        ping.className = 'ping';
+        ping.style.left = x + '%';
+        ping.style.top = y + '%';
+        ping.innerHTML = `<div class="ping-label">${message}</div>`;
+        canvas.appendChild(ping);
+        setTimeout(() => ping.remove(), 4000);
     }
 
-    function handleTourProgression() {
-        currentTourIndex++;
-        if (currentTourIndex >= tourSteps.length) {
-            document.getElementById('tourOverlay').style.display = 'none';
-            localStorage.setItem('sphere_onboarding_viewed', 'true');
-        } else {
-            renderTourStep();
-        }
-    }
-
-    // 4. EARNINGS CALCULATOR ENGINE
+    // 4. EARNINGS CALCULATOR
     function runEarningsLogic(tasksPerDay) {
         document.getElementById('labelTasks').innerText = tasksPerDay + " Tasks";
-        
-        // Logical Formula: Base pay KES 100 * Tasks * 7 days
         const baseWeekly = tasksPerDay * 100 * 7;
         document.getElementById('labelPayout').innerText = "KES " + baseWeekly.toLocaleString();
     }
 
-    // 5. LIVE PAYOUT DATA GENERATOR
+    // 5. LIVE PAYOUT DATA
     function generatePayoutTickerData() {
         const container = document.getElementById('payoutTicker');
         let tickerHtml = '';
         const prefixes = ['072', '071', '079', '011', '074', '070', '075', '076'];
-        
-        // Generate 40 unique payout rows
         for (let i = 0; i < 40; i++) {
             const phone = prefixes[Math.floor(Math.random() * prefixes.length)] + 'xxx' + Math.floor(1000 + Math.random() * 8999);
             const amount = 'KES ' + (Math.floor(Math.random() * 95) + 5) * 100;
             const transId = 'OSX' + Math.floor(100000 + Math.random() * 899999) + 'Q';
-            
-            tickerHtml += `
-                <div class="payout-row">
-                    <div style="font-weight:700;">${phone}</div>
-                    <div style="color:var(--accent); font-weight:900;">${amount}</div>
-                    <div style="opacity:0.6; font-family: 'Courier New', Courier, monospace; font-size:0.85em;">${transId}</div>
-                </div>
-            `;
+            tickerHtml += `<div class="payout-row"><div style="font-weight:700;">${phone}</div><div style="color:var(--accent); font-weight:900;">${amount}</div><div style="opacity:0.6; font-size:0.85em;">${transId}</div></div>`;
         }
-        // Duplicate for seamless infinite loop
         container.innerHTML = tickerHtml + tickerHtml;
     }
 
-    // 6. SCARCITY & LIVE TASK ENGINE
-    function startScarcityEngine() {
-        // This simulates task inventory changing in real-time
-        setInterval(() => {
-            // Logic would go here to update any live task counters
-        }, 6000);
-    }
-
-    // 7. REAL-TIME NOTIFICATION SYSTEM
+    // 6. NOTIFICATION SYSTEM
     function startNotificationEngine() {
         setInterval(() => {
-            const fakeNames = ['0722***410', '0112***834', '0798***112', '0704***556', '0741***902', '0755***331'];
+            const fakeNames = ['0722***410', '0112***834', '0798***112', '0704***556'];
             const amount = (Math.floor(Math.random() * 45) + 5) * 100;
-            
             document.getElementById('payoutNotifyText').innerHTML = `<strong>${fakeNames[Math.floor(Math.random() * fakeNames.length)]}</strong> just withdrew KES ${amount.toLocaleString()}`;
-            
             const popup = document.getElementById('payoutPopup');
             popup.style.display = 'block';
-            
-            setTimeout(() => {
-                popup.style.display = 'none';
-            }, 5000);
-        }, 15000); // Triggers every 15 seconds
+            setTimeout(() => { popup.style.display = 'none'; }, 5000);
+        }, 15000);
     }
 
-    // 8. FAQ PANEL TOGGLE
-    function toggleFaqPanel(index) {
-        const panels = document.querySelectorAll('.faq-panel');
-        const triggers = document.querySelectorAll('.faq-btn span');
-        
-        if (panels[index].style.display === 'block') {
-            panels[index].style.display = 'none';
-            triggers[index].innerText = '+';
-        } else {
-            panels[index].style.display = 'block';
-            triggers[index].innerText = '-';
-        }
-    }
-
-    // 9. WINDOW LOAD INITIALIZATION
     window.onload = () => {
         const savedTheme = localStorage.getItem('sphere_portal_theme');
-        if (savedTheme) {
-            document.body.setAttribute('data-theme', savedTheme);
-        }
-        console.log("Sphere Portal Engine 6.0: Initialized Successfully.");
+        if (savedTheme) document.body.setAttribute('data-theme', savedTheme);
     };
-
 </script>
 </body>
 </html>
