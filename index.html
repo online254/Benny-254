@@ -20,6 +20,7 @@
             --card-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
             --header-grad: linear-gradient(135deg, #0a2e5c 0%, #0d3d7a 100%);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --ai-blue: #3b82f6;
         }
 
         [data-theme="dark"] {
@@ -383,18 +384,108 @@
             to { transform: translateY(0); opacity: 1; } 
         }
 
-        /* --- 14. RESPONSIVE DESIGN --- */
+        /* --- 14. REAL AI CHAT UI --- */
+        #aiChatToggle {
+            position: fixed;
+            bottom: 30px;
+            right: 25px;
+            width: 60px;
+            height: 60px;
+            background: var(--ai-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            cursor: pointer;
+            z-index: 10001;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.5);
+        }
+
+        #aiChatContainer {
+            position: fixed;
+            bottom: 100px;
+            right: 25px;
+            width: 350px;
+            height: 500px;
+            background: var(--white);
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            z-index: 10000;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .ai-chat-header {
+            background: var(--ai-blue);
+            color: white;
+            padding: 20px;
+            font-weight: 900;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #aiChatMessages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            font-size: 0.9em;
+        }
+
+        .msg { padding: 12px 16px; border-radius: 18px; max-width: 85%; line-height: 1.4; }
+        .msg-ai { background: #f1f5f9; color: var(--text-dark); align-self: flex-start; border-bottom-left-radius: 4px; }
+        .msg-user { background: var(--ai-blue); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+
+        .ai-chat-input-area {
+            padding: 15px;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 10px;
+        }
+
+        .ai-chat-input-area input {
+            flex: 1;
+            border: none;
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 12px;
+            outline: none;
+        }
+
+        /* --- 15. RESPONSIVE DESIGN --- */
         @media (max-width: 850px) { 
             .user-grid { grid-template-columns: 1fr; } 
             .pkg-card.featured { transform: none; margin: 20px 0; }
             header { padding: 70px 20px; }
             .auth-card { padding: 40px 25px; }
+            #aiChatContainer { width: 90%; right: 5%; height: 60vh; }
         }
     </style>
 </head>
 <body data-theme="light">
 
 <button class="theme-switch" onclick="toggleInterfaceMode()">🌓</button>
+
+<div id="aiChatToggle" onclick="toggleAIChat()">🤖</div>
+<div id="aiChatContainer">
+    <div class="ai-chat-header">
+        <span>Sphere-AI Assistant</span>
+        <span style="cursor:pointer;" onclick="toggleAIChat()">×</span>
+    </div>
+    <div id="aiChatMessages">
+        <div class="msg msg-ai">Hello! I am the Online Sphere AI. How can I help you maximize your earnings today?</div>
+    </div>
+    <div class="ai-chat-input-area">
+        <input type="text" id="aiInput" placeholder="Ask anything..." onkeypress="if(event.key === 'Enter') sendAIMessage()">
+        <button onclick="sendAIMessage()" style="background:var(--ai-blue); border:none; color:white; padding:10px; border-radius:10px; cursor:pointer;">▶</button>
+    </div>
+</div>
 
 <div id="gatewayOverlay">
     <div class="auth-card">
@@ -638,12 +729,63 @@
         <div style="background:var(--accent); color:white; padding:12px; border-radius:12px; font-size:1.4em; box-shadow:0 8px 15px rgba(29, 191, 115, 0.3);">💰</div>
         <div>
             <p style="font-size:0.8em; color:var(--text-light); font-weight:800; text-transform:uppercase; letter-spacing:1px;">Withdrawal Success</p>
-            <p id="payoutNotifyText" style="font-weight:900; font-size:1em; color:var(--text-dark);"></p>
+            <p id="payoutNotifyText" style="font-weight:900; font-size:1em; color:var(--text-dark)"></p>
         </div>
     </div>
 </div>
 
 <script>
+    /**
+     * ===========================================================
+     * REAL AI INTEGRATION ENGINE
+     * ===========================================================
+     */
+    const API_KEY = "YOUR_OPENAI_OR_GEMINI_KEY_HERE"; // Placeholder for actual API usage
+
+    function toggleAIChat() {
+        const chat = document.getElementById('aiChatContainer');
+        chat.style.display = chat.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    async function sendAIMessage() {
+        const input = document.getElementById('aiInput');
+        const container = document.getElementById('aiChatMessages');
+        const userText = input.value.trim();
+
+        if(!userText) return;
+
+        // 1. Add User Message to UI
+        container.innerHTML += `<div class="msg msg-user">${userText}</div>`;
+        input.value = '';
+        container.scrollTop = container.scrollHeight;
+
+        // 2. Add "Thinking" Bubble
+        const thinkingId = 'ai-think-' + Date.now();
+        container.innerHTML += `<div class="msg msg-ai" id="${thinkingId}">...</div>`;
+        container.scrollTop = container.scrollHeight;
+
+        // 3. AI LOGIC (Simulated Real-Time Response)
+        // Note: For a live production, you would fetch() from an API endpoint here.
+        setTimeout(() => {
+            const thinkingBubble = document.getElementById(thinkingId);
+            let response = "";
+
+            // Simple Brain for offline use - can be replaced with fetch()
+            if(userText.toLowerCase().includes("how to earn")) {
+                response = "To start earning, activate the Starter (500), Pro (1500), or Executive (2500) packages. Executive users earn 20% more per task!";
+            } else if(userText.toLowerCase().includes("withdraw")) {
+                response = "Withdrawals are sent to your M-Pesa number. Minimum withdrawal is KES 50. Executive members get instant payouts!";
+            } else if(userText.toLowerCase().includes("ceo")) {
+                response = "Our CEO is Benson Muthini. He founded Online Sphere to help Kenyans earn through digital tasks.";
+            } else {
+                response = "I'm analyzing the Sphere network... It looks like a great time to complete some ad-verification tasks!";
+            }
+
+            thinkingBubble.innerText = response;
+            container.scrollTop = container.scrollHeight;
+        }, 1200);
+    }
+
     /**
      * ===========================================================
      * CORE JAVASCRIPT ENGINE - ONLINE SPHERE PORTAL
