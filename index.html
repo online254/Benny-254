@@ -76,6 +76,9 @@
             text-transform: uppercase;
             letter-spacing: 1.2px;
             box-shadow: 0 8px 20px rgba(10, 46, 92, 0.15);
+            text-decoration: none;
+            display: block;
+            text-align: center;
         }
 
         .btn-main:hover { 
@@ -181,6 +184,26 @@
             position: relative;
         }
 
+        /* --- 7. NEW: URGENCY TIMER BOX --- */
+        .activation-call { 
+            background: #fffcf0; 
+            border: 2px dashed #f08c00; 
+            padding: 40px; 
+            border-radius: 35px; 
+            margin: 45px 0; 
+            text-align: center; 
+            box-shadow: var(--card-shadow);
+        }
+
+        .timer-box { 
+            font-weight: 900; 
+            color: var(--danger); 
+            font-size: 3em; 
+            margin: 15px 0; 
+            font-family: 'Courier New', monospace; 
+            letter-spacing: 2px;
+        }
+
         .member-card { 
             background: linear-gradient(135deg, #1e293b 0%, #000 100%); 
             color: white; 
@@ -201,7 +224,7 @@
             box-shadow: 0 0 20px var(--accent);
         }
 
-        /* --- 7. EARNINGS CALCULATOR --- */
+        /* --- 8. EARNINGS CALCULATOR --- */
         .calc-wrapper {
             margin-top: 15px;
             text-align: center;
@@ -228,7 +251,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        /* --- 8. LIVE PAYOUT GALLERY --- */
+        /* --- 9. LIVE PAYOUT GALLERY --- */
         .gallery-wrapper { 
             background: var(--white); 
             border-radius: 40px; 
@@ -275,7 +298,7 @@
             100% { transform: translateY(-50%); } 
         }
 
-        /* --- 9. ACTIVATION PACKAGES --- */
+        /* --- 10. ACTIVATION PACKAGES --- */
         .pkg-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
@@ -308,7 +331,7 @@
             margin: 25px 0; 
         }
 
-        /* --- 10. TESTIMONIALS --- */
+        /* --- 11. TESTIMONIALS --- */
         .testi-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -324,7 +347,7 @@
             border-top: 4px solid var(--accent);
         }
 
-        /* --- 11. FAQ ACCORDION --- */
+        /* --- 12. FAQ ACCORDION --- */
         .faq-box { margin-top: 35px; }
         .faq-item { margin-bottom: 15px; background: var(--white); border-radius: 20px; box-shadow: var(--card-shadow); overflow: hidden; }
         .faq-btn { 
@@ -342,7 +365,7 @@
         }
         .faq-panel { display: none; padding: 0 22px 22px; color: var(--text-light); font-size: 0.95em; }
 
-        /* --- 12. CONTACT HUB --- */
+        /* --- 13. CONTACT HUB --- */
         .contact-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
@@ -363,7 +386,7 @@
             gap: 10px;
         }
 
-        /* --- 13. FLOATING POPUP --- */
+        /* --- 14. FLOATING POPUP --- */
         #payoutPopup { 
             position: fixed; 
             bottom: 30px; 
@@ -383,7 +406,7 @@
             to { transform: translateY(0); opacity: 1; } 
         }
 
-        /* --- 14. RESPONSIVE DESIGN --- */
+        /* --- 15. RESPONSIVE DESIGN --- */
         @media (max-width: 850px) { 
             .user-grid { grid-template-columns: 1fr; } 
             .pkg-card.featured { transform: none; margin: 20px 0; }
@@ -456,7 +479,7 @@
                 <p style="font-size:0.85em; font-weight:900; color:var(--text-light); letter-spacing:1px;">AVAILABLE BALANCE</p>
                 <h1 style="color:var(--danger); font-size:3.2em; margin:8px 0; font-weight:900;">KES 0.00</h1>
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-top:25px;">
-                    <button class="btn-main" style="background:var(--accent); padding:14px;" onclick="alert('Proceeding to Activation Deposit...')">DEPOSIT</button>
+                    <button class="btn-main" style="background:var(--accent); padding:14px;" onclick="document.getElementById('packages-section').scrollIntoView();">DEPOSIT</button>
                     <button class="btn-main" style="padding:14px;" onclick="alert('Account activation required for withdrawals.')">WITHDRAW</button>
                 </div>
             </div>
@@ -482,19 +505,13 @@
             </div>
         </div>
 
-        <div class="user-grid" style="margin-top:25px;">
-            <div class="card">
-                <h4 style="color:var(--primary); font-weight:900; font-size:1.2em;">Core Mission</h4>
-                <p style="font-size:0.9em; color:var(--text-light); margin-top:12px;">To create a decentralized digital economy where every Kenyan can monetize their time through verified e-commerce interactions.</p>
-            </div>
-            <div class="card" style="border-left: 8px solid var(--accent);">
-                <h4 style="color:var(--primary); font-weight:900; font-size:1.2em;">Message from the CEO</h4>
-                <p style="font-style:italic; font-size:0.9em; margin:12px 0; color:var(--text-dark); line-height:1.4;">"We prioritize reliability and speed. Your success on this platform is the foundation of our company's growth."</p>
-                <p style="font-weight:900; font-size:0.8em; color:var(--primary); text-transform:uppercase;">— B. Muthini | Founder & CEO</p>
-            </div>
+        <div class="activation-call" id="urgency-timer-box">
+            <h3 style="color:#d9480f; font-weight:900; font-size:1.8em;">🎁 NEW MEMBER BONUS</h3>
+            <p style="color:var(--text-dark); margin-top:10px; font-size:1.1em;">Step in, work smart and grow. Activate your account within the next 15 minutes to receive a <strong>KES 250 Activation Bonus!</strong></p>
+            <div class="timer-box" id="mainTimer">15:00</div>
+            <a href="#packages-section" class="btn-main" style="display:inline-block; width:auto; padding:15px 40px; background:#f08c00; color:white;">CLAIM MY BONUS NOW</a>
         </div>
-
-        <div style="text-align:center; margin-top:70px;">
+        <div style="text-align:center; margin-top:40px;" id="packages-section">
             <h2 style="font-weight:900; font-size:2.2em; color:var(--primary); letter-spacing:-1px;">Activate Your Account</h2>
             <p style="color:var(--text-light); margin-bottom:10px; font-size:1.1em;">Select a membership tier to unlock your task directory immediately.</p>
         </div>
@@ -545,25 +562,6 @@
             </div>
         </div>
 
-        <h3 style="text-align:center; margin-top:75px; font-weight:900; font-size:2em; color:var(--primary); letter-spacing:-1px;">Success Stories</h3>
-        <div class="testi-grid">
-            <div class="testi-card">
-                <div style="color:var(--gold); margin-bottom:12px; font-size:1.2em;">★★★★★</div>
-                <p style="font-style:italic; font-size:0.95em; color:var(--text-dark);">"I joined the Executive tier last month. My weekly average is KES 6,800. The instant withdrawal really works!"</p>
-                <p style="font-weight:900; margin-top:18px; font-size:0.85em; color:var(--primary);">— AGNES K. | NAIROBI</p>
-            </div>
-            <div class="testi-card">
-                <div style="color:var(--gold); margin-bottom:12px; font-size:1.2em;">★★★★★</div>
-                <p style="font-style:italic; font-size:0.95em; color:var(--text-dark);">"Best platform for students. I do tasks between classes and it helps me cover my daily expenses easily."</p>
-                <p style="font-weight:900; margin-top:18px; font-size:0.85em; color:var(--primary);">— PETER O. | ELDORET</p>
-            </div>
-            <div class="testi-card">
-                <div style="color:var(--gold); margin-bottom:12px; font-size:1.2em;">★★★★★</div>
-                <p style="font-style:italic; font-size:0.95em; color:var(--text-dark);">"Support is very fast. I had an issue with my M-Pesa number and they fixed it on WhatsApp in 5 minutes."</p>
-                <p style="font-weight:900; margin-top:18px; font-size:0.85em; color:var(--primary);">— MARY J. | MOMBASA</p>
-            </div>
-        </div>
-
         <h3 style="text-align:center; margin-top:75px; font-weight:900; font-size:2em; color:var(--primary); letter-spacing:-1px;">Live Payout Gallery</h3>
         <div class="gallery-wrapper">
             <div class="gallery-header">
@@ -572,72 +570,29 @@
                 <div>Transaction ID</div>
             </div>
             <div class="gallery-viewport">
-                <div class="gallery-scroll-container" id="payoutTicker">
-                    </div>
-            </div>
-        </div>
-
-        <div class="card" style="margin-top:50px;">
-            <h3 style="color:var(--primary); font-weight:900; font-size:1.6em; margin-bottom:25px; letter-spacing:-0.5px;">Common Questions (FAQs)</h3>
-            
-            <div class="faq-box">
-                <div class="faq-item">
-                    <button class="faq-btn" onclick="toggleFaqPanel(0)">How do I start earning? <span>+</span></button>
-                    <div class="faq-panel">Once you activate your account by choosing a package and completing the M-Pesa payment, your dashboard will reveal active tasks. Complete them and your balance updates instantly.</div>
-                </div>
-
-                <div class="faq-item">
-                    <button class="faq-btn" onclick="toggleFaqPanel(1)">Is there a withdrawal limit? <span>+</span></button>
-                    <div class="faq-panel">The minimum withdrawal amount is KES 50. Maximum daily limits depend on your membership level (Starter, Pro, or Executive).</div>
-                </div>
-
-                <div class="faq-item">
-                    <button class="faq-btn" onclick="toggleFaqPanel(2)">How many tasks can I do per day? <span>+</span></button>
-                    <div class="faq-panel">Tasks are updated hourly. As long as slots are available in the directory, you can perform as many tasks as your level allows.</div>
-                </div>
+                <div class="gallery-scroll-container" id="payoutTicker"></div>
             </div>
         </div>
 
         <div class="card" style="margin-top:40px; background: var(--primary); color: white; text-align:center;">
             <h3 style="font-weight:900; font-size:1.8em; margin-bottom:12px;">Official Support Center</h3>
-            <p style="font-size:1em; opacity:0.8; margin-bottom:30px;">Our agents are standing by 24/7 to assist with your account and earnings.</p>
-            
             <div class="contact-grid">
-                <a href="https://wa.me/254741723223" class="contact-link" style="background:var(--whatsapp);">
-                    <span>💬 WHATSAPP SUPPORT</span>
-                </a>
-                <a href="mailto:support@onlinesphere.co.ke" class="contact-link" style="background:#3b82f6;">
-                    <span>📧 EMAIL HELP DESK</span>
-                </a>
-                <a href="tel:+254741723223" class="contact-link" style="background:var(--accent);">
-                    <span>📞 CALL OFFICIAL AGENT</span>
-                </a>
+                <a href="https://wa.me/254741723223" class="contact-link" style="background:var(--whatsapp);"><span>💬 WHATSAPP SUPPORT</span></a>
+                <a href="mailto:support@onlinesphere.co.ke" class="contact-link" style="background:#3b82f6;"><span>📧 EMAIL HELP DESK</span></a>
             </div>
         </div>
 
         <footer style="text-align:center; padding:70px 0; font-size:0.9em; color:var(--text-light); border-top:1px solid rgba(0,0,0,0.05); margin-top:50px;">
-            <div style="margin-bottom:20px; font-weight:900; color:var(--primary); font-size:1.2em; letter-spacing:1px;">
-                ONLINE SPHERE COMMERCE COMPANY
-            </div>
-            <p style="max-width:600px; margin:0 auto 20px; line-height:1.8;">
-                The leading digital workspace platform in East Africa. Empowering members through secure e-commerce tasks and instant mobile payments since 2024.
-            </p>
-            <div style="display:flex; justify-content:center; gap:20px; font-weight:700; margin-bottom:20px;">
-                <span style="cursor:pointer;">Terms of Service</span>
-                <span style="cursor:pointer;">Privacy Policy</span>
-                <span style="cursor:pointer;">Task Guidelines</span>
-            </div>
             <p>&copy; 2026 Official Member Portal. All Rights Reserved.</p>
-            <p style="margin-top:12px; font-size:0.8em; opacity:0.7;">Verified Secure by Sphere-Armor™ & Safaricom M-Pesa API.</p>
         </footer>
     </div>
 </div>
 
 <div id="payoutPopup">
     <div style="display:flex; align-items:center; gap:18px;">
-        <div style="background:var(--accent); color:white; padding:12px; border-radius:12px; font-size:1.4em; box-shadow:0 8px 15px rgba(29, 191, 115, 0.3);">💰</div>
+        <div style="background:var(--accent); color:white; padding:12px; border-radius:12px; font-size:1.4em;">💰</div>
         <div>
-            <p style="font-size:0.8em; color:var(--text-light); font-weight:800; text-transform:uppercase; letter-spacing:1px;">Withdrawal Success</p>
+            <p style="font-size:0.8em; color:var(--text-light); font-weight:800; text-transform:uppercase;">Withdrawal Success</p>
             <p id="payoutNotifyText" style="font-weight:900; font-size:1em; color:var(--text-dark);"></p>
         </div>
     </div>
@@ -669,7 +624,6 @@
             return;
         }
 
-        // Visual transition
         const gateway = document.getElementById('gatewayOverlay');
         gateway.style.transition = 'opacity 1s ease-out';
         gateway.style.opacity = '0';
@@ -679,35 +633,44 @@
             document.getElementById('mainContent').style.display = 'block';
             document.getElementById('displayNum').innerText = phone;
             
-            // Check for Onboarding
+            // START THE URGENCY TIMER UPON LOGIN
+            startUrgencyTimer(900, document.getElementById('mainTimer'));
+
             if (!localStorage.getItem('sphere_onboarding_viewed')) {
                 setTimeout(initializeUserTour, 1200);
             }
             
             generatePayoutTickerData();
-            startScarcityEngine();
             startNotificationEngine();
         }, 1000);
     }
 
-    // 3. USER ONBOARDING TOUR ENGINE
+    // 3. THE URGENCY TIMER LOGIC
+    function startUrgencyTimer(duration, display) {
+        let timer = duration, minutes, seconds;
+        const interval = setInterval(function () {
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            display.textContent = minutes + ":" + seconds;
+
+            if (--timer < 0) {
+                // Keep at 00:00 once finished
+                display.textContent = "00:00";
+                clearInterval(interval);
+            }
+        }, 1000);
+    }
+
+    // 4. USER ONBOARDING TOUR ENGINE
     let currentTourIndex = 0;
     const tourSteps = [
-        { 
-            label: "Member ID & Status", 
-            description: "Your M-Pesa number is your unique ID. Your level will increase as you complete more tasks, unlocking higher payments.", 
-            element: "profile-card" 
-        },
-        { 
-            label: "Wallet Controls", 
-            description: "Use these buttons to activate your account or withdraw your earnings. Payouts are sent directly to your phone.", 
-            element: "balance-card" 
-        },
-        { 
-            label: "Earning Projections", 
-            description: "Our calculator helps you plan your work week. The more tasks you complete, the higher your bonus multiplier grows.", 
-            element: "calculator-section" 
-        }
+        { label: "Member ID & Status", description: "Your M-Pesa number is your unique ID.", element: "profile-card" },
+        { label: "Wallet Controls", description: "Use these buttons to activate your account or withdraw.", element: "balance-card" },
+        { label: "Earning Projections", description: "Our calculator helps you plan your work week.", element: "calculator-section" }
     ];
 
     function initializeUserTour() {
@@ -731,85 +694,42 @@
         }
     }
 
-    // 4. EARNINGS CALCULATOR ENGINE
+    // 5. EARNINGS CALCULATOR ENGINE
     function runEarningsLogic(tasksPerDay) {
         document.getElementById('labelTasks').innerText = tasksPerDay + " Tasks";
-        
-        // Logical Formula: Base pay KES 100 * Tasks * 7 days
         const baseWeekly = tasksPerDay * 100 * 7;
         document.getElementById('labelPayout').innerText = "KES " + baseWeekly.toLocaleString();
     }
 
-    // 5. LIVE PAYOUT DATA GENERATOR
+    // 6. LIVE PAYOUT DATA GENERATOR
     function generatePayoutTickerData() {
         const container = document.getElementById('payoutTicker');
         let tickerHtml = '';
-        const prefixes = ['072', '071', '079', '011', '074', '070', '075', '076'];
-        
-        // Generate 40 unique payout rows
+        const prefixes = ['072', '071', '079', '011', '074', '070'];
         for (let i = 0; i < 40; i++) {
             const phone = prefixes[Math.floor(Math.random() * prefixes.length)] + 'xxx' + Math.floor(1000 + Math.random() * 8999);
             const amount = 'KES ' + (Math.floor(Math.random() * 95) + 5) * 100;
             const transId = 'OSX' + Math.floor(100000 + Math.random() * 899999) + 'Q';
-            
-            tickerHtml += `
-                <div class="payout-row">
-                    <div style="font-weight:700;">${phone}</div>
-                    <div style="color:var(--accent); font-weight:900;">${amount}</div>
-                    <div style="opacity:0.6; font-family: 'Courier New', Courier, monospace; font-size:0.85em;">${transId}</div>
-                </div>
-            `;
+            tickerHtml += `<div class="payout-row"><div>${phone}</div><div style="color:var(--accent); font-weight:900;">${amount}</div><div style="opacity:0.6;">${transId}</div></div>`;
         }
-        // Duplicate for seamless infinite loop
         container.innerHTML = tickerHtml + tickerHtml;
-    }
-
-    // 6. SCARCITY & LIVE TASK ENGINE
-    function startScarcityEngine() {
-        // This simulates task inventory changing in real-time
-        setInterval(() => {
-            // Logic would go here to update any live task counters
-        }, 6000);
     }
 
     // 7. REAL-TIME NOTIFICATION SYSTEM
     function startNotificationEngine() {
         setInterval(() => {
-            const fakeNames = ['0722***410', '0112***834', '0798***112', '0704***556', '0741***902', '0755***331'];
+            const fakeNames = ['0722***410', '0112***834', '0798***112', '0704***556'];
             const amount = (Math.floor(Math.random() * 45) + 5) * 100;
-            
-            document.getElementById('payoutNotifyText').innerHTML = `<strong>${fakeNames[Math.floor(Math.random() * fakeNames.length)]}</strong> just withdrew KES ${amount.toLocaleString()}`;
-            
+            document.getElementById('payoutNotifyText').innerHTML = `<strong>${fakeNames[Math.floor(Math.random() * fakeNames.length)]}</strong> withdrew KES ${amount.toLocaleString()}`;
             const popup = document.getElementById('payoutPopup');
             popup.style.display = 'block';
-            
-            setTimeout(() => {
-                popup.style.display = 'none';
-            }, 5000);
-        }, 15000); // Triggers every 15 seconds
+            setTimeout(() => { popup.style.display = 'none'; }, 5000);
+        }, 15000);
     }
 
-    // 8. FAQ PANEL TOGGLE
-    function toggleFaqPanel(index) {
-        const panels = document.querySelectorAll('.faq-panel');
-        const triggers = document.querySelectorAll('.faq-btn span');
-        
-        if (panels[index].style.display === 'block') {
-            panels[index].style.display = 'none';
-            triggers[index].innerText = '+';
-        } else {
-            panels[index].style.display = 'block';
-            triggers[index].innerText = '-';
-        }
-    }
-
-    // 9. WINDOW LOAD INITIALIZATION
     window.onload = () => {
         const savedTheme = localStorage.getItem('sphere_portal_theme');
-        if (savedTheme) {
-            document.body.setAttribute('data-theme', savedTheme);
-        }
-        console.log("Sphere Portal Engine 6.0: Initialized Successfully.");
+        if (savedTheme) document.body.setAttribute('data-theme', savedTheme);
     };
 
 </script>
