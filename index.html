@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Sphere Commerce | Member Portal</title>
+    <title>Online Sphere Commerce Company | Official Member Portal</title>
     <style>
         /* --- 1. GLOBAL DESIGN SYSTEM --- */
         :root {
@@ -17,183 +17,326 @@
             --bg: #f4f7fa; 
             --text-dark: #1e293b;
             --text-light: #64748b; 
-            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --card-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
             --header-grad: linear-gradient(135deg, #0a2e5c 0%, #0d3d7a 100%);
-            --transition: all 0.25s ease;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         [data-theme="dark"] {
-            --bg: #0f172a; --white: #1e293b; --text-dark: #f1f5f9; --text-light: #94a3b8;
+            --bg: #0f172a; 
+            --white: #1e293b; 
+            --text-dark: #f1f5f9;
+            --text-light: #94a3b8; 
+            --card-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background: var(--bg); color: var(--text-dark); padding-bottom: 80px; } /* Space for nav */
+        /* --- 2. BASE STYLING & RESET --- */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            transition: var(--transition); 
+        }
 
-        /* --- 2. LAYOUT & NAVIGATION --- */
-        .tab-content { display: none; animation: fadeIn 0.4s ease; }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: 'Inter', 'Segoe UI', Roboto, sans-serif; 
+            background: var(--bg); 
+            color: var(--text-dark); 
+            line-height: 1.6; 
+            overflow-x: hidden;
+            padding-bottom: 80px; /* Space for bottom nav */
+        }
+
+        .container { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 0 20px; 
+        }
+
+        /* --- 3. MULTI-TAB NAVIGATION --- */
+        .tab-content { display: none; animation: slideUp 0.4s ease-out; }
         .tab-content.active { display: block; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
         .bottom-nav {
-            position: fixed; bottom: 0; left: 0; right: 0;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
             background: var(--white);
-            display: flex; justify-content: space-around;
-            padding: 12px 0; border-top: 1px solid rgba(0,0,0,0.05);
-            z-index: 1000; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            border-top: 1px solid rgba(0,0,0,0.08);
+            z-index: 1000;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.05);
         }
 
         .nav-item {
-            text-align: center; color: var(--text-light);
-            font-size: 0.7em; font-weight: 700; cursor: pointer;
-            flex: 1; transition: var(--transition);
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.75em;
+            font-weight: 800;
+            cursor: pointer;
+            flex: 1;
         }
 
         .nav-item.active { color: var(--primary); }
-        .nav-item i { display: block; font-size: 1.6em; margin-bottom: 4px; }
+        .nav-item i { display: block; font-size: 1.8em; margin-bottom: 4px; font-style: normal; }
 
-        /* --- 3. COMPONENTS --- */
-        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-        .card { background: var(--white); padding: 25px; border-radius: 24px; box-shadow: var(--card-shadow); margin-bottom: 20px; }
-        
+        /* --- 4. BUTTONS & UI --- */
         .btn-main { 
-            background: var(--primary); color: white; border: none; padding: 16px; 
-            border-radius: 14px; font-weight: 800; width: 100%; cursor: pointer;
+            background: var(--primary); 
+            color: white; 
+            border: none; 
+            padding: 18px 28px; 
+            border-radius: 16px; 
+            font-weight: 800; 
+            cursor: pointer; 
+            width: 100%; 
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            box-shadow: 0 8px 20px rgba(10, 46, 92, 0.15);
+            text-decoration: none;
+            display: block;
+            text-align: center;
         }
 
-        /* URGENCY TIMER STYLE */
+        .theme-switch { 
+            position: fixed; bottom: 100px; right: 20px; z-index: 1000; 
+            background: var(--primary); color: white; border: none; 
+            width: 50px; height: 50px; border-radius: 50%; cursor: pointer;
+        }
+
+        /* --- 5. SECURITY GATEWAY --- */
+        #gatewayOverlay { 
+            position: fixed; inset: 0; 
+            background: linear-gradient(135deg, #000 0%, var(--primary) 100%); 
+            display: flex; justify-content: center; align-items: center; 
+            z-index: 2000000; 
+        }
+
+        .auth-card { 
+            background: var(--white); padding: 50px 40px; border-radius: 40px; 
+            width: 90%; max-width: 400px; text-align: center; 
+        }
+
+        .input-field { 
+            width: 100%; padding: 18px; margin-bottom: 15px; 
+            border-radius: 15px; border: 2px solid #eee; outline: none; 
+        }
+
+        /* --- 6. TIMER & URGENCY --- */
         .timer-strip {
-            background: #fff5f5; border: 1px solid #ffc9c9;
-            padding: 15px; border-radius: 15px; text-align: center; margin-bottom: 20px;
+            background: #fffcf0; border: 2px dashed #f08c00;
+            padding: 20px; border-radius: 25px; text-align: center; margin: 20px 0;
         }
-        .timer-clock { font-family: monospace; font-weight: 900; color: var(--danger); font-size: 1.5em; }
+        .timer-clock { 
+            font-family: 'Courier New', monospace; font-weight: 900; 
+            color: var(--danger); font-size: 2.5em; margin: 10px 0;
+        }
 
-        /* GATEWAY OVERLAY */
-        #gatewayOverlay { position: fixed; inset: 0; background: var(--primary); z-index: 10000; display: flex; align-items: center; justify-content: center; }
-        .auth-card { background: var(--white); padding: 40px; border-radius: 30px; width: 90%; max-width: 400px; text-align: center; }
+        /* --- 7. CARDS & GRIDS --- */
+        .card { 
+            background: var(--white); padding: 30px; border-radius: 30px; 
+            box-shadow: var(--card-shadow); margin-bottom: 25px; 
+        }
+
+        .member-card { background: linear-gradient(135deg, #1e293b 0%, #000 100%); color: white; }
+
+        .level-bar { height: 10px; background: rgba(255,255,255,0.1); border-radius: 10px; margin: 20px 0; }
+        .level-fill { height: 100%; background: var(--accent); width: 15%; border-radius: 10px; }
+
+        /* --- 8. LIVE TICKER --- */
+        .gallery-wrapper { background: var(--white); border-radius: 25px; overflow: hidden; margin-top: 20px; }
+        .gallery-header { display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 15px; background: var(--primary); color: white; font-size: 0.8em; font-weight: 900; }
+        .gallery-viewport { height: 200px; overflow: hidden; position: relative; }
+        .gallery-scroll-container { position: absolute; width: 100%; animation: scrollPayouts 30s linear infinite; }
+        .payout-row { display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 12px 15px; border-bottom: 1px solid #eee; font-size: 0.85em; }
+
+        @keyframes scrollPayouts { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
+
+        /* --- 9. PACKAGES --- */
+        .pkg-card { padding: 30px; border-radius: 30px; border: 2px solid #eee; margin-bottom: 20px; text-align: center; }
+        .pkg-card.featured { border-color: var(--gold); background: #fffdf5; }
+        .pkg-price { font-size: 2.5em; font-weight: 900; color: var(--primary); margin: 15px 0; }
+
+        /* --- 10. NOTIFICATIONS --- */
+        #payoutPopup { 
+            position: fixed; bottom: 90px; left: 20px; right: 20px;
+            background: var(--white); padding: 15px; border-radius: 20px; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2); border-left: 6px solid var(--accent); 
+            display: none; z-index: 10000; 
+        }
     </style>
 </head>
 <body data-theme="light">
 
 <div id="gatewayOverlay">
     <div class="auth-card">
-        <h2 style="margin-bottom:20px;">Member Access</h2>
-        <input type="tel" id="userPhone" placeholder="M-Pesa Number" style="width:100%; padding:15px; margin-bottom:10px; border-radius:10px; border:1px solid #ddd;">
-        <input type="password" id="userPass" placeholder="Password" style="width:100%; padding:15px; margin-bottom:20px; border-radius:10px; border:1px solid #ddd;">
-        <button class="btn-main" onclick="handleLogin()">ENTER PORTAL</button>
+        <h2 style="color:var(--primary); font-weight:900; font-size:1.8em; margin-bottom:10px;">MEMBER PORTAL</h2>
+        <p style="color:var(--text-light); margin-bottom:30px; font-size:0.9em;">Secure access to your workspace</p>
+        <input type="tel" id="userPhone" placeholder="M-Pesa Number" class="input-field">
+        <input type="password" id="userPass" placeholder="Access Password" class="input-field">
+        <button class="btn-main" onclick="handlePortalLogin()">AUTHORIZE LOGIN</button>
     </div>
 </div>
 
 <nav class="bottom-nav" id="mainNav" style="display:none;">
-    <div class="nav-item active" onclick="switchTab('home', this)"><i>🏠</i>Home</div>
-    <div class="nav-item" onclick="switchTab('tasks', this)"><i>📋</i>Tasks</div>
-    <div class="nav-item" onclick="switchTab('withdraw', this)"><i>💰</i>Wallet</div>
-    <div class="nav-item" onclick="switchTab('support', this)"><i>🎧</i>Help</div>
+    <div class="nav-item active" onclick="switchTab('home', this)"><i>🏠</i>HOME</div>
+    <div class="nav-item" onclick="switchTab('tasks', this)"><i>📋</i>TASKS</div>
+    <div class="nav-item" onclick="switchTab('wallet', this)"><i>💰</i>WALLET</div>
+    <div class="nav-item" onclick="switchTab('help', this)"><i>🎧</i>HELP</div>
 </nav>
 
-<div id="portalContent" style="display:none;">
+<div id="mainContent" style="display:none;">
 
     <section id="home" class="tab-content active">
-        <header style="background: var(--header-grad); color: white; padding: 40px 20px; text-align: center; border-radius: 0 0 30px 30px;">
-            <p style="font-size: 0.8em; opacity: 0.8;">Welcome Back,</p>
-            <h2 id="displayNum">07XXXXXXXX</h2>
+        <header style="background: var(--header-grad); color: white; padding: 50px 20px; text-align: center; border-radius: 0 0 40px 40px;">
+            <h1 style="font-weight:900; letter-spacing:-1px;">WORKSPACE ACTIVE</h1>
+            <p id="displayNum" style="opacity:0.8; font-weight:700; margin-top:5px;">07XXXXXXXX</p>
         </header>
-        
+
         <div class="container">
             <div class="timer-strip">
-                <p style="font-size: 0.8em; font-weight: 700;">NEW MEMBER BONUS EXPIRES IN:</p>
-                <div class="timer-clock" id="homeTimer">15:00</div>
+                <h3 style="color:#d9480f; font-weight:900; font-size:1.2em;">🎁 NEW MEMBER BONUS</h3>
+                <p style="font-size:0.85em; margin-top:5px;">Activate within this time to get <strong>KES 250 Bonus!</strong></p>
+                <div class="timer-clock" id="mainTimer">15:00</div>
+                <button class="btn-main" style="background:#f08c00; padding:12px;" onclick="switchTab('wallet')">CLAIM BONUS</button>
             </div>
 
-            <div class="card" style="text-align: center;">
-                <p style="color: var(--text-light); font-weight: 700;">TOTAL BALANCE</p>
-                <h1 style="font-size: 2.5em; color: var(--primary);">KES 0.00</h1>
+            <div class="card member-card">
+                <p style="font-size:0.7em; font-weight:900; opacity:0.7;">ACCOUNT STATUS</p>
+                <h2 style="margin:10px 0;">LEVEL 1: NEWBIE</h2>
+                <div class="level-bar"><div class="level-fill"></div></div>
+                <p style="font-size:0.8em; color:var(--accent); font-weight:900;">Progress: 15%</p>
             </div>
 
-            <div class="card">
-                <h3>Executive Upgrade</h3>
-                <p style="font-size: 0.9em; margin: 10px 0;">Unlock instant withdrawals and premium tasks.</p>
-                <button class="btn-main" style="background: var(--accent);" onclick="switchTab('withdraw')">ACTIVATE NOW</button>
+            <div class="card" style="text-align:center;">
+                <p style="font-weight:900; color:var(--text-light); font-size:0.8em;">AVAILABLE BALANCE</p>
+                <h1 style="font-size:3em; color:var(--danger); font-weight:900; margin:5px 0;">KES 0.00</h1>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:20px;">
+                    <button class="btn-main" style="background:var(--accent); padding:14px;" onclick="switchTab('wallet')">DEPOSIT</button>
+                    <button class="btn-main" style="padding:14px;" onclick="alert('Activation Required')">WITHDRAW</button>
+                </div>
+            </div>
+
+            <div class="card" style="border-left:8px solid var(--accent);">
+                <h4 style="color:var(--primary);">Message from CEO</h4>
+                <p style="font-style:italic; font-size:0.9em; margin-top:10px;">"Reliability and speed are our priority. Your success is our foundation."</p>
+                <p style="font-weight:900; font-size:0.75em; margin-top:10px;">— B. Muthini | Founder</p>
             </div>
         </div>
     </section>
 
     <section id="tasks" class="tab-content">
-        <div class="container">
-            <h2 style="margin-bottom: 20px;">Task Directory</h2>
-            <div class="card" style="border-left: 5px solid var(--danger);">
-                <h4>🔒 Verification Locked</h4>
-                <p style="font-size: 0.9em; margin-top: 5px;">You must activate your account to access daily earning tasks.</p>
+        <div class="container" style="padding-top:30px;">
+            <h2 style="margin-bottom:20px; font-weight:900;">Task Directory</h2>
+            <div class="card" style="background:#fff5f5; border:1px solid #feb2b2;">
+                <h4 style="color:var(--danger);">🔒 DIRECTORY LOCKED</h4>
+                <p style="font-size:0.9em; margin-top:10px;">Your account must be activated to view and perform daily tasks. Choose a package in the Wallet tab to begin.</p>
             </div>
-            <div class="card" style="opacity: 0.5;">
-                <h4>Product Review #402</h4>
-                <p>Pay: KES 150</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="withdraw" class="tab-content">
-        <div class="container">
-            <h2>Wallet & Activation</h2>
-            <div class="card" style="margin-top: 20px;">
-                <p>Choose Package:</p>
-                <select style="width:100%; padding:15px; margin: 10px 0; border-radius: 10px;">
-                    <option>Starter - KES 500</option>
-                    <option selected>Executive - KES 2,500</option>
-                    <option>Pro - KES 1,500</option>
-                </select>
-                <button class="btn-main" onclick="alert('STK Push Sent!')">PAY VIA M-PESA</button>
+            <div class="card" style="opacity:0.5;">
+                <h4>Ad Verification #102</h4>
+                <p style="font-size:0.8em; font-weight:700; color:var(--accent);">Reward: KES 120.00</p>
             </div>
         </div>
     </section>
 
-    <section id="support" class="tab-content">
-        <div class="container">
-            <h2>Support Center</h2>
+    <section id="wallet" class="tab-content">
+        <div class="container" style="padding-top:30px;">
+            <h2 style="margin-bottom:20px; font-weight:900;">Account Activation</h2>
+            
+            <div class="pkg-card">
+                <h3>STARTER</h3>
+                <div class="pkg-price">KES 500</div>
+                <p style="font-size:0.85em; color:var(--text-light); margin-bottom:20px;">Basic task access & weekly withdrawals.</p>
+                <button class="btn-main" onclick="alert('Initiating M-Pesa...')">ACTIVATE STARTER</button>
+            </div>
+
+            <div class="pkg-card featured">
+                <div style="background:var(--gold); color:white; font-size:0.6em; padding:5px 15px; border-radius:20px; display:inline-block; margin-bottom:10px; font-weight:900;">RECOMMENDED</div>
+                <h3>EXECUTIVE</h3>
+                <div class="pkg-price">KES 2,500</div>
+                <p style="font-size:0.85em; color:var(--text-light); margin-bottom:20px;">Instant withdrawals & premium high-pay tasks.</p>
+                <button class="btn-main" style="background:var(--accent);" onclick="alert('Initiating M-Pesa...')">ACTIVATE EXECUTIVE</button>
+            </div>
+            
+            <h3 style="margin:30px 0 15px; font-weight:900;">Live Payouts</h3>
+            <div class="gallery-wrapper">
+                <div class="gallery-header">
+                    <div>User</div><div>Amount</div><div>ID</div>
+                </div>
+                <div class="gallery-viewport">
+                    <div class="gallery-scroll-container" id="payoutTicker"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="help" class="tab-content">
+        <div class="container" style="padding-top:30px;">
+            <h2 style="margin-bottom:20px; font-weight:900;">Support Hub</h2>
+            <div class="card" style="background:var(--primary); color:white;">
+                <h3>Need Assistance?</h3>
+                <p style="font-size:0.9em; margin:15px 0; opacity:0.8;">Our official agents are available 24/7 via WhatsApp for account issues.</p>
+                <a href="https://wa.me/254741723223" class="btn-main" style="background:var(--whatsapp);">CHAT ON WHATSAPP</a>
+            </div>
+            
             <div class="card">
-                <p>Need help with your activation?</p>
-                <a href="https://wa.me/254741723223" class="btn-main" style="background: var(--whatsapp); text-decoration: none; display: block; text-align: center; margin-top: 15px;">CHAT ON WHATSAPP</a>
+                <h4 style="margin-bottom:10px;">FAQ</h4>
+                <p style="font-weight:700; font-size:0.9em;">How do I withdraw?</p>
+                <p style="font-size:0.85em; color:var(--text-light); margin-bottom:15px;">Once activated, click 'Withdraw' on Home. Money is sent to your registered M-Pesa.</p>
+                <p style="font-weight:700; font-size:0.9em;">Is it secure?</p>
+                <p style="font-size:0.85em; color:var(--text-light);">Yes, we use Sphere-Armor™ encryption for all transactions.</p>
             </div>
         </div>
     </section>
 
 </div>
 
+<div id="payoutPopup">
+    <div style="display:flex; align-items:center; gap:15px;">
+        <div style="background:var(--accent); color:white; padding:10px; border-radius:10px;">💰</div>
+        <div id="payoutNotifyText" style="font-size:0.85em; font-weight:800;"></div>
+    </div>
+</div>
+
+<button class="theme-switch" onclick="toggleMode()">🌓</button>
+
 <script>
-    // 1. TAB SWITCHING LOGIC
+    // 1. NAVIGATION & LOGIN
     function switchTab(tabId, el) {
-        // Hide all tabs
-        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-        // Show selected tab
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
         document.getElementById(tabId).classList.add('active');
-        
-        // Update Nav UI
-        if(el) {
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            el.classList.add('active');
-        }
-        
-        // Scroll to top
+        if(el) el.classList.add('active');
         window.scrollTo(0,0);
     }
 
-    // 2. LOGIN LOGIC
-    function handleLogin() {
+    function handlePortalLogin() {
         const phone = document.getElementById('userPhone').value;
         if(phone.length < 10) return alert("Enter valid M-Pesa number");
 
         document.getElementById('gatewayOverlay').style.display = 'none';
-        document.getElementById('portalContent').style.display = 'block';
+        document.getElementById('mainContent').style.display = 'block';
         document.getElementById('mainNav').style.display = 'flex';
         document.getElementById('displayNum').innerText = phone;
 
-        startTimer(900, document.getElementById('homeTimer'));
+        startUrgencyTimer(900, document.getElementById('mainTimer'));
+        generatePayouts();
+        startNotifications();
     }
 
-    // 3. URGENCY TIMER
-    function startTimer(duration, display) {
+    // 2. URGENCY TIMER
+    function startUrgencyTimer(duration, display) {
         let timer = duration, minutes, seconds;
-        setInterval(function () {
+        setInterval(() => {
             minutes = parseInt(timer / 60, 10);
             seconds = parseInt(timer % 60, 10);
             minutes = minutes < 10 ? "0" + minutes : minutes;
@@ -202,7 +345,36 @@
             if (--timer < 0) timer = 0;
         }, 1000);
     }
-</script>
 
+    // 3. LIVE DATA & NOTIFS
+    function generatePayouts() {
+        const container = document.getElementById('payoutTicker');
+        let html = '';
+        const pref = ['072', '071', '079', '011', '074', '070'];
+        for(let i=0; i<30; i++) {
+            const phone = pref[Math.floor(Math.random()*pref.length)] + '***' + Math.floor(100 + Math.random()*899);
+            const amt = 'KES ' + (Math.floor(Math.random()*50)+5)*100;
+            const id = 'OS' + Math.floor(100000 + Math.random()*899999) + 'Q';
+            html += `<div class="payout-row"><div>${phone}</div><div style="color:var(--accent); font-weight:900;">${amt}</div><div style="opacity:0.5;">${id}</div></div>`;
+        }
+        container.innerHTML = html + html;
+    }
+
+    function startNotifications() {
+        setInterval(() => {
+            const nums = ['0722***410', '0112***834', '0798***112', '0704***556'];
+            const amt = (Math.floor(Math.random()*30)+5)*100;
+            document.getElementById('payoutNotifyText').innerHTML = `${nums[Math.floor(Math.random()*nums.length)]} withdrew KES ${amt}`;
+            const p = document.getElementById('payoutPopup');
+            p.style.display = 'block';
+            setTimeout(() => p.style.display = 'none', 4000);
+        }, 12000);
+    }
+
+    function toggleMode() {
+        const b = document.body;
+        b.setAttribute('data-theme', b.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
+    }
+</script>
 </body>
 </html>
