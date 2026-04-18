@@ -1,87 +1,66 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Live Location Tracker</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<style>
-body { font-family: Arial, sans-serif; background:#0f172a; color:white; text-align:center; margin:0; }
-header { padding:20px; background:#1e293b; font-size:24px; font-weight:bold; }
-.container { padding:20px; }
-input { padding:10px; font-size:16px; border-radius:8px; border:none; }
-button { padding:10px 20px; margin:10px; border:none; border-radius:8px; background:#22c55e; color:white; font-size:16px; cursor:pointer; }
-button:hover { background:#16a34a; }
-#map { width:90%; height:450px; margin:20px auto; border-radius:12px; }
-#status { margin-top:15px; font-size:16px; }
-</style>
-</head>
-<body>
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+import { Search } from "lucide-react";
 
-<header>📍 Live Location Tracker</header>
-<div class="container">
-    <input type="text" id="phone" placeholder="Enter phone number"><br>
-    <button onclick="shareLocation()">Share My Location</button>
-    <button onclick="findLocation()">Find Location</button>
-    <div id="status"></div>
-    <div id="map"></div>
-</div>
+export default function PhoneLookupUI() {
+  const [phone, setPhone] = useState("");
+  const [result, setResult] = useState(null);
 
-<script>
-let map, marker;
+  const handleLookup = () => {
+    // Mock lookup result
+    if (!phone) return;
 
-async function shareLocation(){
-    const phone = document.getElementById("phone").value;
-    const status = document.getElementById("status");
+    setResult({
+      number: phone,
+      country: "Kenya",
+      carrier: "Safaricom",
+      location: "Nairobi",
+    });
+  };
 
-    if(navigator.geolocation){
-        navigator.geolocation.watchPosition(async function(position){
-            let lat = position.coords.latitude;
-            let lon = position.coords.longitude;
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="w-full max-w-md"
+      >
+        <Card className="rounded-2xl shadow-lg">
+          <CardContent className="p-6 space-y-4">
+            <h1 className="text-xl font-semibold text-center">
+              Phone Number Lookup
+            </h1>
 
-            status.innerHTML = "Sharing: " + phone + " → " + lat + "," + lon;
+            <div className="flex gap-2">
+              <Input
+                placeholder="Enter phone number..."
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
+              <Button onClick={handleLookup}>
+                <Search className="w-4 h-4" />
+              </Button>
+            </div>
 
-            await fetch("http://localhost:3000/saveLocation", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ phone, latitude: lat, longitude: lon })
-            });
-        }, function(){
-            status.innerHTML = "Location access denied.";
-        });
-    } else {
-        status.innerHTML = "Geolocation not supported.";
-    }
+            {result && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="mt-4 p-4 border rounded-xl"
+              >
+                <p><strong>Number:</strong> {result.number}</p>
+                <p><strong>Country:</strong> {result.country}</p>
+                <p><strong>Carrier:</strong> {result.carrier}</p>
+                <p><strong>Location:</strong> {result.location}</p>
+              </motion.div>
+            )}
+          </CardContent>
+        </Card>
+      </motion.div>
+    </div>
+  );
 }
-
-async function findLocation(){
-    const phone = document.getElementById("phone").value;
-    const status = document.getElementById("status");
-
-    const response = await fetch("http://localhost:3000/getLocation?phone=" + phone);
-    const user = await response.json();
-
-    if(user && user.latitude){
-        status.innerHTML = "Found: " + phone + " → " + user.latitude + "," + user.longitude;
-
-        if(!map){
-            map = L.map('map').setView([user.latitude, user.longitude], 15);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-        }
-
-        if(marker){
-            marker.setLatLng([user.latitude, user.longitude]);
-        } else {
-            marker = L.marker([user.latitude, user.longitude]).addTo(map)
-                     .bindPopup("Phone: " + phone).openPopup();
-        }
-    } else {
-        status.innerHTML = "No location found for " + phone;
-    }
-}
-</script>
-</body>
-</html>
