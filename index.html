@@ -1,57 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phone Region Lookup</title>
-    <style>
-        body { font-family: sans-serif; padding: 20px; text-align: center; }
-        #map { height: 400px; width: 100%; margin-top: 20px; border: 1px solid #ccc; }
-        .result-box { margin: 20px 0; font-weight: bold; color: #333; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Location Tracker</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<style>
+body { font-family: Arial, sans-serif; background:#0f172a; color:white; text-align:center; margin:0; }
+header { padding:20px; background:#1e293b; font-size:24px; font-weight:bold; }
+.container { padding:20px; }
+input { padding:10px; font-size:16px; border-radius:8px; border:none; }
+button { padding:10px 20px; margin:10px; border:none; border-radius:8px; background:#22c55e; color:white; font-size:16px; cursor:pointer; }
+button:hover { background:#16a34a; }
+#map { width:90%; height:450px; margin:20px auto; border-radius:12px; }
+#status { margin-top:15px; font-size:16px; }
+</style>
 </head>
 <body>
 
-    <h1>Phone Region Lookup</h1>
-    <input type="text" id="phoneNumber" placeholder="Enter E.164 format (e.g., +14155552671)">
-    <button onclick="performLookup()">Find Region</button>
-    
-    <div id="result" class="result-box"></div>
+<header>📍 Live Location Tracker</header>
+<div class="container">
+    <input type="text" id="phone" placeholder="Enter phone number"><br>
+    <button onclick="shareLocation()">Share My Location</button>
+    <button onclick="findLocation()">Find Location</button>
+    <div id="status"></div>
     <div id="map"></div>
+</div>
 
-    <script>
-        // Placeholder for an API call to a service like Twilio or AbstractAPI
-        async function performLookup() {
-            const phoneNumber = document.getElementById('phoneNumber').value;
-            const resultDiv = document.getElementById('result');
-            
-            resultDiv.innerText = "Querying carrier database...";
+<script>
+let map, marker;
 
-            try {
-                // IMPORTANT: This is where you would call a real Phone Lookup API
-                // Example: await fetch(`https://phonevalidation.abstractapi.com/v1/?api_key=YOUR_KEY&phone=${phoneNumber}`);
-                
-                // Simulating a response for this example:
-                const mockResponse = { country: "United States", location: "San Francisco, CA", lat: 37.7749, lng: -122.4194 };
-                
-                resultDiv.innerText = `Country: ${mockResponse.country} | Region: ${mockResponse.location}`;
-                initMap(mockResponse.lat, mockResponse.lng);
-            } catch (error) {
-                resultDiv.innerText = "Error: Could not retrieve data.";
-            }
-        }
+async function shareLocation(){
+    const phone = document.getElementById("phone").value;
+    const status = document.getElementById("status");
 
-        function initMap(lat, lng) {
-            const location = { lat: lat, lng: lng };
-            // Initialize Google Map centered on the region
-            const map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 10,
-                center: location,
+    if(navigator.geolocation){
+        navigator.geolocation.watchPosition(async function(position){
+            let lat = position.coords.latitude;
+            let lon = position.coords.longitude;
+
+            status.innerHTML = "Sharing: " + phone + " → " + lat + "," + lon;
+
+            await fetch("http://localhost:3000/saveLocation", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ phone, latitude: lat, longitude: lon })
             });
-            new google.maps.Marker({ position: location, map: map });
-        }
-    </script>
+        }, function(){
+            status.innerHTML = "Location access denied.";
+        });
+    } else {
+        status.innerHTML = "Geolocation not supported.";
+    }
+}
 
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+async function findLocation(){
+    const phone = document.getElementById("phone").value;
+    const status = document.getElementById("status");
+
+    const response = await fetch("http://localhost:3000/getLocation?phone=" + phone);
+    const user = await response.json();
+
+    if(user && user.latitude){
+        status.innerHTML = "Found: " + phone + " → " + user.latitude + "," + user.longitude;
+
+        if(!map){
+            map = L.map('map').setView([user.latitude, user.longitude], 15);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+        }
+
+        if(marker){
+            marker.setLatLng([user.latitude, user.longitude]);
+        } else {
+            marker = L.marker([user.latitude, user.longitude]).addTo(map)
+                     .bindPopup("Phone: " + phone).openPopup();
+        }
+    } else {
+        status.innerHTML = "No location found for " + phone;
+    }
+}
+</script>
 </body>
 </html>
