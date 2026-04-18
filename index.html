@@ -1,42 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phone Number Location Finder</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Location Sharing</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#0f172a;
+    color:white;
+    text-align:center;
+}
+header{
+    padding:20px;
+    background:#1e293b;
+    font-size:28px;
+    font-weight:bold;
+}
+.container{
+    padding:30px;
+}
+button{
+    padding:15px 30px;
+    border:none;
+    background:#22c55e;
+    color:white;
+    font-size:18px;
+    border-radius:10px;
+    cursor:pointer;
+    margin-top:20px;
+}
+button:hover{
+    background:#16a34a;
+}
+#map{
+    margin-top:30px;
+    width:90%;
+    height:450px;
+    border-radius:15px;
+}
+.info{
+    margin-top:20px;
+    font-size:18px;
+}
+footer{
+    margin-top:30px;
+    padding:15px;
+    background:#1e293b;
+}
+</style>
 </head>
+
 <body>
-    <h1>Phone Number Location Finder</h1>
-    <input type="text" id="phoneNumber" placeholder="Enter Phone Number">
-    <button onclick="findLocation()">Find Location</button>
-    
-    <p id="result"></p>
-    <div id="map" style="height: 400px; width: 100%;"></div>
 
-    <script>
-        function findLocation() {
-            const phoneNumber = document.getElementById('phoneNumber').value;
-            // For this demo, we will just simulate a location based on the phone number's format
-            // In reality, you would make an API call to a service that retrieves location data
-            let lat = 37.7749; // Sample latitude
-            let lon = -122.4194; // Sample longitude
-            
-            document.getElementById('result').innerHTML = "Location coordinates for " + phoneNumber + ": (" + lat + ", " + lon + ")";
-            initMap(lat, lon);
-        }
+<header>Live Location Sharing Site</header>
 
-        function initMap(lat, lon) {
-            const location = { lat: lat, lng: lon };
-            const map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 8,
-                center: location,
-            });
-            const marker = new google.maps.Marker({
-                position: location,
-                map: map,
-            });
-        }
-    </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+<div class="container">
+    <h2>Share Your Real-Time GPS Location</h2>
+    <p>Click button below to allow location access.</p>
+
+    <button onclick="getLocation()">Share My Location</button>
+
+    <div class="info" id="status"></div>
+
+    <iframe id="map" src="" style="display:none;"></iframe>
+</div>
+
+<footer>Secure Permission Based Tracker</footer>
+
+<script>
+function getLocation(){
+    const status = document.getElementById("status");
+
+    if(navigator.geolocation){
+        status.innerHTML = "Getting your location...";
+
+        navigator.geolocation.getCurrentPosition(function(position){
+
+            let lat = position.coords.latitude;
+            let lon = position.coords.longitude;
+
+            status.innerHTML = 
+            "Latitude: " + lat + "<br>Longitude: " + lon;
+
+            let map = document.getElementById("map");
+            map.style.display = "block";
+            map.src = "https://maps.google.com/maps?q=" + lat + "," + lon + "&z=15&output=embed";
+
+        }, function(){
+            status.innerHTML = "Location access denied.";
+        });
+
+    }else{
+        status.innerHTML = "Geolocation not supported.";
+    }
+}
+</script>
+
 </body>
 </html>
