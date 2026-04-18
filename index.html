@@ -1,103 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Live Location Sharing</title>
-
-<style>
-body{
-    margin:0;
-    font-family:Arial, sans-serif;
-    background:#0f172a;
-    color:white;
-    text-align:center;
-}
-header{
-    padding:20px;
-    background:#1e293b;
-    font-size:28px;
-    font-weight:bold;
-}
-.container{
-    padding:30px;
-}
-button{
-    padding:15px 30px;
-    border:none;
-    background:#22c55e;
-    color:white;
-    font-size:18px;
-    border-radius:10px;
-    cursor:pointer;
-    margin-top:20px;
-}
-button:hover{
-    background:#16a34a;
-}
-#map{
-    margin-top:30px;
-    width:90%;
-    height:450px;
-    border-radius:15px;
-}
-.info{
-    margin-top:20px;
-    font-size:18px;
-}
-footer{
-    margin-top:30px;
-    padding:15px;
-    background:#1e293b;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phone Region Lookup</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; text-align: center; }
+        #map { height: 400px; width: 100%; margin-top: 20px; border: 1px solid #ccc; }
+        .result-box { margin: 20px 0; font-weight: bold; color: #333; }
+    </style>
 </head>
-
 <body>
 
-<header>Live Location Sharing Site</header>
+    <h1>Phone Region Lookup</h1>
+    <input type="text" id="phoneNumber" placeholder="Enter E.164 format (e.g., +14155552671)">
+    <button onclick="performLookup()">Find Region</button>
+    
+    <div id="result" class="result-box"></div>
+    <div id="map"></div>
 
-<div class="container">
-    <h2>Share Your Real-Time GPS Location</h2>
-    <p>Click button below to allow location access.</p>
+    <script>
+        // Placeholder for an API call to a service like Twilio or AbstractAPI
+        async function performLookup() {
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            const resultDiv = document.getElementById('result');
+            
+            resultDiv.innerText = "Querying carrier database...";
 
-    <button onclick="getLocation()">Share My Location</button>
+            try {
+                // IMPORTANT: This is where you would call a real Phone Lookup API
+                // Example: await fetch(`https://phonevalidation.abstractapi.com/v1/?api_key=YOUR_KEY&phone=${phoneNumber}`);
+                
+                // Simulating a response for this example:
+                const mockResponse = { country: "United States", location: "San Francisco, CA", lat: 37.7749, lng: -122.4194 };
+                
+                resultDiv.innerText = `Country: ${mockResponse.country} | Region: ${mockResponse.location}`;
+                initMap(mockResponse.lat, mockResponse.lng);
+            } catch (error) {
+                resultDiv.innerText = "Error: Could not retrieve data.";
+            }
+        }
 
-    <div class="info" id="status"></div>
+        function initMap(lat, lng) {
+            const location = { lat: lat, lng: lng };
+            // Initialize Google Map centered on the region
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 10,
+                center: location,
+            });
+            new google.maps.Marker({ position: location, map: map });
+        }
+    </script>
 
-    <iframe id="map" src="" style="display:none;"></iframe>
-</div>
-
-<footer>Secure Permission Based Tracker</footer>
-
-<script>
-function getLocation(){
-    const status = document.getElementById("status");
-
-    if(navigator.geolocation){
-        status.innerHTML = "Getting your location...";
-
-        navigator.geolocation.getCurrentPosition(function(position){
-
-            let lat = position.coords.latitude;
-            let lon = position.coords.longitude;
-
-            status.innerHTML = 
-            "Latitude: " + lat + "<br>Longitude: " + lon;
-
-            let map = document.getElementById("map");
-            map.style.display = "block";
-            map.src = "https://maps.google.com/maps?q=" + lat + "," + lon + "&z=15&output=embed";
-
-        }, function(){
-            status.innerHTML = "Location access denied.";
-        });
-
-    }else{
-        status.innerHTML = "Geolocation not supported.";
-    }
-}
-</script>
-
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
 </body>
 </html>
