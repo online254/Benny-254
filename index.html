@@ -3,108 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Sphere Commerce | Secure Portal</title>
+    <title>Online Sphere Commerce | Secure Authentication</title>
     <style>
         :root {
-            --primary: #0a2e5c; --accent: #1dbf73; --bg: #f4f7fa; 
-            --white: #ffffff; --text: #1e293b; --error: #e63946;
+            --primary: #0a2e5c; --accent: #1dbf73; --bg: #f8fafc; 
+            --white: #ffffff; --text: #1e293b; --error: #ef4444;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background: var(--bg); color: var(--text); }
-        
-        /* AUTHENTICATION UI */
-        .auth-container { 
-            display: flex; justify-content: center; align-items: center; 
-            min-height: 100vh; padding: 20px; 
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: var(--bg); color: var(--text); display: flex; flex-direction: column; min-height: 100vh; }
+
+        /* --- AUTHENTICATION UI --- */
+        .auth-overlay {
+            display: flex; justify-content: center; align-items: center;
+            flex-grow: 1; padding: 20px;
         }
-        .auth-box { 
-            background: var(--white); padding: 40px; border-radius: 30px; 
-            width: 100%; max-width: 450px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); 
+
+        .auth-card {
+            background: var(--white); padding: 40px; border-radius: 25px;
+            width: 100%; max-width: 400px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
-        .input-group { margin-bottom: 20px; }
-        label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 0.9em; }
-        input { 
-            width: 100%; padding: 15px; border-radius: 12px; 
-            border: 2px solid #e2e8f0; outline: none; transition: 0.3s; 
+
+        .auth-card h2 { color: var(--primary); margin-bottom: 10px; text-align: center; }
+        .auth-card p { text-align: center; font-size: 0.9em; color: #64748b; margin-bottom: 25px; }
+
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 0.85em; }
+        input {
+            width: 100%; padding: 12px 15px; border-radius: 10px;
+            border: 2px solid #e2e8f0; outline: none; transition: 0.3s;
         }
         input:focus { border-color: var(--accent); }
-        .btn-auth { 
-            width: 100%; padding: 16px; background: var(--primary); color: white; 
-            border: none; border-radius: 12px; font-weight: 800; cursor: pointer; 
-        }
-        .toggle-link { text-align: center; margin-top: 20px; font-size: 0.85em; cursor: pointer; color: var(--accent); }
 
-        /* DASHBOARD UI (Scope #6 & #7) */
-        #mainDashboard { display: none; }
-        nav { background: var(--white); padding: 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .dash-content { max-width: 1200px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 280px 1fr; gap: 30px; }
-        .sidebar { background: white; padding: 30px; border-radius: 20px; height: fit-content; }
-        .sidebar li { list-style: none; padding: 12px; border-bottom: 1px solid #f1f5f9; font-weight: 600; cursor: pointer; }
-        .stat-card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .btn-auth {
+            width: 100%; padding: 14px; background: var(--primary); color: white;
+            border: none; border-radius: 10px; font-weight: 700; cursor: pointer;
+            margin-top: 10px; transition: 0.3s;
+        }
+        .btn-auth:hover { background: var(--secondary); transform: translateY(-2px); }
+
+        .toggle-auth { text-align: center; margin-top: 20px; font-size: 0.85em; cursor: pointer; color: var(--accent); font-weight: 600; }
+
+        /* --- DASHBOARD UI (Scope #6 & #7) --- */
+        #dashboardView { display: none; }
+        .nav-dash { background: var(--white); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .dash-container { max-width: 1200px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 260px 1fr; gap: 30px; }
+        
+        .sidebar { background: white; padding: 25px; border-radius: 20px; height: fit-content; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .sidebar h4 { margin-bottom: 15px; color: var(--primary); }
+        .sidebar li { list-style: none; padding: 12px; border-bottom: 1px solid #f1f5f9; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .sidebar li:hover { color: var(--accent); padding-left: 18px; }
+
+        .main-panel { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .status-badge { display: inline-block; padding: 5px 12px; border-radius: 50px; background: #dcfce7; color: #166534; font-size: 0.75em; font-weight: 700; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
-<div id="authSection" class="auth-container">
-    <div class="auth-box">
-        <h2 id="authTitle" style="color:var(--primary); margin-bottom:10px;">Create Account</h2>
-        [span_1](start_span)<p id="authSub" style="margin-bottom:30px; font-size:0.9em; color:#64748b;">Join Online Sphere Commerce Company[span_1](end_span)</p>
+<div id="authView" class="auth-overlay">
+    <div class="auth-card">
+        <h2 id="formTitle">Create Account</h2>
+        <p id="formSub">Join Online Sphere Commerce Company</p>
         
-        <div id="regFields">
-            <div class="input-group">
+        <div id="registrationFields">
+            <div class="form-group">
                 <label>Full Name</label>
-                <input type="text" id="regName" placeholder="Benson Mutinda">
+                <input type="text" id="regName" placeholder="e.g. Benson Muthini">
             </div>
         </div>
 
-        <div class="input-group">
+        <div class="form-group">
             <label>Email Address</label>
             <input type="email" id="authEmail" placeholder="name@example.com">
         </div>
 
-        <div class="input-group">
+        <div class="form-group">
             <label>Password</label>
             <input type="password" id="authPass" placeholder="••••••••">
         </div>
 
-        <button class="btn-auth" id="actionBtn" onclick="handleAuth()">REGISTER NOW</button>
-        
-        <div class="toggle-link" onclick="toggleAuthMode()" id="toggleText">Already have an account? Login here</div>
+        <button class="btn-auth" id="mainBtn" onclick="processAuth()">REGISTER</button>
+        <div class="toggle-auth" id="toggleLink" onclick="toggleMode()">Already have an account? Login here</div>
     </div>
 </div>
 
-<div id="mainDashboard">
-    <nav>
-        <div style="font-weight:900; color:var(--primary);">OSC <span style="color:var(--accent);">PORTAL</span></div>
-        <div style="display:flex; align-items:center; gap:20px;">
-            <span id="userDisplayName" style="font-weight:700;">User</span>
-            <button onclick="logout()" style="padding:8px 15px; border-radius:8px; border:1px solid var(--error); color:var(--error); background:none; cursor:pointer;">Logout</button>
+<div id="dashboardView">
+    <nav class="nav-dash">
+        <div style="font-weight: 900; color: var(--primary); font-size: 1.2em;">OSC <span style="color:var(--accent)">PORTAL</span></div>
+        <div style="display:flex; align-items:center; gap:15px;">
+            <span id="userNameDisplay" style="font-weight:700; font-size: 0.9em;">User</span>
+            <button onclick="logout()" style="padding:7px 15px; border-radius:8px; border:1.5px solid var(--error); color:var(--error); background:none; cursor:pointer; font-weight:700; font-size: 0.8em;">LOGOUT</button>
         </div>
     </nav>
 
-    <div class="dash-content">
+    <div class="dash-container">
         <aside class="sidebar">
+            <h4>Workspace</h4>
             <ul>
-                [span_2](start_span)<li>📊 Profile Management[span_2](end_span)</li>
-                [span_3](start_span)<li>📦 Purchase History[span_3](end_span)</li>
-                [span_4](start_span)<li>📅 Booking History[span_4](end_span)</li>
-                [span_5](start_span)<li>💳 Payment History[span_5](end_span)</li>
-                [span_6](start_span)<li>📥 Digital Downloads[span_6](end_span)</li>
+                [span_3](start_span)[span_4](start_span)<li>📊 Profile Management[span_3](end_span)[span_4](end_span)</li>
+                [span_5](start_span)[span_6](start_span)<li>📦 Purchase History[span_5](end_span)[span_6](end_span)</li>
+                [span_7](start_span)[span_8](start_span)<li>📅 Booking Calendar[span_7](end_span)[span_8](end_span)</li>
+                [span_9](start_span)[span_10](start_span)<li>💳 Payment Reports[span_9](end_span)[span_10](end_span)</li>
+                [span_11](start_span)[span_12](start_span)<li>📥 Digital Downloads[span_11](end_span)[span_12](end_span)</li>
             </ul>
         </aside>
         
-        <main>
-            <div class="stat-card">
-                [span_7](start_span)<h3 style="color:var(--primary);">Active Subscriptions[span_7](end_span)</h3>
-                [span_8](start_span)<p style="color:#64748b; margin-top:10px;">You currently have no active membership tiers[span_8](end_span).</p>
-                [span_9](start_span)<button style="margin-top:20px; padding:12px 25px; background:var(--accent); color:white; border:none; border-radius:10px; font-weight:700;">Explore Packages[span_9](end_span)</button>
-            </div>
+        <main class="main-panel">
+            <span class="status-badge">ACCOUNT ACTIVE</span>
+            <h2 style="margin-bottom: 10px;">Welcome to your Dashboard</h2>
+            [span_13](start_span)[span_14](start_span)<p style="color: #64748b; margin-bottom: 30px;">Manage your multi-service subscriptions and e-commerce orders from one central hub[span_13](end_span)[span_14](end_span).</p>
             
-            <div class="stat-card" style="margin-top:30px;">
-                [span_10](start_span)<h3 style="color:var(--primary);">Recent Notifications[span_10](end_span)</h3>
-                <div style="padding:15px; background:#f8fafc; border-radius:12px; margin-top:15px; border-left:4px solid var(--accent);">
-                    Welcome to Online Sphere Commerce! [span_11](start_span)Your account is now verified via email[span_11](end_span).
-                </div>
+            <div style="padding:20px; border: 1px solid #e2e8f0; border-radius:15px; background: #f8fafc;">
+                <h4 style="color: var(--primary);">System Status</h4>
+                [span_15](start_span)[span_16](start_span)<p style="font-size: 0.85em; margin-top: 5px;">All modules (LMS, E-commerce, Booking) are currently operational[span_15](end_span)[span_16](end_span).</p>
             </div>
         </main>
     </div>
@@ -113,55 +124,64 @@
 <script>
     let isLoginMode = false;
 
-    // Toggle between Registration and Login
-    function toggleAuthMode() {
+    // Toggle Mode Logic
+    function toggleMode() {
         isLoginMode = !isLoginMode;
-        document.getElementById('authTitle').innerText = isLoginMode ? "Welcome Back" : "Create Account";
-        document.getElementById('regFields').style.display = isLoginMode ? "none" : "block";
-        document.getElementById('actionBtn').innerText = isLoginMode ? "LOGIN NOW" : "REGISTER NOW";
-        document.getElementById('toggleText').innerText = isLoginMode ? "New here? Create an account" : "Already have an account? Login here";
+        document.getElementById('formTitle').innerText = isLoginMode ? "Welcome Back" : "Create Account";
+        document.getElementById('formSub').innerText = isLoginMode ? "Log in to your member portal" : "Join Online Sphere Commerce Company";
+        document.getElementById('registrationFields').style.display = isLoginMode ? "none" : "block";
+        document.getElementById('mainBtn').innerText = isLoginMode ? "LOGIN" : "REGISTER";
+        document.getElementById('toggleLink').innerText = isLoginMode ? "New here? Create an account" : "Already have an account? Login here";
     }
 
-    // AUTH LOGIC
-    function handleAuth() {
+    // Authentication Logic
+    function processAuth() {
         const email = document.getElementById('authEmail').value;
         const pass = document.getElementById('authPass').value;
         const name = document.getElementById('regName').value;
 
-        if(!email || !pass) { alert("Please fill all fields"); return; }
+        if (!email || !pass) {
+            alert("Please provide both email and password.");
+            return;
+        }
 
-        if(isLoginMode) {
-            // LOGIN PROCESS
-            const storedUser = JSON.parse(localStorage.getItem('osc_user'));
-            if(storedUser && storedUser.email === email && storedUser.pass === pass) {
-                launchDashboard(storedUser.name);
+        if (isLoginMode) {
+            // Check credentials against localStorage
+            const storedUser = JSON.parse(localStorage.getItem('osc_account'));
+            if (storedUser && storedUser.email === email && storedUser.pass === pass) {
+                sessionStorage.setItem('osc_active_session', 'true');
+                showDashboard(storedUser.name);
             } else {
-                alert("Invalid email or password");
+                alert("Invalid email or password. Please try again.");
             }
         } else {
-            [span_12](start_span)// REGISTRATION PROCESS (Scope #6: User Registration[span_12](end_span))
+            // Register and save to localStorage (Scope #6)
+            if (!name) { alert("Please enter your name."); return; }
             const newUser = { name: name, email: email, pass: pass };
-            localStorage.setItem('osc_user', JSON.stringify(newUser));
-            alert("Registration successful! Please login.");
-            toggleAuthMode();
+            localStorage.setItem('osc_account', JSON.stringify(newUser));
+            alert("Registration successful! You can now log in.");
+            toggleMode();
         }
     }
 
-    function launchDashboard(name) {
-        document.getElementById('authSection').style.display = 'none';
-        document.getElementById('mainDashboard').style.display = 'block';
-        document.getElementById('userDisplayName').innerText = name;
+    function showDashboard(name) {
+        document.getElementById('authView').style.display = 'none';
+        document.getElementById('dashboardView').style.display = 'block';
+        document.getElementById('userNameDisplay').innerText = name;
     }
 
     function logout() {
-        document.getElementById('authSection').style.display = 'flex';
-        document.getElementById('mainDashboard').style.display = 'none';
+        sessionStorage.removeItem('osc_active_session');
+        location.reload();
     }
 
-    // Check for existing session on load
+    // Check for active session on load
     window.onload = () => {
-        const storedUser = JSON.parse(localStorage.getItem('osc_user'));
-        // In a real app, you'd check a session token here
+        const hasSession = sessionStorage.getItem('osc_active_session');
+        const storedUser = JSON.parse(localStorage.getItem('osc_account'));
+        if (hasSession && storedUser) {
+            showDashboard(storedUser.name);
+        }
     };
 </script>
 
