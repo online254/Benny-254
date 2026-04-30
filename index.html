@@ -1,262 +1,238 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Sphere Commerce Company | official Portal</title>
-    <style>
-        :root {
-            --primary: #0a2e5c; 
-            --secondary: #0d3d7a; 
-            --accent: #1dbf73;
-            --danger: #e63946;
-            --bg: #f4f7fa; 
-            --white: #ffffff; 
-            --text-dark: #1e293b;
-            --text-light: #64748b; 
-            --shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sphere X Platform</title>
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text-dark); line-height: 1.6; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+<style>
+:root{
+    --primary:#0a2e5c;
+    --accent:#1dbf73;
+    --bg:#0f172a;
+    --card:#1e293b;
+    --text:#f1f5f9;
+}
 
-        /* --- NAVIGATION --- */
-        nav { background: var(--white); padding: 20px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .nav-flex { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-weight: 900; font-size: 1.5em; color: var(--primary); text-decoration: none; }
-        .logo span { color: var(--accent); }
-        .nav-links { display: flex; gap: 20px; list-style: none; }
-        .nav-links a { text-decoration: none; color: var(--text-dark); font-weight: 600; font-size: 0.9em; transition: var(--transition); }
-        .nav-links a:hover { color: var(--accent); }
+body{
+    margin:0;
+    font-family:Inter, sans-serif;
+    background:var(--bg);
+    color:var(--text);
+}
 
-        [span_4](start_span)/* --- HERO SECTION[span_4](end_span) --- */
-        .hero { background: var(--primary); color: white; padding: 100px 0; text-align: center; border-radius: 0 0 50px 50px; }
-        .hero h1 { font-size: 3em; margin-bottom: 20px; letter-spacing: -1px; }
-        .hero p { font-size: 1.2em; opacity: 0.9; max-width: 800px; margin: 0 auto 30px; }
-        .btn { padding: 15px 35px; border-radius: 12px; border: none; font-weight: 700; cursor: pointer; transition: var(--transition); text-decoration: none; display: inline-block; }
-        .btn-accent { background: var(--accent); color: white; }
-        .btn-accent:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(29, 191, 115, 0.3); }
+/* GLASS UI */
+.glass{
+    background:rgba(255,255,255,0.05);
+    backdrop-filter:blur(12px);
+    border-radius:20px;
+    padding:25px;
+}
 
-        [span_5](start_span)/* --- SERVICES GRID[span_5](end_span) --- */
-        section { padding: 80px 0; }
-        .section-title { text-align: center; margin-bottom: 50px; }
-        .section-title h2 { font-size: 2.2em; color: var(--primary); }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        .card { background: var(--white); padding: 40px; border-radius: 25px; box-shadow: var(--shadow); transition: var(--transition); border: 1px solid rgba(0,0,0,0.02); }
-        .card:hover { transform: translateY(-10px); }
-        .card h3 { color: var(--primary); margin-bottom: 15px; }
+/* LOGIN */
+#login{
+    display:flex;
+    height:100vh;
+    justify-content:center;
+    align-items:center;
+}
 
-        [span_6](start_span)/* --- STORE SECTION[span_6](end_span) --- */
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
-        .product-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: var(--shadow); position: relative; }
-        .badge { position: absolute; top: 15px; right: 15px; background: var(--accent); color: white; padding: 5px 12px; border-radius: 50px; font-size: 0.7em; font-weight: 800; }
-        .p-img { height: 200px; background: #e2e8f0; display: flex; align-items: center; justify-content: center; font-weight: 900; color: #94a3b8; }
-        .p-info { padding: 20px; }
+input{
+    width:100%;
+    padding:15px;
+    margin:10px 0;
+    border:none;
+    border-radius:10px;
+}
 
-        [span_7](start_span)/* --- DASHBOARD VIEW[span_7](end_span) --- */
-        #dashboard { display: none; background: #f1f5f9; min-height: 100vh; padding-top: 40px; }
-        .dash-container { display: grid; grid-template-columns: 280px 1fr; gap: 30px; }
-        .sidebar { background: white; border-radius: 25px; padding: 30px; height: fit-content; box-shadow: var(--shadow); }
-        .sidebar ul { list-style: none; }
-        .sidebar li { padding: 15px 0; border-bottom: 1px solid #f1f5f9; cursor: pointer; font-weight: 600; font-size: 0.95em; }
-        .sidebar li:hover { color: var(--accent); }
-        .main-dash { background: white; border-radius: 25px; padding: 40px; box-shadow: var(--shadow); }
+button{
+    padding:15px;
+    width:100%;
+    border:none;
+    border-radius:10px;
+    background:var(--accent);
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
 
-        [span_8](start_span)/* --- FOOTER[span_8](end_span) --- */
-        footer { background: #0f172a; color: white; padding: 80px 0 30px; margin-top: 50px; }
-        .footer-flex { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; }
-        .footer-col h4 { color: var(--accent); margin-bottom: 20px; }
-        .footer-col ul { list-style: none; }
-        .footer-col li { margin-bottom: 10px; opacity: 0.7; font-size: 0.9em; }
+/* DASHBOARDS */
+#userApp, #adminApp{
+    display:none;
+}
 
-        /* --- AUTH OVERLAY --- */
-        #authModal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 10000; display: none; justify-content: center; align-items: center; }
-        .auth-card { background: white; padding: 40px; border-radius: 30px; width: 90%; max-width: 400px; text-align: center; }
-        .input-group { margin-bottom: 15px; text-align: left; }
-        input { width: 100%; padding: 15px; border-radius: 12px; border: 2px solid #e2e8f0; outline: none; margin-top: 5px; }
+nav{
+    padding:20px;
+    background:black;
+    display:flex;
+    justify-content:space-between;
+}
 
-        @media (max-width: 768px) {
-            .dash-container { grid-template-columns: 1fr; }
-            .hero h1 { font-size: 2.2em; }
-        }
-    </style>
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+    padding:20px;
+}
+
+.card{
+    background:var(--card);
+    padding:20px;
+    border-radius:20px;
+}
+
+/* TABLE */
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+td,th{
+    padding:10px;
+    border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+/* ANIMATION */
+.fade{
+    animation:fade 0.6s ease;
+}
+@keyframes fade{
+    from{opacity:0; transform:translateY(20px);}
+    to{opacity:1;}
+}
+</style>
 </head>
+
 <body>
 
-<nav>
-    <div class="container nav-flex">
-        <a href="#" class="logo" onclick="showView('landing')">ONLINE SPHERE <span>COMMERCE</span></a>
-        <ul class="nav-links">
-            <li><a href="#services">Services</a></li>
-            <li><a href="#store">Store</a></li>
-            <li><a href="#content">Content Hub</a></li>
-            <li><a href="javascript:void(0)" onclick="openAuth()" style="color:var(--accent);">Member Login</a></li>
-        </ul>
-    </div>
-</nav>
-
-<div id="landingView">
-    <header class="hero">
-        <div class="container">
-            <h1>Global Digital Solutions & E-commerce</h1>
-            <p>Positioning brands for global growth through SEO, Digital Marketing, and Virtual Assistant Services.</p>
-            <a href="#services" class="btn btn-accent">Explore Services</a>
-        </div>
-    </header>
-
-    <section class="container" id="services">
-        <div class="section-title">
-            <h2>Our Service Categories</h2>
-            <p>Scaling digital business models without limits.</p>
-        </div>
-        <div class="grid">
-            <div class="card">
-                <h3>Digital Marketing</h3>
-                [span_9](start_span)<p>Expert SEO, Social Media Management, and Content Creation strategies[span_9](end_span).</p>
-            </div>
-            <div class="card">
-                <h3>VA Solutions</h3>
-                [span_10](start_span)<p>Professional Virtual Assistant services and administrative support[span_10](end_span).</p>
-            </div>
-            <div class="card">
-                <h3>Online Tutoring</h3>
-                [span_11](start_span)[span_12](start_span)<p>Comprehensive course catalogs and personalized teaching hubs[span_11](end_span)[span_12](end_span).</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="container" id="store">
-        <div class="section-title">
-            <h2>E-commerce Store</h2>
-            [span_13](start_span)<p>Physical and Digital products delivered globally[span_13](end_span).</p>
-        </div>
-        <div class="product-grid">
-            <div class="product-card">
-                <span class="badge">DIGITAL</span>
-                <div class="p-img">COURSE</div>
-                <div class="p-info">
-                    <h4>Marketing Masterclass</h4>
-                    <p style="color:var(--accent); font-weight:800;">KES 2,500</p>
-                    <button class="btn btn-accent" style="width:100%; margin-top:15px; padding:10px;">Access Now</button>
-                </div>
-            </div>
-            <div class="product-card">
-                <span class="badge">PHYSICAL</span>
-                <div class="p-img">PRODUCT</div>
-                <div class="p-info">
-                    <h4>Company Branded Merch</h4>
-                    <p style="color:var(--accent); font-weight:800;">KES 1,500</p>
-                    <button class="btn btn-accent" style="width:100%; margin-top:15px; padding:10px;">Order Now</button>
-                </div>
-            </div>
-        </div>
-    </section>
-</div>
-
-<div id="dashboard">
-    <div class="container dash-container">
-        <aside class="sidebar">
-            <h3 style="margin-bottom: 20px;">My Workspace</h3>
-            <ul>
-                <li>📊 Profile Management</li>
-                <li>📦 Active Subscriptions</li>
-                <li>📅 Booking History</li>
-                <li>💳 Payment History</li>
-                <li>📥 Downloads</li>
-                <li onclick="showView('landing')" style="color:var(--danger); border:none;">🚪 Logout</li>
-            </ul>
-        </aside>
-        <main class="main-dash">
-            <h2>Welcome Back, Member</h2>
-            <p style="color:var(--text-light);">Manage your purchased services and digital products.</p>
-            
-            <div style="margin-top:30px; padding:25px; background:#f8fafc; border-radius:20px; border-left:5px solid var(--accent);">
-                <h4>Active Service: SEO Consulting</h4>
-                <p>Status: In Progress | Assigned: Agent Sphere-01</p>
-            </div>
-
-            <div style="margin-top:20px; padding:25px; background:#fffcf0; border-radius:20px; border-left:5px solid #f08c00;">
-                <h4>Pending Order: Course Access</h4>
-                <p>Status: Awaiting M-Pesa Confirmation</p>
-            </div>
-        </main>
+<!-- LOGIN -->
+<div id="login">
+    <div class="glass">
+        <h2>Sphere X Access</h2>
+        <input id="phone" placeholder="Phone">
+        <input id="pass" type="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <button onclick="adminLogin()" style="margin-top:10px;background:#0a2e5c;">Admin</button>
     </div>
 </div>
 
-<div id="authModal">
-    <div class="auth-card">
-        <h3>Secure Login</h3>
-        [span_14](start_span)<p style="font-size:0.8em; color:var(--text-light); margin-bottom:20px;">Access your member account[span_14](end_span).</p>
-        <div class="input-group">
-            <label>Phone Number</label>
-            <input type="tel" placeholder="07XXXXXXXX">
+<!-- USER DASHBOARD -->
+<div id="userApp">
+    <nav>
+        <h3>User Portal</h3>
+        <button onclick="logout()">Logout</button>
+    </nav>
+
+    <div class="grid fade">
+        <div class="card">
+            <h3>Balance</h3>
+            <h1 id="balance">KES 0</h1>
         </div>
-        <div class="input-group">
-            <label>Password</label>
-            <input type="password" placeholder="••••••••">
+
+        <div class="card">
+            <h3>Tasks</h3>
+            <button onclick="earn()">Complete Task (+100)</button>
         </div>
-        <button class="btn btn-accent" style="width:100%; margin-top:10px;" onclick="doLogin()">Login</button>
-        <button class="btn" style="width:100%; margin-top:5px; font-size:0.8em;" onclick="closeAuth()">Cancel</button>
+
+        <div class="card">
+            <h3>Upgrade</h3>
+            <button onclick="pay(500)">Pay 500</button>
+            <button onclick="pay(1500)">Pay 1500</button>
+        </div>
     </div>
 </div>
 
-<footer>
-    <div class="container footer-flex">
-        <div class="footer-col">
-            <h4 style="color:white;">OSC Company</h4>
-            [span_15](start_span)<p style="opacity:0.6; font-size:0.8em;">Global growth through digital excellence[span_15](end_span).</p>
+<!-- ADMIN DASHBOARD -->
+<div id="adminApp">
+    <nav>
+        <h3>Admin Dashboard</h3>
+        <button onclick="logout()">Logout</button>
+    </nav>
+
+    <div class="grid fade">
+        <div class="card">
+            <h3>Total Users</h3>
+            <h1 id="totalUsers">0</h1>
         </div>
-        <div class="footer-col">
-            <h4>Support Hub</h4>
-            <ul>
-                <li>FAQs</li>
-                <li>Support Tickets</li>
-                <li>Contact Form</li>
-            </ul>
-        </div>
-        <div class="footer-col">
-            <h4>Legal Pages</h4>
-            <ul>
-                <li>Privacy Policy</li>
-                <li>Terms & Conditions</li>
-                <li>Refund Policy</li>
-            </ul>
-        </div>
-        <div class="footer-col" id="content">
-            <h4>Content Hub</h4>
-            <ul>
-                <li>Blog Articles</li>
-                <li>Podcasts</li>
-                <li>Vlogs</li>
-            </ul>
+
+        <div class="card">
+            <h3>Total Payments</h3>
+            <h1 id="totalPayments">0</h1>
         </div>
     </div>
-    <div style="text-align:center; margin-top:50px; opacity:0.3; font-size:0.8em;">
-        &copy; 2026 Online Sphere Commerce Company. All Rights Reserved.
+
+    <div class="card" style="margin:20px;">
+        <h3>Users</h3>
+        <table id="userTable">
+            <tr><th>Phone</th><th>Balance</th></tr>
+        </table>
     </div>
-</footer>
+</div>
 
 <script>
-    function showView(view) {
-        if(view === 'landing') {
-            document.getElementById('landingView').style.display = 'block';
-            document.getElementById('dashboard').style.display = 'none';
-        } else {
-            document.getElementById('landingView').style.display = 'none';
-            document.getElementById('dashboard').style.display = 'block';
-        }
-        window.scrollTo(0,0);
-    }
+let users = [];
 
-    function openAuth() { document.getElementById('authModal').style.display = 'flex'; }
-    function closeAuth() { document.getElementById('authModal').style.display = 'none'; }
-    
-    function doLogin() {
-        closeAuth();
-        showView('dashboard');
+function login(){
+    let phone=document.getElementById("phone").value;
+
+    if(phone.length<5){ alert("Enter valid"); return;}
+
+    let user={phone:phone,balance:0};
+    users.push(user);
+
+    localStorage.setItem("currentUser",JSON.stringify(user));
+
+    showUser();
+}
+
+function adminLogin(){
+    let pass=document.getElementById("pass").value;
+
+    if(pass==="admin123"){
+        showAdmin();
+    }else{
+        alert("Wrong admin password");
     }
+}
+
+function showUser(){
+    document.getElementById("login").style.display="none";
+    document.getElementById("userApp").style.display="block";
+}
+
+function showAdmin(){
+    document.getElementById("login").style.display="none";
+    document.getElementById("adminApp").style.display="block";
+
+    updateAdmin();
+}
+
+function logout(){
+    location.reload();
+}
+
+function earn(){
+    let user=JSON.parse(localStorage.getItem("currentUser"));
+    user.balance+=100;
+    localStorage.setItem("currentUser",JSON.stringify(user));
+    document.getElementById("balance").innerText="KES "+user.balance;
+}
+
+function pay(amount){
+    alert("Simulated payment of "+amount);
+    let total=document.getElementById("totalPayments");
+    if(total) total.innerText=parseInt(total.innerText)+amount;
+}
+
+function updateAdmin(){
+    document.getElementById("totalUsers").innerText=users.length;
+
+    let table=document.getElementById("userTable");
+    users.forEach(u=>{
+        let row=`<tr><td>${u.phone}</td><td>${u.balance}</td></tr>`;
+        table.innerHTML+=row;
+    });
+}
 </script>
 
 </body>
