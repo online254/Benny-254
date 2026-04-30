@@ -1,238 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sphere X Platform</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Sphere Commerce | Secure Portal</title>
+    <style>
+        :root {
+            --primary: #0a2e5c; --accent: #1dbf73; --bg: #f4f7fa; 
+            --white: #ffffff; --text: #1e293b; --error: #e63946;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: var(--bg); color: var(--text); }
+        
+        /* AUTHENTICATION UI */
+        .auth-container { 
+            display: flex; justify-content: center; align-items: center; 
+            min-height: 100vh; padding: 20px; 
+        }
+        .auth-box { 
+            background: var(--white); padding: 40px; border-radius: 30px; 
+            width: 100%; max-width: 450px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); 
+        }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 0.9em; }
+        input { 
+            width: 100%; padding: 15px; border-radius: 12px; 
+            border: 2px solid #e2e8f0; outline: none; transition: 0.3s; 
+        }
+        input:focus { border-color: var(--accent); }
+        .btn-auth { 
+            width: 100%; padding: 16px; background: var(--primary); color: white; 
+            border: none; border-radius: 12px; font-weight: 800; cursor: pointer; 
+        }
+        .toggle-link { text-align: center; margin-top: 20px; font-size: 0.85em; cursor: pointer; color: var(--accent); }
 
-<style>
-:root{
-    --primary:#0a2e5c;
-    --accent:#1dbf73;
-    --bg:#0f172a;
-    --card:#1e293b;
-    --text:#f1f5f9;
-}
-
-body{
-    margin:0;
-    font-family:Inter, sans-serif;
-    background:var(--bg);
-    color:var(--text);
-}
-
-/* GLASS UI */
-.glass{
-    background:rgba(255,255,255,0.05);
-    backdrop-filter:blur(12px);
-    border-radius:20px;
-    padding:25px;
-}
-
-/* LOGIN */
-#login{
-    display:flex;
-    height:100vh;
-    justify-content:center;
-    align-items:center;
-}
-
-input{
-    width:100%;
-    padding:15px;
-    margin:10px 0;
-    border:none;
-    border-radius:10px;
-}
-
-button{
-    padding:15px;
-    width:100%;
-    border:none;
-    border-radius:10px;
-    background:var(--accent);
-    color:white;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-/* DASHBOARDS */
-#userApp, #adminApp{
-    display:none;
-}
-
-nav{
-    padding:20px;
-    background:black;
-    display:flex;
-    justify-content:space-between;
-}
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:20px;
-    padding:20px;
-}
-
-.card{
-    background:var(--card);
-    padding:20px;
-    border-radius:20px;
-}
-
-/* TABLE */
-table{
-    width:100%;
-    border-collapse:collapse;
-}
-
-td,th{
-    padding:10px;
-    border-bottom:1px solid rgba(255,255,255,0.1);
-}
-
-/* ANIMATION */
-.fade{
-    animation:fade 0.6s ease;
-}
-@keyframes fade{
-    from{opacity:0; transform:translateY(20px);}
-    to{opacity:1;}
-}
-</style>
+        /* DASHBOARD UI (Scope #6 & #7) */
+        #mainDashboard { display: none; }
+        nav { background: var(--white); padding: 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .dash-content { max-width: 1200px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 280px 1fr; gap: 30px; }
+        .sidebar { background: white; padding: 30px; border-radius: 20px; height: fit-content; }
+        .sidebar li { list-style: none; padding: 12px; border-bottom: 1px solid #f1f5f9; font-weight: 600; cursor: pointer; }
+        .stat-card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+    </style>
 </head>
-
 <body>
 
-<!-- LOGIN -->
-<div id="login">
-    <div class="glass">
-        <h2>Sphere X Access</h2>
-        <input id="phone" placeholder="Phone">
-        <input id="pass" type="password" placeholder="Password">
-        <button onclick="login()">Login</button>
-        <button onclick="adminLogin()" style="margin-top:10px;background:#0a2e5c;">Admin</button>
+<div id="authSection" class="auth-container">
+    <div class="auth-box">
+        <h2 id="authTitle" style="color:var(--primary); margin-bottom:10px;">Create Account</h2>
+        [span_1](start_span)<p id="authSub" style="margin-bottom:30px; font-size:0.9em; color:#64748b;">Join Online Sphere Commerce Company[span_1](end_span)</p>
+        
+        <div id="regFields">
+            <div class="input-group">
+                <label>Full Name</label>
+                <input type="text" id="regName" placeholder="Benson Mutinda">
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label>Email Address</label>
+            <input type="email" id="authEmail" placeholder="name@example.com">
+        </div>
+
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" id="authPass" placeholder="••••••••">
+        </div>
+
+        <button class="btn-auth" id="actionBtn" onclick="handleAuth()">REGISTER NOW</button>
+        
+        <div class="toggle-link" onclick="toggleAuthMode()" id="toggleText">Already have an account? Login here</div>
     </div>
 </div>
 
-<!-- USER DASHBOARD -->
-<div id="userApp">
+<div id="mainDashboard">
     <nav>
-        <h3>User Portal</h3>
-        <button onclick="logout()">Logout</button>
+        <div style="font-weight:900; color:var(--primary);">OSC <span style="color:var(--accent);">PORTAL</span></div>
+        <div style="display:flex; align-items:center; gap:20px;">
+            <span id="userDisplayName" style="font-weight:700;">User</span>
+            <button onclick="logout()" style="padding:8px 15px; border-radius:8px; border:1px solid var(--error); color:var(--error); background:none; cursor:pointer;">Logout</button>
+        </div>
     </nav>
 
-    <div class="grid fade">
-        <div class="card">
-            <h3>Balance</h3>
-            <h1 id="balance">KES 0</h1>
-        </div>
-
-        <div class="card">
-            <h3>Tasks</h3>
-            <button onclick="earn()">Complete Task (+100)</button>
-        </div>
-
-        <div class="card">
-            <h3>Upgrade</h3>
-            <button onclick="pay(500)">Pay 500</button>
-            <button onclick="pay(1500)">Pay 1500</button>
-        </div>
-    </div>
-</div>
-
-<!-- ADMIN DASHBOARD -->
-<div id="adminApp">
-    <nav>
-        <h3>Admin Dashboard</h3>
-        <button onclick="logout()">Logout</button>
-    </nav>
-
-    <div class="grid fade">
-        <div class="card">
-            <h3>Total Users</h3>
-            <h1 id="totalUsers">0</h1>
-        </div>
-
-        <div class="card">
-            <h3>Total Payments</h3>
-            <h1 id="totalPayments">0</h1>
-        </div>
-    </div>
-
-    <div class="card" style="margin:20px;">
-        <h3>Users</h3>
-        <table id="userTable">
-            <tr><th>Phone</th><th>Balance</th></tr>
-        </table>
+    <div class="dash-content">
+        <aside class="sidebar">
+            <ul>
+                [span_2](start_span)<li>📊 Profile Management[span_2](end_span)</li>
+                [span_3](start_span)<li>📦 Purchase History[span_3](end_span)</li>
+                [span_4](start_span)<li>📅 Booking History[span_4](end_span)</li>
+                [span_5](start_span)<li>💳 Payment History[span_5](end_span)</li>
+                [span_6](start_span)<li>📥 Digital Downloads[span_6](end_span)</li>
+            </ul>
+        </aside>
+        
+        <main>
+            <div class="stat-card">
+                [span_7](start_span)<h3 style="color:var(--primary);">Active Subscriptions[span_7](end_span)</h3>
+                [span_8](start_span)<p style="color:#64748b; margin-top:10px;">You currently have no active membership tiers[span_8](end_span).</p>
+                [span_9](start_span)<button style="margin-top:20px; padding:12px 25px; background:var(--accent); color:white; border:none; border-radius:10px; font-weight:700;">Explore Packages[span_9](end_span)</button>
+            </div>
+            
+            <div class="stat-card" style="margin-top:30px;">
+                [span_10](start_span)<h3 style="color:var(--primary);">Recent Notifications[span_10](end_span)</h3>
+                <div style="padding:15px; background:#f8fafc; border-radius:12px; margin-top:15px; border-left:4px solid var(--accent);">
+                    Welcome to Online Sphere Commerce! [span_11](start_span)Your account is now verified via email[span_11](end_span).
+                </div>
+            </div>
+        </main>
     </div>
 </div>
 
 <script>
-let users = [];
+    let isLoginMode = false;
 
-function login(){
-    let phone=document.getElementById("phone").value;
-
-    if(phone.length<5){ alert("Enter valid"); return;}
-
-    let user={phone:phone,balance:0};
-    users.push(user);
-
-    localStorage.setItem("currentUser",JSON.stringify(user));
-
-    showUser();
-}
-
-function adminLogin(){
-    let pass=document.getElementById("pass").value;
-
-    if(pass==="admin123"){
-        showAdmin();
-    }else{
-        alert("Wrong admin password");
+    // Toggle between Registration and Login
+    function toggleAuthMode() {
+        isLoginMode = !isLoginMode;
+        document.getElementById('authTitle').innerText = isLoginMode ? "Welcome Back" : "Create Account";
+        document.getElementById('regFields').style.display = isLoginMode ? "none" : "block";
+        document.getElementById('actionBtn').innerText = isLoginMode ? "LOGIN NOW" : "REGISTER NOW";
+        document.getElementById('toggleText').innerText = isLoginMode ? "New here? Create an account" : "Already have an account? Login here";
     }
-}
 
-function showUser(){
-    document.getElementById("login").style.display="none";
-    document.getElementById("userApp").style.display="block";
-}
+    // AUTH LOGIC
+    function handleAuth() {
+        const email = document.getElementById('authEmail').value;
+        const pass = document.getElementById('authPass').value;
+        const name = document.getElementById('regName').value;
 
-function showAdmin(){
-    document.getElementById("login").style.display="none";
-    document.getElementById("adminApp").style.display="block";
+        if(!email || !pass) { alert("Please fill all fields"); return; }
 
-    updateAdmin();
-}
+        if(isLoginMode) {
+            // LOGIN PROCESS
+            const storedUser = JSON.parse(localStorage.getItem('osc_user'));
+            if(storedUser && storedUser.email === email && storedUser.pass === pass) {
+                launchDashboard(storedUser.name);
+            } else {
+                alert("Invalid email or password");
+            }
+        } else {
+            [span_12](start_span)// REGISTRATION PROCESS (Scope #6: User Registration[span_12](end_span))
+            const newUser = { name: name, email: email, pass: pass };
+            localStorage.setItem('osc_user', JSON.stringify(newUser));
+            alert("Registration successful! Please login.");
+            toggleAuthMode();
+        }
+    }
 
-function logout(){
-    location.reload();
-}
+    function launchDashboard(name) {
+        document.getElementById('authSection').style.display = 'none';
+        document.getElementById('mainDashboard').style.display = 'block';
+        document.getElementById('userDisplayName').innerText = name;
+    }
 
-function earn(){
-    let user=JSON.parse(localStorage.getItem("currentUser"));
-    user.balance+=100;
-    localStorage.setItem("currentUser",JSON.stringify(user));
-    document.getElementById("balance").innerText="KES "+user.balance;
-}
+    function logout() {
+        document.getElementById('authSection').style.display = 'flex';
+        document.getElementById('mainDashboard').style.display = 'none';
+    }
 
-function pay(amount){
-    alert("Simulated payment of "+amount);
-    let total=document.getElementById("totalPayments");
-    if(total) total.innerText=parseInt(total.innerText)+amount;
-}
-
-function updateAdmin(){
-    document.getElementById("totalUsers").innerText=users.length;
-
-    let table=document.getElementById("userTable");
-    users.forEach(u=>{
-        let row=`<tr><td>${u.phone}</td><td>${u.balance}</td></tr>`;
-        table.innerHTML+=row;
-    });
-}
+    // Check for existing session on load
+    window.onload = () => {
+        const storedUser = JSON.parse(localStorage.getItem('osc_user'));
+        // In a real app, you'd check a session token here
+    };
 </script>
 
 </body>
