@@ -5,9 +5,40 @@ const cors = require("cors");
 
 const app = express();
 
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+/*
+=========================================================
+CORS CONFIGURATION
+=========================================================
+*/
+
+const corsOptions = {
+    origin: (origin, callback) => {
+        const allowedOrigins = (process.env.ALLOWED_ORIGINS || "http://localhost:3000,http://localhost:3001").split(",");
+        const normalizedOrigins = allowedOrigins.map((item) => item.trim()).filter(Boolean);
+
+        if (!origin || normalizedOrigins.includes(origin)) {
+            callback(null, true);
+            return;
+        }
+
+        callback(new Error(`CORS policy: origin ${origin} is not allowed.`));
+    },
+    credentials: true,
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    maxAge: 86400,
+};
+
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+
+// Middleware to log incoming requests
+app.use((req, res, next) => {
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
+    next();
+});
 
 const PORT = process.env.PORT || 3000;
 
@@ -23,13 +54,21 @@ const PACKAGES = {
     Gold: 2500,
 };
 
+const VALID_PACKAGE_NAMES = Object.keys(PACKAGES);
+
+/*
+=========================================================
+VALIDATION FUNCTIONS
+=========================================================
+*/
+
 function normalizePackageName(packageName) {
     if (typeof packageName !== "string") return "";
 
     const trimmed = packageName.trim();
     if (!trimmed) return "";
 
-    const match = Object.keys(PACKAGES).find(
+    const match = VALID_PACKAGE_NAMES.find(
         (name) => name.toLowerCase() === trimmed.toLowerCase()
     );
 
@@ -43,12 +82,10 @@ function normalizePhoneNumber(phone) {
         .replace(/\s+/g, "")
         .replace(/^\+/, "");
 
-    // Convert 07xx or 01xx to 254xx
     if (phoneNumber.startsWith("0")) {
         phoneNumber = `254${phoneNumber.substring(1)}`;
     }
 
-    // Only return if it starts with 254
     if (phoneNumber.startsWith("254")) {
         return phoneNumber;
     }
@@ -57,8 +94,90 @@ function normalizePhoneNumber(phone) {
 }
 
 function validatePhoneNumber(phoneNumber) {
-    // Must be 254[17]xxxxxxxx - exactly 12 digits starting with 254, followed by 1 or 7, then 8 more digits
     return /^254[17]\d{8}$/.test(phoneNumber);
+}
+
+function validateStkPushRequest(body) {
+    const { phone, packageName } = body || {};
+
+    if (!packageName) {
+        return {
+            valid: false,
+            error: "Package name is required. Available: Bronze, Silver, Gold.",
+            code: "MISSING_PACKAGE",
+        };
+    }
+
+    const normalizedPackage = normalizePackageName(packageName);
+    if (!normalizedPackage) {
+        return {
+            valid: false,
+            error: `"${packageName}" is not a valid package. Available: ${VALID_PACKAGE_NAMES.join(", ")}.`,
+            code: "INVALID_PACKAGE",
+        };
+    }
+
+    if (!phone) {
+        return {
+            valid: false,
+            error: "Phone number is required.",
+            code: "MISSING_PHONE",
+        };
+    }
+
+    const normalizedPhone = normalizePhoneNumber(phone);
+    if (!normalizedPhone) {
+        return {
+            valid: false,
+            error: `"${phone}" could not be normalized. Use format: 07xxxxxxxxx, 01xxxxxxxxx, or +254-7xx-xxx-xxx.`,
+            code: "INVALID_PHONE_FORMAT",
+        };
+    }
+
+    if (!validatePhoneNumber(normalizedPhone)) {
+        return {
+            valid: false,
+            error: `"${normalizedPhone}" is not a valid Kenyan M-Pesa number. Must match: 254[1-7]xxxxxxxx (12 digits).`,
+            code: "INVALID_PHONE_VALIDATION",
+        };
+    }
+
+    return {
+        valid: true,
+        error: null,
+        packageName: normalizedPackage,
+        phone: normalizedPhone,
+    };
+}
+
+function validateMpesaConfig() {
+    const shortcode = process.env.MPESA_SHORTCODE;
+    const passkey = process.env.MPESA_PASSKEY;
+    const callbackUrl = process.env.MPESA_CALLBACK_URL;
+    const consumerKey = process.env.MPESA_CONSUMER_KEY;
+    const consumerSecret = process.env.MPESA_CONSUMER_SECRET;
+
+    const missing = [];
+
+    if (!shortcode) missing.push("MPESA_SHORTCODE");
+    if (!passkey) missing.push("MPESA_PASSKEY");
+    if (!callbackUrl) missing.push("MPESA_CALLBACK_URL");
+    if (!consumerKey) missing.push("MPESA_CONSUMER_KEY");
+    if (!consumerSecret) missing.push("MPESA_CONSUMER_SECRET");
+
+    if (missing.length > 0) {
+        return {
+            valid: false,
+            error: `Missing required M-Pesa environment variables: ${missing.join(", ")}.`,
+            missing,
+        };
+    }
+
+    return {
+        valid: true,
+        error: null,
+        config: { shortcode, passkey, callbackUrl, consumerKey, consumerSecret },
+    };
 }
 
 /*
@@ -67,7 +186,6 @@ DARAJA URLs
 =========================================================
 */
 
-// Sandbox
 const DARAJA_BASE_URL =
     process.env.MPESA_ENV === "production"
         ? "https://api.safaricom.co.ke"
@@ -80,38 +198,47 @@ HELPER: GET DARAJA ACCESS TOKEN
 */
 
 async function getAccessToken() {
-    const consumerKey = process.env.MPESA_CONSUMER_KEY;
-    const consumerSecret = process.env.MPESA_CONSUMER_SECRET;
-
-    if (!consumerKey || !consumerSecret) {
-        throw new Error(
-            "MPESA_CONSUMER_KEY or MPESA_CONSUMER_SECRET is missing."
-        );
+    const configValidation = validateMpesaConfig();
+    if (!configValidation.valid) {
+        throw new Error(configValidation.error);
     }
 
+    const { consumerKey, consumerSecret } = configValidation.config;
     const credentials = Buffer.from(
         `${consumerKey}:${consumerSecret}`
     ).toString("base64");
 
-    const response = await fetch(
-        `${DARAJA_BASE_URL}/oauth/v1/generate?grant_type=client_credentials`,
-        {
-            method: "GET",
-            headers: {
-                Authorization: `Basic ${credentials}`,
-                Accept: "application/json",
-            },
+    try {
+        const response = await fetch(
+            `${DARAJA_BASE_URL}/oauth/v1/generate?grant_type=client_credentials`,
+            {
+                method: "GET",
+                headers: {
+                    Authorization: `Basic ${credentials}`,
+                    Accept: "application/json",
+                },
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            console.error("Daraja OAuth error:", data);
+            throw new Error(
+                `Authentication failed: ${data.error_description || "Unknown error"}`
+            );
         }
-    );
 
-    const data = await response.json();
+        if (!data.access_token) {
+            console.error("No access token in response:", data);
+            throw new Error("No access token received from Daraja.");
+        }
 
-    if (!response.ok || !data.access_token) {
-        console.error("Daraja OAuth error:", data);
-        throw new Error("Unable to obtain Daraja access token.");
+        return data.access_token;
+    } catch (error) {
+        console.error("Failed to get access token:", error);
+        throw new Error(`Failed to authenticate with M-Pesa: ${error.message}`);
     }
-
-    return data.access_token;
 }
 
 /*
@@ -143,6 +270,8 @@ app.get("/", (req, res) => {
     res.json({
         success: true,
         message: "Online Sphere Daraja backend is running.",
+        environment: process.env.MPESA_ENV || "sandbox",
+        timestamp: new Date().toISOString(),
     });
 });
 
@@ -158,7 +287,9 @@ app.get("/api/package/:packageName", (req, res) => {
     if (!packageKey) {
         return res.status(400).json({
             success: false,
-            message: "Invalid membership package. Available: Bronze, Silver, Gold.",
+            message: `Invalid package "${req.params.packageName}". Available packages: ${VALID_PACKAGE_NAMES.join(", ")}.`,
+            availablePackages: VALID_PACKAGE_NAMES,
+            code: "INVALID_PACKAGE",
         });
     }
 
@@ -166,6 +297,7 @@ app.get("/api/package/:packageName", (req, res) => {
         success: true,
         package: packageKey,
         amount: PACKAGES[packageKey],
+        currency: "KES",
     });
 });
 
@@ -177,84 +309,69 @@ REAL MPESA STK PUSH
 
 app.post("/api/mpesa/stkpush", async (req, res) => {
     try {
-        const { phone, packageName } = req.body;
-
-        // Validate package name
-        const normalizedPackageName = normalizePackageName(packageName);
-        if (!normalizedPackageName) {
+        const validation = validateStkPushRequest(req.body);
+        if (!validation.valid) {
             return res.status(400).json({
                 success: false,
-                message: "Invalid membership package. Available: Bronze, Silver, Gold.",
+                message: validation.error,
+                code: validation.code,
             });
         }
 
-        // Get server-side amount
-        const amount = PACKAGES[normalizedPackageName];
+        const { packageName, phone } = validation;
+        const amount = PACKAGES[packageName];
 
-        // Validate phone is provided
-        if (!phone) {
-            return res.status(400).json({
-                success: false,
-                message: "M-Pesa phone number is required.",
-            });
-        }
-
-        // Normalize and validate phone
-        const phoneNumber = normalizePhoneNumber(phone);
-        if (!validatePhoneNumber(phoneNumber)) {
-            return res.status(400).json({
-                success: false,
-                message: "Invalid Kenyan M-Pesa number. Format: 07xxx-xxx-xxx or 254-7xx-xxx-xxx",
-            });
-        }
-
-        // Check DARAJA configuration
-        const shortcode = process.env.MPESA_SHORTCODE;
-        const passkey = process.env.MPESA_PASSKEY;
-        const callbackUrl = process.env.MPESA_CALLBACK_URL;
-
-        if (!shortcode || !passkey || !callbackUrl) {
+        const configValidation = validateMpesaConfig();
+        if (!configValidation.valid) {
+            console.error("M-Pesa configuration error:", configValidation.error);
             return res.status(500).json({
                 success: false,
-                message: "M-Pesa environment variables are not configured.",
+                message: "M-Pesa service is not properly configured.",
+                code: "CONFIG_ERROR",
             });
         }
 
-        // Get access token
-        const accessToken = await getAccessToken();
+        const { shortcode, passkey, callbackUrl } = configValidation.config;
 
-        // Create timestamp for STK push
+        let accessToken;
+        try {
+            accessToken = await getAccessToken();
+        } catch (error) {
+            console.error("Authentication error:", error);
+            return res.status(503).json({
+                success: false,
+                message: "Unable to authenticate with M-Pesa service. Please try again later.",
+                code: "AUTH_FAILED",
+            });
+        }
+
         const timestamp = createTimestamp();
-
-        // Create STK password (base64 encoded shortcode + passkey + timestamp)
         const password = Buffer.from(
             `${shortcode}${passkey}${timestamp}`
         ).toString("base64");
 
-        // Prepare STK push payload
         const stkPayload = {
             BusinessShortCode: shortcode,
             Password: password,
             Timestamp: timestamp,
             TransactionType: "CustomerPayBillOnline",
             Amount: amount,
-            PartyA: phoneNumber,
+            PartyA: phone,
             PartyB: shortcode,
-            PhoneNumber: phoneNumber,
+            PhoneNumber: phone,
             CallBackURL: callbackUrl,
-            AccountReference: `ONLINE-SPHERE-${normalizedPackageName}`,
-            TransactionDesc: `Online Sphere ${normalizedPackageName} Membership`,
+            AccountReference: `ONLINE-SPHERE-${packageName}`,
+            TransactionDesc: `Online Sphere ${packageName} Membership`,
         };
 
-        console.log("Sending STK Push:");
-        console.log({
-            package: normalizedPackageName,
+        console.log("Sending STK Push:", {
+            package: packageName,
             amount,
-            phone: phoneNumber,
+            phone,
             timestamp,
+            environment: process.env.MPESA_ENV || "sandbox",
         });
 
-        // Send request to Safaricom DARAJA
         const response = await fetch(
             `${DARAJA_BASE_URL}/mpesa/stkpush/v1/processrequest`,
             {
@@ -270,24 +387,31 @@ app.post("/api/mpesa/stkpush", async (req, res) => {
 
         const data = await response.json();
 
-        console.log("Daraja STK response:", data);
+        console.log("Daraja response:", {
+            status: response.status,
+            code: data.ResponseCode,
+            description: data.ResponseDescription,
+        });
 
-        // Handle Safaricom errors
-        if (!response.ok) {
+        if (!response.ok || data.ResponseCode !== "0") {
             return res.status(502).json({
                 success: false,
-                message: "Safaricom rejected the STK Push request.",
-                error: data,
+                message:
+                    data.ResponseDescription ||
+                    "M-Pesa service rejected the request. Please verify your details and try again.",
+                responseCode: data.ResponseCode,
+                responseDescription: data.ResponseDescription,
+                code: "SAFARICOM_ERROR",
             });
         }
 
-        // Return success response
         return res.json({
             success: true,
-            message: "STK Push sent. Check your phone and enter your M-Pesa PIN.",
-            package: normalizedPackageName,
+            message: "STK Push sent successfully. Check your phone and enter your M-Pesa PIN.",
+            package: packageName,
             amount,
-            phone: phoneNumber,
+            currency: "KES",
+            phone,
             merchantRequestID: data.MerchantRequestID,
             checkoutRequestID: data.CheckoutRequestID,
             responseCode: data.ResponseCode,
@@ -298,8 +422,9 @@ app.post("/api/mpesa/stkpush", async (req, res) => {
 
         return res.status(500).json({
             success: false,
-            message: "Unable to send M-Pesa STK Push.",
+            message: "An unexpected error occurred while processing your request.",
             error: error.message,
+            code: "INTERNAL_ERROR",
         });
     }
 });
@@ -314,13 +439,12 @@ app.post("/api/mpesa/callback", (req, res) => {
     console.log("\n================================");
     console.log("M-PESA CALLBACK RECEIVED");
     console.log("================================");
-
-    console.log(JSON.stringify(req.body, null, 2));
+    console.log("Timestamp:", new Date().toISOString());
 
     const callback = req.body?.Body?.stkCallback;
 
     if (!callback) {
-        console.log("Invalid callback structure.");
+        console.log("⚠️  Invalid callback structure. Expected Body.stkCallback.");
         return res.json({
             ResultCode: 0,
             ResultDesc: "Accepted",
@@ -340,7 +464,7 @@ app.post("/api/mpesa/callback", (req, res) => {
             paymentData[item.Name] = item.Value;
         });
 
-        console.log("SUCCESSFUL PAYMENT:");
+        console.log("✅ SUCCESSFUL PAYMENT:");
         console.log(paymentData);
 
         /*
@@ -348,9 +472,10 @@ app.post("/api/mpesa/callback", (req, res) => {
         - Store MerchantRequestID, CheckoutRequestID
         - Link to user account
         - Activate membership
+        - Send confirmation email/SMS
         */
     } else {
-        console.log("Payment was not completed.");
+        console.log("❌ Payment was not completed.");
         console.log("Result Description:", callback.ResultDesc);
     }
 
@@ -360,15 +485,30 @@ app.post("/api/mpesa/callback", (req, res) => {
     });
 });
 
-/*
-=========================================================
-START SERVER
-=========================================================
-*/
+app.use((req, res) => {
+    res.status(404).json({
+        success: false,
+        message: `Endpoint not found: ${req.method} ${req.path}`,
+        code: "NOT_FOUND",
+    });
+});
+
+app.use((err, req, res, next) => {
+    console.error("Unhandled error:", err);
+
+    res.status(500).json({
+        success: false,
+        message: "An unexpected server error occurred.",
+        code: "INTERNAL_SERVER_ERROR",
+    });
+});
 
 app.listen(PORT, () => {
-    console.log(`Online Sphere server running on port ${PORT}`);
-    console.log(
-        `M-Pesa environment: ${process.env.MPESA_ENV || "sandbox"}`
-    );
+    console.log(`\n${"=".repeat(50)}`);
+    console.log("🚀 Online Sphere Server Started");
+    console.log(`${"=".repeat(50)}`);
+    console.log(`Port: ${PORT}`);
+    console.log(`M-Pesa Environment: ${process.env.MPESA_ENV || "sandbox"}`);
+    console.log(`Timestamp: ${new Date().toISOString()}`);
+    console.log(`${"=".repeat(50)}\n`);
 });
