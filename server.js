@@ -48,14 +48,14 @@ const corsOptions = {
             return;
         }
 
-        console.warn(`CORS violation from origin: ${origin}`);
+        console.warn(`CORS violation attempt from origin: ${origin}`);
         callback(new Error("CORS policy violation"));
     },
     credentials: true,
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     exposedHeaders: ["X-Request-ID"],
-    maxAge: 3600, // 1 hour
+    maxAge: 3600,
     optionsSuccessStatus: 200,
 };
 
@@ -83,12 +83,12 @@ app.use((req, res, next) => {
     next();
 });
 
-// Request validation middleware
-app.use(express.json());
+// Empty body validation for POST requests
 app.use((req, res, next) => {
-    if (req.method === "POST" && Object.keys(req.body).length === 0) {
+    if (req.method === "POST" && (!req.body || Object.keys(req.body).length === 0)) {
         return res.status(400).json({
             success: false,
+            timestamp: new Date().toISOString(),
             message: "Request body is empty or invalid JSON.",
             code: "EMPTY_BODY",
         });
@@ -153,9 +153,10 @@ function validatePhoneNumber(phoneNumber) {
 }
 
 /**
- * Validates request body for STK Push endpoint
+ * Comprehensive validation for STK Push request
+ * Returns structured validation result with error details and hints
  * @param {object} body - Request body
- * @returns {object} { valid: boolean, error?: string, code?: string, packageName?: string, phone?: string }
+ * @returns {object} Validation result with status and details
  */
 function validateStkPushRequest(body) {
     const { phone, packageName } = body || {};
@@ -228,7 +229,8 @@ function validateStkPushRequest(body) {
 
 /**
  * Validates M-Pesa environment configuration
- * @returns {object} { valid: boolean, error?: string, missing?: string[], config?: object }
+ * Checks for all required environment variables
+ * @returns {object} Validation result with config or missing variables
  */
 function validateMpesaConfig() {
     const requiredVars = {
@@ -273,7 +275,7 @@ HELPER FUNCTIONS
 */
 
 /**
- * Creates timestamp in YYYYMMDDHHmmss format for M-Pesa
+ * Creates timestamp in YYYYMMDDHHmmss format for M-Pesa STK Push
  * @returns {string} Formatted timestamp
  */
 function createTimestamp() {
@@ -289,7 +291,17 @@ function createTimestamp() {
 }
 
 /**
- * Fetches access token from Daraja API
+ * Masks phone number for safe logging (shows only last 4 digits)
+ * @param {string} phone - Full phone number
+ * @returns {string} Masked phone number
+ */
+function maskPhoneNumber(phone) {
+    if (!phone || phone.length < 4) return "****";
+    return phone.slice(-4).padStart(phone.length, "*");
+}
+
+/**
+ * Fetches Daraja OAuth access token
  * @returns {Promise<string>} Access token
  * @throws {Error} If authentication fails
  */
@@ -332,13 +344,13 @@ async function getAccessToken() {
 
         return data.access_token;
     } catch (error) {
-        console.error("Access token error:", error);
+        console.error("Access token error:", error.message);
         throw new Error(`Authentication failed: ${error.message}`);
     }
 }
 
 /**
- * Sends formatted JSON response
+ * Sends standardized JSON response with timestamp
  * @param {object} res - Express response object
  * @param {number} statusCode - HTTP status code
  * @param {object} data - Response data
@@ -353,7 +365,7 @@ function sendResponse(res, statusCode, data) {
 
 /*
 =========================================================
-ROUTES: HEALTH CHECK
+ROUTES: HEALTH & STATUS
 =========================================================
 */
 
@@ -376,7 +388,6 @@ app.get("/health", (req, res) => {
             ? "Service is operational"
             : "Service configuration incomplete",
         environment: process.env.MPESA_ENV || "sandbox",
-        timestamp: new Date().toISOString(),
     });
 });
 
@@ -405,6 +416,7 @@ app.get("/api/package/:packageName", (req, res) => {
     if (!packageKey) {
         return sendResponse(res, 400, {
             message: `Invalid package: "${req.params.packageName}"`,
+            hint: `Use one of: ${VALID_PACKAGE_NAMES.join(", ")}`,
             availablePackages: VALID_PACKAGE_NAMES,
             code: "INVALID_PACKAGE",
         });
@@ -442,7 +454,7 @@ app.post("/api/mpesa/stkpush", async (req, res) => {
         // Validate M-Pesa configuration
         const configValidation = validateMpesaConfig();
         if (!configValidation.valid) {
-            console.error("Config error:", configValidation.error);
+            console.error(`[${req.id}] Config error:`, configValidation.error);
             return sendResponse(res, 503, {
                 message: "M-Pesa service is temporarily unavailable",
                 code: "CONFIG_ERROR",
@@ -456,7 +468,7 @@ app.post("/api/mpesa/stkpush", async (req, res) => {
         try {
             accessToken = await getAccessToken();
         } catch (error) {
-            console.error("Auth error:", error.message);
+            console.error(`[${req.id}] Auth error:`, error.message);
             return sendResponse(res, 503, {
                 message: "Failed to authenticate with M-Pesa. Please try again.",
                 code: "AUTH_FAILED",
@@ -486,7 +498,7 @@ app.post("/api/mpesa/stkpush", async (req, res) => {
         console.log(`[${req.id}] STK Push initiated`, {
             package: packageName,
             amount,
-            phone: phone.slice(-4).padStart(phone.length, "*"),
+            phone: maskPhoneNumber(phone),
         });
 
         // Send to Daraja
@@ -514,7 +526,7 @@ app.post("/api/mpesa/stkpush", async (req, res) => {
             return sendResponse(res, 502, {
                 message:
                     data.ResponseDescription ||
-                    "M-Pesa rejected the request. Please try again.",
+                    "M-Pesa rejected the request. Please verify your details and try again.",
                 responseCode: data.ResponseCode,
                 code: "SAFARICOM_ERROR",
             });
@@ -525,19 +537,18 @@ app.post("/api/mpesa/stkpush", async (req, res) => {
         });
 
         return sendResponse(res, 200, {
-            message: "STK Push sent successfully",
-            hint: "Check your phone and enter your M-Pesa PIN",
+            message: "STK Push sent successfully. Check your phone and enter your M-Pesa PIN.",
             package: packageName,
             amount,
             currency: "KES",
-            phone: phone.slice(-4).padStart(phone.length, "*"),
+            phone: maskPhoneNumber(phone),
             merchantRequestID: data.MerchantRequestID,
             checkoutRequestID: data.CheckoutRequestID,
         });
     } catch (error) {
-        console.error(`[${req.id}] Unexpected error:`, error);
+        console.error(`[${req.id}] Unexpected error:`, error.message);
         return sendResponse(res, 500, {
-            message: "An unexpected error occurred",
+            message: "An unexpected error occurred while processing your request.",
             code: "INTERNAL_ERROR",
         });
     }
@@ -552,7 +563,7 @@ ROUTES: M-PESA CALLBACK
 app.post("/api/mpesa/callback", (req, res) => {
     const callback = req.body?.Body?.stkCallback;
 
-    console.log(`[${req.id}] Callback received`);
+    console.log(`[${req.id}] M-Pesa callback received`);
 
     if (!callback) {
         console.warn(`[${req.id}] Invalid callback structure`);
@@ -635,7 +646,7 @@ SERVER STARTUP
 
 app.listen(PORT, () => {
     console.log(`\n${"=".repeat(60)}`);
-    console.log("🚀 Online Sphere M-Pesa Backend");
+    console.log("🚀 Online Sphere M-Pesa Backend v2.0.0");
     console.log(`${"=".repeat(60)}`);
     console.log(`Port:        ${PORT}`);
     console.log(`Environment: ${NODE_ENV}`);
