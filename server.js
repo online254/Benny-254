@@ -29,6 +29,39 @@ const DARAJA_BASE_URL =
 
 /*
 =========================================================
+LOGGING UTILITIES
+=========================================================
+*/
+
+const LOG_LEVELS = {
+    ERROR: "❌ ERROR",
+    WARN: "⚠️  WARN",
+    INFO: "ℹ️  INFO",
+    SUCCESS: "✅ SUCCESS",
+    DEBUG: "🔍 DEBUG",
+};
+
+/**
+ * Enhanced logger with request tracking
+ * @param {string} level - Log level key
+ * @param {string} requestId - Request ID for tracking
+ * @param {string} message - Log message
+ * @param {object} data - Additional data to log
+ */
+function log(level, requestId, message, data = {}) {
+    const timestamp = new Date().toISOString();
+    const levelLabel = LOG_LEVELS[level] || "LOG";
+    const requestTag = requestId ? `[${requestId}]` : "[SYSTEM]";
+    
+    console.log(`[${timestamp}] ${levelLabel} ${requestTag} ${message}`);
+    
+    if (Object.keys(data).length > 0) {
+        console.log(`  └─ ${JSON.stringify(data, null, 2).split("\n").join("\n     ")}`);
+    }
+}
+
+/*
+=========================================================
 CORS CONFIGURATION
 =========================================================
 */
@@ -48,7 +81,7 @@ const corsOptions = {
             return;
         }
 
-        console.warn(`CORS violation attempt from origin: ${origin}`);
+        log("WARN", null, `CORS violation attempt from origin: ${origin}`);
         callback(new Error("CORS policy violation"));
     },
     credentials: true,
@@ -76,16 +109,26 @@ app.use((req, res, next) => {
     next();
 });
 
-// Request logging middleware
+// Request logging middleware with enhanced details
 app.use((req, res, next) => {
-    const timestamp = new Date().toISOString();
-    console.log(`[${timestamp}] [${req.id}] ${req.method} ${req.path}`);
+    const method = req.method.padEnd(6);
+    const path = req.path.padEnd(30);
+    const userAgent = req.headers["user-agent"] ? `"${req.headers["user-agent"].substring(0, 40)}"` : "unknown";
+    
+    log("INFO", req.id, `Incoming request`, {
+        method: req.method,
+        path: req.path,
+        ip: req.ip,
+        userAgent: req.headers["user-agent"]?.substring(0, 60) || "unknown",
+    });
+    
     next();
 });
 
 // Empty body validation for POST requests
 app.use((req, res, next) => {
     if (req.method === "POST" && (!req.body || Object.keys(req.body).length === 0)) {
+        log("WARN", req.id, "Empty POST request body received");
         return res.status(400).json({
             success: false,
             timestamp: new Date().toISOString(),
@@ -344,7 +387,6 @@ async function getAccessToken() {
 
         return data.access_token;
     } catch (error) {
-        console.error("Access token error:", error.message);
         throw new Error(`Authentication failed: ${error.message}`);
     }
 }
@@ -370,9 +412,10 @@ ROUTES: HEALTH & STATUS
 */
 
 app.get("/", (req, res) => {
+    log("INFO", req.id, "Health check requested");
     sendResponse(res, 200, {
         message: "Online Sphere Daraja backend is running",
-        version: "2.0.0",
+        version: "2.1.0",
         environment: process.env.MPESA_ENV || "sandbox",
         uptime: process.uptime(),
     });
@@ -381,6 +424,11 @@ app.get("/", (req, res) => {
 app.get("/health", (req, res) => {
     const configValidation = validateMpesaConfig();
     const status = configValidation.valid ? "healthy" : "degraded";
+
+    log("INFO", req.id, `Health status: ${status}`, {
+        environment: process.env.MPESA_ENV || "sandbox",
+        configured: configValidation.valid,
+    });
 
     sendResponse(res, configValidation.valid ? 200 : 503, {
         status,
@@ -398,6 +446,8 @@ ROUTES: PACKAGE PRICING
 */
 
 app.get("/api/packages", (req, res) => {
+    log("INFO", req.id, "Packages list requested");
+    
     const packages = VALID_PACKAGE_NAMES.map((name) => ({
         name,
         amount: PACKAGES[name],
@@ -414,6 +464,7 @@ app.get("/api/package/:packageName", (req, res) => {
     const packageKey = normalizePackageName(req.params.packageName);
 
     if (!packageKey) {
+        log("WARN", req.id, `Invalid package requested: "${req.params.packageName}"`);
         return sendResponse(res, 400, {
             message: `Invalid package: "${req.params.packageName}"`,
             hint: `Use one of: ${VALID_PACKAGE_NAMES.join(", ")}`,
@@ -421,6 +472,11 @@ app.get("/api/package/:packageName", (req, res) => {
             code: "INVALID_PACKAGE",
         });
     }
+
+    log("INFO", req.id, `Package info retrieved: ${packageKey}`, {
+        package: packageKey,
+        amount: PACKAGES[packageKey],
+    });
 
     sendResponse(res, 200, {
         message: "Package information retrieved",
@@ -441,6 +497,10 @@ app.post("/api/mpesa/stkpush", async (req, res) => {
         // Validate request body
         const validation = validateStkPushRequest(req.body);
         if (!validation.valid) {
+            log("WARN", req.id, `Validation failed: ${validation.code}`, {
+                error: validation.error,
+                hint: validation.hint,
+            });
             return sendResponse(res, validation.statusCode, {
                 message: validation.error,
                 hint: validation.hint,
@@ -454,7 +514,10 @@ app.post("/api/mpesa/stkpush", async (req, res) => {
         // Validate M-Pesa configuration
         const configValidation = validateMpesaConfig();
         if (!configValidation.valid) {
-            console.error(`[${req.id}] Config error:`, configValidation.error);
+            log("ERROR", req.id, "M-Pesa config validation failed", {
+                error: configValidation.error,
+                missing: configValidation.missing,
+            });
             return sendResponse(res, 503, {
                 message: "M-Pesa service is temporarily unavailable",
                 code: "CONFIG_ERROR",
@@ -467,8 +530,11 @@ app.post("/api/mpesa/stkpush", async (req, res) => {
         let accessToken;
         try {
             accessToken = await getAccessToken();
+            log("SUCCESS", req.id, "Access token obtained");
         } catch (error) {
-            console.error(`[${req.id}] Auth error:`, error.message);
+            log("ERROR", req.id, "Failed to get access token", {
+                error: error.message,
+            });
             return sendResponse(res, 503, {
                 message: "Failed to authenticate with M-Pesa. Please try again.",
                 code: "AUTH_FAILED",
@@ -495,10 +561,12 @@ app.post("/api/mpesa/stkpush", async (req, res) => {
             TransactionDesc: `Online Sphere ${packageName} Membership`,
         };
 
-        console.log(`[${req.id}] STK Push initiated`, {
+        log("INFO", req.id, "STK Push initiated", {
             package: packageName,
             amount,
             phone: maskPhoneNumber(phone),
+            timestamp,
+            environment: process.env.MPESA_ENV || "sandbox",
         });
 
         // Send to Daraja
@@ -518,9 +586,10 @@ app.post("/api/mpesa/stkpush", async (req, res) => {
         const data = await response.json();
 
         if (!response.ok || data.ResponseCode !== "0") {
-            console.warn(`[${req.id}] STK Push rejected`, {
-                code: data.ResponseCode,
-                description: data.ResponseDescription,
+            log("WARN", req.id, "STK Push rejected by Daraja", {
+                responseCode: data.ResponseCode,
+                responseDescription: data.ResponseDescription,
+                httpStatus: response.status,
             });
 
             return sendResponse(res, 502, {
@@ -532,8 +601,11 @@ app.post("/api/mpesa/stkpush", async (req, res) => {
             });
         }
 
-        console.log(`[${req.id}] STK Push successful`, {
+        log("SUCCESS", req.id, "STK Push sent successfully", {
             merchantRequestID: data.MerchantRequestID,
+            checkoutRequestID: data.CheckoutRequestID,
+            package: packageName,
+            amount,
         });
 
         return sendResponse(res, 200, {
@@ -546,7 +618,10 @@ app.post("/api/mpesa/stkpush", async (req, res) => {
             checkoutRequestID: data.CheckoutRequestID,
         });
     } catch (error) {
-        console.error(`[${req.id}] Unexpected error:`, error.message);
+        log("ERROR", req.id, "Unexpected error in STK Push", {
+            error: error.message,
+            stack: error.stack,
+        });
         return sendResponse(res, 500, {
             message: "An unexpected error occurred while processing your request.",
             code: "INTERNAL_ERROR",
@@ -563,10 +638,10 @@ ROUTES: M-PESA CALLBACK
 app.post("/api/mpesa/callback", (req, res) => {
     const callback = req.body?.Body?.stkCallback;
 
-    console.log(`[${req.id}] M-Pesa callback received`);
+    log("INFO", req.id, "M-Pesa callback received");
 
     if (!callback) {
-        console.warn(`[${req.id}] Invalid callback structure`);
+        log("WARN", req.id, "Invalid callback structure - missing stkCallback");
         return res.json({
             ResultCode: 0,
             ResultDesc: "Accepted",
@@ -576,7 +651,7 @@ app.post("/api/mpesa/callback", (req, res) => {
     const { MerchantRequestID, CheckoutRequestID, ResultCode, ResultDesc } =
         callback;
 
-    console.log(`[${req.id}] Callback details`, {
+    log("INFO", req.id, "Callback details", {
         MerchantRequestID,
         CheckoutRequestID,
         ResultCode,
@@ -591,9 +666,11 @@ app.post("/api/mpesa/callback", (req, res) => {
             paymentData[item.Name] = item.Value;
         });
 
-        console.log(`[${req.id}] ✅ Payment successful`, {
+        log("SUCCESS", req.id, "Payment successful", {
             amount: paymentData.Amount,
             receiptNumber: paymentData.ReceiptNumber,
+            transactionDate: paymentData.TransactionDate,
+            phoneNumber: maskPhoneNumber(paymentData.PhoneNumber),
         });
 
         /*
@@ -604,7 +681,10 @@ app.post("/api/mpesa/callback", (req, res) => {
         - Send confirmation email/SMS
         */
     } else {
-        console.log(`[${req.id}] ❌ Payment failed: ${ResultDesc}`);
+        log("WARN", req.id, "Payment failed", {
+            resultCode: ResultCode,
+            resultDescription: ResultDesc,
+        });
     }
 
     // Always return success to Safaricom
@@ -622,6 +702,7 @@ ERROR HANDLERS
 
 // 404 Handler
 app.use((req, res) => {
+    log("WARN", req.id, `Endpoint not found: ${req.method} ${req.path}`);
     sendResponse(res, 404, {
         message: `Endpoint not found: ${req.method} ${req.path}`,
         code: "NOT_FOUND",
@@ -630,7 +711,10 @@ app.use((req, res) => {
 
 // Global error handler
 app.use((err, req, res, next) => {
-    console.error(`[${req.id}] Unhandled error:`, err);
+    log("ERROR", req.id, "Unhandled error in Express", {
+        error: err.message,
+        stack: err.stack,
+    });
 
     sendResponse(res, 500, {
         message: "Internal server error",
@@ -645,12 +729,18 @@ SERVER STARTUP
 */
 
 app.listen(PORT, () => {
-    console.log(`\n${"=".repeat(60)}`);
-    console.log("🚀 Online Sphere M-Pesa Backend v2.0.0");
-    console.log(`${"=".repeat(60)}`);
+    console.log(`\n${"=".repeat(70)}`);
+    console.log("🚀 Online Sphere M-Pesa Backend v2.1.0");
+    console.log(`${"=".repeat(70)}`);
     console.log(`Port:        ${PORT}`);
     console.log(`Environment: ${NODE_ENV}`);
     console.log(`M-Pesa Mode: ${process.env.MPESA_ENV || "sandbox"}`);
     console.log(`Started:     ${new Date().toISOString()}`);
-    console.log(`${"=".repeat(60)}\n`);
+    console.log(`${"=".repeat(70)}\n`);
+
+    log("SUCCESS", null, "Server started successfully", {
+        port: PORT,
+        environment: NODE_ENV,
+        mpesaMode: process.env.MPESA_ENV || "sandbox",
+    });
 });
