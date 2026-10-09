@@ -1,9 +1,11 @@
 require("dotenv").config();
 
 const express = require("express");
+const cors = require("cors");
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -37,17 +39,26 @@ function normalizePackageName(packageName) {
 function normalizePhoneNumber(phone) {
     if (phone === null || phone === undefined) return "";
 
-    let phoneNumber = String(phone).replace(/\s+/g, "").replace(/^\+/, "");
+    let phoneNumber = String(phone)
+        .replace(/\s+/g, "")
+        .replace(/^\+/, "");
 
+    // Convert 07xx or 01xx to 254xx
     if (phoneNumber.startsWith("0")) {
         phoneNumber = `254${phoneNumber.substring(1)}`;
     }
 
+    // Only return if it starts with 254
     if (phoneNumber.startsWith("254")) {
         return phoneNumber;
     }
 
     return "";
+}
+
+function validatePhoneNumber(phoneNumber) {
+    // Must be 254[17]xxxxxxxx - exactly 12 digits starting with 254, followed by 1 or 7, then 8 more digits
+    return /^254[17]\d{8}$/.test(phoneNumber);
 }
 
 /*
@@ -105,7 +116,7 @@ async function getAccessToken() {
 
 /*
 =========================================================
-HELPER: CREATE STK PASSWORD
+HELPER: CREATE STK TIMESTAMP
 =========================================================
 */
 
@@ -147,7 +158,7 @@ app.get("/api/package/:packageName", (req, res) => {
     if (!packageKey) {
         return res.status(400).json({
             success: false,
-            message: "Invalid membership package.",
+            message: "Invalid membership package. Available: Bronze, Silver, Gold.",
         });
     }
 
@@ -167,35 +178,20 @@ REAL MPESA STK PUSH
 app.post("/api/mpesa/stkpush", async (req, res) => {
     try {
         const { phone, packageName } = req.body;
+
+        // Validate package name
         const normalizedPackageName = normalizePackageName(packageName);
-
-        /*
-        ---------------------------------------------
-        VALIDATE PACKAGE
-        ---------------------------------------------
-        */
-
         if (!normalizedPackageName) {
             return res.status(400).json({
                 success: false,
-                message: "Invalid membership package.",
+                message: "Invalid membership package. Available: Bronze, Silver, Gold.",
             });
         }
 
-        /*
-        ---------------------------------------------
-        SERVER-SIDE AMOUNT
-        ---------------------------------------------
-        */
-
+        // Get server-side amount
         const amount = PACKAGES[normalizedPackageName];
 
-        /*
-        ---------------------------------------------
-        VALIDATE PHONE
-        ---------------------------------------------
-        */
-
+        // Validate phone is provided
         if (!phone) {
             return res.status(400).json({
                 success: false,
@@ -203,21 +199,16 @@ app.post("/api/mpesa/stkpush", async (req, res) => {
             });
         }
 
+        // Normalize and validate phone
         const phoneNumber = normalizePhoneNumber(phone);
-
-        if (!/^254[17]\d{8}$/.test(phoneNumber)) {
+        if (!validatePhoneNumber(phoneNumber)) {
             return res.status(400).json({
                 success: false,
-                message: "Invalid Kenyan M-Pesa number.",
+                message: "Invalid Kenyan M-Pesa number. Format: 07xxx-xxx-xxx or 254-7xx-xxx-xxx",
             });
         }
 
-        /*
-        ---------------------------------------------
-        CHECK DARAJA CONFIGURATION
-        ---------------------------------------------
-        */
-
+        // Check DARAJA configuration
         const shortcode = process.env.MPESA_SHORTCODE;
         const passkey = process.env.MPESA_PASSKEY;
         const callbackUrl = process.env.MPESA_CALLBACK_URL;
@@ -229,38 +220,18 @@ app.post("/api/mpesa/stkpush", async (req, res) => {
             });
         }
 
-        /*
-        ---------------------------------------------
-        GET ACCESS TOKEN
-        ---------------------------------------------
-        */
-
+        // Get access token
         const accessToken = await getAccessToken();
 
-        /*
-        ---------------------------------------------
-        CREATE TIMESTAMP
-        ---------------------------------------------
-        */
-
+        // Create timestamp for STK push
         const timestamp = createTimestamp();
 
-        /*
-        ---------------------------------------------
-        CREATE PASSWORD
-        ---------------------------------------------
-        */
-
+        // Create STK password (base64 encoded shortcode + passkey + timestamp)
         const password = Buffer.from(
             `${shortcode}${passkey}${timestamp}`
         ).toString("base64");
 
-        /*
-        ---------------------------------------------
-        STK PUSH REQUEST
-        ---------------------------------------------
-        */
-
+        // Prepare STK push payload
         const stkPayload = {
             BusinessShortCode: shortcode,
             Password: password,
@@ -280,14 +251,10 @@ app.post("/api/mpesa/stkpush", async (req, res) => {
             package: normalizedPackageName,
             amount,
             phone: phoneNumber,
+            timestamp,
         });
 
-        /*
-        ---------------------------------------------
-        SEND REQUEST TO SAFARICOM
-        ---------------------------------------------
-        */
-
+        // Send request to Safaricom DARAJA
         const response = await fetch(
             `${DARAJA_BASE_URL}/mpesa/stkpush/v1/processrequest`,
             {
@@ -305,12 +272,7 @@ app.post("/api/mpesa/stkpush", async (req, res) => {
 
         console.log("Daraja STK response:", data);
 
-        /*
-        ---------------------------------------------
-        DARAJA ERROR
-        ---------------------------------------------
-        */
-
+        // Handle Safaricom errors
         if (!response.ok) {
             return res.status(502).json({
                 success: false,
@@ -319,12 +281,7 @@ app.post("/api/mpesa/stkpush", async (req, res) => {
             });
         }
 
-        /*
-        ---------------------------------------------
-        SUCCESS
-        ---------------------------------------------
-        */
-
+        // Return success response
         return res.json({
             success: true,
             message: "STK Push sent. Check your phone and enter your M-Pesa PIN.",
@@ -385,8 +342,16 @@ app.post("/api/mpesa/callback", (req, res) => {
 
         console.log("SUCCESSFUL PAYMENT:");
         console.log(paymentData);
+
+        /*
+        TODO: Save payment to database
+        - Store MerchantRequestID, CheckoutRequestID
+        - Link to user account
+        - Activate membership
+        */
     } else {
         console.log("Payment was not completed.");
+        console.log("Result Description:", callback.ResultDesc);
     }
 
     res.json({
