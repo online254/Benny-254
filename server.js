@@ -644,6 +644,97 @@ app.get("/api/package/:packageName", (req, res) => {
 
 /*
 =========================================================
+M-PESA TEST AUTHENTICATION ROUTE
+=========================================================
+*/
+
+app.get("/api/mpesa/test-auth", async (req, res) => {
+    try {
+        // Step 1: Validate M-PESA configuration
+        const configValidation = validateMpesaConfig(req.id);
+
+        if (!configValidation.valid) {
+            log("WARN", req.id, "M-PESA authentication test failed during config validation", {
+                error: configValidation.error,
+                missing: configValidation.missing,
+            });
+
+            return sendResponse(
+                res,
+                503,
+                {
+                    message: "M-PESA configuration test failed.",
+                    diagnostic: configValidation.error,
+                    code: configValidation.code,
+                    failureStage: "CONFIGURATION_VALIDATION",
+                },
+                { requestId: req.id }
+            );
+        }
+
+        // Step 2: Attempt Daraja OAuth authentication
+        let accessToken;
+
+        try {
+            accessToken = await getAccessToken(req.id);
+        } catch (error) {
+            log("ERROR", req.id, "M-PESA authentication test failed during Daraja OAuth", {
+                error: error.message,
+            });
+
+            return sendResponse(
+                res,
+                503,
+                {
+                    message: "Daraja OAuth authentication failed.",
+                    diagnostic: error.message,
+                    code: "DARAJA_AUTH_FAILED",
+                    failureStage: "DARAJA_OAUTH",
+                    environment: MPESA_ENV,
+                    daraja_url: DARAJA_BASE_URL,
+                },
+                { requestId: req.id }
+            );
+        }
+
+        // Step 3: Success
+        log("SUCCESS", req.id, "M-PESA authentication test successful", {
+            environment: MPESA_ENV,
+            tokenObtained: true,
+        });
+
+        return sendResponse(
+            res,
+            200,
+            {
+                message: "M-PESA Daraja authentication successful.",
+                status: "authenticated",
+                environment: MPESA_ENV,
+                daraja_url: DARAJA_BASE_URL,
+                test_timestamp: new Date().toISOString(),
+                diagnostic: "Configuration validated and Daraja OAuth token obtained successfully.",
+            },
+            { requestId: req.id }
+        );
+    } catch (error) {
+        log("ERROR", req.id, "Unexpected error during M-PESA authentication test", {
+            error: error.message,
+        });
+
+        return sendResponse(
+            res,
+            500,
+            {
+                message: "An unexpected error occurred during authentication testing.",
+                code: "INTERNAL_ERROR",
+            },
+            { requestId: req.id }
+        );
+    }
+});
+
+/*
+=========================================================
 M-PESA STK PUSH ROUTE
 =========================================================
 */
@@ -930,6 +1021,7 @@ app.use((req, res) => {
         "GET /health",
         "GET /api/packages",
         "GET /api/package/:packageName",
+        "GET /api/mpesa/test-auth",
         "POST /api/mpesa/stkpush",
         "POST /api/mpesa/callback",
     ];
