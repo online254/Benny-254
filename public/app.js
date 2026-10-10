@@ -1,10 +1,23 @@
 /* =========================================================
    ONLINE SPHERE — MAIN JAVASCRIPT
-   Version: Advanced UI
+   Version: Advanced UI + M-Pesa STK Push
    ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
     "use strict";
+
+    /* ---------------------------------------------------------
+       CONFIGURATION
+    --------------------------------------------------------- */
+
+    const MPESA_STK_ENDPOINT =
+        "https://zeronline-sphere-api.onrender.com/api/mpesa/stkpush";
+
+    const PACKAGE_PRICES = {
+        Bronze: 1000,
+        Silver: 1750,
+        Gold: 2500
+    };
 
     /* ---------------------------------------------------------
        HELPERS
@@ -86,7 +99,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (themeButton) {
         themeButton.addEventListener("click", () => {
-
             document.body.classList.toggle("light-theme");
 
             const isLight =
@@ -113,9 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
     --------------------------------------------------------- */
 
     $$('a[href^="#"]').forEach(link => {
-
         link.addEventListener("click", event => {
-
             const targetId =
                 link.getAttribute("href");
 
@@ -133,7 +143,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             }
         });
-
     });
 
     /* ---------------------------------------------------------
@@ -143,7 +152,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const backToTop = $(".back-to-top");
 
     function updateBackToTop() {
-
         if (!backToTop) return;
 
         if (window.scrollY > 500) {
@@ -163,12 +171,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (backToTop) {
         backToTop.addEventListener("click", () => {
-
             window.scrollTo({
                 top: 0,
                 behavior: "smooth"
             });
-
         });
     }
 
@@ -177,6 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
     --------------------------------------------------------- */
 
     const toast = $(".toast");
+
     const toastTitle = toast
         ? $("strong", toast)
         : null;
@@ -196,8 +203,10 @@ document.addEventListener("DOMContentLoaded", () => {
         message = "Action completed.",
         type = "success"
     ) {
-
-        if (!toast) return;
+        if (!toast) {
+            console.log(`${title}: ${message}`);
+            return;
+        }
 
         if (toastTitle) {
             toastTitle.textContent = title;
@@ -209,7 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         toast.classList.remove("warning");
 
-        if (type === "warning") {
+        if (type === "warning" || type === "error") {
             toast.classList.add("warning");
         }
 
@@ -219,7 +228,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         toastTimer = setTimeout(() => {
             toast.classList.remove("show");
-        }, 4000);
+        }, 5000);
     }
 
     if (toastClose) {
@@ -235,18 +244,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const modals = $$(".modal");
 
     function openModal(selector) {
-
         const modal = $(selector);
 
         if (!modal) return;
 
         modal.classList.add("active");
-
         document.body.classList.add("modal-open");
     }
 
     function closeModal(modal) {
-
         if (!modal) return;
 
         modal.classList.remove("active");
@@ -261,227 +267,354 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    /* Close buttons */
-
     $$(".modal-close").forEach(button => {
-
         button.addEventListener("click", () => {
-
-            closeModal(
-                button.closest(".modal")
-            );
-
+            closeModal(button.closest(".modal"));
         });
-
     });
-
-    /* Click outside modal */
 
     $$(".modal-overlay").forEach(overlay => {
-
         overlay.addEventListener("click", () => {
-
-            closeModal(
-                overlay.closest(".modal")
-            );
-
+            closeModal(overlay.closest(".modal"));
         });
-
     });
 
-    /* Escape key */
-
     document.addEventListener("keydown", event => {
-
         if (event.key === "Escape") {
-
-            modals.forEach(modal => {
-                closeModal(modal);
-            });
-
+            modals.forEach(modal => closeModal(modal));
         }
-
     });
 
     /* ---------------------------------------------------------
        DEPOSIT / WITHDRAW BUTTONS
     --------------------------------------------------------- */
 
-    const depositButton =
-        $(".deposit-action");
-
-    const withdrawButton =
-        $(".withdraw-action");
+    const depositButton = $(".deposit-action");
+    const withdrawButton = $(".withdraw-action");
 
     if (depositButton) {
-
-        depositButton.addEventListener(
-            "click",
-            () => {
-
-                openModal("#depositModal");
-
-            }
-        );
-
+        depositButton.addEventListener("click", () => {
+            openModal("#depositModal");
+        });
     }
 
     if (withdrawButton) {
-
-        withdrawButton.addEventListener(
-            "click",
-            () => {
-
-                openModal("#withdrawModal");
-
-            }
-        );
-
+        withdrawButton.addEventListener("click", () => {
+            openModal("#withdrawModal");
+        });
     }
 
     /* ---------------------------------------------------------
-       DEMO DEPOSIT FORM
-       NOTE:
-       This interface does NOT process real payments.
+       M-PESA PHONE NORMALIZATION
+       Accepts:
+       0712345678
+       0112345678
+       254712345678
+       +254712345678
     --------------------------------------------------------- */
 
-    const depositForm =
-        $("#depositForm");
+    function normalizeKenyanPhone(value) {
+        let phone = String(value || "")
+            .trim()
+            .replace(/[\s()-]/g, "");
+
+        if (phone.startsWith("+")) {
+            phone = phone.slice(1);
+        }
+
+        if (/^0[17]\d{8}$/.test(phone)) {
+            phone = "254" + phone.slice(1);
+        }
+
+        if (!/^254[17]\d{8}$/.test(phone)) {
+            return null;
+        }
+
+        return phone;
+    }
+
+    /* ---------------------------------------------------------
+       M-PESA DEPOSIT FORM
+       The matching HTML form must contain:
+       #depositPackage
+       #depositPhone
+       #depositForm
+    --------------------------------------------------------- */
+
+    const depositForm = $("#depositForm");
 
     if (depositForm) {
+        const depositPackage =
+            $("#depositPackage", depositForm);
 
-        depositForm.addEventListener(
-            "submit",
-            event => {
+        const depositPhone =
+            $("#depositPhone", depositForm);
 
-                event.preventDefault();
+        const depositSubmitButton =
+            $('button[type="submit"]', depositForm);
 
-                const modal =
-                    depositForm.closest(".modal");
+        let depositRequestInProgress = false;
 
-                closeModal(modal);
+        depositForm.addEventListener("submit", async event => {
+            event.preventDefault();
 
+            if (depositRequestInProgress) {
+                return;
+            }
+
+            if (!depositPackage || !depositPhone) {
                 showToast(
-                    "Request Received",
-                    "This is a demonstration interface. No payment was processed."
+                    "Form Setup Error",
+                    "The package or phone field is missing. Please update index.html.",
+                    "error"
+                );
+                return;
+            }
+
+            const packageName = depositPackage.value.trim();
+            const phone = normalizeKenyanPhone(
+                depositPhone.value
+            );
+
+            if (!Object.prototype.hasOwnProperty.call(
+                PACKAGE_PRICES,
+                packageName
+            )) {
+                showToast(
+                    "Select a Package",
+                    "Please select Bronze, Silver or Gold.",
+                    "error"
+                );
+                depositPackage.focus();
+                return;
+            }
+
+            if (!phone) {
+                showToast(
+                    "Invalid Phone Number",
+                    "Enter a valid Kenyan M-Pesa number, such as 0712345678.",
+                    "error"
+                );
+                depositPhone.focus();
+                return;
+            }
+
+            const amount = PACKAGE_PRICES[packageName];
+
+            const confirmed = window.confirm(
+                `Continue with ${packageName} membership for KSh ${amount.toLocaleString("en-KE")}?\n\n` +
+                `An M-Pesa payment prompt will be requested for ${phone}.`
+            );
+
+            if (!confirmed) {
+                return;
+            }
+
+            depositRequestInProgress = true;
+
+            if (depositSubmitButton) {
+                depositSubmitButton.disabled = true;
+                depositSubmitButton.textContent =
+                    "Requesting M-Pesa...";
+            }
+
+            try {
+                const response = await fetch(
+                    MPESA_STK_ENDPOINT,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Accept": "application/json"
+                        },
+                        body: JSON.stringify({
+                            phone: phone,
+                            packageName: packageName
+                        })
+                    }
                 );
 
-                depositForm.reset();
+                const responseText =
+                    await response.text();
 
+                let result = {};
+
+                if (responseText) {
+                    try {
+                        result = JSON.parse(responseText);
+                    } catch {
+                        throw new Error(
+                            "The server returned an invalid response. Check the Render logs and backend endpoint."
+                        );
+                    }
+                }
+
+                if (!response.ok) {
+                    const serverMessage =
+                        typeof result.message === "string"
+                            ? result.message
+                            : typeof result.error === "string"
+                                ? result.error
+                                : "";
+
+                    if (response.status >= 500) {
+                        throw new Error(
+                            serverMessage ||
+                            "The payment server encountered an error. Please check Render logs before trying again."
+                        );
+                    }
+
+                    throw new Error(
+                        serverMessage ||
+                        `The payment request failed (HTTP ${response.status}).`
+                    );
+                }
+
+                /*
+                 * A successful HTTP response only means the
+                 * backend accepted the request. It does not
+                 * prove that the customer paid.
+                 */
+
+                showToast(
+                    "M-Pesa Request Sent",
+                    `Check ${phone} for an M-Pesa prompt. Complete the prompt if it appears. Your payment is not confirmed yet.`,
+                    "success"
+                );
+
+                const statusElement =
+                    $("#depositPaymentStatus");
+
+                if (statusElement) {
+                    statusElement.textContent =
+                        `STK Push request accepted for ${phone}. Complete the prompt on your phone. Waiting for payment confirmation.`;
+
+                    statusElement.hidden = false;
+                    statusElement.setAttribute(
+                        "role",
+                        "status"
+                    );
+                    statusElement.setAttribute(
+                        "aria-live",
+                        "polite"
+                    );
+                }
+
+                /*
+                 * Do not credit a balance or activate membership
+                 * here. That must happen after server-side
+                 * verification of the Daraja callback.
+                 */
+
+            } catch (error) {
+                console.error(
+                    "Online Sphere M-Pesa deposit error:",
+                    error
+                );
+
+                showToast(
+                    "Payment Request Failed",
+                    error && error.message
+                        ? error.message
+                        : "Unable to contact the payment server. Check your internet connection and try again.",
+                    "error"
+                );
+
+                const statusElement =
+                    $("#depositPaymentStatus");
+
+                if (statusElement) {
+                    statusElement.textContent =
+                        error && error.message
+                            ? error.message
+                            : "The payment request failed. Please try again.";
+
+                    statusElement.hidden = false;
+                    statusElement.setAttribute(
+                        "role",
+                        "alert"
+                    );
+                }
+
+            } finally {
+                depositRequestInProgress = false;
+
+                if (depositSubmitButton) {
+                    depositSubmitButton.disabled = false;
+                    depositSubmitButton.textContent =
+                        "Pay with M-Pesa";
+                }
             }
-        );
-
+        });
     }
 
     /* ---------------------------------------------------------
        DEMO WITHDRAW FORM
-       NOTE:
-       This interface does NOT process real withdrawals.
+       Actual withdrawals require a secure backend.
     --------------------------------------------------------- */
 
-    const withdrawForm =
-        $("#withdrawForm");
+    const withdrawForm = $("#withdrawForm");
 
     if (withdrawForm) {
+        withdrawForm.addEventListener("submit", event => {
+            event.preventDefault();
 
-        withdrawForm.addEventListener(
-            "submit",
-            event => {
-
-                event.preventDefault();
-
-                const modal =
-                    withdrawForm.closest(".modal");
-
-                closeModal(modal);
-
-                showToast(
-                    "Request Received",
-                    "This is a demonstration interface. No withdrawal was processed.",
-                    "warning"
-                );
-
-                withdrawForm.reset();
-
-            }
-        );
-
+            showToast(
+                "Withdrawals Not Connected",
+                "This withdrawal form is a demonstration. No money has been sent.",
+                "warning"
+            );
+        });
     }
 
     /* ---------------------------------------------------------
        SECURITY SCREEN
     --------------------------------------------------------- */
 
-    const securityScreen =
-        $(".security-screen");
-
-    const securityForm =
-        $("#securityForm");
+    const securityScreen = $(".security-screen");
+    const securityForm = $("#securityForm");
 
     const accessGranted =
-        localStorage.getItem(
-            "onlineSphereAccess"
-        );
+        localStorage.getItem("onlineSphereAccess");
 
     if (
         securityScreen &&
         accessGranted === "granted"
     ) {
-
-        securityScreen.classList.add(
-            "security-hidden"
-        );
-
+        securityScreen.classList.add("security-hidden");
     }
 
     if (securityForm) {
+        securityForm.addEventListener("submit", event => {
+            event.preventDefault();
 
-        securityForm.addEventListener(
-            "submit",
-            event => {
+            securityScreen?.classList.add("security-hidden");
 
-                event.preventDefault();
+            localStorage.setItem(
+                "onlineSphereAccess",
+                "granted"
+            );
 
-                securityScreen?.classList.add(
-                    "security-hidden"
-                );
-
-                localStorage.setItem(
-                    "onlineSphereAccess",
-                    "granted"
-                );
-
-                showToast(
-                    "Access Granted",
-                    "Welcome to Online Sphere."
-                );
-
-            }
-        );
-
+            showToast(
+                "Access Granted",
+                "Welcome to Online Sphere."
+            );
+        });
     }
 
     /* ---------------------------------------------------------
        PROFILE BUTTON
     --------------------------------------------------------- */
 
-    const profileButton =
-        $(".profile-button");
+    const profileButton = $(".profile-button");
 
     if (profileButton) {
-
-        profileButton.addEventListener(
-            "click",
-            () => {
-
-                showToast(
-                    "Profile",
-                    "Profile management will be available in the next update."
-                );
-
-            }
-        );
-
+        profileButton.addEventListener("click", () => {
+            showToast(
+                "Profile",
+                "Profile management will be available in the next update."
+            );
+        });
     }
 
     /* ---------------------------------------------------------
@@ -489,28 +622,18 @@ document.addEventListener("DOMContentLoaded", () => {
     --------------------------------------------------------- */
 
     $$(".feature-link").forEach(link => {
+        link.addEventListener("click", event => {
+            const href = link.getAttribute("href");
 
-        link.addEventListener(
-            "click",
-            event => {
+            if (!href || href === "#") {
+                event.preventDefault();
 
-                const href =
-                    link.getAttribute("href");
-
-                if (!href || href === "#") {
-
-                    event.preventDefault();
-
-                    showToast(
-                        "Online Sphere",
-                        "This feature is ready for the next development stage."
-                    );
-
-                }
-
+                showToast(
+                    "Online Sphere",
+                    "This feature is ready for the next development stage."
+                );
             }
-        );
-
+        });
     });
 
     /* ---------------------------------------------------------
@@ -519,145 +642,87 @@ document.addEventListener("DOMContentLoaded", () => {
 
     $$(".primary-btn, .secondary-btn, .primary-small, .outline-button")
         .forEach(button => {
+            button.addEventListener("click", event => {
+                const href = button.getAttribute("href");
 
-            button.addEventListener(
-                "click",
-                event => {
+                const text =
+                    button.textContent.trim().toLowerCase();
 
-                    const href =
-                        button.getAttribute("href");
-
-                    const text =
-                        button.textContent
-                            .trim()
-                            .toLowerCase();
-
-                    /*
-                     * Don't interfere with actual links.
-                     */
-
-                    if (
-                        href &&
-                        href !== "#"
-                    ) {
-                        return;
-                    }
-
-                    /*
-                     * Deposit and withdrawal
-                     * are handled separately.
-                     */
-
-                    if (
-                        button.classList.contains(
-                            "deposit-action"
-                        ) ||
-                        button.classList.contains(
-                            "withdraw-action"
-                        )
-                    ) {
-                        return;
-                    }
-
-                    event.preventDefault();
-
-                    if (
-                        text.includes("support") ||
-                        text.includes("help")
-                    ) {
-
-                        showToast(
-                            "Support",
-                            "Support centre is ready for integration."
-                        );
-
-                    } else if (
-                        text.includes("explore")
-                    ) {
-
-                        const features =
-                            document.querySelector(
-                                "#features"
-                            );
-
-                        if (features) {
-
-                            features.scrollIntoView({
-                                behavior: "smooth"
-                            });
-
-                        }
-
-                    } else {
-
-                        showToast(
-                            "Online Sphere",
-                            "This feature is ready for the next development stage."
-                        );
-
-                    }
-
+                if (href && href !== "#") {
+                    return;
                 }
-            );
 
+                if (
+                    button.classList.contains("deposit-action") ||
+                    button.classList.contains("withdraw-action")
+                ) {
+                    return;
+                }
+
+                event.preventDefault();
+
+                if (
+                    text.includes("support") ||
+                    text.includes("help")
+                ) {
+                    showToast(
+                        "Support",
+                        "Support centre is ready for integration."
+                    );
+                } else if (text.includes("explore")) {
+                    const features =
+                        document.querySelector("#features");
+
+                    if (features) {
+                        features.scrollIntoView({
+                            behavior: "smooth"
+                        });
+                    }
+                } else {
+                    showToast(
+                        "Online Sphere",
+                        "This feature is ready for the next development stage."
+                    );
+                }
+            });
         });
 
     /* ---------------------------------------------------------
        ACTIVE NAVIGATION
     --------------------------------------------------------- */
 
-    const sections =
-        $$("section[id]");
-
-    const navLinks =
-        $$('nav a[href^="#"]');
+    const sections = $$("section[id]");
+    const navLinks = $$('nav a[href^="#"]');
 
     function updateActiveNavigation() {
-
-        const scrollPosition =
-            window.scrollY + 180;
+        const scrollPosition = window.scrollY + 180;
 
         let currentSection = "";
 
         sections.forEach(section => {
-
-            const sectionTop =
-                section.offsetTop;
-
-            const sectionHeight =
-                section.offsetHeight;
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
 
             if (
                 scrollPosition >= sectionTop &&
-                scrollPosition <
-                    sectionTop + sectionHeight
+                scrollPosition < sectionTop + sectionHeight
             ) {
-
-                currentSection =
-                    section.getAttribute("id");
-
+                currentSection = section.getAttribute("id");
             }
-
         });
 
         navLinks.forEach(link => {
-
             link.classList.remove("active");
 
-            const href =
-                link.getAttribute("href");
+            const href = link.getAttribute("href");
 
             if (
                 currentSection &&
                 href === `#${currentSection}`
             ) {
-
                 link.classList.add("active");
-
             }
-
         });
-
     }
 
     window.addEventListener(
@@ -672,55 +737,34 @@ document.addEventListener("DOMContentLoaded", () => {
        NUMBER COUNTER ANIMATION
     --------------------------------------------------------- */
 
-    const counters =
-        $$(".counter");
-
     function animateCounter(element) {
-
-        const target =
-            Number(
-                element.dataset.target ||
-                element.textContent.replace(
-                    /[^0-9.]/g,
-                    ""
-                )
-            );
+        const target = Number(
+            element.dataset.target ||
+            element.textContent.replace(/[^0-9.]/g, "")
+        );
 
         if (!target) return;
 
         const duration = 1200;
-
-        const startTime =
-            performance.now();
+        const startTime = performance.now();
 
         function update(currentTime) {
+            const progress = Math.min(
+                (currentTime - startTime) / duration,
+                1
+            );
 
-            const progress =
-                Math.min(
-                    (currentTime - startTime) /
-                    duration,
-                    1
-                );
-
-            const value =
-                Math.floor(
-                    progress * target
-                );
+            const value = Math.floor(progress * target);
 
             element.textContent =
                 value.toLocaleString();
 
             if (progress < 1) {
-
                 requestAnimationFrame(update);
-
             } else {
-
                 element.textContent =
                     target.toLocaleString();
-
             }
-
         }
 
         requestAnimationFrame(update);
@@ -731,59 +775,31 @@ document.addEventListener("DOMContentLoaded", () => {
     --------------------------------------------------------- */
 
     if ("IntersectionObserver" in window) {
-
-        const observer =
-            new IntersectionObserver(
-                entries => {
-
-                    entries.forEach(entry => {
+        const observer = new IntersectionObserver(
+            entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("in-view");
 
                         if (
-                            entry.isIntersecting
+                            entry.target.classList.contains("counter") &&
+                            !entry.target.dataset.animated
                         ) {
-
-                            entry.target.classList.add(
-                                "in-view"
-                            );
-
-                            if (
-                                entry.target.classList
-                                    .contains("counter")
-                            ) {
-
-                                if (
-                                    !entry.target.dataset.animated
-                                ) {
-
-                                    entry.target.dataset.animated =
-                                        "true";
-
-                                    animateCounter(
-                                        entry.target
-                                    );
-
-                                }
-
-                            }
-
+                            entry.target.dataset.animated = "true";
+                            animateCounter(entry.target);
                         }
+                    }
+                });
+            },
+            {
+                threshold: 0.15
+            }
+        );
 
-                    });
-
-                },
-                {
-                    threshold: 0.15
-                }
-            );
-
-        $$(
-            ".feature-card, .quick-stat, .security-item, .counter"
-        ).forEach(element => {
-
-            observer.observe(element);
-
-        });
-
+        $$(".feature-card, .quick-stat, .security-item, .counter")
+            .forEach(element => {
+                observer.observe(element);
+            });
     }
 
     /* ---------------------------------------------------------
@@ -791,95 +807,53 @@ document.addEventListener("DOMContentLoaded", () => {
     --------------------------------------------------------- */
 
     $$(".amount-input").forEach(input => {
+        input.addEventListener("input", () => {
+            const value =
+                input.value.replace(/[^0-9]/g, "");
 
-        input.addEventListener(
-            "input",
-            () => {
-
-                let value =
-                    input.value.replace(
-                        /[^0-9]/g,
-                        ""
-                    );
-
-                if (value) {
-
-                    value =
-                        Number(value)
-                            .toLocaleString(
-                                "en-KE"
-                            );
-
-                }
-
-                /*
-                 * Keep cursor-friendly simple value.
-                 */
-
-                input.dataset.rawValue =
-                    value.replace(
-                        /,/g,
-                        ""
-                    );
-
-            }
-        );
-
+            input.dataset.rawValue = value;
+        });
     });
 
     /* ---------------------------------------------------------
        PREVENT DOUBLE SUBMISSIONS
+       The deposit handler manages its own request lock.
     --------------------------------------------------------- */
 
     $$("form").forEach(form => {
+        if (form.id === "depositForm") {
+            return;
+        }
 
-        form.addEventListener(
-            "submit",
-            () => {
+        form.addEventListener("submit", () => {
+            const submitButton =
+                form.querySelector('button[type="submit"]');
 
-                const submitButton =
-                    form.querySelector(
-                        'button[type="submit"]'
-                    );
+            if (!submitButton) return;
 
-                if (!submitButton) return;
+            submitButton.dataset.originalText =
+                submitButton.textContent;
 
-                submitButton.dataset.originalText =
-                    submitButton.textContent;
+            submitButton.disabled = true;
+            submitButton.textContent = "Processing...";
 
-                submitButton.disabled = true;
+            setTimeout(() => {
+                submitButton.disabled = false;
 
                 submitButton.textContent =
-                    "Processing...";
-
-                setTimeout(() => {
-
-                    submitButton.disabled =
-                        false;
-
-                    submitButton.textContent =
-                        submitButton.dataset.originalText ||
-                        "Submit";
-
-                }, 1500);
-
-            }
-        );
-
+                    submitButton.dataset.originalText ||
+                    "Submit";
+            }, 1500);
+        });
     });
 
     /* ---------------------------------------------------------
        CURRENT YEAR
     --------------------------------------------------------- */
 
-    const yearElements =
-        $$(".current-year");
-
-    yearElements.forEach(element => {
-
+    $$(".current-year").forEach(element => {
         element.textContent =
             new Date().getFullYear();
-
     });
 
     /* ---------------------------------------------------------
@@ -887,9 +861,7 @@ document.addEventListener("DOMContentLoaded", () => {
     --------------------------------------------------------- */
 
     function updateOnlineStatus() {
-
-        const status =
-            $(".account-status");
+        const status = $(".account-status");
 
         if (!status) return;
 
@@ -897,40 +869,22 @@ document.addEventListener("DOMContentLoaded", () => {
             status.querySelector("span:last-child");
 
         if (navigator.onLine) {
-
             if (statusText) {
-                statusText.textContent =
-                    "Online";
+                statusText.textContent = "Online";
             }
 
-            status.classList.remove(
-                "offline"
-            );
-
+            status.classList.remove("offline");
         } else {
-
             if (statusText) {
-                statusText.textContent =
-                    "Offline";
+                statusText.textContent = "Offline";
             }
 
-            status.classList.add(
-                "offline"
-            );
-
+            status.classList.add("offline");
         }
-
     }
 
-    window.addEventListener(
-        "online",
-        updateOnlineStatus
-    );
-
-    window.addEventListener(
-        "offline",
-        updateOnlineStatus
-    );
+    window.addEventListener("online", updateOnlineStatus);
+    window.addEventListener("offline", updateOnlineStatus);
 
     updateOnlineStatus();
 
@@ -939,13 +893,7 @@ document.addEventListener("DOMContentLoaded", () => {
     --------------------------------------------------------- */
 
     setTimeout(() => {
-
-        if (
-            !sessionStorage.getItem(
-                "onlineSphereWelcome"
-            )
-        ) {
-
+        if (!sessionStorage.getItem("onlineSphereWelcome")) {
             showToast(
                 "Online Sphere",
                 "Welcome to your advanced digital platform."
@@ -955,9 +903,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "onlineSphereWelcome",
                 "true"
             );
-
         }
-
     }, 1800);
 
 });
