@@ -1,1 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#07111f">
+<title>Help Centre | Online Sphere</title>
+<meta name="description" content="Find answers about Online Sphere accounts, learning, membership, M-Pesa payments and online safety.">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg:#07111f;
+  --panel:#101e31;
+  --blue:#2563eb;
+  --purple:#7c3aed;
+  --text:#f4f7ff;
+  --muted:#a7b5ca;
+  --border:rgba(255,255,255,.10);
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+body {
+  background:var(--bg);
+  color:var(--text);
+  font-family:"DM Sans",sans-serif;
+  line-height:1.7;
+}
+a { color:inherit; text-decoration:none; }
+button,input { font:inherit; }
+.container { width:min(1120px,91%); margin:auto; }
+header {
+  position:sticky; top:0; z-index:20;
+  background:rgba(7,17,31,.93);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border);
+}
+.nav {
+  min-height:76px; display:flex; align-items:center;
+  justify-content:space-between; gap:18px;
+}
+.brand {
+  display:flex; align-items:center; gap:10px;
+  font:700 20px "Space Grotesk",sans-serif;
+}
+.logo {
+  display:grid; place-items:center; width:39px; height:39px;
+  border-radius:13px;
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+}
+.brand-name span { color:#91aaff; }
+.links { display:flex; align-items:center; gap:20px; }
+.links a { color:var(--muted); font-size:13px; }
+.links a:hover,.links a.active { color:white; }
+.nav-cta,.btn {
+  display:inline-flex; justify-content:center; align-items:center;
+  gap:8px; border-radius:12px; padding:12px 17px;
+  font-size:14px; font-weight:700; border:1px solid transparent;
+  cursor:pointer; transition:.2s;
+}
+.nav-cta,.primary {
+  background:linear-gradient(110deg,var(--blue),var(--purple));
+  color:white;
+}
+.secondary { background:#ffffff08; border-color:var(--border); color:white; }
+.btn:hover,.nav-cta:hover { transform:translateY(-2px); }
+.menu-btn {
+  display:none; background:var(--panel); color:white;
+  border:1px solid var(--border); border-radius:10px; padding:8px 12px;
+}
+.hero {
+  padding:76px 0 65px;
+  background:radial-gradient(ellipse at 10% 10%,#2563eb2c,transparent 42%),
+             radial-gradient(ellipse at 90% 60%,#7c3aed26,transparent 40%);
+}
+.hero-grid {
+  display:grid; grid-template-columns:1.05fr .95fr;
+  gap:42px; align-items:center;
+}
+.eyebrow {
+  display:inline-block; padding:6px 12px; border-radius:99px;
+  border:1px solid #829dff42; background:#2563eb18;
+  color:#b6c6ff; font-size:12px; font-weight:700;
+  text-transform:uppercase; letter-spacing:.6px;
+}
+h1,h2,h3 { font-family:"Space Grotesk",sans-serif; line-height:1.2; }
+h1 {
+  font-size:clamp(40px,5vw,61px);
+  letter-spacing:-2.5px; margin:21px 0;
+}
+.gradient {
+  background:linear-gradient(90deg,#78a7ff,#c2a1ff);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.hero p,.muted { color:var(--muted); }
+.hero p { max-width:580px; font-size:16px; }
+.hero-art {
+  min-height:330px; overflow:hidden; position:relative;
+  border:1px solid var(--border); border-radius:24px;
+  background:#11213a;
+}
+.hero-art img { width:100%; height:100%; min-height:330px; object-fit:cover; display:block; }
+.hero-art:after {
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(180deg,transparent 35%,#07111fdc);
+}
+.art-caption {
+  position:absolute; z-index:1; bottom:20px; left:20px; right:20px;
+  background:#07111fbd; border:1px solid #ffffff22;
+  border-radius:14px; padding:16px; backdrop-filter:blur(12px);
+}
+.art-caption strong { display:block; font:600 19px "Space Grotesk"; }
+.art-caption span { color:var(--muted); font-size:13px; }
+.search-area { margin-top:28px; }
+.search-box {
+  display:flex; gap:10px; padding:7px;
+  background:#ffffff08; border:1px solid var(--border);
+  border-radius:15px; max-width:580px;
+}
+.search-box input {
+  min-width:0; flex:1; color:white; background:transparent;
+  border:0; outline:none; padding:10px 12px;
+}
+.search-box input::placeholder { color:#899ab2; }
+.search-box button {
+  border:0; color:white; padding:10px 16px;
+  border-radius:10px; background:var(--blue); font-weight:700;
+}
+section { padding:65px 0; }
+.section-head { margin-bottom:28px; }
+.section-head h2 { font-size:clamp(28px,4vw,40px); letter-spacing:-1px; margin:13px 0; }
+.section-head p { max-width:700px; color:var(--muted); }
+.categories {
+  display:grid; grid-template-columns:repeat(4,1fr); gap:13px;
+}
+.category {
+  display:block; padding:20px 17px; border:1px solid var(--border);
+  border-radius:17px; background:linear-gradient(145deg,#12223a,#0b1728);
+  transition:.2s;
+}
+.category:hover { border-color:#648aff80; transform:translateY(-3px); }
+.category .symbol { font-size:23px; display:block; margin-bottom:10px; }
+.category strong { display:block; font-size:14px; }
+.category span:last-child { color:var(--muted); font-size:12px; }
+.faq-layout {
+  display:grid; grid-template-columns:250px 1fr;
+  gap:32px; align-items:start;
+}
+.side-panel {
+  padding:20px; border:1px solid var(--border);
+  border-radius:18px; background:var(--panel);
+  position:sticky; top:100px;
+}
+.side-panel h3 { font-size:17px; margin-bottom:13px; }
+.side-panel a {
+  display:block; padding:9px 0; color:var(--muted); font-size:13px;
+}
+.side-panel a:hover { color:white; }
+.faq-group { margin-bottom:32px; scroll-margin-top:100px; }
+.faq-group h3 { font-size:22px; margin-bottom:14px; }
+.faq-item {
+  margin:10px 0; border:1px solid var(--border);
+  border-radius:14px; overflow:hidden; background:#ffffff04;
+}
+.faq-item summary {
+  list-style:none; cursor:pointer; padding:17px 19px;
+  font-weight:600; font-size:14px; display:flex;
+  align-items:center; justify-content:space-between; gap:16px;
+}
+.faq-item summary::-webkit-details-marker { display:none; }
+.faq-item summary:after { content:"+"; color:#9eb5ff; font-size:21px; }
+.faq-item[open] summary:after { content:"−"; }
+.faq-answer { padding:0 19px 18px; color:var(--muted); font-size:14px; }
+.faq-answer a { color:#a8bdff; text-decoration:underline; }
+.notice {
+  padding:18px; border-radius:14px;
+  background:#2563eb13; border:1px solid #7195ff35;
+  color:#c5d4ff; font-size:13px; margin-top:16px;
+}
+.contact-grid {
+  display:grid; grid-template-columns:repeat(2,1fr); gap:16px;
+}
+.contact-card {
+  border:1px solid var(--border); border-radius:19px;
+  padding:24px; background:linear-gradient(145deg,#12223a,#0c1829);
+}
+.contact-card h3 { font-size:19px; margin:12px 0 8px; }
+.contact-card p { color:var(--muted); font-size:14px; margin-bottom:15px; }
+.contact-card .symbol { font-size:26px; }
+.safety {
+  border:1px solid #d4a84b35; border-radius:18px;
+  padding:24px; background:#c18b1710;
+}
+.safety h3 { margin-bottom:10px; }
+.safety ul { padding-left:20px; color:var(--muted); font-size:14px; }
+.safety li { margin:7px 0; }
+.empty { display:none; padding:20px; color:var(--muted); text-align:center; }
+footer { padding:32px 0 22px; border-top:1px solid var(--border); }
+.footer-top {
+  display:flex; justify-content:space-between; gap:25px;
+  flex-wrap:wrap; padding-bottom:25px;
+}
+.footer-copy { color:var(--muted); max-width:340px; font-size:13px; margin-top:12px; }
+.footer-links { display:flex; flex-wrap:wrap; gap:17px; }
+.footer-links a { color:var(--muted); font-size:13px; }
+.copyright { border-top:1px solid var(--border); padding-top:18px; color:#8291a7; font-size:12px; }
+@media(max-width:900px) {
+  .links {
+    display:none; position:absolute; top:76px; left:0; right:0;
+    background:#091525; border-bottom:1px solid var(--border);
+    padding:20px 5%; flex-direction:column; align-items:stretch; gap:17px;
+  }
+  .links.open { display:flex; }
+  .links a { font-size:15px; }
+  .menu-btn { display:block; }
+  .nav-cta { display:none; }
+  .hero-grid { grid-template-columns:1fr; }
+  .hero-art,.hero-art img { min-height:290px; }
+  .categories { grid-template-columns:repeat(2,1fr); }
+  .faq-layout { grid-template-columns:1fr; }
+  .side-panel { position:static; }
+  .side-panel nav { display:grid; grid-template-columns:repeat(2,1fr); gap:0 12px; }
+}
+@media(max-width:520px) {
+  .hero { padding:54px 0; }
+  section { padding:48px 0; }
+  .categories,.contact-grid { grid-template-columns:1fr; }
+  .search-box { flex-wrap:wrap; }
+  .search-box input { flex-basis:100%; }
+  .search-box button { width:100%; }
+  h1 { letter-spacing:-1.6px; }
+}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="container nav">
+    <a class="brand" href="index.html">
+      <span class="logo">O</span>
+      <span class="brand-name">Online <span>Sphere</span></span>
+    </a>
+
+    <nav class="links" id="navLinks" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="opportunities.html">Opportunities</a>
+      <a href="learn.html">Learn</a>
+      <a href="membership.html">Membership</a>
+      <a href="about.html">About</a>
+      <a href="help.html" class="active">Help</a>
+      <a href="login.html">Login</a>
+    </nav>
+
+    <a class="nav-cta" href="opportunities.html">Explore Opportunities ↗</a>
+    <button class="menu-btn" id="menuBtn" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="eyebrow">Online Sphere support</span>
+        <h1>How can we <span class="gradient">help you?</span></h1>
+        <p>
+          Find guidance on getting started, exploring digital skills,
+          understanding membership packages and troubleshooting M-Pesa requests.
+        </p>
+
+        <div class="search-area">
+          <div class="search-box">
+            <input id="faqSearch" type="search" placeholder="Search questions, payments, membership..." aria-label="Search help questions">
+            <button id="searchBtn" type="button">Search</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-art">
+        <img
+          src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1100&q=85"
+          alt="Person working on a laptop in a digital workspace"
+          fetchpriority="high">
+        <div class="art-caption">
+          <strong>Guidance for your next step.</strong>
+          <span>Discover. Learn. Work.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:35px;">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Browse help topics</span>
+        <h2>What do you need help with?</h2>
+        <p>Choose a topic or search the frequently asked questions below.</p>
+      </div>
+
+      <div class="categories">
+        <a class="category" href="#getting-started">
+          <span class="symbol">🚀</span>
+          <strong>Getting started</strong>
+          <span>Learn the basics</span>
+        </a>
+        <a class="category" href="#membership">
+          <span class="symbol">◇</span>
+          <strong>Membership</strong>
+          <span>Packages and terms</span>
+        </a>
+        <a class="category" href="#payments">
+          <span class="symbol">📱</span>
+          <strong>M-Pesa payments</strong>
+          <span>STK Push and issues</span>
+        </a>
+        <a class="category" href="#opportunities">
+          <span class="symbol">🌐</span>
+          <strong>Opportunities</strong>
+          <span>Finding digital work</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#0a1627;">
+    <div class="container faq-layout">
+      <aside class="side-panel">
+        <h3>Help topics</h3>
+        <nav>
+          <a href="#getting-started">Getting started</a>
+          <a href="#membership">Membership</a>
+          <a href="#payments">M-Pesa & payments</a>
+          <a href="#opportunities">Opportunities</a>
+          <a href="#account">Account access</a>
+          <a href="#safety">Online safety</a>
+        </nav>
+      </aside>
+
+      <div id="faqList">
+        <div class="faq-group" id="getting-started">
+          <h3>Getting started</h3>
+
+          <details class="faq-item">
+            <summary>What is Online Sphere?</summary>
+            <div class="faq-answer">
+              Online Sphere is designed to help people discover digital work
+              categories, explore learning resources and understand ways to
+              participate in the digital economy.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>How do I get started?</summary>
+            <div class="faq-answer">
+              Begin by browsing the <a href="opportunities.html">Opportunities</a>
+              and <a href="learn.html">Learn</a> pages. Read the information
+              provided, assess what matches your skills and review applicable
+              terms before registering or making a payment.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>Does Online Sphere guarantee work or income?</summary>
+            <div class="faq-answer">
+              No. Exploring the platform or purchasing a membership does not
+              guarantee a job, a task, approval, earnings or a particular
+              financial outcome. Opportunities depend on their actual
+              availability, requirements and applicable terms.
+            </div>
+          </details>
+        </div>
+
+        <div class="faq-group" id="membership">
+          <h3>Membership</h3>
+
+          <details class="faq-item">
+            <summary>What membership packages are listed?</summary>
+            <div class="faq-answer">
+              The membership page currently lists Bronze at KSh 1,000,
+              Silver at KSh 1,750 and Gold at KSh 2,500. Review
+              <a href="membership.html">the membership page</a> for the
+              displayed details and applicable terms before choosing a package.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>Does paying for membership guarantee a payout?</summary>
+            <div class="faq-answer">
+              No. Membership payment alone is not proof of a payout entitlement,
+              employment or earnings. Read the package terms carefully and
+              request clarification about any unclear fees or benefits before
+              paying.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>What should I check before purchasing?</summary>
+            <div class="faq-answer">
+              Confirm the price, package benefits, eligibility rules, refund
+              policy, renewal conditions and any additional charges. Only proceed
+              when you understand the terms.
+            </div>
+          </details>
+        </div>
+
+        <div class="faq-group" id="payments">
+          <h3>M-Pesa and payments</h3>
+
+          <details class="faq-item">
+            <summary>How does the M-Pesa STK Push work?</summary>
+            <div class="faq-answer">
+              On the membership checkout, select a package and enter the
+              M-Pesa phone number in the requested format. If the request is
+              accepted, an STK prompt may appear on your phone. Check the amount
+              and merchant details carefully before entering your M-Pesa PIN.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>I tapped the payment button but nothing happened. What should I do?</summary>
+            <div class="faq-answer">
+              Check your internet connection, make sure the phone number is
+              correct, and try again only after checking whether a request is
+              already pending. If the problem continues, note the error message
+              and contact support through a verified official channel.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>The STK prompt did not arrive. Was I charged?</summary>
+            <div class="faq-answer">
+              A missing prompt does not by itself confirm whether a transaction
+              occurred. Check your M-Pesa messages and transaction history.
+              Do not immediately submit repeated payment requests. If money was
+              deducted, retain the transaction confirmation and ask support to
+              verify the payment status.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>The website says the request was accepted. Is my payment complete?</summary>
+            <div class="faq-answer">
+              Not necessarily. Acceptance of an STK request is different from
+              confirmation of a successful payment. Wait for the official
+              transaction result and verified payment status. Do not treat a
+              loading message or request ID as proof of payment.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>What information should I provide when reporting a payment issue?</summary>
+            <div class="faq-answer">
+              Provide the package selected, approximate transaction time,
+              phone number with sensitive digits masked, and the error message.
+              If a transaction succeeded, share only the minimum transaction
+              reference needed through a verified support channel. Never send
+              your M-Pesa PIN, password or one-time security code.
+            </div>
+          </details>
+        </div>
+
+        <div class="faq-group" id="opportunities">
+          <h3>Digital opportunities</h3>
+
+          <details class="faq-item">
+            <summary>What kinds of digital work can I explore?</summary>
+            <div class="faq-answer">
+              Categories may include transcription, data entry, writing,
+              graphic design, video editing, translation, research, virtual
+              assistance and other digital services. A category listing is not
+              confirmation that a live vacancy or paid task is available.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>Are all listed categories currently accepting workers?</summary>
+            <div class="faq-answer">
+              Not necessarily. Browse the
+              <a href="opportunities.html">Opportunities page</a> and read each
+              listing carefully. Availability, eligibility, deadlines and
+              payment terms should be confirmed for the specific opportunity.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>How can I prepare for online work?</summary>
+            <div class="faq-answer">
+              Develop a relevant skill, practise with sample projects, prepare
+              examples of your work and learn how to communicate professionally.
+              Our <a href="learn.html">learning page</a> provides a starting
+              point for exploring skills.
+            </div>
+          </details>
+        </div>
+
+        <div class="faq-group" id="account">
+          <h3>Account access</h3>
+
+          <details class="faq-item">
+            <summary>What if I cannot log in?</summary>
+            <div class="faq-answer">
+              Check that you are using the correct login details and the
+              official website address. If a password reset feature is
+              available, follow its instructions. Never share your password
+              or verification code with another person.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>Why does my dashboard not show my information?</summary>
+            <div class="faq-answer">
+              Confirm that you opened the correct page and that your internet
+              connection is stable. A blank dashboard may indicate a page,
+              script, authentication or server issue. Refresh once; if the
+              problem persists, record the page address and visible error
+              so the technical team can investigate.
+            </div>
+          </details>
+        </div>
+
+        <div class="faq-group" id="safety">
+          <h3>Online safety</h3>
+
+          <details class="faq-item">
+            <summary>How can I protect myself from online scams?</summary>
+            <div class="faq-answer">
+              Verify the organisation and opportunity independently. Be
+              cautious of guaranteed returns, pressure to pay immediately,
+              requests for PINs or passwords, and fees described vaguely.
+              Keep receipts and read the terms before transferring money.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>Should I pay an unexpected fee to release earnings?</summary>
+            <div class="faq-answer">
+              Do not pay an unexpected fee without independently verifying
+              its legitimacy, purpose and written terms. Be particularly
+              cautious of requests for advance payments described as gas,
+              unlocking, clearance or release fees. Never rely only on a
+              screenshot or a message from an unverified account.
+            </div>
+          </details>
+        </div>
+
+        <div class="empty" id="emptyState">
+          No matching questions found. Try a different search term.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Still need assistance?</span>
+        <h2>Find the right next step.</h2>
+        <p>
+          Use the available platform pages to review information before
+          contacting support about an unresolved issue.
+        </p>
+      </div>
+
+      <div class="contact-grid">
+        <article class="contact-card">
+          <span class="symbol">📚</span>
+          <h3>Explore learning resources</h3>
+          <p>Find skill areas to study and practical starting points for learning.</p>
+          <a class="btn secondary" href="learn.html">Open Learn Page ↗</a>
+        </article>
+
+        <article class="contact-card">
+          <span class="symbol">💳</span>
+          <h3>Review membership</h3>
+          <p>Check package prices and displayed information before checkout.</p>
+          <a class="btn secondary" href="membership.html">View Membership ↗</a>
+        </article>
+      </div>
+
+      <div class="notice">
+        For payment problems, use only a support contact published and verified
+        by Online Sphere. Do not send your M-Pesa PIN, password or one-time
+        security code to anyone.
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:0;">
+    <div class="container">
+      <div class="safety">
+        <h3>Stay safe online</h3>
+        <ul>
+          <li>Never share your M-Pesa PIN or account password.</li>
+          <li>Check the amount and recipient before approving a payment.</li>
+          <li>Keep transaction confirmations and payment records.</li>
+          <li>Do not assume a task, membership or opportunity guarantees income.</li>
+          <li>Read fees, eligibility requirements and refund terms before paying.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <a class="brand" href="index.html">
+          <span class="logo">O</span>
+          <span class="brand-name">Online <span>Sphere</span></span>
+        </a>
+        <p class="footer-copy">
+          Your gateway to discovering digital opportunities and developing
+          useful skills. Discover. Learn. Work.
+        </p>
+      </div>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="index.html">Home</a>
+        <a href="opportunities.html">Opportunities</a>
+        <a href="learn.html">Learn</a>
+        <a href="membership.html">Membership</a>
+        <a href="about.html">About</a>
+      </nav>
+    </div>
+    <div class="copyright">
+      © <span id="year"></span> Online Sphere. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+<script>
+const menuBtn = document.getElementById("menuBtn");
+const navLinks = document.getElementById("navLinks");
+
+menuBtn.addEventListener("click", function () {
+  const open = navLinks.classList.toggle("open");
+  menuBtn.setAttribute("aria-expanded", String(open));
+});
+
+navLinks.querySelectorAll("a").forEach(function (link) {
+  link.addEventListener("click", function () {
+    navLinks.classList.remove("open");
+    menuBtn.setAttribute("aria-expanded", "false");
+  });
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
+
+const searchInput = document.getElementById("faqSearch");
+const searchButton = document.getElementById("searchBtn");
+const faqItems = Array.from(document.querySelectorAll(".faq-item"));
+const faqGroups = Array.from(document.querySelectorAll(".faq-group"));
+const emptyState = document.getElementById("emptyState");
+
+function searchFAQs() {
+  const query = searchInput.value.trim().toLowerCase();
+  let visibleCount = 0;
+
+  faqItems.forEach(function (item) {
+    const matches = !query || item.textContent.toLowerCase().includes(query);
+    item.style.display = matches ? "" : "none";
+    if (matches) visibleCount++;
+  });
+
+  faqGroups.forEach(function (group) {
+    const hasVisibleItems = Array.from(group.querySelectorAll(".faq-item"))
+      .some(function (item) {
+        return item.style.display !== "none";
+      });
+    group.style.display = hasVisibleItems ? "" : "none";
+  });
+
+  emptyState.style.display = visibleCount ? "none" : "block";
+}
+
+searchButton.addEventListener("click", searchFAQs);
+searchInput.addEventListener("input", searchFAQs);
+searchInput.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") searchFAQs();
+});
+</script>
+</body>
+</html>
