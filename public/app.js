@@ -1,6 +1,6 @@
 /* =========================================================
    ONLINE SPHERE — MAIN JAVASCRIPT
-   Version: Advanced UI + M-Pesa STK Push
+   Version: Advanced UI + Dynamic Package Fees + M-Pesa STK
    ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -13,11 +13,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const MPESA_STK_ENDPOINT =
         "https://zeronline-sphere-api.onrender.com/api/mpesa/stkpush";
 
-    const PACKAGE_PRICES = {
+    const PACKAGE_PRICES = Object.freeze({
         Bronze: 1000,
         Silver: 1750,
         Gold: 2500
-    };
+    });
 
     /* ---------------------------------------------------------
        HELPERS
@@ -28,6 +28,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const $$ = (selector, parent = document) =>
         [...parent.querySelectorAll(selector)];
+
+    const formatKES = amount =>
+        `KSh ${Number(amount).toLocaleString("en-KE")}`;
 
     /* ---------------------------------------------------------
        PAGE LOADER
@@ -72,8 +75,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const themeButton = $(".theme-button");
 
-    const savedTheme =
-        localStorage.getItem("onlineSphereTheme");
+    let savedTheme = null;
+
+    try {
+        savedTheme = localStorage.getItem("onlineSphereTheme");
+    } catch (error) {
+        console.warn("Theme preference unavailable.", error);
+    }
 
     if (savedTheme === "light") {
         document.body.classList.add("light-theme");
@@ -104,10 +112,14 @@ document.addEventListener("DOMContentLoaded", () => {
             const isLight =
                 document.body.classList.contains("light-theme");
 
-            localStorage.setItem(
-                "onlineSphereTheme",
-                isLight ? "light" : "dark"
-            );
+            try {
+                localStorage.setItem(
+                    "onlineSphereTheme",
+                    isLight ? "light" : "dark"
+                );
+            } catch (error) {
+                console.warn("Could not save theme.", error);
+            }
 
             updateThemeIcon();
 
@@ -126,13 +138,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     $$('a[href^="#"]').forEach(link => {
         link.addEventListener("click", event => {
-            const targetId =
-                link.getAttribute("href");
+            const targetId = link.getAttribute("href");
 
             if (!targetId || targetId === "#") return;
 
-            const target =
-                document.querySelector(targetId);
+            let target;
+
+            try {
+                target = document.querySelector(targetId);
+            } catch {
+                return;
+            }
 
             if (target) {
                 event.preventDefault();
@@ -154,11 +170,10 @@ document.addEventListener("DOMContentLoaded", () => {
     function updateBackToTop() {
         if (!backToTop) return;
 
-        if (window.scrollY > 500) {
-            backToTop.classList.add("visible");
-        } else {
-            backToTop.classList.remove("visible");
-        }
+        backToTop.classList.toggle(
+            "visible",
+            window.scrollY > 500
+        );
     }
 
     window.addEventListener(
@@ -179,7 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /* ---------------------------------------------------------
-       TOAST NOTIFICATION
+       TOAST NOTIFICATIONS
     --------------------------------------------------------- */
 
     const toast = $(".toast");
@@ -216,7 +231,7 @@ document.addEventListener("DOMContentLoaded", () => {
             toastMessage.textContent = message;
         }
 
-        toast.classList.remove("warning");
+        toast.classList.remove("warning", "error");
 
         if (type === "warning" || type === "error") {
             toast.classList.add("warning");
@@ -257,10 +272,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         modal.classList.remove("active");
 
-        const anotherOpen =
-            modals.some(item =>
-                item.classList.contains("active")
-            );
+        const anotherOpen = modals.some(item =>
+            item.classList.contains("active")
+        );
 
         if (!anotherOpen) {
             document.body.classList.remove("modal-open");
@@ -306,7 +320,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* ---------------------------------------------------------
        M-PESA PHONE NORMALIZATION
-       Accepts:
+       Supports Kenyan mobile numbers:
        0712345678
        0112345678
        254712345678
@@ -334,11 +348,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /* ---------------------------------------------------------
-       M-PESA DEPOSIT FORM
-       The matching HTML form must contain:
-       #depositPackage
-       #depositPhone
-       #depositForm
+       DYNAMIC PACKAGE FEES
+       Bronze: KSh 1,000
+       Silver: KSh 1,750
+       Gold:   KSh 2,500
     --------------------------------------------------------- */
 
     const depositForm = $("#depositForm");
@@ -353,199 +366,273 @@ document.addEventListener("DOMContentLoaded", () => {
         const depositSubmitButton =
             $('button[type="submit"]', depositForm);
 
+        const packageFeeDisplay =
+            $("#depositPackageFee");
+
+        const paymentStatus =
+            $("#depositPaymentStatus");
+
         let depositRequestInProgress = false;
 
-        depositForm.addEventListener("submit", async event => {
-            event.preventDefault();
-
-            if (depositRequestInProgress) {
-                return;
+        function getPackagePrice(packageName) {
+            if (
+                !Object.prototype.hasOwnProperty.call(
+                    PACKAGE_PRICES,
+                    packageName
+                )
+            ) {
+                return null;
             }
 
-            if (!depositPackage || !depositPhone) {
-                showToast(
-                    "Form Setup Error",
-                    "The package or phone field is missing. Please update index.html.",
-                    "error"
-                );
-                return;
+            return PACKAGE_PRICES[packageName];
+        }
+
+        function updatePackageFee() {
+            if (!depositPackage) return;
+
+            const packageName =
+                depositPackage.value.trim();
+
+            const amount = getPackagePrice(packageName);
+
+            // Update the visible package fee.
+            if (packageFeeDisplay) {
+                packageFeeDisplay.textContent =
+                    amount === null
+                        ? "Select a package"
+                        : formatKES(amount);
             }
 
-            const packageName = depositPackage.value.trim();
-            const phone = normalizeKenyanPhone(
-                depositPhone.value
-            );
+            // Support additional fee displays if present.
+            $$("[data-selected-package-fee]", depositForm)
+                .forEach(element => {
+                    element.textContent =
+                        amount === null
+                            ? "Select a package"
+                            : formatKES(amount);
 
-            if (!Object.prototype.hasOwnProperty.call(
-                PACKAGE_PRICES,
-                packageName
-            )) {
-                showToast(
-                    "Select a Package",
-                    "Please select Bronze, Silver or Gold.",
-                    "error"
-                );
-                depositPackage.focus();
-                return;
-            }
+                    element.dataset.amount =
+                        amount === null
+                            ? ""
+                            : String(amount);
+                });
 
-            if (!phone) {
-                showToast(
-                    "Invalid Phone Number",
-                    "Enter a valid Kenyan M-Pesa number, such as 0712345678.",
-                    "error"
-                );
-                depositPhone.focus();
-                return;
-            }
-
-            const amount = PACKAGE_PRICES[packageName];
-
-            const confirmed = window.confirm(
-                `Continue with ${packageName} membership for KSh ${amount.toLocaleString("en-KE")}?\n\n` +
-                `An M-Pesa payment prompt will be requested for ${phone}.`
-            );
-
-            if (!confirmed) {
-                return;
-            }
-
-            depositRequestInProgress = true;
-
-            if (depositSubmitButton) {
-                depositSubmitButton.disabled = true;
+            // Keep the payment button synchronized.
+            if (
+                depositSubmitButton &&
+                !depositRequestInProgress
+            ) {
                 depositSubmitButton.textContent =
-                    "Requesting M-Pesa...";
+                    amount === null
+                        ? "Pay with M-Pesa"
+                        : `Pay ${formatKES(amount)}`;
             }
+        }
 
-            try {
-                const response = await fetch(
-                    MPESA_STK_ENDPOINT,
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Accept": "application/json"
-                        },
-                        body: JSON.stringify({
-                            phone: phone,
-                            packageName: packageName
-                        })
-                    }
-                );
+        if (depositPackage) {
+            depositPackage.addEventListener(
+                "change",
+                updatePackageFee
+            );
 
-                const responseText =
-                    await response.text();
+            // Correct fee on initial page load.
+            updatePackageFee();
+        }
 
-                let result = {};
+        /* -----------------------------------------------------
+           M-PESA STK PUSH SUBMISSION
+        ----------------------------------------------------- */
 
-                if (responseText) {
-                    try {
-                        result = JSON.parse(responseText);
-                    } catch {
-                        throw new Error(
-                            "The server returned an invalid response. Check the Render logs and backend endpoint."
-                        );
-                    }
+        depositForm.addEventListener(
+            "submit",
+            async event => {
+                event.preventDefault();
+
+                if (depositRequestInProgress) return;
+
+                if (!depositPackage || !depositPhone) {
+                    showToast(
+                        "Form Setup Error",
+                        "Missing package or phone field. Check index.html.",
+                        "error"
+                    );
+                    return;
                 }
 
-                if (!response.ok) {
-                    const serverMessage =
-                        typeof result.message === "string"
-                            ? result.message
-                            : typeof result.error === "string"
-                                ? result.error
-                                : "";
+                const packageName =
+                    depositPackage.value.trim();
 
-                    if (response.status >= 500) {
-                        throw new Error(
-                            serverMessage ||
-                            "The payment server encountered an error. Please check Render logs before trying again."
-                        );
-                    }
+                const amount =
+                    getPackagePrice(packageName);
 
-                    throw new Error(
-                        serverMessage ||
-                        `The payment request failed (HTTP ${response.status}).`
+                const phone =
+                    normalizeKenyanPhone(
+                        depositPhone.value
                     );
+
+                if (amount === null) {
+                    showToast(
+                        "Select a Package",
+                        "Please select Bronze, Silver or Gold.",
+                        "error"
+                    );
+
+                    depositPackage.focus();
+                    return;
                 }
 
-                /*
-                 * A successful HTTP response only means the
-                 * backend accepted the request. It does not
-                 * prove that the customer paid.
-                 */
-
-                showToast(
-                    "M-Pesa Request Sent",
-                    `Check ${phone} for an M-Pesa prompt. Complete the prompt if it appears. Your payment is not confirmed yet.`,
-                    "success"
-                );
-
-                const statusElement =
-                    $("#depositPaymentStatus");
-
-                if (statusElement) {
-                    statusElement.textContent =
-                        `STK Push request accepted for ${phone}. Complete the prompt on your phone. Waiting for payment confirmation.`;
-
-                    statusElement.hidden = false;
-                    statusElement.setAttribute(
-                        "role",
-                        "status"
+                if (!phone) {
+                    showToast(
+                        "Invalid Phone Number",
+                        "Enter a valid Kenyan M-Pesa number, such as 0712345678.",
+                        "error"
                     );
-                    statusElement.setAttribute(
-                        "aria-live",
-                        "polite"
-                    );
+
+                    depositPhone.focus();
+                    return;
                 }
 
-                /*
-                 * Do not credit a balance or activate membership
-                 * here. That must happen after server-side
-                 * verification of the Daraja callback.
-                 */
-
-            } catch (error) {
-                console.error(
-                    "Online Sphere M-Pesa deposit error:",
-                    error
+                const confirmed = window.confirm(
+                    `Selected package: ${packageName}\n` +
+                    `Amount: ${formatKES(amount)}\n` +
+                    `Phone: ${phone}\n\n` +
+                    "Continue with the M-Pesa payment request?"
                 );
 
-                showToast(
-                    "Payment Request Failed",
-                    error && error.message
-                        ? error.message
-                        : "Unable to contact the payment server. Check your internet connection and try again.",
-                    "error"
-                );
+                if (!confirmed) return;
 
-                const statusElement =
-                    $("#depositPaymentStatus");
-
-                if (statusElement) {
-                    statusElement.textContent =
-                        error && error.message
-                            ? error.message
-                            : "The payment request failed. Please try again.";
-
-                    statusElement.hidden = false;
-                    statusElement.setAttribute(
-                        "role",
-                        "alert"
-                    );
-                }
-
-            } finally {
-                depositRequestInProgress = false;
+                depositRequestInProgress = true;
 
                 if (depositSubmitButton) {
-                    depositSubmitButton.disabled = false;
+                    depositSubmitButton.disabled = true;
                     depositSubmitButton.textContent =
-                        "Pay with M-Pesa";
+                        "Requesting M-Pesa...";
+                }
+
+                if (paymentStatus) {
+                    paymentStatus.hidden = true;
+                    paymentStatus.textContent = "";
+                }
+
+                try {
+                    const response = await fetch(
+                        MPESA_STK_ENDPOINT,
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Accept": "application/json"
+                            },
+
+                            // Keep the existing backend request
+                            // format compatible with your API.
+                            // The server must determine the amount
+                            // from its own trusted price mapping.
+                            body: JSON.stringify({
+                                phone: phone,
+                                packageName: packageName
+                            })
+                        }
+                    );
+
+                    const responseText =
+                        await response.text();
+
+                    let result = {};
+
+                    if (responseText) {
+                        try {
+                            result = JSON.parse(responseText);
+                        } catch {
+                            throw new Error(
+                                "The server returned an invalid response. Check your Render logs."
+                            );
+                        }
+                    }
+
+                    if (!response.ok) {
+                        const serverMessage =
+                            typeof result.message === "string"
+                                ? result.message
+                                : typeof result.error === "string"
+                                    ? result.error
+                                    : "";
+
+                        throw new Error(
+                            serverMessage ||
+                            `Payment request failed (HTTP ${response.status}).`
+                        );
+                    }
+
+                    showToast(
+                        "M-Pesa Request Sent",
+                        `Check ${phone} for an STK Push prompt for ${formatKES(amount)}. Payment is not confirmed yet.`
+                    );
+
+                    if (paymentStatus) {
+                        paymentStatus.textContent =
+                            `STK Push request accepted for ${packageName}, ${formatKES(amount)}. Complete the prompt on your phone and wait for payment confirmation.`;
+
+                        paymentStatus.hidden = false;
+
+                        paymentStatus.setAttribute(
+                            "role",
+                            "status"
+                        );
+
+                        paymentStatus.setAttribute(
+                            "aria-live",
+                            "polite"
+                        );
+                    }
+
+                    /*
+                     * IMPORTANT:
+                     * A successful HTTP response does not prove
+                     * the customer paid.
+                     *
+                     * Verify the Daraja callback on the server
+                     * before recording payment or activating
+                     * any membership or account balance.
+                     */
+
+                } catch (error) {
+                    console.error(
+                        "Online Sphere M-Pesa deposit error:",
+                        error
+                    );
+
+                    const message =
+                        error && error.message
+                            ? error.message
+                            : "Unable to contact the payment server. Check your connection.";
+
+                    showToast(
+                        "Payment Request Failed",
+                        message,
+                        "error"
+                    );
+
+                    if (paymentStatus) {
+                        paymentStatus.textContent = message;
+                        paymentStatus.hidden = false;
+
+                        paymentStatus.setAttribute(
+                            "role",
+                            "alert"
+                        );
+                    }
+
+                } finally {
+                    depositRequestInProgress = false;
+
+                    if (depositSubmitButton) {
+                        depositSubmitButton.disabled = false;
+                        updatePackageFee();
+                    }
                 }
             }
-        });
+        );
     }
 
     /* ---------------------------------------------------------
@@ -556,15 +643,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const withdrawForm = $("#withdrawForm");
 
     if (withdrawForm) {
-        withdrawForm.addEventListener("submit", event => {
-            event.preventDefault();
+        withdrawForm.addEventListener(
+            "submit",
+            event => {
+                event.preventDefault();
 
-            showToast(
-                "Withdrawals Not Connected",
-                "This withdrawal form is a demonstration. No money has been sent.",
-                "warning"
-            );
-        });
+                showToast(
+                    "Withdrawals Not Connected",
+                    "This withdrawal form is a demonstration. No money has been sent.",
+                    "warning"
+                );
+            }
+        );
     }
 
     /* ---------------------------------------------------------
@@ -574,8 +664,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const securityScreen = $(".security-screen");
     const securityForm = $("#securityForm");
 
-    const accessGranted =
-        localStorage.getItem("onlineSphereAccess");
+    let accessGranted = null;
+
+    try {
+        accessGranted =
+            localStorage.getItem("onlineSphereAccess");
+    } catch (error) {
+        console.warn("Could not read access preference.", error);
+    }
 
     if (
         securityScreen &&
@@ -585,21 +681,33 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (securityForm) {
-        securityForm.addEventListener("submit", event => {
-            event.preventDefault();
+        securityForm.addEventListener(
+            "submit",
+            event => {
+                event.preventDefault();
 
-            securityScreen?.classList.add("security-hidden");
+                securityScreen?.classList.add(
+                    "security-hidden"
+                );
 
-            localStorage.setItem(
-                "onlineSphereAccess",
-                "granted"
-            );
+                try {
+                    localStorage.setItem(
+                        "onlineSphereAccess",
+                        "granted"
+                    );
+                } catch (error) {
+                    console.warn(
+                        "Could not save access preference.",
+                        error
+                    );
+                }
 
-            showToast(
-                "Access Granted",
-                "Welcome to Online Sphere."
-            );
-        });
+                showToast(
+                    "Access Granted",
+                    "Welcome to Online Sphere."
+                );
+            }
+        );
     }
 
     /* ---------------------------------------------------------
@@ -648,9 +756,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const text =
                     button.textContent.trim().toLowerCase();
 
-                if (href && href !== "#") {
-                    return;
-                }
+                if (href && href !== "#") return;
 
                 if (
                     button.classList.contains("deposit-action") ||
@@ -707,18 +813,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 scrollPosition >= sectionTop &&
                 scrollPosition < sectionTop + sectionHeight
             ) {
-                currentSection = section.getAttribute("id");
+                currentSection =
+                    section.getAttribute("id");
             }
         });
 
         navLinks.forEach(link => {
             link.classList.remove("active");
 
-            const href = link.getAttribute("href");
-
             if (
                 currentSection &&
-                href === `#${currentSection}`
+                link.getAttribute("href") ===
+                    `#${currentSection}`
             ) {
                 link.classList.add("active");
             }
@@ -757,13 +863,13 @@ document.addEventListener("DOMContentLoaded", () => {
             const value = Math.floor(progress * target);
 
             element.textContent =
-                value.toLocaleString();
+                value.toLocaleString("en-KE");
 
             if (progress < 1) {
                 requestAnimationFrame(update);
             } else {
                 element.textContent =
-                    target.toLocaleString();
+                    target.toLocaleString("en-KE");
             }
         }
 
@@ -817,13 +923,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* ---------------------------------------------------------
        PREVENT DOUBLE SUBMISSIONS
-       The deposit handler manages its own request lock.
+       Deposit form uses its own request lock.
     --------------------------------------------------------- */
 
     $$("form").forEach(form => {
-        if (form.id === "depositForm") {
-            return;
-        }
+        if (form.id === "depositForm") return;
 
         form.addEventListener("submit", () => {
             const submitButton =
@@ -883,8 +987,15 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    window.addEventListener("online", updateOnlineStatus);
-    window.addEventListener("offline", updateOnlineStatus);
+    window.addEventListener(
+        "online",
+        updateOnlineStatus
+    );
+
+    window.addEventListener(
+        "offline",
+        updateOnlineStatus
+    );
 
     updateOnlineStatus();
 
@@ -893,16 +1004,36 @@ document.addEventListener("DOMContentLoaded", () => {
     --------------------------------------------------------- */
 
     setTimeout(() => {
-        if (!sessionStorage.getItem("onlineSphereWelcome")) {
+        let welcomeShown = false;
+
+        try {
+            welcomeShown = Boolean(
+                sessionStorage.getItem("onlineSphereWelcome")
+            );
+        } catch (error) {
+            console.warn(
+                "Could not read welcome preference.",
+                error
+            );
+        }
+
+        if (!welcomeShown) {
             showToast(
                 "Online Sphere",
-                "Welcome to your advanced digital platform."
+                "Welcome to your digital platform."
             );
 
-            sessionStorage.setItem(
-                "onlineSphereWelcome",
-                "true"
-            );
+            try {
+                sessionStorage.setItem(
+                    "onlineSphereWelcome",
+                    "true"
+                );
+            } catch (error) {
+                console.warn(
+                    "Could not save welcome preference.",
+                    error
+                );
+            }
         }
     }, 1800);
 
