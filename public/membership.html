@@ -1,1 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050816">
+<title>Membership | Online Sphere</title>
+<meta name="description" content="Explore Online Sphere membership options and submit an M-Pesa STK Push request securely.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{--bg:#050816;--panel:#0c142a;--blue:#3984ff;--purple:#a36bff;--cyan:#55e5f4;--white:#f5f7ff;--muted:#a4b0cb;--line:rgba(147,175,255,.16)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{margin:0;background:var(--bg);color:var(--white);font-family:"DM Sans",sans-serif}
+body:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 10% 10%,#1a286044,transparent 38%),radial-gradient(ellipse at 90% 35%,#57278a27,transparent 36%)}
+a{color:inherit;text-decoration:none}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.wrap{width:min(1140px,92%);margin:auto}
+h1,h2,h3{font-family:"Space Grotesk",sans-serif}
+p{color:var(--muted);line-height:1.75}
+.gradient{background:linear-gradient(100deg,#62e4ff,#7e8cff,#c187ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+header{height:74px;position:sticky;top:0;z-index:20;background:#050816ed;backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.nav{height:100%;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brand{display:flex;align-items:center;gap:10px;font:700 19px "Space Grotesk",sans-serif}
+.brand-icon{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(135deg,#318bff,#9a53f4);font-size:22px}
+.brand small{display:block;font:9px "DM Sans",sans-serif;letter-spacing:2px;color:#9dadd1}
+.links{display:flex;gap:20px;align-items:center;font-size:13px;color:#c4cee5}
+.links a:hover,.links a.active{color:#69dfff}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 17px;border-radius:11px;border:1px solid var(--line);font-weight:700;font-size:13px;background:#ffffff08;color:white;transition:.2s}
+.btn:hover{transform:translateY(-2px)}
+.primary{background:linear-gradient(110deg,#347dff,#8b51f5);border:0}
+.menu{display:none;background:none;color:white;border:1px solid var(--line);padding:8px 11px;border-radius:9px;font-size:20px}
+.mobile{display:none;position:absolute;top:74px;left:0;right:0;background:#080d20;padding:15px 5%;border-bottom:1px solid var(--line)}
+.mobile.open{display:flex;flex-direction:column}
+.mobile a{padding:13px 0;border-bottom:1px solid var(--line);font-size:14px}
+.hero{padding:70px 0 45px}
+.hero-grid{display:grid;grid-template-columns:1fr .85fr;align-items:center;gap:45px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--line);border-radius:50px;background:#111a33;font-size:11px;color:#d0dcfa;letter-spacing:.6px}
+h1{font-size:clamp(42px,5.4vw,66px);line-height:1.05;letter-spacing:-2.5px;margin:22px 0}
+.hero p{max-width:560px;font-size:15px}
+.hero-art{height:340px;position:relative;border-radius:24px;overflow:hidden;border:1px solid #789dff44}
+.hero-art img{height:100%;width:100%;object-fit:cover}
+.hero-art:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#050816cc,transparent 65%)}
+.art-caption{position:absolute;z-index:1;bottom:18px;left:18px;right:18px;padding:15px;border-radius:14px;background:#071127c9;border:1px solid #ffffff25;backdrop-filter:blur(10px)}
+.art-caption strong{font:600 17px "Space Grotesk"}
+.art-caption p{font-size:12px;margin:5px 0 0}
+.intro{text-align:center;padding:35px 0 25px}
+.intro h2{font-size:clamp(28px,4vw,42px);margin:14px 0 8px}
+.intro p{font-size:14px;max-width:620px;margin:0 auto}
+.packages{display:grid;grid-template-columns:repeat(3,1fr);gap:19px;padding:22px 0 45px;align-items:stretch}
+.package{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:23px;padding:27px;background:linear-gradient(145deg,#121e3b,#080e20);display:flex;flex-direction:column}
+.package:before{content:"";position:absolute;width:200px;height:200px;right:-100px;top:-100px;background:#357bff1c;border-radius:50%;filter:blur(10px);pointer-events:none}
+.package.silver:before{background:#9e70ff25}
+.package.gold:before{background:#ffbd5c18}
+.package.featured{border-color:#8d71ff;box-shadow:0 0 35px #7253ff16}
+.package-icon{width:49px;height:49px;display:grid;place-items:center;border:1px solid var(--line);border-radius:15px;background:#ffffff08;font-size:25px}
+.package h3{font-size:22px;margin:20px 0 5px}
+.package-description{font-size:13px;min-height:44px;margin:0}
+.price{font:700 34px "Space Grotesk",sans-serif;margin:23px 0 5px}
+.price-note{font-size:11px;color:#91a1c2}
+.package hr{width:100%;border:0;border-top:1px solid var(--line);margin:22px 0}
+.package ul{list-style:none;padding:0;margin:0 0 25px;flex:1}
+.package li{font-size:12px;color:#c8d3ea;padding:10px 0;line-height:1.5}
+.package li:before{content:"✓";color:#6de5f1;margin-right:10px;font-weight:bold}
+.package .btn{width:100%}
+.popular{position:absolute;top:17px;right:15px;border-radius:30px;background:#9161ff29;color:#d7c8ff;padding:6px 9px;font-size:10px}
+.notice{border:1px solid var(--line);background:#101a303e;padding:17px;border-radius:14px;font-size:12px;line-height:1.8;color:#a5b4d2;margin:5px 0 55px}
+.notice strong{color:#e0e8ff}
+.process{border-top:1px solid var(--line);padding:55px 0;background:#0b122626}
+.process h2{text-align:center;font-size:31px}
+.process-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
+.process-card{border:1px solid var(--line);border-radius:17px;background:#0c142a;padding:22px}
+.process-card span{color:#70dfff;font:700 12px "Space Grotesk"}
+.process-card h3{font-size:16px;margin:14px 0 7px}
+.process-card p{font-size:12px;margin:0}
+footer{border-top:1px solid var(--line);padding:26px 0;background:#040714}
+.footer{display:flex;justify-content:space-between;gap:20px;align-items:center;flex-wrap:wrap}
+.footer p{font-size:11px;margin:0}
+.footer-links{display:flex;gap:16px;flex-wrap:wrap}
+.footer-links a{font-size:12px;color:#aab8d6}
+.footer-links a:hover{color:#71e5ff}
+
+/* M-Pesa modal */
+.modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:16px;background:#01040edb;backdrop-filter:blur(9px)}
+.modal.show{display:flex}
+.modal-card{width:min(470px,100%);max-height:92vh;overflow:auto;border:1px solid #789dff50;border-radius:23px;padding:25px;background:#0c142a;box-shadow:0 25px 90px #000}
+.modal-header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.modal-header h2{font-size:23px;margin:0}
+.close{background:#131f3b;color:white;border:1px solid var(--line);border-radius:10px;padding:7px 12px;font-size:20px}
+.modal-card>p{font-size:13px}
+label{display:block;font-size:12px;color:#c5d2ed;margin:17px 0 8px}
+input,select{width:100%;padding:14px;border:1px solid #2b3a5e;border-radius:11px;background:#070d1e;color:white;outline:none}
+input:focus,select:focus{border-color:#7198ff}
+.amount{margin-top:18px;border:1px solid #648eff38;background:#347dff12;border-radius:13px;padding:15px}
+.amount span{font-size:11px;color:#aab8d6}
+.amount strong{display:block;font:700 28px "Space Grotesk";margin-top:5px}
+.submit{width:100%;margin-top:19px}
+.message{font-size:12px;line-height:1.7;overflow-wrap:anywhere}
+.fineprint{font-size:11px!important;line-height:1.7!important;color:#8f9fbe!important}
+@media(max-width:850px){.links{gap:11px}.hero-grid{gap:24px}.package{padding:21px}}
+@media(max-width:680px){
+ header{height:68px}.links{display:none}.menu{display:block}.mobile{top:68px}
+ .hero{padding:46px 0 25px}.hero-grid{grid-template-columns:1fr;gap:25px}
+ h1{font-size:46px;letter-spacing:-2px}.hero-art{height:275px}
+ .packages{grid-template-columns:1fr;max-width:440px;margin:auto}
+ .package{padding:25px}.package-description{min-height:0}
+ .intro{padding-top:25px}.process-grid{grid-template-columns:1fr}
+ .footer{align-items:flex-start;flex-direction:column}
+}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="index.html">
+      <span class="brand-icon">◎</span>
+      <span>ONLINE SPHERE<small>DISCOVER · LEARN · WORK</small></span>
+    </a>
+    <nav class="links">
+      <a href="index.html">Home</a>
+      <a href="opportunities.html">Opportunities</a>
+      <a href="learn.html">Learn</a>
+      <a class="active" href="membership.html">Membership</a>
+      <a href="dashboard.html">Dashboard</a>
+    </nav>
+    <button class="menu" id="menuBtn" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+  </div>
+  <nav class="mobile" id="mobileNav">
+    <a href="index.html">Home</a>
+    <a href="opportunities.html">Opportunities</a>
+    <a href="learn.html">Learn</a>
+    <a href="membership.html">Membership</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="about.html">About</a>
+    <a href="help.html">Help & Support</a>
+  </nav>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">✦ MEMBERSHIP OPTIONS</span>
+      <h1>Your journey.<br>Your <span class="gradient">next step.</span></h1>
+      <p>Review the available Online Sphere membership options. Choose a package, check the amount and use M-Pesa to submit a payment request.</p>
+      <a href="#packages" class="btn primary">Compare packages ↓</a>
+    </div>
+    <div class="hero-art">
+      <img src="https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&w=1100&q=85" alt="Abstract blue and purple digital artwork">
+      <div class="art-caption"><strong>Discover. Learn. Work.</strong><p>Explore the digital world with Online Sphere.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="intro wrap" id="packages">
+  <span class="eyebrow">CHOOSE YOUR PACKAGE</span>
+  <h2>Membership, <span class="gradient">made clear.</span></h2>
+  <p>Compare the listed prices before proceeding. Read the platform's terms and any applicable refund policy before paying.</p>
+</section>
+
+<section class="wrap">
+  <div class="packages">
+    <article class="package">
+      <div class="package-icon">◈</div>
+      <h3>Bronze</h3>
+      <p class="package-description">A starting membership option.</p>
+      <div class="price">KSh 1,000</div>
+      <div class="price-note">One package payment</div>
+      <hr>
+      <ul>
+        <li>Bronze membership selection</li>
+        <li>Platform access subject to terms</li>
+        <li>Explore published digital categories</li>
+        <li>Support subject to platform policy</li>
+      </ul>
+      <button class="btn" onclick="openCheckout('Bronze')">Choose Bronze →</button>
+    </article>
+
+    <article class="package silver featured">
+      <span class="popular">FEATURED OPTION</span>
+      <div class="package-icon">✧</div>
+      <h3>Silver</h3>
+      <p class="package-description">An alternative membership level.</p>
+      <div class="price">KSh 1,750</div>
+      <div class="price-note">One package payment</div>
+      <hr>
+      <ul>
+        <li>Silver membership selection</li>
+        <li>Platform access subject to terms</li>
+        <li>Explore published digital categories</li>
+        <li>Support subject to platform policy</li>
+      </ul>
+      <button class="btn primary" onclick="openCheckout('Silver')">Choose Silver →</button>
+    </article>
+
+    <article class="package gold">
+      <div class="package-icon">✦</div>
+      <h3>Gold</h3>
+      <p class="package-description">A higher-priced membership option.</p>
+      <div class="price">KSh 2,500</div>
+      <div class="price-note">One package payment</div>
+      <hr>
+      <ul>
+        <li>Gold membership selection</li>
+        <li>Platform access subject to terms</li>
+        <li>Explore published digital categories</li>
+        <li>Support subject to platform policy</li>
+      </ul>
+      <button class="btn" onclick="openCheckout('Gold')">Choose Gold →</button>
+    </article>
+  </div>
+
+  <div class="notice">
+    <strong>Important before payment</strong><br>
+    Membership does not guarantee employment, available tasks, earnings or investment returns. Confirm what your selected membership includes and review the refund terms before making payment. Do not share your M-Pesa PIN with anyone.
+  </div>
+</section>
+
+<section class="process">
+  <div class="wrap">
+    <h2>How M-Pesa checkout works</h2>
+    <div class="process-grid">
+      <article class="process-card"><span>STEP 01</span><h3>Select a package</h3><p>Choose Bronze, Silver or Gold and verify the displayed amount.</p></article>
+      <article class="process-card"><span>STEP 02</span><h3>Enter your number</h3><p>Enter a valid Kenyan Safaricom mobile number and request the STK prompt.</p></article>
+      <article class="process-card"><span>STEP 03</span><h3>Check payment status</h3><p>Follow the prompt on your phone. A submitted request is not proof that payment succeeded.</p></article>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap footer">
+    <p>© <span id="year"></span> Online Sphere · Discover. Learn. Work.</p>
+    <nav class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="opportunities.html">Opportunities</a>
+      <a href="learn.html">Learn</a>
+      <a href="about.html">About</a>
+      <a href="help.html">Help</a>
+    </nav>
+  </div>
+</footer>
+
+<div class="modal" id="checkoutModal" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h2 id="checkoutTitle">M-Pesa checkout</h2>
+      <button class="close" id="closeModal" type="button" aria-label="Close">×</button>
+    </div>
+    <p>Confirm your membership package and enter the phone number that should receive the STK prompt.</p>
+
+    <form id="checkoutForm">
+      <label for="packageName">Membership package</label>
+      <select id="packageName" name="packageName" required>
+        <option value="Bronze">Bronze — KSh 1,000</option>
+        <option value="Silver">Silver — KSh 1,750</option>
+        <option value="Gold">Gold — KSh 2,500</option>
+      </select>
+
+      <label for="phone">M-Pesa phone number</label>
+      <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="0712345678 or 254712345678" required>
+
+      <div class="amount">
+        <span>AMOUNT TO REQUEST</span>
+        <strong id="amountDisplay">KSh 1,000</strong>
+      </div>
+
+      <button class="btn primary submit" id="submitButton" type="submit">Send STK Push ↗</button>
+      <p class="message" id="message" role="status" aria-live="polite"></p>
+      <p class="fineprint">The server must accept the request and Safaricom must process the payment. Membership should only be activated after your backend verifies the payment result. Never enter your M-Pesa PIN on this website.</p>
+    </form>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+/* Keep the existing backend endpoint and request field names. */
+const API_URL = "https://online-sphere-backend.onrender.com/api/mpesa/stkpush";
+const PRICES = {
+  Bronze: 1000,
+  Silver: 1750,
+  Gold: 2500
+};
+
+const modal = document.getElementById("checkoutModal");
+const packageSelect = document.getElementById("packageName");
+const amountDisplay = document.getElementById("amountDisplay");
+const message = document.getElementById("message");
+const submitButton = document.getElementById("submitButton");
+const form = document.getElementById("checkoutForm");
+
+document.getElementById("year").textContent = new Date().getFullYear();
+
+function updateAmount() {
+  const amount = PRICES[packageSelect.value];
+  amountDisplay.textContent = amount
+    ? "KSh " + amount.toLocaleString("en-KE")
+    : "Select a package";
+}
+
+function openCheckout(packageName) {
+  if (PRICES[packageName]) packageSelect.value = packageName;
+  updateAmount();
+  message.textContent = "";
+  modal.classList.add("show");
+  document.body.style.overflow = "hidden";
+}
+
+function closeCheckout() {
+  modal.classList.remove("show");
+  document.body.style.overflow = "";
+}
+
+packageSelect.addEventListener("change", updateAmount);
+document.getElementById("closeModal").addEventListener("click", closeCheckout);
+
+modal.addEventListener("click", function(event) {
+  if (event.target === modal) closeCheckout();
+});
+
+document.addEventListener("keydown", function(event) {
+  if (event.key === "Escape") closeCheckout();
+});
+
+function normalizeKenyanPhone(value) {
+  let phone = value.replace(/[\s\-()+]/g, "");
+
+  if (/^0[17]\d{8}$/.test(phone)) {
+    phone = "254" + phone.slice(1);
+  } else if (/^[17]\d{8}$/.test(phone)) {
+    phone = "254" + phone;
+  }
+
+  if (!/^254[17]\d{8}$/.test(phone)) {
+    throw new Error("Enter a valid Kenyan mobile number, e.g. 0712345678 or 254712345678.");
+  }
+
+  return phone;
+}
+
+form.addEventListener("submit", async function(event) {
+  event.preventDefault();
+
+  const packageName = packageSelect.value;
+  if (!PRICES[packageName]) {
+    message.textContent = "Please select a valid package.";
+    return;
+  }
+
+  let phone;
+  try {
+    phone = normalizeKenyanPhone(document.getElementById("phone").value);
+  } catch (error) {
+    message.textContent = error.message;
+    return;
+  }
+
+  submitButton.disabled = true;
+  submitButton.textContent = "Sending request...";
+  message.textContent = "Connecting to the payment service...";
+
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        phone: phone,
+        packageName: packageName
+      })
+    });
+
+    const responseText = await response.text();
+    let data = {};
+
+    try {
+      data = responseText ? JSON.parse(responseText) : {};
+    } catch (_) {
+      throw new Error("The server returned an unexpected response. Please try again later.");
+    }
+
+    if (!response.ok) {
+      throw new Error(
+        data.message || data.error ||
+        "The STK request failed. Check the number and try again."
+      );
+    }
+
+    message.textContent =
+      (data.message || "The STK request was accepted by the server.") +
+      " Check your phone for the M-Pesa prompt. This message does not confirm payment.";
+
+  } catch (error) {
+    message.textContent = error.message ||
+      "Unable to connect to the payment service. Check your internet connection and retry.";
+  } finally {
+    submitButton.disabled = false;
+    submitButton.textContent = "Send STK Push ↗";
+  }
+});
+
+/* Mobile navigation */
+const menuBtn = document.getElementById("menuBtn");
+const mobileNav = document.getElementById("mobileNav");
+
+menuBtn.addEventListener("click", function() {
+  const open = mobileNav.classList.toggle("open");
+  menuBtn.setAttribute("aria-expanded", String(open));
+  menuBtn.textContent = open ? "×" : "☰";
+});
+
+mobileNav.querySelectorAll("a").forEach(function(link) {
+  link.addEventListener("click", function() {
+    mobileNav.classList.remove("open");
+    menuBtn.setAttribute("aria-expanded", "false");
+    menuBtn.textContent = "☰";
+  });
+});
+</script>
+</body>
+</html>
 
