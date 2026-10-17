@@ -1,16 +1,12 @@
 /* =========================================================
    ONLINE SPHERE — MAIN JAVASCRIPT
-   Version: Advanced UI + Dynamic Package Fees
-   + M-Pesa STK Push Diagnostics
+   Version: Synchronized Package Fees + M-Pesa STK Push
    ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
     "use strict";
 
-    /* ---------------------------------------------------------
-       CONFIGURATION
-    --------------------------------------------------------- */
-
+    /* CONFIGURATION */
     const MPESA_STK_ENDPOINT =
         "https://online-sphere-backend.onrender.com/api/mpesa/stkpush";
 
@@ -20,10 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
         Gold: 2500
     });
 
-    /* ---------------------------------------------------------
-       HELPERS
-    --------------------------------------------------------- */
-
+    /* HELPERS */
     const $ = (selector, parent = document) =>
         parent.querySelector(selector);
 
@@ -33,26 +26,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const formatKES = amount =>
         `KSh ${Number(amount).toLocaleString("en-KE")}`;
 
-    /* ---------------------------------------------------------
-       PAGE LOADER
-    --------------------------------------------------------- */
-
+    /* PAGE LOADER */
     const pageLoader = $(".page-loader");
 
     if (pageLoader) {
         setTimeout(() => {
             pageLoader.classList.add("hidden");
-
             setTimeout(() => {
                 pageLoader.style.display = "none";
             }, 500);
         }, 700);
     }
 
-    /* ---------------------------------------------------------
-       MOBILE MENU
-    --------------------------------------------------------- */
-
+    /* MOBILE MENU */
     const menuBtn = $(".menu-btn");
     const nav = $("nav");
 
@@ -70,12 +56,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    /* ---------------------------------------------------------
-       THEME SWITCHER
-    --------------------------------------------------------- */
-
+    /* THEME SWITCHER */
     const themeButton = $(".theme-button");
-
     let savedTheme = null;
 
     try {
@@ -98,9 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         themeButton.setAttribute(
             "aria-label",
-            lightMode
-                ? "Switch to dark mode"
-                : "Switch to light mode"
+            lightMode ? "Switch to dark mode" : "Switch to light mode"
         );
     }
 
@@ -126,17 +106,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
             showToast(
                 "Theme Updated",
-                isLight
-                    ? "Light mode enabled."
-                    : "Dark mode enabled."
+                isLight ? "Light mode enabled." : "Dark mode enabled."
             );
         });
     }
 
-    /* ---------------------------------------------------------
-       SMOOTH SCROLLING
-    --------------------------------------------------------- */
-
+    /* SMOOTH SCROLLING */
     $$('a[href^="#"]').forEach(link => {
         link.addEventListener("click", event => {
             const targetId = link.getAttribute("href");
@@ -162,10 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    /* ---------------------------------------------------------
-       BACK TO TOP
-    --------------------------------------------------------- */
-
+    /* BACK TO TOP */
     const backToTop = $(".back-to-top");
 
     function updateBackToTop() {
@@ -194,23 +166,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    /* ---------------------------------------------------------
-       TOAST NOTIFICATIONS
-    --------------------------------------------------------- */
-
+    /* TOAST NOTIFICATIONS */
     const toast = $(".toast");
-
-    const toastTitle = toast
-        ? $("strong", toast)
-        : null;
-
-    const toastMessage = toast
-        ? $("p", toast)
-        : null;
-
-    const toastClose = toast
-        ? $("button", toast)
-        : null;
+    const toastTitle = toast ? $("strong", toast) : null;
+    const toastMessage = toast ? $("p", toast) : null;
+    const toastClose = toast ? $("button", toast) : null;
 
     let toastTimer;
 
@@ -224,19 +184,13 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        if (toastTitle) {
-            toastTitle.textContent = title;
-        }
-
-        if (toastMessage) {
-            toastMessage.textContent = message;
-        }
+        if (toastTitle) toastTitle.textContent = title;
+        if (toastMessage) toastMessage.textContent = message;
 
         toast.classList.remove("warning", "error");
 
-        if (type === "warning" || type === "error") {
-            toast.classList.add("warning");
-        }
+        if (type === "warning") toast.classList.add("warning");
+        if (type === "error") toast.classList.add("error");
 
         toast.classList.add("show");
 
@@ -253,10 +207,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    /* ---------------------------------------------------------
-       MODALS
-    --------------------------------------------------------- */
-
+    /* MODALS */
     const modals = $$(".modal");
 
     function openModal(selector) {
@@ -273,11 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         modal.classList.remove("active");
 
-        const anotherOpen = modals.some(item =>
-            item.classList.contains("active")
-        );
-
-        if (!anotherOpen) {
+        if (!modals.some(item => item.classList.contains("active"))) {
             document.body.classList.remove("modal-open");
         }
     }
@@ -300,10 +247,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    /* ---------------------------------------------------------
-       DEPOSIT / WITHDRAW BUTTONS
-    --------------------------------------------------------- */
-
+    /* DEPOSIT / WITHDRAW BUTTONS */
     const depositButton = $(".deposit-action");
     const withdrawButton = $(".withdraw-action");
 
@@ -319,10 +263,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    /* ---------------------------------------------------------
-       KENYAN PHONE NUMBER NORMALIZATION
-    --------------------------------------------------------- */
-
+    /* KENYAN PHONE NUMBER NORMALIZATION */
     function normalizeKenyanPhone(value) {
         let phone = String(value || "")
             .trim()
@@ -336,17 +277,12 @@ document.addEventListener("DOMContentLoaded", () => {
             phone = "254" + phone.slice(1);
         }
 
-        if (!/^254[17]\d{8}$/.test(phone)) {
-            return null;
-        }
-
-        return phone;
+        return /^254[17]\d{8}$/.test(phone)
+            ? phone
+            : null;
     }
 
-    /* ---------------------------------------------------------
-       DYNAMIC PACKAGE FEES + M-PESA STK PUSH
-    --------------------------------------------------------- */
-
+    /* PACKAGE FEES + M-PESA STK PUSH */
     const depositForm = $("#depositForm");
 
     if (depositForm) {
@@ -355,6 +291,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const depositPhone =
             $("#depositPhone", depositForm);
+
+        const depositAmountInput =
+            $("#depositAmount", depositForm);
 
         const depositSubmitButton =
             $('button[type="submit"]', depositForm);
@@ -383,10 +322,19 @@ document.addEventListener("DOMContentLoaded", () => {
         function updatePackageFee() {
             if (!depositPackage) return;
 
-            const packageName =
-                depositPackage.value.trim();
-
+            const packageName = depositPackage.value.trim();
             const amount = getPackagePrice(packageName);
+
+            /* Synchronize the visible amount field */
+            if (depositAmountInput) {
+                depositAmountInput.value =
+                    amount === null ? "" : String(amount);
+
+                depositAmountInput.dataset.rawValue =
+                    amount === null ? "" : String(amount);
+
+                depositAmountInput.readOnly = true;
+            }
 
             if (packageFeeDisplay) {
                 packageFeeDisplay.textContent =
@@ -428,6 +376,15 @@ document.addEventListener("DOMContentLoaded", () => {
             updatePackageFee();
         }
 
+        if (depositAmountInput) {
+            depositAmountInput.readOnly = true;
+
+            depositAmountInput.addEventListener(
+                "input",
+                updatePackageFee
+            );
+        }
+
         depositForm.addEventListener(
             "submit",
             async event => {
@@ -444,6 +401,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     return;
                 }
 
+                /* Read the selected package at submission time */
                 const packageName =
                     depositPackage.value.trim();
 
@@ -451,9 +409,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     getPackagePrice(packageName);
 
                 const phone =
-                    normalizeKenyanPhone(
-                        depositPhone.value
-                    );
+                    normalizeKenyanPhone(depositPhone.value);
 
                 if (amount === null) {
                     showToast(
@@ -464,6 +420,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     depositPackage.focus();
                     return;
+                }
+
+                if (depositAmountInput) {
+                    depositAmountInput.value = String(amount);
                 }
 
                 if (!phone) {
@@ -500,7 +460,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 try {
-                    /* SEND STK PUSH REQUEST */
+                    /* Backend calculates the amount from packageName */
+                    const requestBody = {
+                        phone: phone,
+                        packageName: packageName
+                    };
+
+                    console.log("Online Sphere STK request:", {
+                        endpoint: MPESA_STK_ENDPOINT,
+                        packageName: packageName,
+                        expectedAmount: amount,
+                        phone: phone
+                    });
 
                     const response = await fetch(
                         MPESA_STK_ENDPOINT,
@@ -510,22 +481,15 @@ document.addEventListener("DOMContentLoaded", () => {
                                 "Content-Type": "application/json",
                                 "Accept": "application/json"
                             },
-                            body: JSON.stringify({
-                                phone: phone,
-                                packageName: packageName
-                            })
+                            body: JSON.stringify(requestBody)
                         }
                     );
-
-                    /* READ THE RAW RESPONSE */
 
                     const responseText =
                         await response.text();
 
                     const contentType =
                         response.headers.get("content-type") || "";
-
-                    /* DIAGNOSTIC INFORMATION */
 
                     console.log(
                         "Online Sphere STK diagnostic:",
@@ -537,8 +501,6 @@ document.addEventListener("DOMContentLoaded", () => {
                                 responseText.slice(0, 1000)
                         }
                     );
-
-                    /* PARSE JSON SAFELY */
 
                     let result;
 
@@ -561,8 +523,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         );
                     }
 
-                    /* CHECK HTTP AND API ERRORS */
-
                     if (!response.ok || result.success === false) {
                         const serverMessage =
                             typeof result.message === "string"
@@ -577,16 +537,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         );
                     }
 
-                    /* CHECK THE APPLICATION RESPONSE */
-
                     if (result.success !== true) {
                         console.warn(
                             "STK response has no success:true flag.",
                             result
                         );
                     }
-
-                    /* REQUEST ACCEPTED — PAYMENT NOT YET CONFIRMED */
 
                     showToast(
                         "M-Pesa Request Sent",
@@ -616,12 +572,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         result
                     );
 
-                    /*
-                     * IMPORTANT:
-                     * An accepted STK request is not proof of payment.
-                     * Only the verified Daraja callback should confirm
-                     * payment and trigger any account activation.
-                     */
+                    /* Only a verified Daraja callback confirms payment. */
 
                 } catch (error) {
                     console.error(
@@ -654,7 +605,6 @@ document.addEventListener("DOMContentLoaded", () => {
                             "assertive"
                         );
                     }
-
                 } finally {
                     depositRequestInProgress = false;
 
@@ -667,11 +617,7 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     }
 
-    /* ---------------------------------------------------------
-       DEMO WITHDRAW FORM
-       Actual withdrawals require a secure backend.
-    --------------------------------------------------------- */
-
+    /* DEMO WITHDRAW FORM */
     const withdrawForm = $("#withdrawForm");
 
     if (withdrawForm) {
@@ -689,10 +635,7 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     }
 
-    /* ---------------------------------------------------------
-       SECURITY SCREEN
-    --------------------------------------------------------- */
-
+    /* SECURITY SCREEN */
     const securityScreen = $(".security-screen");
     const securityForm = $("#securityForm");
 
@@ -742,10 +685,7 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     }
 
-    /* ---------------------------------------------------------
-       PROFILE BUTTON
-    --------------------------------------------------------- */
-
+    /* PROFILE BUTTON */
     const profileButton = $(".profile-button");
 
     if (profileButton) {
@@ -757,10 +697,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    /* ---------------------------------------------------------
-       FEATURE LINKS
-    --------------------------------------------------------- */
-
+    /* FEATURE LINKS */
     $$(".feature-link").forEach(link => {
         link.addEventListener("click", event => {
             const href = link.getAttribute("href");
@@ -776,10 +713,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    /* ---------------------------------------------------------
-       ACTION BUTTONS
-    --------------------------------------------------------- */
-
+    /* ACTION BUTTONS */
     $$(".primary-btn, .secondary-btn, .primary-small, .outline-button")
         .forEach(button => {
             button.addEventListener("click", event => {
@@ -825,16 +759,12 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
 
-    /* ---------------------------------------------------------
-       ACTIVE NAVIGATION
-    --------------------------------------------------------- */
-
+    /* ACTIVE NAVIGATION */
     const sections = $$("section[id]");
     const navLinks = $$('nav a[href^="#"]');
 
     function updateActiveNavigation() {
         const scrollPosition = window.scrollY + 180;
-
         let currentSection = "";
 
         sections.forEach(section => {
@@ -855,8 +785,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (
                 currentSection &&
-                link.getAttribute("href") ===
-                    `#${currentSection}`
+                link.getAttribute("href") === `#${currentSection}`
             ) {
                 link.classList.add("active");
             }
@@ -871,10 +800,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     updateActiveNavigation();
 
-    /* ---------------------------------------------------------
-       NUMBER COUNTER ANIMATION
-    --------------------------------------------------------- */
-
+    /* NUMBER COUNTER ANIMATION */
     function animateCounter(element) {
         const target = Number(
             element.dataset.target ||
@@ -892,10 +818,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 1
             );
 
-            const value = Math.floor(progress * target);
-
             element.textContent =
-                value.toLocaleString("en-KE");
+                Math.floor(progress * target).toLocaleString("en-KE");
 
             if (progress < 1) {
                 requestAnimationFrame(update);
@@ -908,10 +832,7 @@ document.addEventListener("DOMContentLoaded", () => {
         requestAnimationFrame(update);
     }
 
-    /* ---------------------------------------------------------
-       INTERSECTION OBSERVER
-    --------------------------------------------------------- */
-
+    /* INTERSECTION OBSERVER */
     if ("IntersectionObserver" in window) {
         const observer = new IntersectionObserver(
             entries => {
@@ -929,34 +850,22 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 });
             },
-            {
-                threshold: 0.15
-            }
+            { threshold: 0.15 }
         );
 
         $$(".feature-card, .quick-stat, .security-item, .counter")
-            .forEach(element => {
-                observer.observe(element);
-            });
+            .forEach(element => observer.observe(element));
     }
 
-    /* ---------------------------------------------------------
-       AMOUNT INPUT FORMATTING
-    --------------------------------------------------------- */
-
+    /* AMOUNT INPUT FORMATTING */
     $$(".amount-input").forEach(input => {
         input.addEventListener("input", () => {
-            const value =
+            input.dataset.rawValue =
                 input.value.replace(/[^0-9]/g, "");
-
-            input.dataset.rawValue = value;
         });
     });
 
-    /* ---------------------------------------------------------
-       PREVENT DOUBLE SUBMISSIONS
-    --------------------------------------------------------- */
-
+    /* PREVENT DOUBLE SUBMISSIONS */
     $$("form").forEach(form => {
         if (form.id === "depositForm") return;
 
@@ -976,64 +885,38 @@ document.addEventListener("DOMContentLoaded", () => {
                 submitButton.disabled = false;
 
                 submitButton.textContent =
-                    submitButton.dataset.originalText ||
-                    "Submit";
+                    submitButton.dataset.originalText || "Submit";
             }, 1500);
         });
     });
 
-    /* ---------------------------------------------------------
-       CURRENT YEAR
-    --------------------------------------------------------- */
-
+    /* CURRENT YEAR */
     $$(".current-year").forEach(element => {
-        element.textContent =
-            new Date().getFullYear();
+        element.textContent = new Date().getFullYear();
     });
 
-    /* ---------------------------------------------------------
-       ONLINE STATUS
-    --------------------------------------------------------- */
-
+    /* ONLINE STATUS */
     function updateOnlineStatus() {
         const status = $(".account-status");
-
         if (!status) return;
 
         const statusText =
             status.querySelector("span:last-child");
 
         if (navigator.onLine) {
-            if (statusText) {
-                statusText.textContent = "Online";
-            }
-
+            if (statusText) statusText.textContent = "Online";
             status.classList.remove("offline");
         } else {
-            if (statusText) {
-                statusText.textContent = "Offline";
-            }
-
+            if (statusText) statusText.textContent = "Offline";
             status.classList.add("offline");
         }
     }
 
-    window.addEventListener(
-        "online",
-        updateOnlineStatus
-    );
-
-    window.addEventListener(
-        "offline",
-        updateOnlineStatus
-    );
-
+    window.addEventListener("online", updateOnlineStatus);
+    window.addEventListener("offline", updateOnlineStatus);
     updateOnlineStatus();
 
-    /* ---------------------------------------------------------
-       INITIAL READY MESSAGE
-    --------------------------------------------------------- */
-
+    /* INITIAL READY MESSAGE */
     setTimeout(() => {
         let welcomeShown = false;
 
@@ -1067,5 +950,4 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     }, 1800);
-
 });
