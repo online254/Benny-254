@@ -1,592 +1,647 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#07111f">
-    <meta name="description" content="Online Sphere — discover digital opportunities and manage your digital account.">
-    <title>Online Sphere | Digital Platform</title>
-    <link rel="stylesheet" href="style.css?v=20261017">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#07111f">
+<title>Online Sphere | Discover. Learn. Work.</title>
+<meta name="description" content="Discover digital opportunities, develop useful skills and explore online work with Online Sphere.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --blue: #2563eb;
+  --purple: #7c3aed;
+  --dark: #07111f;
+  --muted: #64748b;
+  --bg: #f5f8fc;
+  --white: #fff;
+  --border: #e5eaf2;
+  --radius: 20px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: Inter, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--dark);
+  line-height: 1.6;
+}
+button, input, select { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; }
+.container { width: min(1160px, 92%); margin: auto; }
+header {
+  position: sticky; top: 0; z-index: 20;
+  background: rgba(255,255,255,.94);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.nav {
+  min-height: 76px; display: flex; align-items: center;
+  justify-content: space-between; gap: 20px;
+}
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 19px; }
+.logo {
+  width: 42px; height: 42px; border-radius: 14px;
+  background: linear-gradient(135deg,var(--blue),var(--purple));
+  color: white; display: grid; place-items: center; font-size: 22px;
+  box-shadow: 0 7px 20px #2563eb35;
+}
+.brand small { display: block; color: var(--muted); font-size: 10px; letter-spacing: 1.8px; }
+.navlinks { display: flex; align-items: center; gap: 24px; font-size: 13px; font-weight: 600; }
+.navlinks a:hover { color: var(--blue); }
+.btn {
+  border: 0; border-radius: 12px; padding: 12px 18px;
+  font-weight: 700; display: inline-flex; align-items: center;
+  justify-content: center; gap: 8px; transition: .2s;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn-primary { color: white; background: linear-gradient(135deg,var(--blue),var(--purple)); box-shadow: 0 8px 20px #2563eb2b; }
+.btn-light { background: white; border: 1px solid var(--border); color: var(--dark); }
+.menu-button { display: none; background: white; border: 1px solid var(--border); border-radius: 10px; padding: 9px 12px; }
+.mobile-menu { display: none; padding: 12px 4% 20px; border-top: 1px solid var(--border); }
+.mobile-menu.show { display: grid; gap: 14px; }
+.mobile-menu a { padding: 5px; font-weight: 600; }
+
+.hero {
+  padding: 76px 0 70px; color: white; overflow: hidden;
+  background: radial-gradient(ellipse at 12% 5%,#1e3a8a 0,transparent 44%),
+  linear-gradient(120deg,#07111f,#101c37 62%,#24144b);
+}
+.hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+.eyebrow {
+  display: inline-flex; gap: 8px; align-items: center;
+  padding: 7px 12px; border-radius: 99px;
+  background: #ffffff12; border: 1px solid #ffffff25;
+  color: #c7d2fe; font-size: 12px; font-weight: 700;
+}
+.hero h1 { font-size: clamp(40px,5vw,66px); line-height: 1.07; letter-spacing: -2.8px; margin: 23px 0; }
+.gradient-text { background: linear-gradient(90deg,#93c5fd,#c4b5fd); -webkit-background-clip: text; color: transparent; }
+.hero p { color: #cbd5e1; max-width: 500px; font-size: 16px; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 28px 0; }
+.hero .btn-light { color: white; background: #ffffff12; border-color: #ffffff30; }
+.hero-note { color: #94a3b8; font-size: 12px; }
+.hero-image-wrap { position: relative; }
+.hero-image {
+  width: 100%; height: 390px; object-fit: cover;
+  border-radius: 28px; border: 1px solid #ffffff30;
+  box-shadow: 0 30px 80px #0005;
+}
+.image-badge {
+  position: absolute; left: -18px; bottom: 25px;
+  padding: 15px 18px; border-radius: 16px;
+  background: white; color: var(--dark); box-shadow: 0 15px 40px #0003;
+  font-size: 12px; font-weight: 700;
+}
+.image-badge span { display: block; color: var(--muted); font-weight: 400; }
+
+section { padding: 76px 0; }
+.section-head { text-align: center; max-width: 650px; margin: 0 auto 38px; }
+.kicker { color: var(--blue); font-size: 12px; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; }
+.section-head h2 { font-size: clamp(28px,4vw,40px); line-height: 1.2; letter-spacing: -1.2px; margin: 10px 0; }
+.section-head p { color: var(--muted); margin: 0; }
+.search-box {
+  max-width: 780px; margin: 0 auto 30px; display: flex; gap: 10px;
+  padding: 10px; background: white; border: 1px solid var(--border);
+  border-radius: 16px; box-shadow: 0 10px 35px #0f172a08;
+}
+.search-box input { min-width: 0; flex: 1; border: 0; outline: none; padding: 8px 12px; }
+.grid { display: grid; gap: 22px; }
+.opportunity-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+.card {
+  background: white; border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+  transition: transform .2s,box-shadow .2s;
+}
+.card:hover { transform: translateY(-5px); box-shadow: 0 18px 38px #0f172a0d; }
+.card img { width: 100%; height: 185px; object-fit: cover; display: block; }
+.card-content { padding: 22px; }
+.tag { display: inline-block; padding: 5px 9px; border-radius: 8px; background: #eff6ff; color: #1d4ed8; font-size: 11px; font-weight: 800; }
+.card h3 { margin: 12px 0 7px; font-size: 19px; }
+.card p { color: var(--muted); font-size: 13px; margin: 0 0 18px; }
+.text-link { color: var(--blue); font-size: 13px; font-weight: 800; background: none; border: 0; padding: 0; }
+
+.steps-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+.step { padding: 26px; background: white; border: 1px solid var(--border); border-radius: var(--radius); }
+.step-icon { width: 48px; height: 48px; border-radius: 15px; display: grid; place-items: center; font-size: 22px; background: #eff6ff; }
+.step h3 { margin-bottom: 7px; }
+.step p { color: var(--muted); font-size: 13px; }
+
+.pricing-grid { grid-template-columns: repeat(3,minmax(0,1fr)); align-items: stretch; }
+.price-card { padding: 28px; background: white; border: 1px solid var(--border); border-radius: 22px; }
+.price-card.featured { border: 2px solid var(--blue); box-shadow: 0 15px 40px #2563eb15; }
+.price-card h3 { margin: 5px 0; }
+.price { font-size: 32px; font-weight: 800; letter-spacing: -1px; margin: 14px 0; }
+.price small { font-size: 12px; color: var(--muted); font-weight: 500; }
+.price-card p,.price-card li { color: var(--muted); font-size: 13px; }
+.price-card ul { padding-left: 18px; min-height: 82px; }
+.price-card .btn { width: 100%; margin-top: 10px; }
+
+.cta {
+  padding: 44px; color: white; border-radius: 26px;
+  background: linear-gradient(120deg,#1d4ed8,#6d28d9);
+  display: flex; align-items: center; justify-content: space-between; gap: 25px;
+}
+.cta h2 { margin: 0 0 8px; font-size: 30px; }
+.cta p { margin: 0; color: #e0e7ff; font-size: 14px; }
+
+footer { background: #07111f; color: #cbd5e1; padding: 48px 0 24px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 35px; }
+footer p,footer a { color: #94a3b8; font-size: 13px; }
+footer a { display: block; margin: 8px 0; }
+.footer-bottom { border-top: 1px solid #ffffff18; margin-top: 32px; padding-top: 18px; font-size: 12px; color: #64748b; }
+
+.modal {
+  display: none; position: fixed; inset: 0; z-index: 50;
+  background: #020617b8; padding: 18px; overflow-y: auto;
+  align-items: center; justify-content: center;
+}
+.modal.show { display: flex; }
+.modal-box { width: min(460px,100%); background: white; padding: 27px; border-radius: 22px; position: relative; }
+.modal-box h2 { margin-top: 0; }
+.close { position: absolute; top: 12px; right: 14px; border: 0; background: #f1f5f9; border-radius: 9px; padding: 6px 11px; font-size: 20px; }
+.field { display: grid; gap: 6px; margin: 13px 0; }
+.field label { font-size: 12px; font-weight: 700; }
+.field input,.field select { width: 100%; padding: 12px; border: 1px solid #dbe3ef; border-radius: 11px; outline-color: var(--blue); background: white; }
+.modal-box .btn { width: 100%; margin-top: 10px; }
+.form-switch { color: var(--blue); font-weight: 700; background: none; border: 0; padding: 8px 0; }
+.payment-status { display: none; padding: 13px; border-radius: 10px; margin-top: 15px; font-size: 12px; overflow-wrap: anywhere; }
+.payment-status.show { display: block; }
+.payment-status.waiting { background: #eff6ff; color: #1d4ed8; }
+.payment-status.error { background: #fef2f2; color: #b91c1c; }
+.payment-status.success { background: #f0fdf4; color: #166534; }
+.toast { position: fixed; bottom: 20px; left: 50%; transform: translate(-50%,20px); opacity: 0; pointer-events: none; z-index: 80; background: #07111f; color: white; padding: 13px 18px; border-radius: 12px; width: max-content; max-width: 90%; font-size: 13px; transition: .2s; }
+.toast.show { opacity: 1; transform: translate(-50%,0); }
+
+@media(max-width:850px) {
+  .navlinks { display: none; }
+  .menu-button { display: block; }
+  .hero-grid { grid-template-columns: 1fr; gap: 35px; }
+  .hero { padding: 55px 0; }
+  .hero-image { height: 310px; }
+  .image-badge { left: 10px; }
+  .opportunity-grid,.steps-grid,.pricing-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media(max-width:560px) {
+  .container { width: 91%; }
+  .nav { min-height: 68px; }
+  .brand { font-size: 16px; }
+  .logo { width: 38px; height: 38px; }
+  .hero h1 { letter-spacing: -1.8px; }
+  section { padding: 56px 0; }
+  .opportunity-grid,.steps-grid,.pricing-grid { grid-template-columns: 1fr; }
+  .search-box { flex-wrap: wrap; }
+  .search-box input { flex-basis: 100%; }
+  .search-box .btn { width: 100%; }
+  .card img { height: 205px; }
+  .cta { padding: 28px 22px; align-items: flex-start; flex-direction: column; }
+  .footer-grid { grid-template-columns: 1fr; gap: 20px; }
+  .hero-actions .btn { flex: 1; }
+}
+</style>
 </head>
+
 <body>
-
-<!-- PAGE LOADER -->
-<div class="page-loader">
-    <div class="loader-logo">OS</div>
-    <div class="loader-spinner"></div>
-    <p>Loading Online Sphere...</p>
-</div>
-
-<!-- SECURITY SCREEN -->
-<div class="security-screen" id="securityScreen">
-    <div class="security-background"></div>
-    <div class="security-box">
-        <div class="security-logo">OS</div>
-        <div class="security-lock">🔐</div>
-        <span class="security-label">SECURE ACCESS</span>
-        <h2>Welcome to Online Sphere</h2>
-        <p>Your digital platform is protected by a secure access gateway.</p>
-        <form id="securityForm">
-            <button type="submit" class="security-button">
-                Enter Secure Platform
-            </button>
-        </form>
-        <div class="security-info">
-            🛡️ Secure interface &nbsp; • &nbsp; 🔒 Protected session
-        </div>
-    </div>
-</div>
-
-<!-- TOP NAVIGATION -->
-<header class="topbar">
-    <div class="brand">
-        <div class="brand-logo">OS</div>
-        <div class="brand-text">
-            <strong>ONLINE</strong>
-            <span>SPHERE</span>
-        </div>
-    </div>
-
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#features">Features</a>
-        <a href="#account">Account</a>
-        <a href="#activity">Activity</a>
-        <a href="#security">Security</a>
-        <a href="#support">Support</a>
+<header>
+  <div class="container nav">
+    <a class="brand" href="#home">
+      <span class="logo">◎</span>
+      <span>ONLINE SPHERE<small>DISCOVER. LEARN. WORK.</small></span>
+    </a>
+    <nav class="navlinks" aria-label="Main navigation">
+      <a href="#home">Home</a><a href="#opportunities">Opportunities</a>
+      <a href="#how">How it works</a><a href="#membership">Membership</a>
+      <a href="#about">About</a>
     </nav>
-
-    <div class="nav-actions">
-        <button class="theme-button" type="button" aria-label="Switch theme">🌙</button>
-        <button class="profile-button" type="button">
-            <span class="profile-avatar">👤</span>
-        </button>
-        <button class="menu-btn" type="button" aria-label="Open menu">☰</button>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="btn btn-light" onclick="openModal('login')">Log in</button>
+      <button class="btn btn-primary" onclick="openModal('register')">Join</button>
+      <button class="menu-button" onclick="toggleMenu()" aria-expanded="false" aria-label="Toggle navigation">☰</button>
     </div>
+  </div>
+  <nav class="mobile-menu" id="mobileMenu">
+    <a href="#home" onclick="toggleMenu()">Home</a>
+    <a href="#opportunities" onclick="toggleMenu()">Opportunities</a>
+    <a href="#how" onclick="toggleMenu()">How it works</a>
+    <a href="#membership" onclick="toggleMenu()">Membership</a>
+    <a href="#about" onclick="toggleMenu()">About</a>
+  </nav>
 </header>
 
 <main>
-
-<!-- HERO -->
 <section class="hero" id="home">
-    <div class="hero-background"></div>
-
-    <div class="hero-content">
-        <span class="hero-badge">
-            <span class="pulse-dot"></span>
-            DIGITAL PLATFORM
-        </span>
-
-        <h1>Your Digital World, <span>Connected.</span></h1>
-
-        <p class="hero-description">
-            Welcome to Online Sphere — a modern, secure and intelligent
-            digital platform designed to bring your essential services
-            together in one place.
-        </p>
-
-        <div class="hero-buttons">
-            <a href="#account" class="primary-btn">Open Dashboard →</a>
-            <a href="#features" class="secondary-btn">Explore Features</a>
-        </div>
-
-        <div class="hero-trust">
-            <span>✓ Secure</span>
-            <span>✓ Fast</span>
-            <span>✓ Modern</span>
-        </div>
+  <div class="container hero-grid">
+    <div>
+      <span class="eyebrow">✦ YOUR DIGITAL FUTURE STARTS HERE</span>
+      <h1>Discover. Learn.<br><span class="gradient-text">Work globally.</span></h1>
+      <p>Explore digital opportunities, build useful skills and discover ways to participate in the evolving digital economy.</p>
+      <div class="hero-actions">
+        <a href="#opportunities" class="btn btn-primary">Explore opportunities ↗</a>
+        <a href="#how" class="btn btn-light">How it works</a>
+      </div>
+      <div class="hero-note">Skills • Digital services • Learning • Global opportunities</div>
     </div>
-
-    <div class="hero-visual">
-        <div class="digital-card">
-            <div class="card-glow"></div>
-            <div class="digital-card-top">
-                <div class="mini-brand">ONLINE SPHERE</div>
-                <span>●●●</span>
-            </div>
-            <div class="card-balance-label">Available Balance</div>
-            <div class="card-balance">KSh 0.00</div>
-            <div class="balance-line"></div>
-            <div class="digital-card-bottom">
-                <span>DIGITAL ACCOUNT</span>
-                <span>OS</span>
-            </div>
-        </div>
-
-        <div class="floating-notification">
-            <div class="notification-icon">✓</div>
-            <div>
-                <strong>Account Ready</strong>
-                <small>Your platform is active</small>
-            </div>
-        </div>
-
-        <div class="floating-stat stat-one">
-            <div class="floating-stat-icon">⚡</div>
-            <div>
-                <strong>Fast</strong>
-                <small>Experience</small>
-            </div>
-        </div>
-
-        <div class="floating-stat stat-two">
-            <div class="floating-stat-icon">🛡️</div>
-            <div>
-                <strong>Secure</strong>
-                <small>Protection</small>
-            </div>
-        </div>
+    <div class="hero-image-wrap">
+      <img class="hero-image" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=85" alt="Modern computer workspace for digital work" fetchpriority="high">
+      <div class="image-badge">🌐 A world of possibilities<span>Learn skills. Explore opportunities.</span></div>
     </div>
+  </div>
 </section>
 
-<!-- QUICK STATS -->
-<section class="quick-stats">
-    <div class="quick-stat">
-        <div class="quick-icon">⚡</div>
-        <div>
-            <strong>Fast</strong>
-            <span>Digital experience</span>
-        </div>
+<section id="opportunities">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Explore your next step</span>
+      <h2>Find your digital opportunity</h2>
+      <p>Explore areas of digital work and skills. Availability and requirements depend on each opportunity.</p>
     </div>
-
-    <div class="quick-stat">
-        <div class="quick-icon">🔐</div>
-        <div>
-            <strong>Protected</strong>
-            <span>Secure interface</span>
-        </div>
+    <div class="search-box">
+      <input id="opportunitySearch" type="search" placeholder="Search skills or opportunities..." aria-label="Search opportunities">
+      <button class="btn btn-primary" onclick="filterOpportunities()">Search opportunities</button>
     </div>
-
-    <div class="quick-stat">
-        <div class="quick-icon">📱</div>
-        <div>
-            <strong>Mobile Ready</strong>
-            <span>Designed for phones</span>
-        </div>
+    <div class="grid opportunity-grid" id="opportunityGrid">
+      <article class="card opportunity-card" data-search="writing transcription audio typing">
+        <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=800&q=80" alt="Notebook and writing workspace" loading="lazy">
+        <div class="card-content"><span class="tag">Writing & language</span><h3>Writing & Transcription</h3><p>Explore writing, proofreading, audio transcription and language-related work.</p><button class="text-link" onclick="viewOpportunity('Transcription')">Explore this area →</button></div>
+      </article>
+      <article class="card opportunity-card" data-search="graphic design creative branding">
+        <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=800&q=80" alt="Creative graphic design workspace" loading="lazy">
+        <div class="card-content"><span class="tag">Creative skills</span><h3>Graphic Design</h3><p>Learn about visual design, branding, digital artwork and creative services.</p><button class="text-link" onclick="viewOpportunity('Graphic Design')">Explore this area →</button></div>
+      </article>
+      <article class="card opportunity-card" data-search="technology coding web development">
+        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80" alt="Team collaborating on technology" loading="lazy">
+        <div class="card-content"><span class="tag">Technology</span><h3>Technology & Web</h3><p>Explore website creation, coding, technical support and digital tools.</p><button class="text-link" onclick="viewOpportunity('Technology')">Explore this area →</button></div>
+      </article>
+      <article class="card opportunity-card" data-search="virtual assistance data entry administration">
+        <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=800&q=80" alt="Professional office workspace" loading="lazy">
+        <div class="card-content"><span class="tag">Remote support</span><h3>Virtual Assistance</h3><p>Discover administrative support, data organization and online research.</p><button class="text-link" onclick="viewOpportunity('Virtual Assistance')">Explore this area →</button></div>
+      </article>
+      <article class="card opportunity-card" data-search="video editing media content creation">
+        <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=800&q=80" alt="Video production equipment" loading="lazy">
+        <div class="card-content"><span class="tag">Digital media</span><h3>Video & Content</h3><p>Explore video editing, social media content and multimedia production.</p><button class="text-link" onclick="viewOpportunity('Video Editing')">Explore this area →</button></div>
+      </article>
+      <article class="card opportunity-card" data-search="freelancing research translation academic">
+        <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=800&q=80" alt="Professionals collaborating on a project" loading="lazy">
+        <div class="card-content"><span class="tag">Independent work</span><h3>Freelancing & Research</h3><p>Explore client projects, research support and independent digital services.</p><button class="text-link" onclick="viewOpportunity('Freelancing')">Explore this area →</button></div>
+      </article>
     </div>
-
-    <div class="quick-stat">
-        <div class="quick-icon">🌐</div>
-        <div>
-            <strong>Connected</strong>
-            <span>One digital space</span>
-        </div>
-    </div>
+    <p id="emptySearch" style="display:none;text-align:center;color:#64748b">No matching categories found. Try another search.</p>
+  </div>
 </section>
 
-<!-- FEATURES -->
-<section class="features-section" id="features">
-    <div class="section-heading">
-        <span class="section-label">PLATFORM FEATURES</span>
-        <h2>Everything in one sphere.</h2>
-        <p>Explore the core features of the Online Sphere platform.</p>
+<section id="how" style="background:#fff">
+  <div class="container">
+    <div class="section-head"><span class="kicker">Simple steps</span><h2>Your journey starts here</h2><p>Build your profile, explore available opportunities and check requirements before participating.</p></div>
+    <div class="grid steps-grid">
+      <article class="step"><div class="step-icon">👤</div><h3>01. Create a profile</h3><p>Set up your profile and provide accurate contact details.</p></article>
+      <article class="step"><div class="step-icon">🔎</div><h3>02. Explore & learn</h3><p>Browse digital fields, learn relevant skills and review opportunity requirements.</p></article>
+      <article class="step"><div class="step-icon">💻</div><h3>03. Participate</h3><p>Apply for eligible work and follow the relevant client's or platform's terms.</p></article>
     </div>
-
-    <div class="features-grid">
-        <article class="feature-card">
-            <span class="feature-number">01</span>
-            <div class="feature-icon">💼</div>
-            <h3>Digital Account</h3>
-            <p>Manage your digital account from one convenient dashboard.</p>
-            <a href="#account" class="feature-link">View Account →</a>
-        </article>
-
-        <article class="feature-card">
-            <span class="feature-number">02</span>
-            <div class="feature-icon">💳</div>
-            <h3>Payments</h3>
-            <p>Use the M-Pesa payment form to initiate a secure payment request.</p>
-            <a href="#payment" class="feature-link">Explore Payments →</a>
-        </article>
-
-        <article class="feature-card">
-            <span class="feature-number">03</span>
-            <div class="feature-icon">📊</div>
-            <h3>Activity</h3>
-            <p>Keep track of account activity and important events.</p>
-            <a href="#activity" class="feature-link">View Activity →</a>
-        </article>
-
-        <article class="feature-card">
-            <span class="feature-number">04</span>
-            <div class="feature-icon">🛡️</div>
-            <h3>Security Centre</h3>
-            <p>Security-focused interface designed for safer digital interactions.</p>
-            <a href="#security" class="feature-link">Security Centre →</a>
-        </article>
-    </div>
+  </div>
 </section>
 
-<!-- ACCOUNT -->
-<section class="account-section" id="account">
-    <div class="section-heading">
-        <span class="section-label">ACCOUNT</span>
-        <h2>Your digital dashboard.</h2>
-        <p>A central place to manage your Online Sphere account.</p>
+<section id="membership">
+  <div class="container">
+    <div class="section-head"><span class="kicker">Membership options</span><h2>Choose your membership</h2><p>Review the package price and terms before making a payment. Membership does not guarantee work or earnings.</p></div>
+    <div class="grid pricing-grid">
+      <article class="price-card">
+        <span class="tag">BRONZE</span><h3>Bronze Membership</h3><div class="price">KSh 1,000</div>
+        <p>A starting membership option.</p><ul><li>Member profile</li><li>Explore digital categories</li><li>Access subject to platform terms</li></ul>
+        <button class="btn btn-primary" onclick="choosePackage('Bronze')">Choose Bronze</button>
+      </article>
+      <article class="price-card featured">
+        <span class="tag">SILVER</span><h3>Silver Membership</h3><div class="price">KSh 1,750</div>
+        <p>An alternative membership option.</p><ul><li>Member profile</li><li>Explore digital categories</li><li>Access subject to platform terms</li></ul>
+        <button class="btn btn-primary" onclick="choosePackage('Silver')">Choose Silver</button>
+      </article>
+      <article class="price-card">
+        <span class="tag">GOLD</span><h3>Gold Membership</h3><div class="price">KSh 2,500</div>
+        <p>A higher-tier membership option.</p><ul><li>Member profile</li><li>Explore digital categories</li><li>Access subject to platform terms</li></ul>
+        <button class="btn btn-primary" onclick="choosePackage('Gold')">Choose Gold</button>
+      </article>
     </div>
-
-    <div class="account-status">
-        <span class="status-dot"></span>
-        <span>Online</span>
-    </div>
-
-    <div class="account-layout">
-        <div class="main-balance-card">
-            <div class="main-card-header">
-                <div>
-                    <span class="card-balance-label">CURRENT BALANCE</span>
-                    <h3>KSh 0.00</h3>
-                </div>
-                <div class="main-balance-icon">KSh</div>
-            </div>
-
-            <div class="main-card-progress">
-                <div class="progress-label">
-                    <span>Account activity</span>
-                    <span>0%</span>
-                </div>
-                <div class="progress-track">
-                    <div class="progress-fill" style="width: 0%"></div>
-                </div>
-            </div>
-
-            <div class="main-card-footer">
-                <span>Online Sphere Account</span>
-                <span>Active</span>
-            </div>
-        </div>
-
-        <div class="account-actions">
-            <button class="large-action deposit-action" type="button">
-                <span class="large-action-icon">+</span>
-                <span>
-                    <strong>Deposit</strong>
-                    <small>Add funds</small>
-                </span>
-            </button>
-
-            <button class="large-action withdraw-action" type="button">
-                <span class="large-action-icon">↑</span>
-                <span>
-                    <strong>Withdraw</strong>
-                    <small>Request withdrawal</small>
-                </span>
-            </button>
-        </div>
-    </div>
+    <p style="text-align:center;font-size:12px;color:#64748b;margin-top:20px">Confirm exactly what each membership includes, along with fees, cancellation terms and refund policies, before paying.</p>
+  </div>
 </section>
 
-<!-- ACTIVITY -->
-<section class="activity-section" id="activity">
-    <div class="section-heading">
-        <span class="section-label">ACTIVITY</span>
-        <h2>Recent activity.</h2>
-        <p>Your latest account events will appear here.</p>
+<section id="about">
+  <div class="container">
+    <div class="cta">
+      <div><h2>Ready to explore what's possible?</h2><p>Start by creating a profile and discovering digital skills and opportunities.</p></div>
+      <button class="btn btn-light" onclick="openModal('register')">Create your profile ↗</button>
     </div>
-
-    <div class="activity-container">
-        <div class="activity-header">
-            <strong>Activity History</strong>
-            <button class="outline-button" type="button">Refresh</button>
-        </div>
-
-        <div class="empty-activity">
-            <div class="empty-icon">📭</div>
-            <h3>No activity yet</h3>
-            <p>Your account activity will appear here when available.</p>
-            <button class="primary-small" type="button">Explore Platform</button>
-        </div>
-    </div>
+  </div>
 </section>
-
-<!-- PAYMENT -->
-<section class="payment-section" id="payment">
-    <div class="payment-card">
-        <div class="payment-content">
-            <span class="section-label">PAYMENTS</span>
-            <h2>Simple digital payments.</h2>
-            <p>
-                Initiate M-Pesa payment requests through the Online Sphere
-                payment interface. A payment is complete only after the
-                backend verifies the payment result.
-            </p>
-
-            <div class="payment-features">
-                <span>✓ Mobile friendly</span>
-                <span>✓ Backend payment requests</span>
-                <span>✓ Payment verification required</span>
-            </div>
-        </div>
-
-        <div class="payment-visual">
-            <div class="phone-card">
-                <div class="phone-top">
-                    <span>ONLINE SPHERE</span>
-                    <span>•••</span>
-                </div>
-                <div class="phone-icon">💳</div>
-                <h3>Payment Centre</h3>
-                <div class="phone-line"></div>
-                <div class="phone-line"></div>
-                <div class="phone-line short"></div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- SECURITY -->
-<section class="security-section" id="security">
-    <div class="security-content">
-        <div class="security-big-icon">🛡️</div>
-        <div>
-            <span class="section-label">SECURITY CENTRE</span>
-            <h2>Security comes first.</h2>
-            <p>
-                Online Sphere uses a security-focused interface designed
-                to provide a safer digital experience.
-            </p>
-        </div>
-    </div>
-
-    <div class="security-items">
-        <div class="security-item">
-            <strong>🔐 Protected Access</strong>
-            <span>Secure gateway interface</span>
-        </div>
-        <div class="security-item">
-            <strong>📱 Session Ready</strong>
-            <span>Mobile-first experience</span>
-        </div>
-        <div class="security-item">
-            <strong>🛡️ Privacy Focus</strong>
-            <span>Security-conscious design</span>
-        </div>
-    </div>
-</section>
-
-<!-- SUPPORT -->
-<section class="support-section" id="support">
-    <div class="support-box">
-        <div class="support-icon">💬</div>
-        <div class="support-content">
-            <span class="section-label">SUPPORT</span>
-            <h2>Need assistance?</h2>
-            <p>Our support centre is ready to become your central help point.</p>
-        </div>
-        <button class="support-button" type="button">Contact Support →</button>
-    </div>
-</section>
-
 </main>
 
-<!-- FOOTER -->
 <footer>
-    <div class="footer-main">
-        <div class="footer-brand">
-            <div class="brand">
-                <div class="brand-logo">OS</div>
-                <div class="brand-text">
-                    <strong>ONLINE</strong>
-                    <span>SPHERE</span>
-                </div>
-            </div>
-            <p>A modern digital platform built for a connected world.</p>
-        </div>
-
-        <div class="footer-links">
-            <div>
-                <strong>Platform</strong>
-                <a href="#features">Features</a>
-                <a href="#account">Account</a>
-                <a href="#activity">Activity</a>
-            </div>
-
-            <div>
-                <strong>Company</strong>
-                <a href="#security">Security</a>
-                <a href="#support">Support</a>
-                <a href="#home">Home</a>
-            </div>
-        </div>
+  <div class="container">
+    <div class="footer-grid">
+      <div><a class="brand" href="#home" style="color:white"><span class="logo">◎</span><span>ONLINE SPHERE<small>DISCOVER. LEARN. WORK.</small></span></a><p>Your gateway to digital opportunities around the world.</p></div>
+      <div><strong>Explore</strong><a href="#opportunities">Opportunities</a><a href="#how">How it works</a><a href="#membership">Membership</a></div>
+      <div><strong>Account</strong><a href="#" onclick="openModal('login');return false">Log in</a><a href="#" onclick="openModal('register');return false">Create profile</a><a href="mailto:support@onlinesphere.com">Contact</a></div>
     </div>
-
-    <div class="footer-bottom">
-        <span>
-            © <span class="current-year">2026</span>
-            Online Sphere. All rights reserved.
-        </span>
-        <span>Built for the digital future.</span>
-    </div>
+    <div class="footer-bottom">© <span id="year"></span> Online Sphere. All rights reserved. Opportunities and earnings are not guaranteed.</div>
+  </div>
 </footer>
 
-<!-- DEPOSIT MODAL -->
-<div class="modal" id="depositModal">
-    <div class="modal-overlay"></div>
-
-    <div class="modal-box">
-        <button class="modal-close" type="button" aria-label="Close">×</button>
-
-        <div class="modal-header">
-            <div class="modal-icon deposit-icon">+</div>
-            <div>
-                <h3>Activate Membership</h3>
-                <p>Complete your activation using M-Pesa.</p>
-            </div>
-        </div>
-
-        <p class="modal-description">
-            Select your membership package. The amount updates automatically
-            when you change packages. An STK Push is a payment request, not
-            proof that payment has been completed.
-        </p>
-
-        <form id="depositForm">
-            <div class="form-group">
-                <label for="depositPackage">Membership Package</label>
-                <select id="depositPackage" name="packageName" required>
-                    <option value="">Choose a package</option>
-                    <option value="Bronze">Bronze — KSh 1,000</option>
-                    <option value="Silver">Silver — KSh 1,750</option>
-                    <option value="Gold">Gold — KSh 2,500</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="depositAmount">Activation Fee (KSh)</label>
-                <input
-                    id="depositAmount"
-                    class="amount-input"
-                    name="amountDisplay"
-                    type="number"
-                    min="1000"
-                    step="1"
-                    placeholder="Select a package above"
-                    readonly
-                    required
-                >
-            </div>
-
-            <div class="form-group">
-                <label for="depositPhone">M-Pesa Phone Number</label>
-                <input
-                    id="depositPhone"
-                    name="phone"
-                    type="tel"
-                    inputmode="tel"
-                    autocomplete="tel"
-                    placeholder="07XXXXXXXX"
-                    minlength="10"
-                    maxlength="13"
-                    required
-                >
-                <small>Enter the Kenyan M-Pesa number that should receive the prompt.</small>
-            </div>
-
-            <div class="mpesa-info">
-                <div class="mpesa-logo">M</div>
-                <div>
-                    <strong>M-Pesa</strong>
-                    <span>Payment request through the Online Sphere backend</span>
-                </div>
-            </div>
-
-            <div class="available-box">
-                Selected membership:
-                <strong id="depositPackageFee">Select a package</strong>
-            </div>
-
-            <div
-                id="depositPaymentStatus"
-                class="modal-note"
-                role="status"
-                aria-live="polite"
-                hidden
-            ></div>
-
-            <button class="modal-primary" type="submit">
-                Send M-Pesa STK Push
-            </button>
-        </form>
-
-        <small class="modal-note">
-            Payment and membership activation must only be confirmed after
-            the backend verifies the Safaricom transaction result.
-        </small>
+<!-- ACCOUNT MODAL -->
+<div class="modal" id="authModal" role="dialog" aria-modal="true" aria-label="Account form">
+  <div class="modal-box">
+    <button class="close" onclick="closeModal()" aria-label="Close">×</button>
+    <div id="registerPanel">
+      <h2>Create your profile</h2>
+      <p style="color:#64748b;font-size:13px">This demo stores a profile locally. It is not secure production authentication.</p>
+      <form id="registerForm">
+        <div class="field"><label for="registerName">Full name</label><input id="registerName" required autocomplete="name"></div>
+        <div class="field"><label for="registerEmail">Email address</label><input id="registerEmail" type="email" required autocomplete="email"></div>
+        <div class="field"><label for="registerPhone">M-Pesa phone number</label><input id="registerPhone" required inputmode="tel" placeholder="0712345678" autocomplete="tel"></div>
+        <div class="field"><label for="registerPassword">Demo password</label><input id="registerPassword" type="password" minlength="6" required autocomplete="new-password"></div>
+        <div class="field"><label for="registerPackage">Membership (optional)</label><select id="registerPackage"><option value="">Choose later</option><option>Bronze</option><option>Silver</option><option>Gold</option></select></div>
+        <button class="btn btn-primary" type="submit">Create demo profile</button>
+      </form>
+      <p style="font-size:13px">Already registered? <button class="form-switch" onclick="switchForm('login')">Log in</button></p>
     </div>
+    <div id="loginPanel" style="display:none">
+      <h2>Welcome back</h2>
+      <p style="color:#64748b;font-size:13px">Log in to this browser's demo profile.</p>
+      <form id="loginForm">
+        <div class="field"><label for="loginEmail">Email address</label><input id="loginEmail" type="email" required autocomplete="email"></div>
+        <div class="field"><label for="loginPassword">Demo password</label><input id="loginPassword" type="password" required autocomplete="current-password"></div>
+        <button class="btn btn-primary" type="submit">Log in</button>
+      </form>
+      <button class="form-switch" onclick="switchForm('register')">Create a profile</button>
+    </div>
+  </div>
 </div>
 
-<!-- WITHDRAW MODAL -->
-<div class="modal" id="withdrawModal">
-    <div class="modal-overlay"></div>
-
-    <div class="modal-box">
-        <button class="modal-close" type="button" aria-label="Close">×</button>
-
-        <div class="modal-header">
-            <div class="modal-icon withdraw-icon">↑</div>
-            <div>
-                <h3>Withdraw</h3>
-                <p>Request a withdrawal.</p>
-            </div>
-        </div>
-
-        <p class="modal-description">
-            Enter your withdrawal details below. Actual withdrawal processing
-            requires a secure backend and verified payment API.
-        </p>
-
-        <form id="withdrawForm">
-            <div class="form-group">
-                <label for="withdrawAmount">Amount</label>
-                <input
-                    id="withdrawAmount"
-                    class="amount-input"
-                    type="number"
-                    min="1"
-                    placeholder="Enter amount"
-                    required
-                >
-            </div>
-
-            <div class="form-group">
-                <label for="withdrawPhone">M-Pesa Phone Number</label>
-                <input
-                    id="withdrawPhone"
-                    type="tel"
-                    placeholder="07XXXXXXXX"
-                    autocomplete="tel"
-                    required
-                >
-            </div>
-
-            <div class="available-box">
-                Available Balance: <strong>KSh 0.00</strong>
-            </div>
-
-            <button class="modal-primary" type="submit">Submit Request</button>
-        </form>
-
-        <small class="modal-note">
-            Demo interface — no withdrawal is processed by this front-end page.
-        </small>
-    </div>
+<!-- PAYMENT MODAL -->
+<div class="modal" id="paymentModal" role="dialog" aria-modal="true" aria-label="M-Pesa payment">
+  <div class="modal-box">
+    <button class="close" onclick="closePaymentModal()" aria-label="Close">×</button>
+    <span class="tag">SECURE PAYMENT REQUEST</span>
+    <h2>Pay with M-Pesa</h2>
+    <p style="color:#64748b;font-size:13px">Package: <strong id="paymentPackage"></strong></p>
+    <div class="price" id="paymentAmount">KSh 0</div>
+    <div class="field"><label for="mpesaPhone">M-Pesa phone number</label><input id="mpesaPhone" inputmode="tel" placeholder="0712345678" required></div>
+    <button class="btn btn-primary" id="mpesaButton" onclick="startMpesaPayment()">📱 Send M-Pesa STK Push</button>
+    <div class="payment-status" id="paymentStatus" role="status" aria-live="polite"></div>
+    <p style="font-size:11px;color:#64748b">Only enter your PIN on the genuine Safaricom M-Pesa prompt if you intend to pay. A request being accepted does not prove payment or activate membership.</p>
+  </div>
 </div>
 
-<!-- TOAST -->
-<div class="toast">
-    <div class="toast-icon">✓</div>
-    <div>
-        <strong>Online Sphere</strong>
-        <p>Welcome.</p>
-    </div>
-    <button type="button" aria-label="Close notification">×</button>
+<!-- OPPORTUNITY MODAL -->
+<div class="modal" id="opportunityModal" role="dialog" aria-modal="true" aria-label="Opportunity details">
+  <div class="modal-box">
+    <button class="close" onclick="closeOpportunity()" aria-label="Close">×</button>
+    <span class="tag">OPPORTUNITY GUIDE</span>
+    <h2 id="opportunityTitle">Explore</h2>
+    <p id="opportunityText" style="color:#64748b"></p>
+    <button class="btn btn-primary" onclick="closeOpportunity()">Got it</button>
+  </div>
 </div>
 
-<!-- BACK TO TOP -->
-<button class="back-to-top" type="button" aria-label="Back to top">↑</button>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<!-- MAIN JAVASCRIPT -->
-<script src="app.js?v=20261017"></script>
+<script>
+"use strict";
 
+const MPESA_API = "https://online-sphere-backend.onrender.com";
+const PACKAGE_PRICES = Object.freeze({ Bronze: 1000, Silver: 1750, Gold: 2500 });
+
+let selectedPackageName = "";
+let paymentRequestInProgress = false;
+let toastTimer = null;
+
+const $ = id => document.getElementById(id);
+
+$("year").textContent = new Date().getFullYear();
+
+function toggleMenu() {
+  const menu = $("mobileMenu");
+  menu.classList.toggle("show");
+  document.querySelector(".menu-button").setAttribute(
+    "aria-expanded", menu.classList.contains("show") ? "true" : "false"
+  );
+}
+
+function openModal(type) {
+  $("authModal").classList.add("show");
+  switchForm(type);
+}
+function closeModal() { $("authModal").classList.remove("show"); }
+function switchForm(type) {
+  const login = type === "login";
+  $("loginPanel").style.display = login ? "block" : "none";
+  $("registerPanel").style.display = login ? "none" : "block";
+}
+
+function showToast(message) {
+  $("toast").textContent = message;
+  $("toast").classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => $("toast").classList.remove("show"), 3500);
+}
+
+function readDemoUser() {
+  try { return JSON.parse(localStorage.getItem("onlineSphereUser") || "null"); }
+  catch (_) { return null; }
+}
+
+/* Demo-only profile. Replace with real server authentication before production. */
+$("registerForm").addEventListener("submit", function(event) {
+  event.preventDefault();
+  const name = $("registerName").value.trim();
+  const email = $("registerEmail").value.trim().toLowerCase();
+  const phone = $("registerPhone").value.trim();
+  const password = $("registerPassword").value;
+  const packageName = $("registerPackage").value;
+
+  if (!name || !email || !phone || password.length < 6) {
+    showToast("Complete all required fields. Password must be at least 6 characters.");
+    return;
+  }
+
+  try {
+    localStorage.setItem("onlineSphereUser", JSON.stringify({
+      name, email, phone, package: "None",
+      membershipStatus: "INACTIVE",
+      createdAt: new Date().toISOString(),
+      demoPassword: password
+    }));
+  } catch (_) {
+    showToast("Unable to save this demo profile in your browser.");
+    return;
+  }
+
+  closeModal();
+  showToast("Demo profile created. Secure server registration is still required.");
+  if (PACKAGE_PRICES[packageName]) {
+    choosePackage(packageName);
+  }
+});
+
+$("loginForm").addEventListener("submit", function(event) {
+  event.preventDefault();
+  const user = readDemoUser();
+  if (!user || user.email !== $("loginEmail").value.trim().toLowerCase() ||
+      user.demoPassword !== $("loginPassword").value) {
+    showToast("Demo login details do not match this browser's profile.");
+    return;
+  }
+  closeModal();
+  showToast("Welcome back, " + (user.name || "member") + ".");
+});
+
+function choosePackage(name) {
+  if (!Object.prototype.hasOwnProperty.call(PACKAGE_PRICES, name)) {
+    showToast("Select a valid membership package.");
+    return;
+  }
+  const user = readDemoUser();
+  if (!user) {
+    $("registerPackage").value = name;
+    openModal("register");
+    showToast("Create your demo profile first.");
+    return;
+  }
+  selectedPackageName = name;
+  $("paymentPackage").textContent = name;
+  $("paymentAmount").textContent = "KSh " + PACKAGE_PRICES[name].toLocaleString("en-KE");
+  $("mpesaPhone").value = user.phone || "";
+  $("paymentStatus").textContent = "";
+  $("paymentStatus").className = "payment-status";
+  $("mpesaButton").disabled = false;
+  $("mpesaButton").textContent = "📱 Send M-Pesa STK Push";
+  $("paymentModal").classList.add("show");
+}
+
+function closePaymentModal() { $("paymentModal").classList.remove("show"); }
+function closeOpportunity() { $("opportunityModal").classList.remove("show"); }
+
+function normalizeKenyanPhone(value) {
+  const phone = String(value || "").replace(/\D/g, "");
+  if (/^(07|01)\d{8}$/.test(phone)) return "254" + phone.slice(1);
+  if (/^254[17]\d{8}$/.test(phone)) return phone;
+  if (/^[17]\d{8}$/.test(phone)) return "254" + phone;
+  throw new Error("Enter a valid Kenyan M-Pesa number, e.g. 0712345678.");
+}
+
+function paymentStatus(message, type) {
+  $("paymentStatus").textContent = message;
+  $("paymentStatus").className = "payment-status show " + type;
+}
+
+async function startMpesaPayment() {
+  if (paymentRequestInProgress) return;
+
+  if (!PACKAGE_PRICES[selectedPackageName]) {
+    paymentStatus("Please select a valid package first.", "error");
+    return;
+  }
+
+  let phone;
+  try { phone = normalizeKenyanPhone($("mpesaPhone").value); }
+  catch (error) { paymentStatus(error.message, "error"); return; }
+
+  if (!readDemoUser()) {
+    closePaymentModal();
+    openModal("register");
+    showToast("Create your profile first.");
+    return;
+  }
+
+  paymentRequestInProgress = true;
+  $("mpesaButton").disabled = true;
+  $("mpesaButton").textContent = "Connecting to M-Pesa…";
+  paymentStatus("Connecting to the M-Pesa service. Please wait…", "waiting");
+
+  try {
+    const response = await fetch(MPESA_API + "/api/mpesa/stkpush", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({ phone: phone, packageName: selectedPackageName })
+    });
+
+    const data = await response.json().catch(() => null);
+
+    if (!response.ok) {
+      throw new Error((data && data.message) || "Payment request failed (HTTP " + response.status + ").");
+    }
+    if (!data || data.success !== true) {
+      throw new Error((data && data.message) || "The backend did not confirm the STK Push request.");
+    }
+
+    $("mpesaButton").textContent = "Send Another STK Push";
+    $("mpesaButton").disabled = false;
+    paymentStatus(
+      "STK Push request accepted. Check " + phone +
+      " and follow the M-Pesa prompt if you intend to pay. This does not confirm payment or activate membership. Checkout reference: " +
+      (data.checkoutRequestID || "not provided") + ".",
+      "waiting"
+    );
+    showToast("STK Push request accepted. Check your phone.");
+  } catch (error) {
+    console.error("Online Sphere STK Push error:", error);
+    $("mpesaButton").disabled = false;
+    $("mpesaButton").textContent = "📱 Send M-Pesa STK Push";
+    paymentStatus("Unable to start payment: " + (error.message || "Please try again."), "error");
+  } finally {
+    paymentRequestInProgress = false;
+  }
+}
+
+const opportunityData = {
+  "Transcription": "Explore converting audio or video into written text. Requirements and payment terms vary by client.",
+  "Graphic Design": "Explore graphic design, branding and digital artwork. Build a portfolio and check each client's requirements.",
+  "Technology": "Explore web development, coding and technical support. Start with skills that match your experience.",
+  "Virtual Assistance": "Explore administrative support, online research and data organization.",
+  "Video Editing": "Explore video editing and multimedia production. Client requirements vary.",
+  "Freelancing": "Explore independent digital services, client projects, translation and research support."
+};
+
+function viewOpportunity(type) {
+  $("opportunityTitle").textContent = type;
+  $("opportunityText").textContent = opportunityData[type] ||
+    "Explore this digital area and carefully review its requirements.";
+  $("opportunityModal").classList.add("show");
+}
+
+function filterOpportunities() {
+  const query = $("opportunitySearch").value.trim().toLowerCase();
+  let count = 0;
+  document.querySelectorAll(".opportunity-card").forEach(card => {
+    const matches = (card.dataset.search + " " + card.innerText).toLowerCase().includes(query);
+    card.style.display = matches ? "" : "none";
+    if (matches) count++;
+  });
+  $("emptySearch").style.display = count ? "none" : "block";
+}
+$("opportunitySearch").addEventListener("input", filterOpportunities);
+
+["authModal","paymentModal","opportunityModal"].forEach(id => {
+  $(id).addEventListener("click", event => {
+    if (event.target !== $(id)) return;
+    if (id === "authModal") closeModal();
+    if (id === "paymentModal") closePaymentModal();
+    if (id === "opportunityModal") closeOpportunity();
+  });
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") {
+    closeModal(); closePaymentModal(); closeOpportunity();
+    $("mobileMenu").classList.remove("show");
+    document.querySelector(".menu-button").setAttribute("aria-expanded", "false");
+  }
+});
+</script>
 </body>
 </html>
