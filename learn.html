@@ -1,1 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#070817">
+<title>Learn Digital Skills | Online Sphere</title>
+<meta name="description" content="Explore digital skills, beginner learning roadmaps and practical ways to develop your knowledge with Online Sphere.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070817;--panel:#10172e;--panel2:#131e3b;--blue:#4285ff;--purple:#9c67ff;--cyan:#6ae5f4;--text:#f5f7ff;--muted:#a6b2cf;--line:#91adff25}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"DM Sans",sans-serif}
+body:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 10% 5%,#244b9630,transparent 36%),radial-gradient(ellipse at 92% 35%,#8237a622,transparent 35%)}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit}
+button{cursor:pointer}
+.wrap{width:min(1160px,92%);margin:auto}
+h1,h2,h3{font-family:"Space Grotesk",sans-serif}
+p{color:var(--muted);line-height:1.75}
+.gradient{background:linear-gradient(100deg,#67e8f9,#7798ff,#c18aff);background-clip:text;-webkit-background-clip:text;color:transparent}
+header{height:74px;position:sticky;top:0;z-index:20;background:#070817ed;backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.nav{height:100%;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brand{display:flex;align-items:center;gap:10px;font:700 19px "Space Grotesk",sans-serif}
+.logo{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,#348dff,#9b54f6);font-size:23px}
+.brand small{display:block;font:9px "DM Sans",sans-serif;letter-spacing:2px;color:#a6b5d8}
+.links{display:flex;gap:19px;align-items:center;font-size:13px;color:#c5cfe6}
+.links a:hover,.links .active{color:#75e7ff}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 17px;border:1px solid var(--line);border-radius:11px;background:#ffffff08;color:white;font-weight:700;font-size:13px;transition:.2s}
+.btn:hover{transform:translateY(-2px)}
+.primary{background:linear-gradient(110deg,#367fff,#8952f2);border:0}
+.menu{display:none;background:transparent;color:white;border:1px solid var(--line);border-radius:9px;padding:8px 11px;font-size:20px}
+.mobile{display:none;position:absolute;top:74px;left:0;right:0;padding:15px 5%;background:#080d20;border-bottom:1px solid var(--line)}
+.mobile.open{display:flex;flex-direction:column}
+.mobile a{padding:13px 0;border-bottom:1px solid var(--line);font-size:14px}
+.hero{padding:70px 0 65px}
+.hero-grid{display:grid;grid-template-columns:1fr .95fr;gap:42px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--line);border-radius:50px;background:#111a33;font-size:11px;color:#d1ddf8;letter-spacing:.7px}
+h1{font-size:clamp(43px,5.5vw,68px);line-height:1.04;letter-spacing:-2.8px;margin:23px 0 18px}
+.hero p{font-size:15px;max-width:540px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.art{height:390px;position:relative;border:1px solid #7da4ff45;border-radius:25px;overflow:hidden;box-shadow:0 25px 80px #172d6a30}
+.art img{height:100%;width:100%;object-fit:cover}
+.art:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#070817ed,transparent 65%)}
+.art-caption{position:absolute;z-index:1;bottom:20px;left:20px;right:20px;border:1px solid #ffffff28;border-radius:15px;padding:17px;background:#071127c9;backdrop-filter:blur(12px)}
+.art-caption strong{font:600 19px "Space Grotesk"}
+.art-caption p{font-size:12px;margin:5px 0 0}
+.section{padding:65px 0}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:27px}
+.section-head h2{font-size:clamp(29px,4vw,43px);letter-spacing:-1.5px;margin:13px 0 8px}
+.section-head p{font-size:14px;max-width:600px;margin:0}
+.count{font-size:12px;color:#a3b5d8;white-space:nowrap}
+.skill-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.skill{border:1px solid var(--line);border-radius:19px;background:linear-gradient(145deg,#121e3a,#090f21);overflow:hidden;transition:.25s}
+.skill:hover{transform:translateY(-5px);border-color:#72a3ff77}
+.skill-image{height:170px;position:relative;overflow:hidden}
+.skill-image img{height:100%;width:100%;object-fit:cover;transition:.4s}
+.skill:hover img{transform:scale(1.06)}
+.skill-image:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#10172e,transparent 75%)}
+.skill-icon{position:absolute;z-index:1;bottom:10px;left:14px;width:39px;height:39px;display:grid;place-items:center;border:1px solid #ffffff30;border-radius:12px;background:#172448eF;font-size:20px}
+.skill-body{padding:18px}
+.skill-body h3{font-size:18px;margin:0 0 8px}
+.skill-body p{font-size:12px;min-height:45px;margin:0 0 16px}
+.skill-body button{background:none;border:0;padding:0;color:#77e5ff;font-weight:700;font-size:12px}
+.skill-details{display:none;margin-top:15px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:#c5d3ef;line-height:1.8}
+.skill.expanded .skill-details{display:block}
+.roadmap{background:linear-gradient(120deg,#101b38,#0b1022);border:1px solid #7897ff35;border-radius:24px;padding:35px}
+.roadmap h2{font-size:clamp(27px,4vw,38px);margin:12px 0}
+.roadmap>p{font-size:13px;max-width:650px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-top:27px}
+.step{padding:20px;border:1px solid var(--line);border-radius:16px;background:#070d1e8c}
+.step-number{width:34px;height:34px;display:grid;place-items:center;background:linear-gradient(135deg,#3387ff,#9c5af5);border-radius:10px;font-weight:700;font-size:13px}
+.step h3{font-size:15px;margin:15px 0 8px}
+.step p{font-size:12px;margin:0}
+.resource-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}
+.resource{padding:23px;border:1px solid var(--line);border-radius:17px;background:#10172e8a}
+.resource-icon{font-size:25px}
+.resource h3{font-size:17px;margin:13px 0 8px}
+.resource p{font-size:12px;margin:0 0 15px}
+.resource a{color:#76e4ff;font-size:12px;font-weight:700}
+.cta{display:flex;align-items:center;justify-content:space-between;gap:25px;margin-top:32px;padding:34px;border:1px solid #8199ff3b;border-radius:23px;background:radial-gradient(ellipse at 90% 0%,#7b45e632,transparent 45%),#10182f}
+.cta h2{font-size:clamp(24px,3vw,34px);margin:0 0 8px}
+.cta p{font-size:13px;margin:0;max-width:600px}
+footer{border-top:1px solid var(--line);padding:27px 0;background:#040714}
+.footer{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.footer p{font-size:11px;margin:0}
+.footer-links{display:flex;gap:16px;flex-wrap:wrap}
+.footer-links a{font-size:12px;color:#aab8d6}
+@media(max-width:850px){.links{gap:10px}.hero-grid{gap:24px}.skill-grid{grid-template-columns:repeat(2,1fr)}.steps{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:650px){header{height:68px}.links{display:none}.menu{display:block}.mobile{top:68px}.hero{padding:45px 0 35px}.hero-grid{grid-template-columns:1fr;gap:25px}h1{font-size:47px;letter-spacing:-2px}.art{height:285px}.section{padding:43px 0}.section-head{align-items:flex-start;flex-direction:column}.skill-grid,.resource-grid,.steps{grid-template-columns:1fr}.skill-image{height:190px}.roadmap{padding:23px}.cta{align-items:flex-start;flex-direction:column;padding:25px}}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap nav">
+<a class="brand" href="index.html"><span class="logo">◎</span><span>ONLINE SPHERE<small>DISCOVER · LEARN · WORK</small></span></a>
+<nav class="links">
+<a href="index.html">Home</a>
+<a href="opportunities.html">Opportunities</a>
+<a class="active" href="learn.html">Learn</a>
+<a href="membership.html">Membership</a>
+<a href="dashboard.html">Dashboard</a>
+</nav>
+<a class="btn primary" href="opportunities.html">Explore opportunities ↗</a>
+<button class="menu" id="menuBtn" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+</div>
+<nav class="mobile" id="mobileNav">
+<a href="index.html">Home</a><a href="opportunities.html">Opportunities</a><a href="learn.html">Learn</a><a href="membership.html">Membership</a><a href="dashboard.html">Dashboard</a><a href="about.html">About</a><a href="help.html">Help & Support</a>
+</nav>
+</header>
 
+<main>
+<section class="hero">
+<div class="wrap hero-grid">
+<div>
+<span class="eyebrow">✦ THE DIGITAL SKILLS HUB</span>
+<h1>Learn today.<br><span class="gradient">Build tomorrow.</span></h1>
+<p>Discover the skills behind the digital world. Explore creative work, technology, communication and online business fundamentals through a practical beginner-friendly roadmap.</p>
+<div class="actions"><a class="btn primary" href="#skills">Explore skill paths ↓</a><a class="btn" href="#roadmap">View beginner roadmap ↗</a></div>
+</div>
+<div class="art">
+<img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1100&q=85" alt="People learning and collaborating with digital technology" fetchpriority="high">
+<div class="art-caption"><strong>Your skills are your starting point.</strong><p>Stay curious. Practice consistently. Keep learning.</p></div>
+</div>
+</div>
+</section>
+
+<section class="section" id="skills">
+<div class="wrap">
+<div class="section-head">
+<div><span class="eyebrow">EXPLORE LEARNING PATHS</span><h2>Choose what you want to <span class="gradient">learn.</span></h2><p>Open a topic to see practical beginner steps and suggested skills to practice.</p></div>
+<span class="count">6 skill paths</span>
+</div>
+<div class="skill-grid">
+<article class="skill">
+<div class="skill-image"><img loading="lazy" src="https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=750&q=80" alt="Graphic design artwork"><span class="skill-icon">✳</span></div>
+<div class="skill-body"><h3>Graphic Design</h3><p>Learn visual communication, layouts, colour and brand consistency.</p><button type="button" aria-expanded="false">Explore this path +</button><div class="skill-details">Start with: colour theory, typography, spacing and visual hierarchy. Practice by creating a simple poster, social media graphic and brand concept. Build a portfolio using original work.</div></div>
+</article>
+<article class="skill">
+<div class="skill-image"><img loading="lazy" src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=750&q=80" alt="Digital communication and computer"><span class="skill-icon">⌨</span></div>
+<div class="skill-body"><h3>Data & Transcription</h3><p>Develop accuracy, document formatting and information-handling skills.</p><button type="button" aria-expanded="false">Explore this path +</button><div class="skill-details">Start with: keyboard shortcuts, document formatting, spreadsheets and careful proofreading. Practice typing short sample audio transcripts and organising fictional spreadsheet records. Protect private data.</div></div>
+</article>
+<article class="skill">
+<div class="skill-image"><img loading="lazy" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=750&q=80" alt="Web development workstation"><span class="skill-icon">⌘</span></div>
+<div class="skill-body"><h3>Web & Technology</h3><p>Understand websites, coding basics and digital problem-solving.</p><button type="button" aria-expanded="false">Explore this path +</button><div class="skill-details">Start with: HTML for structure, CSS for design and JavaScript for interaction. Build a personal profile page, make it mobile-friendly and learn to test changes before publishing.</div></div>
+</article>
+<article class="skill">
+<div class="skill-image"><img loading="lazy" src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=750&q=80" alt="Notebook and writing tools"><span class="skill-icon">✎</span></div>
+<div class="skill-body"><h3>Writing & Communication</h3><p>Practice clear writing, editing, research and professional messaging.</p><button type="button" aria-expanded="false">Explore this path +</button><div class="skill-details">Start with: grammar, outlining, paragraph structure, editing and fact-checking. Write a short article, revise it for clarity and cite trustworthy sources when making factual claims.</div></div>
+</article>
+<article class="skill">
+<div class="skill-image"><img loading="lazy" src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=750&q=80" alt="Social media and digital content"><span class="skill-icon">◎</span></div>
+<div class="skill-body"><h3>Social Media & Content</h3><p>Learn content planning, audience awareness and responsible publishing.</p><button type="button" aria-expanded="false">Explore this path +</button><div class="skill-details">Start with: audience research, content calendars, accessible design and simple performance metrics. Create a sample weekly content plan. Avoid spam, misleading claims and unauthorised use of other people's content.</div></div>
+</article>
+<article class="skill">
+<div class="skill-image"><img loading="lazy" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=750&q=80" alt="Digital business analytics"><span class="skill-icon">↗</span></div>
+<div class="skill-body"><h3>Online Business Basics</h3><p>Understand digital services, client communication and project planning.</p><button type="button" aria-expanded="false">Explore this path +</button><div class="skill-details">Start with: identifying a useful service, understanding client needs, writing clear proposals, agreeing on scope and tracking expenses. Learn to recognise suspicious offers and never promise guaranteed returns.</div></div>
+</article>
+</div>
+</div>
+</section>
+
+<section class="section" id="roadmap" style="padding-top:0">
+<div class="wrap">
+<div class="roadmap">
+<span class="eyebrow">YOUR FIRST STEPS</span>
+<h2>A simple <span class="gradient">beginner roadmap.</span></h2>
+<p>You don't need to master everything at once. Choose one skill, practice it and gradually collect examples of your work.</p>
+<div class="steps">
+<article class="step"><span class="step-number">01</span><h3>Choose one skill</h3><p>Start with an area you enjoy or want to understand better.</p></article>
+<article class="step"><span class="step-number">02</span><h3>Learn the basics</h3><p>Use reliable tutorials, guides and beginner exercises.</p></article>
+<article class="step"><span class="step-number">03</span><h3>Practice by doing</h3><p>Create small sample projects and review your mistakes.</p></article>
+<article class="step"><span class="step-number">04</span><h3>Build a portfolio</h3><p>Show original work and explain what you contributed.</p></article>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section" style="padding-top:0">
+<div class="wrap">
+<div class="section-head"><div><span class="eyebrow">LEARN SMARTER</span><h2>Good habits for <span class="gradient">digital growth.</span></h2><p>Build a reliable foundation before pursuing more advanced projects.</p></div></div>
+<div class="resource-grid">
+<article class="resource"><span class="resource-icon">◷</span><h3>Practice consistently</h3><p>Set aside a manageable amount of time and focus on one specific learning goal per session.</p><a href="#roadmap">Use the roadmap ↑</a></article>
+<article class="resource"><span class="resource-icon">◇</span><h3>Keep your work</h3><p>Save your practice projects, notes and revisions so you can track progress and demonstrate skills.</p><a href="opportunities.html">Explore categories ↗</a></article>
+<article class="resource"><span class="resource-icon">⬡</span><h3>Stay safe online</h3><p>Verify clients and opportunities. Be cautious of upfront fees, requests for PINs or passwords, and guaranteed-income claims.</p><a href="help.html">Visit help & support ↗</a></article>
+</div>
+<div class="cta">
+<div><h2>Ready to explore the digital world?</h2><p>Browse digital work categories and look for opportunities that match your skills and interests.</p></div>
+<a class="btn primary" href="opportunities.html">Explore opportunities ↗</a>
+</div>
+</div>
+</section>
+</main>
+
+<footer>
+<div class="wrap footer">
+<p>© <span id="year"></span> Online Sphere · Discover. Learn. Work.</p>
+<nav class="footer-links"><a href="index.html">Home</a><a href="opportunities.html">Opportunities</a><a href="membership.html">Membership</a><a href="about.html">About</a><a href="help.html">Help</a></nav>
+</div>
+</footer>
+
+<script>
+"use strict";
+document.getElementById("year").textContent = new Date().getFullYear();
+
+document.querySelectorAll(".skill-body button").forEach(function(button){
+  button.addEventListener("click",function(){
+    const card = button.closest(".skill");
+    const expanded = card.classList.toggle("expanded");
+    button.setAttribute("aria-expanded",String(expanded));
+    button.textContent = expanded ? "Close learning path −" : "Explore this path +";
+  });
+});
+
+const menuBtn = document.getElementById("menuBtn");
+const mobileNav = document.getElementById("mobileNav");
+
+menuBtn.addEventListener("click",function(){
+  const open = mobileNav.classList.toggle("open");
+  menuBtn.setAttribute("aria-expanded",String(open));
+  menuBtn.textContent = open ? "×" : "☰";
+});
+
+mobileNav.querySelectorAll("a").forEach(function(link){
+  link.addEventListener("click",function(){
+    mobileNav.classList.remove("open");
+    menuBtn.setAttribute("aria-expanded","false");
+    menuBtn.textContent = "☰";
+  });
+});
+</script>
+</body>
+</html>
