@@ -1,6 +1,7 @@
 /* =========================================================
    ONLINE SPHERE — MAIN JAVASCRIPT
-   Version: Advanced UI + Dynamic Package Fees + M-Pesa STK
+   Version: Advanced UI + Dynamic Package Fees
+   + M-Pesa STK Push Diagnostics
    ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -243,7 +244,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         toastTimer = setTimeout(() => {
             toast.classList.remove("show");
-        }, 5000);
+        }, 8000);
     }
 
     if (toastClose) {
@@ -319,12 +320,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /* ---------------------------------------------------------
-       M-PESA PHONE NORMALIZATION
-       Supports Kenyan mobile numbers:
-       0712345678
-       0112345678
-       254712345678
-       +254712345678
+       KENYAN PHONE NUMBER NORMALIZATION
     --------------------------------------------------------- */
 
     function normalizeKenyanPhone(value) {
@@ -348,10 +344,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /* ---------------------------------------------------------
-       DYNAMIC PACKAGE FEES
-       Bronze: KSh 1,000
-       Silver: KSh 1,750
-       Gold:   KSh 2,500
+       DYNAMIC PACKAGE FEES + M-PESA STK PUSH
     --------------------------------------------------------- */
 
     const depositForm = $("#depositForm");
@@ -395,7 +388,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const amount = getPackagePrice(packageName);
 
-            // Update the visible package fee.
             if (packageFeeDisplay) {
                 packageFeeDisplay.textContent =
                     amount === null
@@ -403,7 +395,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         : formatKES(amount);
             }
 
-            // Support additional fee displays if present.
             $$("[data-selected-package-fee]", depositForm)
                 .forEach(element => {
                     element.textContent =
@@ -417,7 +408,6 @@ document.addEventListener("DOMContentLoaded", () => {
                             : String(amount);
                 });
 
-            // Keep the payment button synchronized.
             if (
                 depositSubmitButton &&
                 !depositRequestInProgress
@@ -435,13 +425,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 updatePackageFee
             );
 
-            // Correct fee on initial page load.
             updatePackageFee();
         }
-
-        /* -----------------------------------------------------
-           M-PESA STK PUSH SUBMISSION
-        ----------------------------------------------------- */
 
         depositForm.addEventListener(
             "submit",
@@ -515,6 +500,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 try {
+                    /* SEND STK PUSH REQUEST */
+
                     const response = await fetch(
                         MPESA_STK_ENDPOINT,
                         {
@@ -523,11 +510,6 @@ document.addEventListener("DOMContentLoaded", () => {
                                 "Content-Type": "application/json",
                                 "Accept": "application/json"
                             },
-
-                            // Keep the existing backend request
-                            // format compatible with your API.
-                            // The server must determine the amount
-                            // from its own trusted price mapping.
                             body: JSON.stringify({
                                 phone: phone,
                                 packageName: packageName
@@ -535,22 +517,53 @@ document.addEventListener("DOMContentLoaded", () => {
                         }
                     );
 
+                    /* READ THE RAW RESPONSE */
+
                     const responseText =
                         await response.text();
 
-                    let result = {};
+                    const contentType =
+                        response.headers.get("content-type") || "";
 
-                    if (responseText) {
-                        try {
-                            result = JSON.parse(responseText);
-                        } catch {
-                            throw new Error(
-                                "The server returned an invalid response. Check your Render logs."
-                            );
+                    /* DIAGNOSTIC INFORMATION */
+
+                    console.log(
+                        "Online Sphere STK diagnostic:",
+                        {
+                            httpStatus: response.status,
+                            responseOK: response.ok,
+                            contentType: contentType,
+                            responseBody:
+                                responseText.slice(0, 1000)
                         }
+                    );
+
+                    /* PARSE JSON SAFELY */
+
+                    let result;
+
+                    try {
+                        result = JSON.parse(responseText);
+                    } catch (parseError) {
+                        console.error(
+                            "STK response JSON parsing failed:",
+                            parseError
+                        );
+
+                        throw new Error(
+                            `Render returned non-JSON data. ` +
+                            `HTTP ${response.status}; ` +
+                            `Content-Type: ${contentType}; ` +
+                            `Response: ${
+                                responseText.slice(0, 250) ||
+                                "(empty response)"
+                            }`
+                        );
                     }
 
-                    if (!response.ok) {
+                    /* CHECK HTTP AND API ERRORS */
+
+                    if (!response.ok || result.success === false) {
                         const serverMessage =
                             typeof result.message === "string"
                                 ? result.message
@@ -560,9 +573,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         throw new Error(
                             serverMessage ||
-                            `Payment request failed (HTTP ${response.status}).`
+                            `STK Push failed with HTTP ${response.status}.`
                         );
                     }
+
+                    /* CHECK THE APPLICATION RESPONSE */
+
+                    if (result.success !== true) {
+                        console.warn(
+                            "STK response has no success:true flag.",
+                            result
+                        );
+                    }
+
+                    /* REQUEST ACCEPTED — PAYMENT NOT YET CONFIRMED */
 
                     showToast(
                         "M-Pesa Request Sent",
@@ -571,7 +595,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     if (paymentStatus) {
                         paymentStatus.textContent =
-                            `STK Push request accepted for ${packageName}, ${formatKES(amount)}. Complete the prompt on your phone and wait for payment confirmation.`;
+                            `STK Push response received for ${packageName}, ${formatKES(amount)}. ` +
+                            "Complete the prompt on your phone and wait for payment confirmation.";
 
                         paymentStatus.hidden = false;
 
@@ -586,14 +611,16 @@ document.addEventListener("DOMContentLoaded", () => {
                         );
                     }
 
+                    console.log(
+                        "Online Sphere STK response parsed:",
+                        result
+                    );
+
                     /*
                      * IMPORTANT:
-                     * A successful HTTP response does not prove
-                     * the customer paid.
-                     *
-                     * Verify the Daraja callback on the server
-                     * before recording payment or activating
-                     * any membership or account balance.
+                     * An accepted STK request is not proof of payment.
+                     * Only the verified Daraja callback should confirm
+                     * payment and trigger any account activation.
                      */
 
                 } catch (error) {
@@ -620,6 +647,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         paymentStatus.setAttribute(
                             "role",
                             "alert"
+                        );
+
+                        paymentStatus.setAttribute(
+                            "aria-live",
+                            "assertive"
                         );
                     }
 
@@ -923,7 +955,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* ---------------------------------------------------------
        PREVENT DOUBLE SUBMISSIONS
-       Deposit form uses its own request lock.
     --------------------------------------------------------- */
 
     $$("form").forEach(form => {
