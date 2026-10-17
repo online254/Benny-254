@@ -1,4407 +1,612 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Online Sphere | Discover. Learn. Work.</title>
-
-<meta name="description"
-content="Online Sphere helps you discover digital work opportunities, develop skills and explore online career opportunities.">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://images.unsplash.com">
-
-<style>
-
-/* =========================================================
-   ONLINE SPHERE
-   PREMIUM RESPONSIVE SINGLE-PAGE DESIGN
-========================================================= */
-
-:root{
-    --primary:#2563eb;
-    --primary-dark:#1d4ed8;
-    --secondary:#7c3aed;
-    --cyan:#06b6d4;
-    --success:#16a34a;
-    --warning:#f59e0b;
-
-    --dark:#07111f;
-    --dark2:#0f1c2e;
-    --text:#334155;
-    --muted:#64748b;
-
-    --light:#f5f8fc;
-    --white:#ffffff;
-    --border:#e2e8f0;
-
-    --radius:22px;
-    --shadow:0 18px 50px rgba(15,23,42,.10);
-}
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
-body{
-    font-family:
-        Inter,
-        system-ui,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        sans-serif;
-
-    background:var(--light);
-    color:var(--text);
-    line-height:1.6;
-    overflow-x:hidden;
-}
-
-button,
-input,
-select{
-    font:inherit;
-}
-
-button{
-    cursor:pointer;
-}
-
-a{
-    color:inherit;
-    text-decoration:none;
-}
-
-img{
-    max-width:100%;
-    display:block;
-}
-
-
-/* =========================================================
-   GLOBAL
-========================================================= */
-
-.container{
-    width:min(1180px,calc(100% - 40px));
-    margin:auto;
-}
-
-.section{
-    padding:90px 0;
-}
-
-.section-heading{
-    text-align:center;
-    max-width:720px;
-    margin:0 auto 50px;
-}
-
-.section-heading .eyebrow{
-    color:var(--primary);
-    font-size:13px;
-    font-weight:900;
-    text-transform:uppercase;
-    letter-spacing:1.5px;
-    margin-bottom:10px;
-}
-
-.section-heading h2{
-    color:var(--dark);
-    font-size:clamp(30px,4vw,45px);
-    line-height:1.1;
-    margin-bottom:14px;
-}
-
-.section-heading p{
-    color:var(--muted);
-}
-
-.btn{
-    border:none;
-    border-radius:13px;
-    padding:13px 20px;
-    font-weight:800;
-    display:inline-flex;
-    justify-content:center;
-    align-items:center;
-    gap:8px;
-    transition:.25s;
-}
-
-.btn:hover{
-    transform:translateY(-2px);
-}
-
-.btn-primary{
-    color:white;
-    background:linear-gradient(135deg,var(--primary),var(--secondary));
-    box-shadow:0 10px 25px rgba(37,99,235,.22);
-}
-
-.btn-white{
-    background:white;
-    color:var(--dark);
-}
-
-.btn-outline{
-    background:white;
-    color:var(--dark);
-    border:1px solid var(--border);
-}
-
-.btn-outline:hover{
-    color:var(--primary);
-    border-color:var(--primary);
-}
-
-.btn-full{
-    width:100%;
-}
-
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-.header{
-    position:fixed;
-    top:0;
-    left:0;
-    right:0;
-    z-index:1000;
-
-    background:rgba(255,255,255,.90);
-    backdrop-filter:blur(16px);
-
-    border-bottom:1px solid rgba(226,232,240,.8);
-}
-
-.nav{
-    width:min(1180px,calc(100% - 40px));
-    height:72px;
-    margin:auto;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:20px;
-}
-
-.logo{
-    display:flex;
-    align-items:center;
-    gap:10px;
-
-    font-weight:900;
-    color:var(--dark);
-    font-size:19px;
-}
-
-.logo-symbol{
-    width:43px;
-    height:43px;
-    border-radius:14px;
-
-    display:grid;
-    place-items:center;
-
-    color:white;
-    background:
-        linear-gradient(135deg,var(--primary),var(--secondary));
-
-    box-shadow:0 8px 22px rgba(37,99,235,.25);
-}
-
-.nav-links{
-    display:flex;
-    align-items:center;
-    gap:28px;
-}
-
-.nav-links a{
-    font-size:14px;
-    font-weight:700;
-    color:var(--muted);
-}
-
-.nav-links a:hover{
-    color:var(--primary);
-}
-
-.nav-actions{
-    display:flex;
-    gap:9px;
-}
-
-.menu-button{
-    display:none;
-    width:42px;
-    height:42px;
-    border:1px solid var(--border);
-    background:white;
-    border-radius:12px;
-    font-size:22px;
-}
-
-.mobile-menu{
-    display:none;
-}
-
-
-/* =========================================================
-   HERO
-========================================================= */
-
-.hero{
-    min-height:760px;
-    padding-top:72px;
-
-    display:flex;
-    align-items:center;
-
-    position:relative;
-
-    background:
-        linear-gradient(
-            90deg,
-            rgba(3,12,25,.94) 0%,
-            rgba(3,12,25,.82) 43%,
-            rgba(3,12,25,.28) 100%
-        ),
-        url("https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=2000&q=85")
-        center/cover no-repeat;
-}
-
-.hero-content{
-    width:min(1180px,calc(100% - 40px));
-    margin:auto;
-    color:white;
-}
-
-.hero-text{
-    max-width:700px;
-}
-
-.hero-badge{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-
-    background:rgba(255,255,255,.12);
-    border:1px solid rgba(255,255,255,.18);
-
-    padding:8px 13px;
-    border-radius:50px;
-
-    font-size:12px;
-    font-weight:800;
-
-    margin-bottom:20px;
-
-    backdrop-filter:blur(8px);
-}
-
-.hero h1{
-    font-size:clamp(43px,7vw,76px);
-    line-height:.98;
-    letter-spacing:-3px;
-    margin-bottom:24px;
-}
-
-.hero h1 span{
-    color:#60a5fa;
-}
-
-.hero-description{
-    color:#dbeafe;
-    font-size:18px;
-    max-width:650px;
-    margin-bottom:30px;
-}
-
-.hero-buttons{
-    display:flex;
-    flex-wrap:wrap;
-    gap:12px;
-}
-
-.hero-stats{
-    margin-top:48px;
-
-    display:flex;
-    flex-wrap:wrap;
-    gap:14px;
-}
-
-.hero-stat{
-    min-width:145px;
-
-    padding:15px 18px;
-
-    background:rgba(255,255,255,.10);
-    border:1px solid rgba(255,255,255,.16);
-
-    border-radius:15px;
-
-    backdrop-filter:blur(10px);
-}
-
-.hero-stat strong{
-    display:block;
-    font-size:22px;
-}
-
-.hero-stat span{
-    color:#cbd5e1;
-    font-size:12px;
-}
-
-
-/* =========================================================
-   TRUST STRIP
-========================================================= */
-
-.trust-strip{
-    background:white;
-    border-bottom:1px solid var(--border);
-}
-
-.trust-inner{
-    min-height:100px;
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:20px;
-}
-
-.trust-item{
-    display:flex;
-    align-items:center;
-    gap:11px;
-}
-
-.trust-icon{
-    width:42px;
-    height:42px;
-    border-radius:12px;
-    background:#eff6ff;
-
-    display:grid;
-    place-items:center;
-
-    font-size:19px;
-}
-
-.trust-item strong{
-    display:block;
-    color:var(--dark);
-    font-size:14px;
-}
-
-.trust-item span{
-    color:var(--muted);
-    font-size:12px;
-}
-
-
-/* =========================================================
-   CATEGORY CARDS
-========================================================= */
-
-.category-grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:18px;
-}
-
-.category-card{
-    position:relative;
-    min-height:250px;
-
-    overflow:hidden;
-    border-radius:var(--radius);
-
-    color:white;
-
-    box-shadow:var(--shadow);
-
-    transition:.3s;
-}
-
-.category-card:hover{
-    transform:translateY(-7px);
-}
-
-.category-card img{
-    position:absolute;
-    inset:0;
-
-    width:100%;
-    height:100%;
-
-    object-fit:cover;
-
-    transition:.5s;
-}
-
-.category-card:hover img{
-    transform:scale(1.08);
-}
-
-.category-overlay{
-    position:absolute;
-    inset:0;
-
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-end;
-
-    padding:22px;
-
-    background:
-        linear-gradient(
-            transparent 25%,
-            rgba(2,6,23,.9) 100%
-        );
-}
-
-.category-icon{
-    font-size:28px;
-    margin-bottom:8px;
-}
-
-.category-card h3{
-    font-size:20px;
-}
-
-.category-card p{
-    color:#dbeafe;
-    font-size:12px;
-}
-
-
-/* =========================================================
-   FEATURED OPPORTUNITIES
-========================================================= */
-
-.featured-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:22px;
-}
-
-.opportunity-card{
-    background:white;
-    border:1px solid var(--border);
-    border-radius:var(--radius);
-    overflow:hidden;
-
-    box-shadow:0 8px 30px rgba(15,23,42,.06);
-
-    transition:.3s;
-}
-
-.opportunity-card:hover{
-    transform:translateY(-5px);
-    box-shadow:var(--shadow);
-}
-
-.opportunity-image{
-    height:200px;
-    position:relative;
-    overflow:hidden;
-}
-
-.opportunity-image img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    transition:.5s;
-}
-
-.opportunity-card:hover .opportunity-image img{
-    transform:scale(1.06);
-}
-
-.opportunity-category{
-    position:absolute;
-    top:15px;
-    left:15px;
-
-    padding:6px 10px;
-    border-radius:8px;
-
-    background:rgba(255,255,255,.94);
-
-    color:var(--primary);
-
-    font-size:11px;
-    font-weight:900;
-}
-
-.opportunity-body{
-    padding:21px;
-}
-
-.opportunity-body h3{
-    color:var(--dark);
-    margin-bottom:7px;
-}
-
-.opportunity-body p{
-    color:var(--muted);
-    font-size:13px;
-    margin-bottom:16px;
-}
-
-.tags{
-    display:flex;
-    flex-wrap:wrap;
-    gap:6px;
-    margin-bottom:17px;
-}
-
-.tag{
-    padding:5px 9px;
-    background:#f1f5f9;
-    color:var(--muted);
-    border-radius:7px;
-    font-size:10px;
-    font-weight:800;
-}
-
-
-/* =========================================================
-   HOW IT WORKS
-========================================================= */
-
-.how-section{
-    background:white;
-}
-
-.steps{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:20px;
-}
-
-.step{
-    position:relative;
-    text-align:center;
-    padding:25px 15px;
-}
-
-.step-number{
-    width:65px;
-    height:65px;
-    margin:0 auto 18px;
-
-    display:grid;
-    place-items:center;
-
-    border-radius:50%;
-
-    color:white;
-    font-size:20px;
-    font-weight:900;
-
-    background:linear-gradient(
-        135deg,
-        var(--primary),
-        var(--secondary)
-    );
-
-    box-shadow:0 10px 25px rgba(37,99,235,.22);
-}
-
-.step h3{
-    color:var(--dark);
-    margin-bottom:6px;
-}
-
-.step p{
-    color:var(--muted);
-    font-size:13px;
-}
-
-
-/* =========================================================
-   IMAGE + TEXT
-========================================================= */
-
-.split-section{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:55px;
-    align-items:center;
-}
-
-.split-image{
-    border-radius:28px;
-    overflow:hidden;
-    box-shadow:var(--shadow);
-    position:relative;
-}
-
-.split-image img{
-    width:100%;
-    min-height:470px;
-    object-fit:cover;
-}
-
-.image-badge{
-    position:absolute;
-    bottom:20px;
-    left:20px;
-    right:20px;
-
-    background:rgba(255,255,255,.94);
-    backdrop-filter:blur(10px);
-
-    padding:16px;
-    border-radius:15px;
-}
-
-.image-badge strong{
-    display:block;
-    color:var(--dark);
-}
-
-.image-badge span{
-    color:var(--muted);
-    font-size:12px;
-}
-
-.split-content .eyebrow{
-    color:var(--primary);
-    font-size:12px;
-    font-weight:900;
-    text-transform:uppercase;
-    letter-spacing:1.3px;
-}
-
-.split-content h2{
-    color:var(--dark);
-    font-size:clamp(30px,4vw,45px);
-    line-height:1.1;
-    margin:10px 0 18px;
-}
-
-.split-content>p{
-    color:var(--muted);
-    margin-bottom:22px;
-}
-
-.check-list{
-    list-style:none;
-    margin-bottom:25px;
-}
-
-.check-list li{
-    margin:11px 0;
-    display:flex;
-    align-items:flex-start;
-    gap:9px;
-}
-
-.check{
-    color:var(--success);
-    font-weight:900;
-}
-
-
-/* =========================================================
-   MEMBERSHIP
-========================================================= */
-
-.membership{
-    background:
-        radial-gradient(
-            circle at 10% 20%,
-            rgba(37,99,235,.09),
-            transparent 30%
-        ),
-        #f8fafc;
-}
-
-.pricing{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:22px;
-    max-width:1000px;
-    margin:auto;
-}
-
-.price-card{
-    background:white;
-    border:1px solid var(--border);
-    border-radius:24px;
-    padding:30px;
-
-    box-shadow:var(--shadow);
-
-    position:relative;
-}
-
-.price-card.featured{
-    border:2px solid var(--primary);
-    transform:translateY(-7px);
-}
-
-.popular{
-    position:absolute;
-    top:-14px;
-    left:50%;
-    transform:translateX(-50%);
-
-    background:var(--primary);
-    color:white;
-
-    padding:6px 15px;
-    border-radius:50px;
-
-    font-size:11px;
-    font-weight:900;
-}
-
-.price-card h3{
-    color:var(--dark);
-    font-size:24px;
-}
-
-.price{
-    margin:15px 0 20px;
-}
-
-.price strong{
-    color:var(--dark);
-    font-size:35px;
-}
-
-.price small{
-    color:var(--muted);
-}
-
-.price-features{
-    list-style:none;
-    margin-bottom:25px;
-}
-
-.price-features li{
-    padding:9px 0;
-    color:var(--text);
-    font-size:14px;
-}
-
-.price-features li::before{
-    content:"✓";
-    color:var(--success);
-    font-weight:900;
-    margin-right:8px;
-}
-
-
-/* =========================================================
-   DASHBOARD PREVIEW
-========================================================= */
-
-.dashboard-preview{
-    display:grid;
-    grid-template-columns:1fr 1.25fr;
-    gap:25px;
-    align-items:center;
-}
-
-.dashboard-info h2{
-    color:var(--dark);
-    font-size:42px;
-    line-height:1.1;
-    margin:10px 0 16px;
-}
-
-.dashboard-info p{
-    color:var(--muted);
-    margin-bottom:22px;
-}
-
-.dashboard-window{
-    background:#0b1627;
-    border-radius:25px;
-    padding:14px;
-    box-shadow:0 25px 60px rgba(2,6,23,.25);
-}
-
-.window-top{
-    display:flex;
-    gap:6px;
-    padding:6px 4px 12px;
-}
-
-.window-dot{
-    width:8px;
-    height:8px;
-    border-radius:50%;
-    background:#64748b;
-}
-
-.window-content{
-    background:#f8fafc;
-    border-radius:17px;
-    padding:18px;
-}
-
-.fake-dashboard{
-    display:grid;
-    grid-template-columns:75px 1fr;
-    gap:15px;
-}
-
-.fake-sidebar{
-    background:#0f1c2e;
-    border-radius:12px;
-    min-height:300px;
-}
-
-.fake-main{
-    display:grid;
-    gap:12px;
-}
-
-.fake-top{
-    height:65px;
-    background:white;
-    border-radius:12px;
-}
-
-.fake-stats{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
-}
-
-.fake-stat{
-    height:80px;
-    background:white;
-    border-radius:12px;
-}
-
-.fake-chart{
-    height:135px;
-    background:white;
-    border-radius:12px;
-}
-
-.fake-table{
-    height:70px;
-    background:white;
-    border-radius:12px;
-}
-
-
-/* =========================================================
-   SAFETY NOTICE
-========================================================= */
-
-.notice{
-    max-width:950px;
-    margin:35px auto 0;
-
-    padding:20px;
-
-    background:#fff7ed;
-    border:1px solid #fed7aa;
-
-    border-radius:17px;
-
-    color:#7c2d12;
-
-    font-size:13px;
-}
-
-.notice strong{
-    display:block;
-    margin-bottom:5px;
-}
-
-
-/* =========================================================
-   CTA
-========================================================= */
-
-.cta{
-    padding:75px 0;
-}
-
-.cta-box{
-    position:relative;
-    overflow:hidden;
-
-    padding:65px 40px;
-
-    text-align:center;
-
-    border-radius:30px;
-
-    color:white;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(37,99,235,.94),
-            rgba(124,58,237,.94)
-        ),
-        url("https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1600&q=80")
-        center/cover;
-}
-
-.cta-box h2{
-    font-size:clamp(30px,5vw,48px);
-    line-height:1.1;
-    margin-bottom:13px;
-}
-
-.cta-box p{
-    max-width:650px;
-    margin:0 auto 25px;
-    color:#e0e7ff;
-}
-
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-footer{
-    background:var(--dark);
-    color:#94a3b8;
-    padding:60px 0 25px;
-}
-
-.footer-grid{
-    display:grid;
-    grid-template-columns:2fr 1fr 1fr 1fr;
-    gap:40px;
-}
-
-.footer-logo{
-    color:white;
-    font-size:20px;
-    font-weight:900;
-    margin-bottom:12px;
-}
-
-.footer-column h4{
-    color:white;
-    margin-bottom:13px;
-}
-
-.footer-column a{
-    display:block;
-    font-size:13px;
-    margin:8px 0;
-}
-
-.footer-column a:hover{
-    color:white;
-}
-
-.footer-bottom{
-    border-top:1px solid #243244;
-    margin-top:40px;
-    padding-top:20px;
-
-    display:flex;
-    justify-content:space-between;
-    gap:15px;
-
-    font-size:12px;
-}
-
-
-/* =========================================================
-   MODALS
-========================================================= */
-
-.modal{
-    position:fixed;
-    inset:0;
-
-    z-index:5000;
-
-    display:none;
-    align-items:center;
-    justify-content:center;
-
-    padding:20px;
-
-    background:rgba(2,6,23,.72);
-    backdrop-filter:blur(7px);
-}
-
-.modal.show{
-    display:flex;
-}
-
-.modal-box{
-    width:min(470px,100%);
-    max-height:90vh;
-    overflow:auto;
-
-    background:white;
-    border-radius:23px;
-
-    padding:30px;
-
-    position:relative;
-
-    box-shadow:0 30px 80px rgba(0,0,0,.25);
-}
-
-.close{
-    position:absolute;
-    top:15px;
-    right:15px;
-
-    width:36px;
-    height:36px;
-
-    border:none;
-    border-radius:50%;
-
-    background:#f1f5f9;
-    color:var(--dark);
-
-    font-size:20px;
-}
-
-.modal h2{
-    color:var(--dark);
-    margin-bottom:5px;
-}
-
-.modal-sub{
-    color:var(--muted);
-    font-size:13px;
-    margin-bottom:22px;
-}
-
-.form-group{
-    margin-bottom:15px;
-}
-
-.form-group label{
-    display:block;
-    color:var(--dark);
-    font-size:12px;
-    font-weight:800;
-    margin-bottom:6px;
-}
-
-.form-group input,
-.form-group select{
-    width:100%;
-    padding:12px 13px;
-
-    border:1px solid var(--border);
-    border-radius:11px;
-
-    outline:none;
-}
-
-.form-group input:focus,
-.form-group select:focus{
-    border-color:var(--primary);
-}
-
-.switch{
-    text-align:center;
-    color:var(--muted);
-    font-size:13px;
-    margin-top:17px;
-}
-
-.switch button{
-    border:none;
-    background:none;
-    color:var(--primary);
-    font-weight:900;
-}
-
-
-/* =========================================================
-   M-PESA PAYMENT
-========================================================= */
-
-.payment-summary{
-
-    background:#f8fafc;
-
-    border:1px solid var(--border);
-
-    border-radius:15px;
-
-    padding:16px;
-
-    margin-bottom:20px;
-
-}
-
-.payment-summary-row{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    padding:6px 0;
-
-    font-size:14px;
-
-}
-
-.payment-summary-row span:first-child{
-
-    color:var(--muted);
-
-}
-
-.payment-summary-row strong{
-
-    color:var(--dark);
-
-}
-
-.mpesa-logo{
-
-    width:58px;
-
-    height:58px;
-
-    margin:0 auto 15px;
-
-    border-radius:16px;
-
-    display:grid;
-
-    place-items:center;
-
-    background:#16a34a;
-
-    color:white;
-
-    font-size:25px;
-
-}
-
-.payment-status{
-
-    display:none;
-
-    margin-top:18px;
-
-    padding:14px;
-
-    border-radius:12px;
-
-    font-size:13px;
-
-    font-weight:700;
-
-}
-
-.payment-status.show{
-
-    display:block;
-
-}
-
-.payment-status.waiting{
-
-    background:#fff7ed;
-
-    color:#9a3412;
-
-    border:1px solid #fed7aa;
-
-}
-
-.payment-status.success{
-
-    background:#f0fdf4;
-
-    color:#166534;
-
-    border:1px solid #bbf7d0;
-
-}
-
-.payment-status.error{
-
-    background:#fef2f2;
-
-    color:#991b1b;
-
-    border:1px solid #fecaca;
-
-}
-
-.payment-spinner{
-
-    width:18px;
-
-    height:18px;
-
-    border:3px solid #fed7aa;
-
-    border-top-color:#ea580c;
-
-    border-radius:50%;
-
-    display:inline-block;
-
-    vertical-align:middle;
-
-    margin-right:7px;
-
-    animation:spin .8s linear infinite;
-
-}
-
-@keyframes spin{
-
-    to{
-        transform:rotate(360deg);
-    }
-
-}
-
-.mpesa-help{
-
-    margin-top:13px;
-
-    color:var(--muted);
-
-    font-size:11px;
-
-    text-align:center;
-
-}
-
-
-/* =========================================================
-   TOAST
-========================================================= */
-
-.toast{
-    position:fixed;
-    right:20px;
-    bottom:20px;
-    z-index:6000;
-
-    background:var(--dark);
-    color:white;
-
-    padding:14px 17px;
-
-    border-radius:12px;
-
-    box-shadow:var(--shadow);
-
-    transform:translateY(100px);
-    opacity:0;
-
-    transition:.3s;
-}
-
-.toast.show{
-    transform:translateY(0);
-    opacity:1;
-}
-
-
-/* =========================================================
-   MOBILE NAV
-========================================================= */
-
-.mobile-bottom{
-    display:none;
-}
-
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media(max-width:1000px){
-
-    .category-grid{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .featured-grid{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .steps{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .dashboard-preview{
-        grid-template-columns:1fr;
-    }
-
-    .footer-grid{
-        grid-template-columns:2fr 1fr 1fr;
-    }
-}
-
-
-@media(max-width:750px){
-
-    .nav-links,
-    .nav-actions{
-        display:none;
-    }
-
-    .menu-button{
-        display:block;
-    }
-
-    .mobile-menu{
-        background:white;
-        border-top:1px solid var(--border);
-        padding:10px 20px 18px;
-    }
-
-    .mobile-menu.show{
-        display:block;
-    }
-
-    .mobile-menu a,
-    .mobile-menu button{
-        width:100%;
-        display:block;
-
-        text-align:left;
-
-        border:none;
-        background:white;
-
-        padding:11px 0;
-
-        color:var(--text);
-        font-weight:700;
-    }
-
-    .hero{
-        min-height:730px;
-    }
-
-    .hero h1{
-        letter-spacing:-2px;
-    }
-
-    .trust-inner{
-        display:grid;
-        grid-template-columns:1fr 1fr;
-        padding:22px 0;
-    }
-
-    .split-section{
-        grid-template-columns:1fr;
-        gap:30px;
-    }
-
-    .split-image img{
-        min-height:350px;
-    }
-
-    .pricing{
-        grid-template-columns:1fr;
-    }
-
-    .price-card.featured{
-        transform:none;
-    }
-
-    .footer-grid{
-        grid-template-columns:1fr 1fr;
-    }
-}
-
-
-@media(max-width:560px){
-
-    .container{
-        width:min(100% - 28px,1180px);
-    }
-
-    .section{
-        padding:65px 0;
-    }
-
-    .hero-content{
-        width:min(100% - 28px,1180px);
-    }
-
-    .hero{
-        background-position:58% center;
-    }
-
-    .hero-description{
-        font-size:15px;
-    }
-
-    .hero-stats{
-        display:grid;
-        grid-template-columns:1fr 1fr;
-    }
-
-    .hero-stat{
-        min-width:0;
-    }
-
-    .category-grid,
-    .featured-grid,
-    .steps{
-        grid-template-columns:1fr;
-    }
-
-    .category-card{
-        min-height:230px;
-    }
-
-    .trust-inner{
-        grid-template-columns:1fr;
-    }
-
-    .dashboard-info h2{
-        font-size:33px;
-    }
-
-    .fake-dashboard{
-        grid-template-columns:1fr;
-    }
-
-    .fake-sidebar{
-        display:none;
-    }
-
-    .fake-stats{
-        grid-template-columns:1fr 1fr 1fr;
-    }
-
-    .footer-grid{
-        grid-template-columns:1fr;
-    }
-
-    .footer-bottom{
-        flex-direction:column;
-    }
-
-    .mobile-bottom{
-        position:fixed;
-        display:flex;
-
-        left:10px;
-        right:10px;
-        bottom:10px;
-
-        z-index:2000;
-
-        background:rgba(255,255,255,.96);
-        backdrop-filter:blur(15px);
-
-        border:1px solid var(--border);
-
-        border-radius:18px;
-
-        box-shadow:0 15px 40px rgba(15,23,42,.16);
-
-        padding:8px;
-
-        justify-content:space-around;
-    }
-
-    .mobile-bottom a{
-        text-align:center;
-        color:var(--muted);
-        font-size:10px;
-        font-weight:800;
-        padding:5px 9px;
-    }
-
-    .mobile-bottom span{
-        display:block;
-        font-size:18px;
-        margin-bottom:2px;
-    }
-}
-
-</style>
-</head>
-
-
-<body>
-
-
-<!-- =====================================================
-     HEADER
-===================================================== -->
-
-<header class="header">
-
-<nav class="nav">
-
-<a href="#home" class="logo">
-
-<div class="logo-symbol">
-OS
-</div>
-
-<span>Online Sphere</span>
-
-</a>
-
-
-<div class="nav-links">
-
-<a href="#home">Home</a>
-<a href="#opportunities">Opportunities</a>
-<a href="#how">How It Works</a>
-<a href="#membership">Membership</a>
-<a href="#about">About</a>
-
-</div>
-
-
-<div class="nav-actions">
-
-<button
-class="btn btn-outline"
-onclick="openModal('login')">
-
-Login
-
-</button>
-
-<button
-class="btn btn-primary"
-onclick="openModal('register')">
-
-Join Now
-
-</button>
-
-</div>
-
-
-<button
-class="menu-button"
-onclick="toggleMenu()">
-
-☰
-
-</button>
-
-</nav>
-
-
-<div class="mobile-menu" id="mobileMenu">
-
-<a href="#home" onclick="toggleMenu()">Home</a>
-
-<a href="#opportunities" onclick="toggleMenu()">
-Opportunities
-</a>
-
-<a href="#how" onclick="toggleMenu()">
-How It Works
-</a>
-
-<a href="#membership" onclick="toggleMenu()">
-Membership
-</a>
-
-<a href="#about" onclick="toggleMenu()">
-About
-</a>
-
-<button onclick="openModal('login');toggleMenu()">
-Login
-</button>
-
-<button onclick="openModal('register');toggleMenu()">
-Create Account
-</button>
-
-</div>
-
-</header>
-
-
-
-<!-- =====================================================
-     HERO
-===================================================== -->
-
-<section class="hero" id="home">
-
-<div class="hero-content">
-
-<div class="hero-text">
-
-<div class="hero-badge">
-🌐 Online Work & Digital Opportunities
-</div>
-
-
-<h1>
-Discover.
-Learn.
-<span>Work Online.</span>
-</h1>
-
-
-<p class="hero-description">
-
-Explore digital work opportunities, develop useful
-skills and discover platforms where you can build
-your online career.
-
-</p>
-
-
-<div class="hero-buttons">
-
-<button
-class="btn btn-primary"
-onclick="openModal('register')">
-
-🚀 Join Online Sphere
-
-</button>
-
-
-<a
-href="#opportunities"
-class="btn btn-white">
-
-💼 Explore Opportunities
-
-</a>
-
-</div>
-
-
-<div class="hero-stats">
-
-<div class="hero-stat">
-
-<strong>25+</strong>
-
-<span>
-Opportunity listings
-</span>
-
-</div>
-
-
-<div class="hero-stat">
-
-<strong>8+</strong>
-
-<span>
-Digital categories
-</span>
-
-</div>
-
-
-<div class="hero-stat">
-
-<strong>24/7</strong>
-
-<span>
-Access to resources
-</span>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-<!-- =====================================================
-     TRUST STRIP
-===================================================== -->
-
-<section class="trust-strip">
-
-<div class="container trust-inner">
-
-
-<div class="trust-item">
-
-<div class="trust-icon">
-💻
-</div>
-
-<div>
-
-<strong>Digital Opportunities</strong>
-
-<span>
-Explore different work categories
-</span>
-
-</div>
-
-</div>
-
-
-<div class="trust-item">
-
-<div class="trust-icon">
-🎯
-</div>
-
-<div>
-
-<strong>Skill Development</strong>
-
-<span>
-Learn and improve useful skills
-</span>
-
-</div>
-
-</div>
-
-
-<div class="trust-item">
-
-<div class="trust-icon">
-📱
-</div>
-
-<div>
-
-<strong>Mobile Friendly</strong>
-
-<span>
-Designed for your phone
-</span>
-
-</div>
-
-</div>
-
-
-<div class="trust-item">
-
-<div class="trust-icon">
-🔐
-</div>
-
-<div>
-
-<strong>Member Area</strong>
-
-<span>
-Manage your profile
-</span>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-<!-- =====================================================
-     CATEGORIES
-===================================================== -->
-
-<section class="section" id="opportunities">
-
-<div class="container">
-
-<div class="section-heading">
-
-<div class="eyebrow">
-Explore
-</div>
-
-<h2>
-Find Your Online Work Category
-</h2>
-
-<p>
-Discover different types of digital work and choose
-areas that match your skills and interests.
-</p>
-
-</div>
-
-
-<div class="category-grid">
-
-
-<div class="category-card">
-
-<img
-src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80"
-alt="Freelancing">
-
-<div class="category-overlay">
-
-<div class="category-icon">
-💼
-</div>
-
-<h3>Freelancing</h3>
-
-<p>
-Offer services to clients online.
-</p>
-
-</div>
-
-</div>
-
-
-<div class="category-card">
-
-<img
-src="https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=800&q=80"
-alt="Data entry">
-
-<div class="category-overlay">
-
-<div class="category-icon">
-⌨️
-</div>
-
-<h3>Data Entry</h3>
-
-<p>
-Explore digital data tasks.
-</p>
-
-</div>
-
-</div>
-
-
-<div class="category-card">
-
-<img
-src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=800&q=80"
-alt="Writing">
-
-<div class="category-overlay">
-
-<div class="category-icon">
-✍️
-</div>
-
-<h3>Writing</h3>
-
-<p>
-Explore writing and editing work.
-</p>
-
-</div>
-
-</div>
-
-
-<div class="category-card">
-
-<img
-src="https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=800&q=80"
-alt="Graphic design">
-
-<div class="category-overlay">
-
-<div class="category-icon">
-🎨
-</div>
-
-<h3>Graphic Design</h3>
-
-<p>
-Create digital visual content.
-</p>
-
-</div>
-
-</div>
-
-
-<div class="category-card">
-
-<img
-src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=800&q=80"
-alt="Video editing">
-
-<div class="category-overlay">
-
-<div class="category-icon">
-🎬
-</div>
-
-<h3>Video Editing</h3>
-
-<p>
-Create videos for digital platforms.
-</p>
-
-</div>
-
-</div>
-
-
-<div class="category-card">
-
-<img
-src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=800&q=80"
-alt="Marketing">
-
-<div class="category-overlay">
-
-<div class="category-icon">
-📱
-</div>
-
-<h3>Social Media</h3>
-
-<p>
-Explore content and marketing work.
-</p>
-
-</div>
-
-</div>
-
-
-<div class="category-card">
-
-<img
-src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=800&q=80"
-alt="Gaming">
-
-<div class="category-overlay">
-
-<div class="category-icon">
-🎮
-</div>
-
-<h3>Gaming</h3>
-
-<p>
-Explore gaming-related opportunities.
-</p>
-
-</div>
-
-</div>
-
-
-<div class="category-card">
-
-<img
-src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80"
-alt="Research">
-
-<div class="category-overlay">
-
-<div class="category-icon">
-🔎
-</div>
-
-<h3>Research</h3>
-
-<p>
-Find information and research tasks.
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-<!-- =====================================================
-     FEATURED OPPORTUNITIES
-===================================================== -->
-
-<section class="section">
-
-<div class="container">
-
-<div class="section-heading">
-
-<div class="eyebrow">
-Featured
-</div>
-
-<h2>
-Popular Opportunities
-</h2>
-
-<p>
-Start by exploring areas that are commonly available
-across online-work platforms.
-</p>
-
-</div>
-
-
-<div class="featured-grid">
-
-
-<div class="opportunity-card">
-
-<div class="opportunity-image">
-
-<img
-src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80"
-alt="Transcription">
-
-<span class="opportunity-category">
-Transcription
-</span>
-
-</div>
-
-<div class="opportunity-body">
-
-<h3>
-Transcription Work
-</h3>
-
-<p>
-Convert audio and video recordings into written text
-according to client requirements.
-</p>
-
-<div class="tags">
-<span class="tag">Typing</span>
-<span class="tag">Audio</span>
-<span class="tag">Remote</span>
-</div>
-
-<button
-class="btn btn-primary btn-full"
-onclick="viewOpportunity('Transcription')">
-
-View Opportunity
-
-</button>
-
-</div>
-
-</div>
-
-
-
-<div class="opportunity-card">
-
-<div class="opportunity-image">
-
-<img
-src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80"
-alt="Freelancing">
-
-<span class="opportunity-category">
-Freelancing
-</span>
-
-</div>
-
-<div class="opportunity-body">
-
-<h3>
-Freelance Digital Services
-</h3>
-
-<p>
-Offer skills such as design, editing, writing,
-web development or virtual assistance.
-</p>
-
-<div class="tags">
-<span class="tag">Clients</span>
-<span class="tag">Digital</span>
-<span class="tag">Remote</span>
-</div>
-
-<button
-class="btn btn-primary btn-full"
-onclick="viewOpportunity('Freelancing')">
-
-View Opportunity
-
-</button>
-
-</div>
-
-</div>
-
-
-
-<div class="opportunity-card">
-
-<div class="opportunity-image">
-
-<img
-src="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?auto=format&fit=crop&w=900&q=80"
-alt="Writing">
-
-<span class="opportunity-category">
-Writing
-</span>
-
-</div>
-
-<div class="opportunity-body">
-
-<h3>
-Writing & Editing
-</h3>
-
-<p>
-Explore content writing, editing and research-related
-digital opportunities.
-</p>
-
-<div class="tags">
-<span class="tag">Writing</span>
-<span class="tag">Research</span>
-<span class="tag">Editing</span>
-</div>
-
-<button
-class="btn btn-primary btn-full"
-onclick="viewOpportunity('Writing')">
-
-View Opportunity
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-<!-- =====================================================
-     HOW IT WORKS
-===================================================== -->
-
-<section class="section how-section" id="how">
-
-<div class="container">
-
-<div class="section-heading">
-
-<div class="eyebrow">
-Simple Process
-</div>
-
-<h2>
-How Online Sphere Works
-</h2>
-
-<p>
-A simple way to discover opportunities and organize
-your online-work journey.
-</p>
-
-</div>
-
-
-<div class="steps">
-
-
-<div class="step">
-
-<div class="step-number">
-01
-</div>
-
-<h3>
-Create Account
-</h3>
-
-<p>
-Set up your Online Sphere member profile.
-</p>
-
-</div>
-
-
-<div class="step">
-
-<div class="step-number">
-02
-</div>
-
-<h3>
-Explore
-</h3>
-
-<p>
-Browse different digital work categories.
-</p>
-
-</div>
-
-
-<div class="step">
-
-<div class="step-number">
-03
-</div>
-
-<h3>
-Develop Skills
-</h3>
-
-<p>
-Improve the skills required by opportunities.
-</p>
-
-</div>
-
-
-<div class="step">
-
-<div class="step-number">
-04
-</div>
-
-<h3>
-Apply & Work
-</h3>
-
-<p>
-Apply through appropriate platforms or clients.
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-<!-- =====================================================
-     ABOUT
-===================================================== -->
-
-<section class="section" id="about">
-
-<div class="container">
-
-<div class="split-section">
-
-
-<div class="split-image">
-
-<img
-src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1100&q=85"
-alt="Professional digital workspace">
-
-<div class="image-badge">
-
-<strong>
-Build Your Digital Future
-</strong>
-
-<span>
-Explore. Learn. Practice. Grow.
-</span>
-
-</div>
-
-</div>
-
-
-<div class="split-content">
-
-<div class="eyebrow">
-Why Online Sphere
-</div>
-
-<h2>
-One place to discover your next digital opportunity.
-</h2>
-
-<p>
-The internet offers many different ways to work remotely.
-Online Sphere helps organize these possibilities so members
-can explore them more easily.
-</p>
-
-
-<ul class="check-list">
-
-<li>
-<span class="check">✓</span>
-Explore multiple online-work categories.
-</li>
-
-<li>
-<span class="check">✓</span>
-Discover skills needed for different opportunities.
-</li>
-
-<li>
-<span class="check">✓</span>
-Keep interesting opportunities organized.
-</li>
-
-<li>
-<span class="check">✓</span>
-Access the platform from your mobile device.
-</li>
-
-</ul>
-
-
-<button
-class="btn btn-primary"
-onclick="openModal('register')">
-
-Create Your Account
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-<!-- =====================================================
-     MEMBERSHIP
-===================================================== -->
-
-<section class="section membership" id="membership">
-
-<div class="container">
-
-<div class="section-heading">
-
-<div class="eyebrow">
-Membership
-</div>
-
-<h2>
-Choose Your Membership
-</h2>
-
-<p>
-Select the package that fits the features and resources
-you want to access.
-</p>
-
-</div>
-
-
-<div class="pricing">
-
-
-<!-- BRONZE -->
-
-<div class="price-card">
-
-<h3>
-Bronze
-</h3>
-
-<div class="price">
-
-<strong>
-KSh 1,000
-</strong>
-
-<small>
-activation
-</small>
-
-</div>
-
-
-<ul class="price-features">
-
-<li>
-Member dashboard
-</li>
-
-<li>
-Opportunity directory
-</li>
-
-<li>
-Basic resources
-</li>
-
-<li>
-Member support
-</li>
-
-</ul>
-
-
-<button
-class="btn btn-outline btn-full"
-onclick="choosePackage('Bronze',1000)">
-
-Choose Bronze
-
-</button>
-
-</div>
-
-
-
-<!-- SILVER -->
-
-<div class="price-card featured">
-
-<div class="popular">
-MOST POPULAR
-</div>
-
-<h3>
-Silver
-</h3>
-
-<div class="price">
-
-<strong>
-KSh 1,750
-</strong>
-
-<small>
-activation
-</small>
-
-</div>
-
-
-<ul class="price-features">
-
-<li>
-Everything in Bronze
-</li>
-
-<li>
-Expanded resources
-</li>
-
-<li>
-Priority updates
-</li>
-
-<li>
-Additional tools
-</li>
-
-</ul>
-
-
-<button
-class="btn btn-primary btn-full"
-onclick="choosePackage('Silver',1750)">
-
-Choose Silver
-
-</button>
-
-</div>
-
-
-
-<!-- GOLD -->
-
-<div class="price-card">
-
-<h3>
-Gold
-</h3>
-
-<div class="price">
-
-<strong>
-KSh 2,500
-</strong>
-
-<small>
-activation
-</small>
-
-</div>
-
-
-<ul class="price-features">
-
-<li>
-Everything in Silver
-</li>
-
-<li>
-Premium resources
-</li>
-
-<li>
-Priority support
-</li>
-
-<li>
-Advanced tools
-</li>
-
-</ul>
-
-
-<button
-class="btn btn-outline btn-full"
-onclick="choosePackage('Gold',2500)">
-
-Choose Gold
-
-</button>
-
-</div>
-
-</div>
-
-
-<div class="notice">
-
-<strong>
-⚠ Important earning information
-</strong>
-
-Membership does not guarantee employment, tasks or income.
-Actual earnings, where applicable, depend on the specific
-opportunity, platform, skills, eligibility, client demand
-and work completed. Be cautious of anyone promising
-guaranteed earnings.
-
-</div>
-
-</div>
-
-</section>
-
-
-
-<!-- =====================================================
-     DASHBOARD PREVIEW
-===================================================== -->
-
-<section class="section">
-
-<div class="container">
-
-<div class="dashboard-preview">
-
-
-<div class="dashboard-info">
-
-<div class="section-heading"
-style="text-align:left;margin:0">
-
-<div class="eyebrow">
-Member Dashboard
-</div>
-
-<h2>
-Manage your online-work journey.
-</h2>
-
-<p>
-Your future dashboard will bring your profile,
-saved opportunities, applications, membership information
-and activity together.
-</p>
-
-<button
-class="btn btn-primary"
-onclick="openModal('login')">
-
-Open Member Area
-
-</button>
-
-</div>
-
-</div>
-
-
-<div class="dashboard-window">
-
-<div class="window-top">
-
-<div class="window-dot"></div>
-<div class="window-dot"></div>
-<div class="window-dot"></div>
-
-</div>
-
-
-<div class="window-content">
-
-<div class="fake-dashboard">
-
-<div class="fake-sidebar"></div>
-
-<div class="fake-main">
-
-<div class="fake-top"></div>
-
-<div class="fake-stats">
-
-<div class="fake-stat"></div>
-<div class="fake-stat"></div>
-<div class="fake-stat"></div>
-
-</div>
-
-<div class="fake-chart"></div>
-
-<div class="fake-table"></div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-<!-- =====================================================
-     CTA
-===================================================== -->
-
-<section class="cta">
-
-<div class="container">
-
-<div class="cta-box">
-
-<h2>
-Ready to explore online opportunities?
-</h2>
-
-<p>
-Create your Online Sphere account and start discovering
-digital work categories and resources.
-</p>
-
-<button
-class="btn btn-white"
-onclick="openModal('register')">
-
-Create Account
-
-</button>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-<!-- =====================================================
-     FOOTER
-===================================================== -->
-
-<footer>
-
-<div class="container">
-
-<div class="footer-grid">
-
-
-<div>
-
-<div class="footer-logo">
-🌐 Online Sphere
-</div>
-
-<p>
-A digital opportunities platform designed to help
-members discover online work categories, develop
-skills and explore their options.
-</p>
-
-</div>
-
-
-<div class="footer-column">
-
-<h4>
-Platform
-</h4>
-
-<a href="#opportunities">
-Opportunities
-</a>
-
-<a href="#membership">
-Membership
-</a>
-
-<a href="#how">
-How It Works
-</a>
-
-</div>
-
-
-<div class="footer-column">
-
-<h4>
-Account
-</h4>
-
-<a href="#" onclick="openModal('login');return false;">
-Login
-</a>
-
-<a href="#" onclick="openModal('register');return false;">
-Create Account
-</a>
-
-<a href="#about">
-About
-</a>
-
-</div>
-
-
-<div class="footer-column">
-
-<h4>
-Information
-</h4>
-
-<a href="#">
-Privacy
-</a>
-
-<a href="#">
-Terms
-</a>
-
-<a href="#">
-Contact
-</a>
-
-</div>
-
-</div>
-
-
-<div class="footer-bottom">
-
-<span>
-© <span id="year"></span> Online Sphere
-</span>
-
-<span>
-Discover • Learn • Work
-</span>
-
-</div>
-
-</div>
-
-</footer>
-
-
-
-<!-- =====================================================
-     MOBILE BOTTOM NAV
-===================================================== -->
-
-<div class="mobile-bottom">
-
-<a href="#home">
-<span>🏠</span>
-Home
-</a>
-
-<a href="#opportunities">
-<span>💼</span>
-Work
-</a>
-
-<a href="#membership">
-<span>💳</span>
-Plans
-</a>
-
-<a href="#" onclick="openModal('login');return false;">
-<span>👤</span>
-Account
-</a>
-
-</div>
-
-
-
-<!-- =====================================================
-     LOGIN / REGISTER MODAL
-===================================================== -->
-
-<div class="modal" id="authModal">
-
-<div class="modal-box">
-
-<button
-class="close"
-onclick="closeModal()">
-×
-</button>
-
-
-<!-- LOGIN -->
-
-<div id="loginForm">
-
-<h2>
-Welcome Back
-</h2>
-
-<p class="modal-sub">
-Login to your Online Sphere account.
-</p>
-
-
-<div class="form-group">
-
-<label>
-Email Address
-</label>
-
-<input
-type="email"
-id="loginEmail"
-placeholder="you@example.com">
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-Password
-</label>
-
-<input
-type="password"
-id="loginPassword"
-placeholder="Enter your password">
-
-</div>
-
-
-<button
-class="btn btn-primary btn-full"
-onclick="loginUser()">
-
-Login
-
-</button>
-
-
-<div class="switch">
-
-Don't have an account?
-
-<button onclick="switchForm('register')">
-Create one
-</button>
-
-</div>
-
-</div>
-
-
-
-<!-- REGISTER -->
-
-<div id="registerForm" style="display:none">
-
-<h2>
-Create Account
-</h2>
-
-<p class="modal-sub">
-Join Online Sphere and start exploring.
-</p>
-
-
-<div class="form-group">
-
-<label>
-Full Name
-</label>
-
-<input
-type="text"
-id="registerName"
-placeholder="Your full name">
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-Email Address
-</label>
-
-<input
-type="email"
-id="registerEmail"
-placeholder="you@example.com">
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-Phone Number
-</label>
-
-<input
-type="tel"
-id="registerPhone"
-placeholder="07XXXXXXXX">
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-Password
-</label>
-
-<input
-type="password"
-id="registerPassword"
-placeholder="Minimum 6 characters">
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-Membership Package
-</label>
-
-<select id="registerPackage">
-
-<option value="None">
-No activation yet
-</option>
-
-<option value="Bronze">
-Bronze — KSh 1,000
-</option>
-
-<option value="Silver">
-Silver — KSh 1,750
-</option>
-
-<option value="Gold">
-Gold — KSh 2,500
-</option>
-
-</select>
-
-</div>
-
-
-<button
-class="btn btn-primary btn-full"
-onclick="registerUser()">
-
-Create Account
-
-</button>
-
-
-<div class="switch">
-
-Already have an account?
-
-<button onclick="switchForm('login')">
-Login
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-
-<!-- =====================================================
-     M-PESA ACTIVATION MODAL
-===================================================== -->
-
-<div class="modal" id="paymentModal">
-
-<div class="modal-box">
-
-<button
-class="close"
-onclick="closePaymentModal()">
-×
-</button>
-
-
-<div class="mpesa-logo">
-M
-</div>
-
-
-<h2>
-Activate Membership
-</h2>
-
-<p class="modal-sub">
-Complete your activation using M-Pesa.
-</p>
-
-
-<div class="payment-summary">
-
-<div class="payment-summary-row">
-
-<span>
-Membership
-</span>
-
-<strong id="paymentPackage">
-Bronze
-</strong>
-
-</div>
-
-
-<div class="payment-summary-row">
-
-<span>
-Activation Fee
-</span>
-
-<strong id="paymentAmount">
-KSh 1,000
-</strong>
-
-</div>
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-M-Pesa Phone Number
-</label>
-
-<input
-type="tel"
-id="mpesaPhone"
-placeholder="0712345678"
-inputmode="numeric"
-autocomplete="tel"
-maxlength="13">
-
-</div>
-
-
-<button
-class="btn btn-primary btn-full"
-id="mpesaButton"
-onclick="startMpesaPayment()">
-
-📱 Send M-Pesa STK Push
-
-</button>
-
-
-<div
-class="payment-status"
-id="paymentStatus">
-</div>
-
-
-<div class="mpesa-help">
-
-You will receive an M-Pesa prompt on your phone.
-Enter your M-Pesa PIN to complete the Sandbox payment.
-
-</div>
-
-</div>
-
-</div>
-
-
-
-<!-- =====================================================
-     OPPORTUNITY MODAL
-===================================================== -->
-
-<div class="modal" id="opportunityModal">
-
-<div class="modal-box">
-
-<button
-class="close"
-onclick="closeOpportunity()">
-×
-</button>
-
-
-<h2 id="opportunityTitle">
-Opportunity
-</h2>
-
-<p
-class="modal-sub"
-id="opportunityText">
-</p>
-
-
-<div class="notice"
-style="margin:0 0 20px">
-
-<strong>
-Before you apply
-</strong>
-
-Always check the original platform/client,
-requirements, payment terms and legitimacy of the
-opportunity. Never pay for a guaranteed job or
-guaranteed income.
-
-</div>
-
-
-<button
-class="btn btn-primary btn-full"
-onclick="saveOpportunity()">
-
-☆ Save Opportunity
-
-</button>
-
-</div>
-
-</div>
-
-
-
-<!-- =====================================================
-     TOAST
-===================================================== -->
-
-<div class="toast" id="toast">
-Done
-</div>
-
-
-
 <script>
-
-/* =========================================================
-   ONLINE SPHERE JAVASCRIPT
-========================================================= */
-
-
-/* ---------------------------------------------------------
-   YEAR
---------------------------------------------------------- */
-
-document.getElementById("year").textContent =
-new Date().getFullYear();
-
-
-/* ---------------------------------------------------------
-   MOBILE MENU
---------------------------------------------------------- */
-
-function toggleMenu(){
-
-const menu =
-document.getElementById("mobileMenu");
-
-menu.classList.toggle("show");
-
-}
-
-
-/* ---------------------------------------------------------
-   AUTH MODAL
---------------------------------------------------------- */
-
-function openModal(type){
-
-const modal =
-document.getElementById("authModal");
-
-modal.classList.add("show");
-
-switchForm(type);
-
-}
-
-
-function closeModal(){
-
-document
-.getElementById("authModal")
-.classList.remove("show");
-
-}
-
-
-function switchForm(type){
-
-if(type === "login"){
-
-document
-.getElementById("loginForm")
-.style.display="block";
-
-document
-.getElementById("registerForm")
-.style.display="none";
-
-}else{
-
-document
-.getElementById("loginForm")
-.style.display="none";
-
-document
-.getElementById("registerForm")
-.style.display="block";
-
-}
-
-}
-
-
-/* ---------------------------------------------------------
-   REGISTER
---------------------------------------------------------- */
-
-function registerUser(){
-
-const name =
-document.getElementById("registerName")
-.value.trim();
-
-const email =
-document.getElementById("registerEmail")
-.value.trim();
-
-const phone =
-document.getElementById("registerPhone")
-.value.trim();
-
-const password =
-document.getElementById("registerPassword")
-.value;
-
-const packageName =
-document.getElementById("registerPackage")
-.value;
-
-
-if(!name || !email || !phone || !password){
-
-showToast(
-"Please complete all required fields."
-);
-
-return;
-
-}
-
-
-if(password.length < 6){
-
-showToast(
-"Password must contain at least 6 characters."
-);
-
-return;
-
-}
-
-
-const user = {
-
-name:name,
-email:email,
-phone:phone,
-password:password,
-package:packageName,
-membershipStatus:"INACTIVE",
-
-createdAt:
-new Date().toISOString()
-
-};
-
-
-localStorage.setItem(
-"onlineSphereUser",
-JSON.stringify(user)
-);
-
-
-closeModal();
-
-showToast(
-"Account created successfully."
-);
-
+"use strict";
 
 /*
-   If a package was selected during registration,
-   open the M-Pesa activation window.
-*/
+ * ONLINE SPHERE
+ * M-Pesa backend integration
+ *
+ * Backend: https://online-sphere-backend.onrender.com
+ *
+ * IMPORTANT:
+ * An accepted STK Push is not proof of payment.
+ * Activate membership only after backend verification.
+ * Registration/login below is demo-only.
+ */
 
-if(
-packageName === "Bronze" ||
-packageName === "Silver" ||
-packageName === "Gold"
-){
+const MPESA_API = "https://online-sphere-backend.onrender.com";
 
-let amount =
-
-packageName === "Bronze"
-? 1000
-: packageName === "Silver"
-? 1750
-: 2500;
-
-setTimeout(function(){
-
-choosePackage(
-packageName,
-amount
-);
-
-},500);
-
-}
-
-}
-
-
-/* ---------------------------------------------------------
-   LOGIN
---------------------------------------------------------- */
-
-function loginUser(){
-
-const email =
-document.getElementById("loginEmail")
-.value.trim();
-
-const password =
-document.getElementById("loginPassword")
-.value;
-
-const user =
-JSON.parse(
-localStorage.getItem("onlineSphereUser") || "null"
-);
-
-
-if(!user){
-
-showToast(
-"No account found. Please register first."
-);
-
-return;
-
-}
-
-
-if(
-email !== user.email ||
-password !== user.password
-){
-
-showToast(
-"Incorrect email or password."
-);
-
-return;
-
-}
-
-
-closeModal();
-
-showToast(
-"Welcome back, " + user.name + "!"
-);
-
-}
-
-
-/* =========================================================
-   MEMBERSHIP / M-PESA
-========================================================= */
+const PACKAGE_PRICES = Object.freeze({
+  Bronze: 1000,
+  Silver: 1750,
+  Gold: 2500
+});
 
 let selectedPackageName = "";
-
 let selectedPackageAmount = 0;
+let currentCheckoutRequestID = null;
+let paymentRequestInProgress = false;
+let toastTimer = null;
 
-let currentPaymentId = null;
+/* YEAR */
 
-let paymentPolling = null;
+document.getElementById("year").textContent =
+  new Date().getFullYear();
 
+/* MOBILE MENU */
 
-/* ---------------------------------------------------------
-   CHOOSE PACKAGE
---------------------------------------------------------- */
+function toggleMenu() {
+  const menu = document.getElementById("mobileMenu");
+  const button = document.querySelector(".menu-button");
 
-function choosePackage(name, amount){
+  menu.classList.toggle("show");
 
-const user =
-JSON.parse(
-localStorage.getItem("onlineSphereUser") || "null"
-);
+  button.setAttribute(
+    "aria-expanded",
+    menu.classList.contains("show") ? "true" : "false"
+  );
+}
 
+/* AUTH MODAL */
 
-/*
-   User must have an account before activation.
+function openModal(type) {
+  document.getElementById("authModal").classList.add("show");
+  switchForm(type);
+}
+
+function closeModal() {
+  document.getElementById("authModal").classList.remove("show");
+}
+
+function switchForm(type) {
+  const isLogin = type === "login";
+
+  document.getElementById("loginForm").style.display =
+    isLogin ? "block" : "none";
+
+  document.getElementById("registerForm").style.display =
+    isLogin ? "none" : "block";
+}
+
+/* DEMO PROFILE
+   Replace this with server-side authentication before production.
 */
 
-if(!user){
-
-openModal("register");
-
-document
-.getElementById("registerPackage")
-.value = name;
-
-showToast(
-"Create your account first, then continue to activation."
-);
-
-return;
-
+function readDemoUser() {
+  try {
+    return JSON.parse(
+      localStorage.getItem("onlineSphereUser") || "null"
+    );
+  } catch (error) {
+    return null;
+  }
 }
 
+/* REGISTER DEMO PROFILE */
 
-/*
-   Store selected package.
-*/
+function registerUser() {
+  const name =
+    document.getElementById("registerName").value.trim();
 
-selectedPackageName =
-name;
+  const email =
+    document.getElementById("registerEmail")
+      .value.trim().toLowerCase();
 
-selectedPackageAmount =
-Number(amount);
+  const phone =
+    document.getElementById("registerPhone").value.trim();
 
+  const password =
+    document.getElementById("registerPassword").value;
 
-/*
-   Open payment modal.
-*/
+  const packageName =
+    document.getElementById("registerPackage").value;
 
-document
-.getElementById("paymentPackage")
-textContent =
-name;
+  if (!name || !email || !phone || !password) {
+    showToast("Please complete all required fields.");
+    return;
+  }
 
-document
-.getElementById("paymentAmount")
-textContent =
-"KSh " +
-Number(amount).toLocaleString();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    showToast("Enter a valid email address.");
+    return;
+  }
 
+  if (password.length < 6) {
+    showToast("Password must contain at least 6 characters.");
+    return;
+  }
 
-/*
-   Pre-fill registered phone.
-*/
+  /*
+   * DEMO ONLY:
+   * Never store real user passwords in localStorage.
+   * Production authentication must be handled by a secure backend.
+   */
 
-document
-.getElementById("mpesaPhone")
-value =
-user.phone || "";
+  const user = {
+    name: name,
+    email: email,
+    phone: phone,
+    package: "None",
+    membershipStatus: "INACTIVE",
+    createdAt: new Date().toISOString(),
+    demoPassword: password
+  };
 
+  try {
+    localStorage.setItem(
+      "onlineSphereUser",
+      JSON.stringify(user)
+    );
+  } catch (error) {
+    showToast("Unable to save the demo profile in this browser.");
+    return;
+  }
 
-/*
-   Reset status.
-*/
+  closeModal();
 
-resetPaymentStatus();
+  showToast(
+    "Demo profile created. Secure server registration is required for production."
+  );
 
-
-document
-.getElementById("paymentModal")
-.classList.add("show");
-
+  if (
+    Object.prototype.hasOwnProperty.call(
+      PACKAGE_PRICES,
+      packageName
+    )
+  ) {
+    window.setTimeout(function () {
+      choosePackage(
+        packageName,
+        PACKAGE_PRICES[packageName]
+      );
+    }, 350);
+  }
 }
 
+/* LOGIN DEMO PROFILE */
 
-/* ---------------------------------------------------------
-   CLOSE PAYMENT MODAL
---------------------------------------------------------- */
+function loginUser() {
+  const email =
+    document.getElementById("loginEmail")
+      .value.trim().toLowerCase();
 
-function closePaymentModal(){
+  const password =
+    document.getElementById("loginPassword").value;
 
-if(paymentPolling){
+  const user = readDemoUser();
 
-clearTimeout(paymentPolling);
+  if (!user) {
+    showToast(
+      "No demo profile found in this browser. Create an account first."
+    );
+    return;
+  }
 
-paymentPolling = null;
+  if (
+    email !== String(user.email || "").toLowerCase() ||
+    password !== user.demoPassword
+  ) {
+    showToast(
+      "Incorrect email or password for this browser's demo profile."
+    );
+    return;
+  }
 
+  closeModal();
+
+  showToast(
+    "Welcome back, " +
+    (user.name || "member") +
+    ". This is a local demo login."
+  );
 }
 
-document
-.getElementById("paymentModal")
-.classList.remove("show");
+/* MEMBERSHIP PACKAGE SELECTION */
 
+function choosePackage(name, amount) {
+  if (
+    !Object.prototype.hasOwnProperty.call(
+      PACKAGE_PRICES,
+      name
+    )
+  ) {
+    showToast("Please select a valid membership package.");
+    return;
+  }
+
+  const user = readDemoUser();
+
+  if (!user) {
+    openModal("register");
+
+    document.getElementById("registerPackage").value = name;
+
+    showToast(
+      "Create your profile first, then continue to payment."
+    );
+
+    return;
+  }
+
+  selectedPackageName = name;
+  selectedPackageAmount = PACKAGE_PRICES[name];
+  currentCheckoutRequestID = null;
+
+  document.getElementById("paymentPackage").textContent =
+    selectedPackageName;
+
+  document.getElementById("paymentAmount").textContent =
+    "KSh " +
+    selectedPackageAmount.toLocaleString("en-KE");
+
+  document.getElementById("mpesaPhone").value =
+    user.phone || "";
+
+  resetPaymentStatus();
+
+  document.getElementById("paymentModal")
+    .classList.add("show");
 }
 
+/* CLOSE PAYMENT MODAL */
 
-/* ---------------------------------------------------------
-   NORMALIZE PHONE
---------------------------------------------------------- */
-
-function normalizeKenyanPhone(phone){
-
-phone =
-String(phone || "")
-.replace(/\D/g,"");
-
-
-if(phone.startsWith("07") &&
-phone.length === 10){
-
-return "254" +
-phone.substring(1);
-
+function closePaymentModal() {
+  document.getElementById("paymentModal")
+    .classList.remove("show");
 }
 
+/* NORMALIZE KENYAN PHONE NUMBER */
 
-if(phone.startsWith("01") &&
-phone.length === 10){
+function normalizeKenyanPhone(value) {
+  const phone = String(value || "").replace(/\D/g, "");
 
-return "254" +
-phone.substring(1);
+  if (phone.startsWith("07") && phone.length === 10) {
+    return "254" + phone.slice(1);
+  }
 
+  if (phone.startsWith("01") && phone.length === 10) {
+    return "254" + phone.slice(1);
+  }
+
+  if (phone.startsWith("254") && phone.length === 12) {
+    return phone;
+  }
+
+  if (phone.length === 9 && /^[17]/.test(phone)) {
+    return "254" + phone;
+  }
+
+  throw new Error(
+    "Enter a valid Kenyan M-Pesa number, e.g. 0712345678."
+  );
 }
 
+/* PAYMENT STATUS MESSAGE */
 
-if(phone.startsWith("254") &&
-phone.length === 12){
+function setPaymentStatus(message, type) {
+  const status = document.getElementById("paymentStatus");
 
-return phone;
+  status.textContent = "";
+  status.className = "payment-status show " + type;
 
+  if (type === "waiting" && message === "loading") {
+    const spinner = document.createElement("span");
+
+    spinner.className = "payment-spinner";
+    spinner.setAttribute("aria-hidden", "true");
+
+    status.appendChild(spinner);
+
+    status.appendChild(
+      document.createTextNode(
+        "Connecting to the M-Pesa service. Please wait…"
+      )
+    );
+  } else {
+    status.textContent = message;
+  }
 }
 
+/* RESET PAYMENT FORM */
 
-if(phone.startsWith("254") === false &&
-phone.length === 9){
+function resetPaymentStatus() {
+  const status = document.getElementById("paymentStatus");
 
-return "254" + phone;
+  status.textContent = "";
+  status.className = "payment-status";
 
+  const button = document.getElementById("mpesaButton");
+
+  button.disabled = false;
+  button.textContent = "📱 Send M-Pesa STK Push";
 }
 
+/* START M-PESA STK PUSH */
 
-throw new Error(
-"Enter a valid Kenyan M-Pesa number, e.g. 0712345678"
-);
+async function startMpesaPayment() {
+  if (paymentRequestInProgress) {
+    return;
+  }
 
+  if (
+    !Object.prototype.hasOwnProperty.call(
+      PACKAGE_PRICES,
+      selectedPackageName
+    )
+  ) {
+    setPaymentStatus(
+      "Please select a valid membership package first.",
+      "error"
+    );
+    return;
+  }
+
+  let phone;
+
+  try {
+    phone = normalizeKenyanPhone(
+      document.getElementById("mpesaPhone").value
+    );
+  } catch (error) {
+    setPaymentStatus(error.message, "error");
+    return;
+  }
+
+  const user = readDemoUser();
+
+  if (!user) {
+    closePaymentModal();
+    openModal("register");
+
+    showToast("Please create your profile first.");
+
+    return;
+  }
+
+  const button = document.getElementById("mpesaButton");
+
+  paymentRequestInProgress = true;
+
+  button.disabled = true;
+  button.textContent = "Connecting to M-Pesa…";
+
+  setPaymentStatus("loading", "waiting");
+
+  try {
+    const response = await fetch(
+      `${MPESA_API}/api/mpesa/stkpush`,
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+
+        /*
+         * These are the expected backend fields.
+         * Do not send "package" or a user-controlled amount.
+         */
+
+        body: JSON.stringify({
+          phone: phone,
+          packageName: selectedPackageName
+        })
+      }
+    );
+
+    const data = await response.json().catch(function () {
+      return null;
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        (data && data.message) ||
+        `Payment request failed (HTTP ${response.status}).`
+      );
+    }
+
+    if (!data || data.success !== true) {
+      throw new Error(
+        (data && data.message) ||
+        "The backend did not confirm that the STK Push request was accepted."
+      );
+    }
+
+    currentCheckoutRequestID =
+      data.checkoutRequestID || null;
+
+    /*
+     * IMPORTANT:
+     * A successful STK Push request is not a completed payment.
+     * Do not mark the membership ACTIVE here.
+     * The backend must verify and store the Safaricom callback.
+     */
+
+    button.disabled = false;
+    button.textContent = "Send Another STK Push";
+
+    setPaymentStatus(
+      "STK Push request accepted. Check " +
+      phone +
+      " and enter your M-Pesa PIN only if you want to pay. " +
+      "This message does not confirm payment or activate membership. " +
+      "Checkout reference: " +
+      (currentCheckoutRequestID || "not provided") +
+      ".",
+      "waiting"
+    );
+
+    showToast(
+      "STK Push request accepted. Check your phone."
+    );
+
+  } catch (error) {
+    console.error(
+      "Online Sphere STK Push error:",
+      error
+    );
+
+    button.disabled = false;
+    button.textContent = "📱 Send M-Pesa STK Push";
+
+    setPaymentStatus(
+      "Unable to start payment: " +
+      (error.message || "Please try again."),
+      "error"
+    );
+
+  } finally {
+    paymentRequestInProgress = false;
+  }
 }
 
-
-/* ---------------------------------------------------------
-   PAYMENT STATUS
---------------------------------------------------------- */
-
-function setPaymentStatus(message,type){
-
-const status =
-document.getElementById("paymentStatus");
-
-status.innerHTML =
-message;
-
-status.className =
-"payment-status show " + type;
-
-}
-
-
-function resetPaymentStatus(){
-
-const status =
-document.getElementById("paymentStatus");
-
-status.innerHTML =
-"";
-
-status.className =
-"payment-status";
-
-const button =
-document.getElementById("mpesaButton");
-
-button.disabled =
-false;
-
-button.innerHTML =
-"📱 Send M-Pesa STK Push";
-
-}
-
-
-/* ---------------------------------------------------------
-   START M-PESA PAYMENT
---------------------------------------------------------- */
-
-async function startMpesaPayment(){
-
-const phoneInput =
-document.getElementById("mpesaPhone");
-
-const phone =
-phoneInput.value.trim();
-
-
-if(!selectedPackageName){
-
-setPaymentStatus(
-"Please select a membership package.",
-"error"
-);
-
-return;
-
-}
-
-
-let normalizedPhone;
-
-try{
-
-normalizedPhone =
-normalizeKenyanPhone(phone);
-
-}catch(error){
-
-setPaymentStatus(
-error.message,
-"error"
-);
-
-return;
-
-}
-
-
-/*
-   Get current user.
-*/
-
-const user =
-JSON.parse(
-localStorage.getItem("onlineSphereUser") || "null"
-);
-
-
-if(!user){
-
-closePaymentModal();
-
-openModal("register");
-
-showToast(
-"Please create an account first."
-);
-
-return;
-
-}
-
-
-/*
-   Save the selected package to the user.
-*/
-
-user.package =
-selectedPackageName;
-
-user.membershipStatus =
-"PENDING_PAYMENT";
-
-user.mpesaPhone =
-normalizedPhone;
-
-localStorage.setItem(
-"onlineSphereUser",
-JSON.stringify(user)
-);
-
-
-/*
-   Disable button while request is processing.
-*/
-
-const button =
-document.getElementById("mpesaButton");
-
-button.disabled =
-true;
-
-button.innerHTML =
-"Processing M-Pesa...";
-
-
-setPaymentStatus(
-'<span class="payment-spinner"></span> Connecting to M-Pesa...',
-"waiting"
-);
-
-
-try{
-
-/*
-   IMPORTANT:
-   This request goes to your Node.js backend.
-
-   Your backend must contain:
-
-   POST /api/mpesa/stkpush
-
-   The Daraja Consumer Key and Secret
-   MUST remain on the backend.
-*/
-
-const response =
-await fetch(
-"/api/mpesa/stkpush",
-{
-
-method:"POST",
-
-headers:{
-"Content-Type":
-"application/json"
-},
-
-body:
-JSON.stringify({
-
-phone:
-normalizedPhone,
-
-package:
-selectedPackageName.toLowerCase(),
-
-amount:
-selectedPackageAmount
-
-})
-
-});
-
-
-let data;
-
-try{
-
-data =
-await response.json();
-
-}catch(error){
-
-throw new Error(
-"Server returned an invalid response."
-);
-
-}
-
-
-if(
-!response.ok ||
-!data.success
-){
-
-throw new Error(
-data.message ||
-"Unable to initiate M-Pesa payment."
-);
-
-}
-
-
-/*
-   Store payment ID.
-*/
-
-currentPaymentId =
-data.paymentId;
-
-
-/*
-   Update UI.
-*/
-
-button.innerHTML =
-"Waiting for Payment...";
-
-
-setPaymentStatus(
-
-'<span class="payment-spinner"></span> STK Push sent. Check your phone and enter your M-Pesa PIN.',
-
-"waiting"
-
-);
-
-
-/*
-   Begin checking payment status.
-*/
-
-pollPaymentStatus();
-
-
-}catch(error){
-
-console.error(
-"M-Pesa error:",
-error
-);
-
-
-button.disabled =
-false;
-
-button.innerHTML =
-"📱 Send M-Pesa STK Push";
-
-
-setPaymentStatus(
-
-"❌ " +
-(error.message ||
-"Unable to start M-Pesa payment."),
-
-"error"
-
-);
-
-}
-
-}
-
-
-/* ---------------------------------------------------------
-   POLL PAYMENT STATUS
---------------------------------------------------------- */
-
-function pollPaymentStatus(){
-
-if(!currentPaymentId){
-
-return;
-
-}
-
-
-if(paymentPolling){
-
-clearTimeout(paymentPolling);
-
-}
-
-
-paymentPolling =
-setTimeout(
-async function(){
-
-try{
-
-const response =
-await fetch(
-
-"/api/mpesa/status/" +
-encodeURIComponent(
-currentPaymentId
-)
-
-);
-
-
-const data =
-await response.json();
-
-
-if(
-!response.ok ||
-!data.success
-){
-
-pollPaymentStatus();
-
-return;
-
-}
-
-
-const payment =
-data.payment;
-
-
-/*
-   SUCCESS
-*/
-
-if(payment.status === "PAID"){
-
-activateMembership(
-payment
-);
-
-return;
-
-}
-
-
-/*
-   FAILED
-*/
-
-if(payment.status === "FAILED"){
-
-document
-.getElementById("mpesaButton")
-.disabled =
-false;
-
-document
-.getElementById("mpesaButton")
-.innerHTML =
-"📱 Try M-Pesa Again";
-
-
-setPaymentStatus(
-
-"❌ " +
-(
-payment.resultDescription ||
-"Payment was not completed."
-),
-
-"error"
-
-);
-
-return;
-
-}
-
-
-/*
-   Still pending.
-*/
-
-pollPaymentStatus();
-
-
-}catch(error){
-
-console.error(
-"Payment status error:",
-error
-);
-
-pollPaymentStatus();
-
-}
-
-},
-3000
-);
-
-}
-
-
-/* ---------------------------------------------------------
-   ACTIVATE MEMBERSHIP
---------------------------------------------------------- */
-
-function activateMembership(payment){
-
-const user =
-JSON.parse(
-localStorage.getItem("onlineSphereUser") || "null"
-);
-
-
-if(user){
-
-user.package =
-payment.package;
-
-user.membershipStatus =
-"ACTIVE";
-
-user.membershipActivatedAt =
-new Date().toISOString();
-
-user.mpesaReceipt =
-payment.receiptNumber || null;
-
-user.activationAmount =
-payment.amount || selectedPackageAmount;
-
-localStorage.setItem(
-"onlineSphereUser",
-JSON.stringify(user)
-);
-
-}
-
-
-/*
-   Update button.
-*/
-
-const button =
-document.getElementById("mpesaButton");
-
-button.disabled =
-true;
-
-button.innerHTML =
-"✓ Membership Activated";
-
-
-/*
-   Display success.
-*/
-
-setPaymentStatus(
-
-"✓ Payment confirmed! Your " +
-payment.package +
-" membership is now active." +
-(
-payment.receiptNumber
-?
-"<br><br>M-Pesa Receipt: <strong>" +
-payment.receiptNumber +
-"</strong>"
-:
-""
-),
-
-"success"
-
-);
-
-
-/*
-   Notify user.
-*/
-
-showToast(
-payment.package +
-" membership activated successfully."
-);
-
-
-/*
-   Stop polling.
-*/
-
-if(paymentPolling){
-
-clearTimeout(paymentPolling);
-
-paymentPolling =
-null;
-
-}
-
-}
-
-
-/* ---------------------------------------------------------
-   OPPORTUNITIES
---------------------------------------------------------- */
+/* OPPORTUNITIES */
 
 const opportunityData = {
+  "Transcription":
+    "Transcription involves converting audio or video into written text. Requirements vary by platform and client.",
 
-"Transcription":
-"Transcription involves converting audio or video into written text. Requirements can vary by platform and client.",
+  "Freelancing":
+    "Freelancing allows you to offer services such as graphic design, writing, web development, editing or virtual assistance.",
 
-"Freelancing":
-"Freelancing allows you to offer services such as graphic design, writing, web development, editing or virtual assistance.",
-
-"Writing":
-"Writing and editing opportunities can include content creation, proofreading, research and other legitimate digital services."
-
+  "Writing":
+    "Writing and editing opportunities can include content creation, proofreading, research and other legitimate digital services."
 };
 
+function viewOpportunity(type) {
+  document.getElementById("opportunityTitle").textContent =
+    type;
 
-function viewOpportunity(type){
+  document.getElementById("opportunityText").textContent =
+    opportunityData[type] ||
+    "Explore this digital opportunity and carefully check its requirements.";
 
-const modal =
-document.getElementById("opportunityModal");
-
-document
-.getElementById("opportunityTitle")
-.textContent = type;
-
-document
-.getElementById("opportunityText")
-.textContent =
-opportunityData[type] ||
-"Explore this digital opportunity and carefully check its requirements.";
-
-modal.classList.add("show");
-
+  document.getElementById("opportunityModal")
+    .classList.add("show");
 }
 
-
-function closeOpportunity(){
-
-document
-.getElementById("opportunityModal")
-.classList.remove("show");
-
+function closeOpportunity() {
+  document.getElementById("opportunityModal")
+    .classList.remove("show");
 }
 
+function saveOpportunity() {
+  const title =
+    document.getElementById("opportunityTitle").textContent;
 
-function saveOpportunity(){
+  const user = readDemoUser();
 
-showToast(
-"Opportunity saved."
+  if (!user) {
+    showToast(
+      "Create a profile to save opportunities in this demo."
+    );
+
+    closeOpportunity();
+    return;
+  }
+
+  try {
+    const saved = JSON.parse(
+      localStorage.getItem(
+        "onlineSphereSavedOpportunities"
+      ) || "[]"
+    );
+
+    if (!saved.includes(title)) {
+      saved.push(title);
+    }
+
+    localStorage.setItem(
+      "onlineSphereSavedOpportunities",
+      JSON.stringify(saved)
+    );
+
+    showToast("Saved to this browser's demo profile.");
+
+  } catch (error) {
+    showToast(
+      "Unable to save this opportunity in this browser."
+    );
+  }
+
+  closeOpportunity();
+}
+
+/* TOAST NOTIFICATION */
+
+function showToast(message) {
+  const toast = document.getElementById("toast");
+
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  clearTimeout(toastTimer);
+
+  toastTimer = window.setTimeout(function () {
+    toast.classList.remove("show");
+  }, 3500);
+}
+
+/* CLOSE MODALS WHEN BACKGROUND IS TAPPED */
+
+function closeOnBackdrop(id, callback) {
+  const modal = document.getElementById(id);
+
+  modal.addEventListener("click", function (event) {
+    if (event.target === modal) {
+      callback();
+    }
+  });
+}
+
+closeOnBackdrop("authModal", closeModal);
+closeOnBackdrop("paymentModal", closePaymentModal);
+closeOnBackdrop("opportunityModal", closeOpportunity);
+
+/* ESCAPE KEY */
+
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Escape") {
+    closeModal();
+    closePaymentModal();
+    closeOpportunity();
+
+    document.getElementById("mobileMenu")
+      .classList.remove("show");
+
+    document.querySelector(".menu-button")
+      .setAttribute("aria-expanded", "false");
+  }
+});
+
+/* SCROLL REVEAL */
+
+const revealElements = document.querySelectorAll(
+  ".category-card,.opportunity-card,.step,.price-card,.split-section"
 );
 
-closeOpportunity();
+if ("IntersectionObserver" in window) {
+  const observer = new IntersectionObserver(
+    function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = "1";
+          entry.target.style.transform = "translateY(0)";
 
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.08 }
+  );
+
+  revealElements.forEach(function (element) {
+    element.style.opacity = "0";
+    element.style.transform = "translateY(20px)";
+    element.style.transition =
+      "opacity .6s ease, transform .6s ease";
+
+    observer.observe(element);
+  });
 }
-
-
-/* ---------------------------------------------------------
-   TOAST
---------------------------------------------------------- */
-
-let toastTimer;
-
-function showToast(message){
-
-const toast =
-document.getElementById("toast");
-
-toast.textContent =
-message;
-
-toast.classList.add("show");
-
-clearTimeout(toastTimer);
-
-toastTimer =
-setTimeout(function(){
-
-toast.classList.remove("show");
-
-},3000);
-
-}
-
-
-/* ---------------------------------------------------------
-   CLOSE AUTH MODAL BY BACKDROP
---------------------------------------------------------- */
-
-document
-.getElementById("authModal")
-.addEventListener(
-"click",
-function(event){
-
-if(event.target === this){
-
-closeModal();
-
-}
-
-});
-
-
-/* ---------------------------------------------------------
-   CLOSE PAYMENT MODAL BY BACKDROP
---------------------------------------------------------- */
-
-document
-.getElementById("paymentModal")
-.addEventListener(
-"click",
-function(event){
-
-if(event.target === this){
-
-closePaymentModal();
-
-}
-
-});
-
-
-/* ---------------------------------------------------------
-   CLOSE OPPORTUNITY MODAL BY BACKDROP
---------------------------------------------------------- */
-
-document
-.getElementById("opportunityModal")
-.addEventListener(
-"click",
-function(event){
-
-if(event.target === this){
-
-closeOpportunity();
-
-}
-
-});
-
-
-/* ---------------------------------------------------------
-   SIMPLE SCROLL REVEAL
---------------------------------------------------------- */
-
-const revealElements =
-document.querySelectorAll(
-".category-card,.opportunity-card,.step,.price-card,.split-section"
-);
-
-
-const observer =
-new IntersectionObserver(
-entries => {
-
-entries.forEach(entry => {
-
-if(entry.isIntersecting){
-
-entry.target.style.opacity="1";
-
-entry.target.style.transform=
-"translateY(0)";
-
-}
-
-});
-
-},
-{
-threshold:.08
-}
-);
-
-
-revealElements.forEach(element => {
-
-element.style.opacity="0";
-
-element.style.transform=
-"translateY(20px)";
-
-element.style.transition=
-"opacity .6s ease, transform .6s ease";
-
-observer.observe(element);
-
-});
-
 </script>
-
-</body>
-</html>
