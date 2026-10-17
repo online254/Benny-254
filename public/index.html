@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#07111f">
     <meta name="description" content="Online Sphere — discover digital opportunities and manage your digital account.">
     <title>Online Sphere | Digital Platform</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=20261017">
 </head>
 <body>
 
@@ -429,15 +429,15 @@
         <div class="modal-header">
             <div class="modal-icon deposit-icon">+</div>
             <div>
-                <h3>Deposit with M-Pesa</h3>
-                <p>Select a membership package and enter your M-Pesa number.</p>
+                <h3>Activate Membership</h3>
+                <p>Complete your activation using M-Pesa.</p>
             </div>
         </div>
 
         <p class="modal-description">
-            Select your package below. After you submit the form, an M-Pesa
-            STK Push may appear on your phone. Enter your M-Pesa PIN only
-            on the official Safaricom prompt.
+            Select your membership package. The amount updates automatically
+            when you change packages. An STK Push is a payment request, not
+            proof that payment has been completed.
         </p>
 
         <form id="depositForm">
@@ -452,10 +452,11 @@
             </div>
 
             <div class="form-group">
-                <label for="depositAmount">Amount (KSh)</label>
+                <label for="depositAmount">Activation Fee (KSh)</label>
                 <input
                     id="depositAmount"
                     class="amount-input"
+                    name="amountDisplay"
                     type="number"
                     min="1000"
                     step="1"
@@ -478,7 +479,7 @@
                     maxlength="13"
                     required
                 >
-                <small>Use the Safaricom number that should receive the payment prompt.</small>
+                <small>Enter the Kenyan M-Pesa number that should receive the prompt.</small>
             </div>
 
             <div class="mpesa-info">
@@ -490,7 +491,8 @@
             </div>
 
             <div class="available-box">
-                Available Balance: <strong>KSh 0.00</strong>
+                Selected membership:
+                <strong id="depositPackageFee">Select a package</strong>
             </div>
 
             <div
@@ -498,16 +500,17 @@
                 class="modal-note"
                 role="status"
                 aria-live="polite"
+                hidden
             ></div>
 
             <button class="modal-primary" type="submit">
-                Send M-Pesa Prompt
+                Send M-Pesa STK Push
             </button>
         </form>
 
         <small class="modal-note">
-            Submitting this form does not confirm payment. Membership activation
-            or balance updates must wait for verified payment confirmation.
+            Payment and membership activation must only be confirmed after
+            the backend verifies the Safaricom transaction result.
         </small>
     </div>
 </div>
@@ -582,28 +585,8 @@
 <!-- BACK TO TOP -->
 <button class="back-to-top" type="button" aria-label="Back to top">↑</button>
 
-<!-- PACKAGE AMOUNT SYNC -->
-<script>
-(function () {
-    const packageSelect = document.getElementById("depositPackage");
-    const amountInput = document.getElementById("depositAmount");
-
-    if (!packageSelect || !amountInput) return;
-
-    const prices = {
-        Bronze: 1000,
-        Silver: 1750,
-        Gold: 2500
-    };
-
-    packageSelect.addEventListener("change", function () {
-        amountInput.value = prices[this.value] || "";
-    });
-})();
-</script>
-
-<!-- JAVASCRIPT -->
-<script src="app.js"></script>
+<!-- MAIN JAVASCRIPT -->
+<script src="app.js?v=20261017"></script>
 
 </body>
 </html>
