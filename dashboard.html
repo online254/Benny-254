@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#07111f">
+  <title>Online Sphere | Member Dashboard</title>
+  <meta name="description" content="Online Sphere member dashboard — Discover. Learn. Work.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #07111f;
+      --panel: #0d1a2b;
+      --panel-light: #122238;
+      --border: rgba(255,255,255,.09);
+      --text: #f4f7fb;
+      --muted: #94a3b8;
+      --blue: #2563eb;
+      --purple: #7c3aed;
+      --green: #22c55e;
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Inter, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    button, input, select, textarea {
+      font: inherit;
+    }
+
+    button, a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .app {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 255px;
+      padding: 26px 16px;
+      background: #091525;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 10px 30px;
+    }
+
+    .brand-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      font-size: 22px;
+      font-weight: 800;
+      box-shadow: 0 8px 25px rgba(37,99,235,.25);
+    }
+
+    .brand-name {
+      font-weight: 800;
+      font-size: 17px;
+      letter-spacing: -.5px;
+    }
+
+    .brand-tagline {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .nav-label {
+      color: #64748b;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      padding: 12px 12px 9px;
+      text-transform: uppercase;
+    }
+
+    .nav {
+      display: grid;
+      gap: 5px;
+    }
+
+    .nav button {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      border: 0;
+      color: #a8b5c8;
+      background: transparent;
+      text-align: left;
+      padding: 12px;
+      border-radius: 11px;
+      font-size: 13px;
+      transition: .2s ease;
+    }
+
+    .nav button:hover,
+    .nav button.active {
+      background: rgba(37,99,235,.16);
+      color: #fff;
+    }
+
+    .nav button.active {
+      box-shadow: inset 3px 0 var(--blue);
+    }
+
+    .nav-icon {
+      width: 22px;
+      text-align: center;
+      font-size: 17px;
+    }
+
+    .sidebar-bottom {
+      margin-top: auto;
+      padding-top: 24px;
+    }
+
+    .support-card {
+      padding: 16px;
+      border-radius: 15px;
+      background: linear-gradient(145deg, rgba(37,99,235,.18), rgba(124,58,237,.12));
+      border: 1px solid rgba(124,58,237,.2);
+    }
+
+    .support-card strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .support-card p {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .support-card button {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: rgba(255,255,255,.06);
+      color: white;
+      font-size: 12px;
+    }
+
+    .main {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .topbar {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 30px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(7,17,31,.8);
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mobile-menu {
+      display: none;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: white;
+      border-radius: 10px;
+      padding: 9px 12px;
+    }
+
+    .page-heading {
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .breadcrumb {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 5px;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .status-pill {
+      color: #86efac;
+      background: rgba(34,197,94,.1);
+      border: 1px solid rgba(34,197,94,.18);
+      border-radius: 30px;
+      padding: 8px 11px;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .avatar {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      color: white;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .content {
+      padding: 30px;
+      max-width: 1500px;
+      margin: 0 auto;
+    }
+
+    .welcome {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 26px;
+    }
+
+    .welcome h1 {
+      font-size: clamp(24px, 3vw, 34px);
+      letter-spacing: -1.1px;
+      line-height: 1.25;
+    }
+
+    .welcome p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+      margin-top: 9px;
+    }
+
+    .primary-btn {
+      background: linear-gradient(120deg, var(--blue), var(--purple));
+      border: 0;
+      border-radius: 11px;
+      padding: 12px 17px;
+      color: white;
+      font-weight: 700;
+      font-size: 12px;
+      white-space: nowrap;
+      box-shadow: 0 8px 24px rgba(37,99,235,.18);
+    }
+
+    .primary-btn:hover {
+      filter: brightness(1.12);
+    }
+
+    .secondary-btn {
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 11px 14px;
+      color: white;
+      font-size: 12px;
+    }
+
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      padding: 28px;
+      border: 1px solid rgba(96,165,250,.2);
+      border-radius: 22px;
+      background:
+        radial-gradient(ellipse at 90% 0%, rgba(124,58,237,.26), transparent 42%),
+        linear-gradient(115deg, #102746, #101b32 68%, #191b3c);
+      margin-bottom: 25px;
+    }
+
+    .hero-card::after {
+      content: "◎";
+      position: absolute;
+      right: 38px;
+      top: -48px;
+      color: rgba(147,197,253,.08);
+      font-size: 220px;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 650px;
+    }
+
+    .eyebrow {
+      color: #93c5fd;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .hero-card h2 {
+      font-size: clamp(22px, 3vw, 30px);
+      letter-spacing: -.7px;
+      line-height: 1.3;
+      margin-bottom: 12px;
+    }
+
+    .hero-card p {
+      color: #bdcbe0;
+      font-size: 13px;
+      line-height: 1.8;
+      max-width: 560px;
+      margin-bottom: 20px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .section {
+      display: none;
+      animation: appear .2s ease;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 7px;
+    }
+
+    .section-subtitle {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card {
+      padding: 19px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      min-width: 0;
+    }
+
+    .stat-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .stat-icon {
+      width: 35px;
+      height: 35px;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      background: rgba(37,99,235,.15);
+      font-size: 17px;
+    }
+
+    .stat-value {
+      font-size: 25px;
+      font-weight: 800;
+      letter-spacing: -.8px;
+      overflow-wrap: anywhere;
+    }
+
+    .stat-note {
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.6;
+      margin-top: 7px;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(260px, .8fr);
+      gap: 18px;
+      margin-bottom: 25px;
+    }
+
+    .panel {
+      padding: 22px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      min-width: 0;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .panel-header h3 {
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .panel-header span {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .empty-state {
+      padding: 28px 16px;
+      text-align: center;
+      border: 1px dashed rgba(148,163,184,.2);
+      border-radius: 14px;
+    }
+
+    .empty-icon {
+      font-size: 30px;
+      margin-bottom: 12px;
+    }
+
+    .empty-state h4 {
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .empty-state p {
+      max-width: 350px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.8;
+    }
+
+    .package-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .package-card {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.02);
+      border-radius: 14px;
+      padding: 17px;
+    }
+
+    .package-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .package-name {
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .package-price {
+      font-size: 19px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .package-card p {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.7;
+      margin-bottom: 14px;
+    }
+
+    .package-card button {
+      width: 100%;
+    }
+
+    .notice {
+      padding: 14px 16px;
+      border-radius: 12px;
+      background: rgba(245,158,11,.08);
+      border: 1px solid rgba(245,158,11,.2);
+      color: #fcd34d;
+      font-size: 11px;
+      line-height: 1.8;
+      margin-bottom: 18px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .field label {
+      color: #cbd5e1;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      min-width: 0;
+      background: #081424;
+      border: 1px solid rgba(148,163,184,.2);
+      border-radius: 10px;
+      padding: 13px 12px;
+      color: white;
+      outline: none;
+      font-size: 12px;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59,130,246,.1);
+    }
+
+    .field small {
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.6;
+    }
+
+    .form-message {
+      display: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 11px;
+      line-height: 1.7;
+      margin-top: 14px;
+      overflow-wrap: anywhere;
+    }
+
+    .form-message.show {
+      display: block;
+    }
+
+    .form-message.error {
+      background: rgba(239,68,68,.1);
+      border: 1px solid rgba(239,68,68,.2);
+      color: #fca5a5;
+    }
+
+    .form-message.success {
+      background: rgba(34,197,94,.1);
+      border: 1px solid rgba(34,197,94,.2);
+      color: #86efac;
+    }
+
+    .form-message.info {
+      background: rgba(59,130,246,.1);
+      border: 1px solid rgba(59,130,246,.2);
+      color: #bfdbfe;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 500px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 14px 10px;
+      border-bottom: 1px solid var(--border);
+      font-size: 11px;
+    }
+
+    th {
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    td {
+      color: #dbe5f2;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .badge {
+      display: inline-block;
+      border-radius: 20px;
+      padding: 5px 8px;
+      font-size: 10px;
+      background: rgba(148,163,184,.1);
+      color: #cbd5e1;
+    }
+
+    .badge.green {
+      background: rgba(34,197,94,.1);
+      color: #86efac;
+    }
+
+    .badge.orange {
+      background: rgba(245,158,11,.1);
+      color: #fcd34d;
+    }
+
+    .mobile-overlay {
+      display: none;
+    }
+
+    .footer {
+      padding: 22px 30px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.8;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      padding: 18px;
+      background: rgba(0,0,0,.75);
+      align-items: center;
+      justify-content: center;
+      overflow-y: auto;
+    }
+
+    .modal.open {
+      display: flex;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 470px;
+      padding: 25px;
+      border-radius: 20px;
+      background: #0d1a2b;
+      border: 1px solid var(--border);
+      box-shadow: 0 25px 80px rgba(0,0,0,.4);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .modal-header h3 {
+      font-size: 18px;
+    }
+
+    .close-modal {
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 6px 10px;
+      color: white;
+      font-size: 18px;
+    }
+
+    .modal-description {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.8;
+      margin-bottom: 18px;
+    }
+
+    @media (max-width: 1100px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .sidebar {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 80;
+        width: 270px;
+        transform: translateX(-105%);
+        transition: transform .25s ease;
+        overflow-y: auto;
+        box-shadow: 15px 0 50px rgba(0,0,0,.3);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .mobile-overlay.open {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 70;
+        background: rgba(0,0,0,.6);
+      }
+
+      .mobile-menu {
+        display: inline-block;
+      }
+
+      .topbar {
+        padding: 14px 16px;
+      }
+
+      .content {
+        padding: 20px 15px;
+      }
+
+      .welcome {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .welcome .primary-btn {
+        width: 100%;
+      }
+
+      .hero-card {
+        padding: 22px;
+      }
+
+      .stats-grid {
+        gap: 10px;
+      }
+
+      .stat-card {
+        padding: 14px;
+      }
+
+      .stat-value {
+        font-size: 21px;
+      }
+
+      .stat-top {
+        margin-bottom: 14px;
+      }
+
+      .panel {
+        padding: 16px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .footer {
+        padding: 20px 15px;
+      }
+
+      .status-pill {
+        display: none;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .brand-name {
+        font-size: 15px;
+      }
+
+      .hero-actions button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-logo">OS</div>
+        <div>
+          <div class="brand-name">ONLINE SPHERE</div>
+          <div class="brand-tagline">Discover. Learn. Work.</div>
+        </div>
+      </div>
+
+      <div class="nav-label">Workspace</div>
+      <nav class="nav">
+        <button class="active" data-page="overview"><span class="nav-icon">⌂</span> Overview</button>
+        <button data-page="opportunities"><span class="nav-icon">◈</span> Opportunities</button>
+        <button data-page="work"><span class="nav-icon">▤</span> My Work</button>
+        <button data-page="membership"><span class="nav-icon">◇</span> Membership</button>
+        <button data-page="wallet"><span class="nav-icon">▣</span> Wallet & Payments</button>
+        <button data-page="referrals"><span class="nav-icon">♧</span> Referrals</button>
+      </nav>
+
+      <div class="nav-label">Account</div>
+      <nav class="nav">
+        <button data-page="profile"><span class="nav-icon">◉</span> Profile</button>
+        <button data-page="notifications"><span class="nav-icon">♢</span> Notifications</button>
+        <button data-page="help"><span class="nav-icon">?</span> Help & Support</button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="support-card">
+          <strong>Need assistance?</strong>
+          <p>Visit the support section for payment guidance and account information.</p>
+          <button data-page="help">Visit Help Centre →</button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-menu" id="mobileMenu">☰</button>
+          <div>
+            <div class="page-heading" id="pageHeading">Overview</div>
+            <div class="breadcrumb">Online Sphere / Member Workspace</div>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <div class="status-pill" id="apiStatus">Checking API…</div>
+          <div class="avatar">OS</div>
+        </div>
+      </header>
+
+      <div class="content">
+        <section class="section active" id="page-overview">
+          <div class="welcome">
+            <div>
+              <h1>Welcome to Online Sphere</h1>
+              <p>Discover digital opportunities, develop useful skills, and explore your next steps.</p>
+            </div>
+            <button class="primary-btn" data-page="opportunities">Explore Opportunities →</button>
+          </div>
+
+          <div class="hero-card">
+            <div class="hero-content">
+              <div class="eyebrow">YOUR DIGITAL JOURNEY</div>
+              <h2>Discover. Learn. Work.</h2>
+              <p>Your gateway to digital opportunities around the world. Explore available categories, learn new skills, and keep track of your membership payments.</p>
+              <div class="hero-actions">
+                <button class="primary-btn" data-page="opportunities">Explore Categories</button>
+                <button class="secondary-btn" data-page="membership">View Membership</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-top"><span class="stat-label">Available Opportunities</span><span class="stat-icon">◈</span></div>
+              <div class="stat-value">—</div>
+              <div class="stat-note">Live listings are not connected yet</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-top"><span class="stat-label">Active Work</span><span class="stat-icon">▤</span></div>
+              <div class="stat-value">—</div>
+              <div class="stat-note">Requires work and submission APIs</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-top"><span class="stat-label">Wallet Balance</span><span class="stat-icon">▣</span></div>
+              <div class="stat-value">—</div>
+              <div class="stat-note">No wallet ledger is connected</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-top"><span class="stat-label">Membership</span><span class="stat-icon">◇</span></div>
+              <div class="stat-value" style="font-size:20px">Not verified</div>
+              <div class="stat-note">Requires confirmed payment records</div>
+            </div>
+          </div>
+
+          <div class="dashboard-grid">
+            <div class="panel">
+              <div class="panel-header"><h3>Recent Activity</h3><span>Account records</span></div>
+              <div class="empty-state">
+                <div class="empty-icon">◷</div>
+                <h4>No activity to display</h4>
+                <p>Payment history, submissions, and account activity will appear here once connected to the server.</p>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-header"><h3>Membership Packages</h3><span>Kenya</span></div>
+              <div class="package-list">
+                <div class="package-card">
+                  <div class="package-top"><span class="package-name">Bronze</span><span class="package-price">KSh 1,000</span></div>
+                  <p>Bronze membership package.</p>
+                  <button class="primary-btn" data-package="Bronze">Choose Bronze</button>
+                </div>
+                <div class="package-card">
+                  <div class="package-top"><span class="package-name">Silver</span><span class="package-price">KSh 1,750</span></div>
+                  <p>Silver membership package.</p>
+                  <button class="primary-btn" data-package="Silver">Choose Silver</button>
+                </div>
+                <div class="package-card">
+                  <div class="package-top"><span class="package-name">Gold</span><span class="package-price">KSh 2,500</span></div>
+                  <p>Gold membership package.</p>
+                  <button class="primary-btn" data-package="Gold">Choose Gold</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="page-opportunities">
+          <h2 class="section-title">Explore Opportunities</h2>
+          <p class="section-subtitle">Browse digital work categories. These are categories, not a claim that specific paid tasks are currently available.</p>
+          <div class="panel">
+            <div class="field">
+              <label for="oppSearch">Search categories</label>
+              <input id="oppSearch" placeholder="Search writing, design, research...">
+            </div>
+            <div class="field">
+              <label for="oppCategory">Category filter</label>
+              <select id="oppCategory">
+                <option value="">All categories</option>
+                <option value="writing">Writing</option>
+                <option value="design">Design</option>
+                <option value="data">Data</option>
+                <option value="technology">Technology</option>
+                <option value="translation">Translation</option>
+              </select>
+            </div>
+            <div class="stats-grid">
+              <div class="stat-card category-card" data-name="transcription data">
+                <div class="stat-icon">⌨</div><h3>Transcription</h3>
+                <p class="stat-note">Audio and text-related work</p>
+              </div>
+              <div class="stat-card category-card" data-name="data entry data">
+                <div class="stat-icon">▤</div><h3>Data Entry</h3>
+                <p class="stat-note">Organising and entering information</p>
+              </div>
+              <div class="stat-card category-card" data-name="writing academic writing">
+                <div class="stat-icon">✎</div><h3>Writing</h3>
+                <p class="stat-note">Writing and editing categories</p>
+              </div>
+              <div class="stat-card category-card" data-name="graphic design design">
+                <div class="stat-icon">◇</div><h3>Graphic Design</h3>
+                <p class="stat-note">Visual design and creative work</p>
+              </div>
+              <div class="stat-card category-card" data-name="video editing design">
+                <div class="stat-icon">▷</div><h3>Video Editing</h3>
+                <p class="stat-note">Video and media production</p>
+              </div>
+              <div class="stat-card category-card" data-name="social media">
+                <div class="stat-icon">◎</div><h3>Social Media</h3>
+                <p class="stat-note">Content and account support</p>
+              </div>
+              <div class="stat-card category-card" data-name="research academic">
+                <div class="stat-icon">⌕</div><h3>Research</h3>
+                <p class="stat-note">Research and information gathering</p>
+              </div>
+              <div class="stat-card category-card" data-name="technology coding">
+                <div class="stat-icon">⌘</div><h3>Technology</h3>
+                <p class="stat-note">Technical and digital skills</p>
+              </div>
+              <div class="stat-card category-card" data-name="translation language">
+                <div class="stat-icon">文</div><h3>Translation</h3>
+                <p class="stat-note">Language-related services</p>
+              </div>
+              <div class="stat-card category-card" data-name="virtual assistance">
+                <div class="stat-icon">◉</div><h3>Virtual Assistance</h3>
+                <p class="stat-note">Remote administrative support</p>
+              </div>
+            </div>
+            <div class="empty-state" id="noCategories" style="display:none">
+              <h4>No matching categories</h4>
+              <p>Try another search term or select All categories.</p>
+            </div>
+          </div>
+          <div class="notice" style="margin-top:18px">No live task listings are connected to this page yet. A category does not mean a task or payment is guaranteed to be available.</div>
+        </section>
+
+        <section class="section" id="page-work">
+          <h2 class="section-title">My Work</h2>
+          <p class="section-subtitle">View assigned opportunities and submissions when the work-management service is connected.</p>
+          <div class="panel">
+            <div class="empty-state">
+              <div class="empty-icon">▤</div>
+              <h4>No work records available</h4>
+              <p>The backend does not currently provide assigned work, submissions, or approval status.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="page-membership">
+          <h2 class="section-title">Membership</h2>
+          <p class="section-subtitle">Select a package to send an M-Pesa payment request.</p>
+          <div class="notice">An STK Push request is not proof of payment. Membership should only be activated after the backend verifies the payment.</div>
+          <div class="stats-grid">
+            <div class="stat-card"><div class="eyebrow">BRONZE</div><div class="stat-value">KSh 1,000</div><p class="stat-note">Bronze membership package</p><button class="primary-btn" data-package="Bronze">Select Bronze</button></div>
+            <div class="stat-card"><div class="eyebrow">SILVER</div><div class="stat-value">KSh 1,750</div><p class="stat-note">Silver membership package</p><button class="primary-btn" data-package="Silver">Select Silver</button></div>
+            <div class="stat-card"><div class="eyebrow">GOLD</div><div class="stat-value">KSh 2,500</div><p class="stat-note">Gold membership package</p><button class="primary-btn" data-package="Gold">Select Gold</button></div>
+          </div>
+        </section>
+
+        <section class="section" id="page-wallet">
+          <h2 class="section-title">Wallet & Payments</h2>
+          <p class="section-subtitle">Request a membership payment and check payment records once the backend supports them.</p>
+          <div class="notice">Your wallet balance and payment history are not available from the current backend. No balance is fabricated by this dashboard.</div>
+          <div class="panel">
+            <div class="field">
+              <label for="walletPhone">M-Pesa phone number</label>
+              <input id="walletPhone" type="tel" placeholder="07XXXXXXXX or 2547XXXXXXXX" inputmode="tel">
+            </div>
+            <div class="field">
+              <label for="walletPackage">Membership package</label>
+              <select id="walletPackage">
+                <option value="Bronze">Bronze — KSh 1,000</option>
+                <option value="Silver">Silver — KSh 1,750</option>
+                <option value="Gold">Gold — KSh 2,500</option>
+              </select>
+            </div>
+            <button class="primary-btn" id="walletPay">Request M-Pesa Payment</button>
+            <div class="form-message" id="walletMessage" role="status"></div>
+          </div>
+          <div class="panel" style="margin-top:18px">
+            <div class="panel-header"><h3>Payment History</h3></div>
+            <div class="empty-state"><h4>No payment records available</h4><p>Verified transactions will need to be retrieved from a secure payment-history API.</p></div>
+          </div>
+        </section>
+        <section class="section" id="page-referrals">
+          <h2 class="section-title">Referrals</h2>
+          <p class="section-subtitle">Referral information will appear here when the referral service is connected.</p>
+          <div class="panel">
+            <div class="empty-state">
+              <div class="empty-icon">♧</div>
+              <h4>No referral records available</h4>
+              <p>Referral links, eligible activations, and referral payments require verified server-side records.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="page-profile">
+          <h2 class="section-title">Profile</h2>
+          <p class="section-subtitle">Member profile settings.</p>
+          <div class="panel">
+            <div class="notice">This form is a visual profile interface only. Profile changes are not saved because an authenticated member API is not connected.</div>
+            <div class="form-grid">
+              <div class="field">
+                <label for="profileName">Full name</label>
+                <input id="profileName" placeholder="Enter your full name" autocomplete="name">
+              </div>
+              <div class="field">
+                <label for="profileEmail">Email address</label>
+                <input id="profileEmail" type="email" placeholder="you@example.com" autocomplete="email">
+              </div>
+              <div class="field">
+                <label for="profilePhone">Phone number</label>
+                <input id="profilePhone" type="tel" placeholder="Your phone number" autocomplete="tel">
+              </div>
+              <div class="field">
+                <label for="profileCountry">Country</label>
+                <select id="profileCountry">
+                  <option value="">Select country</option>
+                  <option>Kenya</option>
+                  <option>Tanzania</option>
+                  <option>Uganda</option>
+                  <option>Rwanda</option>
+                  <option>Nigeria</option>
+                  <option>South Africa</option>
+                  <option>Ghana</option>
+                  <option>United States</option>
+                  <option>United Kingdom</option>
+                  <option>Canada</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </div>
+            <button class="primary-btn" id="profileSave">Save Profile</button>
+            <div class="form-message" id="profileMessage" role="status"></div>
+          </div>
+        </section>
+
+        <section class="section" id="page-notifications">
+          <h2 class="section-title">Notifications</h2>
+          <p class="section-subtitle">Payment and account notifications.</p>
+          <div class="panel">
+            <div class="empty-state">
+              <div class="empty-icon">♢</div>
+              <h4>No notifications available</h4>
+              <p>Notifications will appear here after a notification service is connected.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="page-help">
+          <h2 class="section-title">Help & Support</h2>
+          <p class="section-subtitle">Information to help you use Online Sphere.</p>
+          <div class="dashboard-grid">
+            <div class="panel">
+              <div class="panel-header"><h3>How M-Pesa payments work</h3></div>
+              <p class="section-subtitle">1. Choose a membership package.</p>
+              <p class="section-subtitle">2. Enter the M-Pesa phone number registered for payment.</p>
+              <p class="section-subtitle">3. Tap Request M-Pesa Payment and follow the prompt on your phone.</p>
+              <p class="section-subtitle">4. Wait for the transaction to be verified by the payment provider and backend.</p>
+              <p class="section-subtitle">5. Keep your M-Pesa confirmation message for your records.</p>
+            </div>
+            <div class="panel">
+              <div class="panel-header"><h3>Important information</h3></div>
+              <p class="section-subtitle">Never share your M-Pesa PIN or account password with anyone.</p>
+              <p class="section-subtitle">A payment prompt is not a successful payment confirmation.</p>
+              <p class="section-subtitle">Contact official Online Sphere support if a payment is deducted but not reflected in your account.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <footer class="footer">
+        <strong>ONLINE SPHERE</strong> — Discover. Learn. Work.<br>
+        This dashboard currently provides the user interface and M-Pesa request integration. Member authentication, verified membership status, live opportunities, wallet balances, and payment history require connected backend services.
+      </footer>
+    </main>
+  </div>
+
+  <div class="modal" id="paymentModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modalTitle">M-Pesa Payment</h3>
+        <button class="close-modal" id="closeModal" aria-label="Close payment dialog">×</button>
+      </div>
+
+      <p class="modal-description" id="modalDescription">
+        Enter your M-Pesa phone number to request a payment prompt.
+      </p>
+
+      <div class="field">
+        <label for="paymentPhone">M-Pesa phone number</label>
+        <input id="paymentPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="07XXXXXXXX or 2547XXXXXXXX">
+        <small>Use a Kenyan Safaricom number accepted by your payment setup.</small>
+      </div>
+
+      <div class="field">
+        <label for="paymentPackage">Membership package</label>
+        <select id="paymentPackage">
+          <option value="Bronze">Bronze — KSh 1,000</option>
+          <option value="Silver">Silver — KSh 1,750</option>
+          <option value="Gold">Gold — KSh 2,500</option>
+        </select>
+      </div>
+
+      <button class="primary-btn" id="sendStk" style="width:100%">Send STK Push</button>
+      <div class="form-message" id="paymentMessage" role="status" aria-live="polite"></div>
+
+      <p class="section-subtitle" style="margin-top:16px;margin-bottom:0">
+        Never share your M-Pesa PIN. Only approve a prompt you requested and whose amount and recipient you have checked.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    "use strict";
+
+    // Existing Online Sphere Render backend.
+    const API_BASE = "https://online-sphere-backend.onrender.com";
+    const STK_ENDPOINT = API_BASE + "/api/mpesa/stkpush";
+
+    const PACKAGE_PRICES = {
+      Bronze: 1000,
+      Silver: 1750,
+      Gold: 2500
+    };
+
+    const pageNames = {
+      overview: "Overview",
+      opportunities: "Opportunities",
+      work: "My Work",
+      membership: "Membership",
+      wallet: "Wallet & Payments",
+      referrals: "Referrals",
+      profile: "Profile",
+      notifications: "Notifications",
+      help: "Help & Support"
+    };
+
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("mobileOverlay");
+    const modal = document.getElementById("paymentModal");
+    const sendButton = document.getElementById("sendStk");
+    let selectedPackage = "Bronze";
+    let requestInProgress = false;
+
+    function navigateTo(page) {
+      if (!pageNames[page]) return;
+
+      document.querySelectorAll(".section").forEach(section => {
+        section.classList.remove("active");
+      });
+
+      const target = document.getElementById("page-" + page);
+      if (target) target.classList.add("active");
+
+      document.querySelectorAll(".nav button[data-page]").forEach(button => {
+        button.classList.toggle("active", button.dataset.page === page);
+      });
+
+      document.getElementById("pageHeading").textContent = pageNames[page];
+
+      sidebar.classList.remove("open");
+      overlay.classList.remove("open");
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    document.querySelectorAll("[data-page]").forEach(button => {
+      button.addEventListener("click", () => navigateTo(button.dataset.page));
+    });
+
+    document.getElementById("mobileMenu").addEventListener("click", () => {
+      sidebar.classList.toggle("open");
+      overlay.classList.toggle("open");
+    });
+
+    overlay.addEventListener("click", () => {
+      sidebar.classList.remove("open");
+      overlay.classList.remove("open");
+    });
+
+    function showMessage(element, message, type) {
+      element.textContent = message;
+      element.className = "form-message show " + type;
+    }
+
+    function clearMessage(element) {
+      element.textContent = "";
+      element.className = "form-message";
+    }
+
+    function normalizeKenyanPhone(value) {
+      let phone = String(value || "").trim().replace(/[\s()-]/g, "");
+
+      if (phone.startsWith("+")) phone = phone.slice(1);
+      if (phone.startsWith("0")) phone = "254" + phone.slice(1);
+
+      // Accept the standard Kenyan mobile format sent to the backend.
+      if (!/^254[17]\d{8}$/.test(phone)) {
+        return null;
+      }
+
+      return phone;
+    }
+
+    function openPayment(packageName) {
+      if (!Object.prototype.hasOwnProperty.call(PACKAGE_PRICES, packageName)) {
+        packageName = "Bronze";
+      }
+
+      selectedPackage = packageName;
+      document.getElementById("paymentPackage").value = packageName;
+      document.getElementById("modalTitle").textContent = packageName + " Membership";
+      document.getElementById("modalDescription").textContent =
+        "Package price: KSh " +
+        PACKAGE_PRICES[packageName].toLocaleString("en-KE") +
+        ". Enter your phone number to request an M-Pesa prompt.";
+
+      clearMessage(document.getElementById("paymentMessage"));
+      modal.classList.add("open");
+    }
+
+    function closePayment() {
+      if (requestInProgress) return;
+      modal.classList.remove("open");
+    }
+
+    document.querySelectorAll("[data-package]").forEach(button => {
+      button.addEventListener("click", () => {
+        openPayment(button.dataset.package);
+      });
+    });
+
+    document.getElementById("closeModal").addEventListener("click", closePayment);
+
+    modal.addEventListener("click", event => {
+      if (event.target === modal) closePayment();
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape" && modal.classList.contains("open")) {
+        closePayment();
+      }
+    });
+
+    document.getElementById("paymentPackage").addEventListener("change", event => {
+      selectedPackage = event.target.value;
+      document.getElementById("modalTitle").textContent = selectedPackage + " Membership";
+      document.getElementById("modalDescription").textContent =
+        "Package price: KSh " +
+        PACKAGE_PRICES[selectedPackage].toLocaleString("en-KE") +
+        ". Enter your phone number to request an M-Pesa prompt.";
+    });
+
+    async function requestStkPush(phoneInput, packageName, messageElement) {
+      if (requestInProgress) return;
+
+      const phone = normalizeKenyanPhone(phoneInput);
+
+      if (!phone) {
+        showMessage(
+          messageElement,
+          "Enter a valid Kenyan mobile number, for example 0712345678 or 254712345678.",
+          "error"
+        );
+        return;
+      }
+
+      if (!Object.prototype.hasOwnProperty.call(PACKAGE_PRICES, packageName)) {
+        showMessage(messageElement, "Please select a valid membership package.", "error");
+        return;
+      }
+
+      requestInProgress = true;
+      sendButton.disabled = true;
+      sendButton.textContent = "Sending request…";
+
+      const walletButton = document.getElementById("walletPay");
+      if (walletButton) {
+        walletButton.disabled = true;
+        walletButton.textContent = "Sending request…";
+      }
+
+      showMessage(messageElement, "Connecting to the payment service. Please wait…", "info");
+
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000);
+
+      try {
+        const response = await fetch(STK_ENDPOINT, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          // Keep the request body compatible with the existing backend.
+          body: JSON.stringify({
+            phone: phone,
+            packageName: packageName
+          }),
+          signal: controller.signal
+        });
+
+        const rawBody = await response.text();
+        let data;
+
+        try {
+          data = rawBody ? JSON.parse(rawBody) : {};
+        } catch {
+          throw new Error(
+            "The server returned a response that was not valid JSON. Check the Render backend logs."
+          );
+        }
+
+        if (!response.ok) {
+          const serverMessage =
+            data.message || data.error || data.details ||
+            ("The server returned HTTP " + response.status + ".");
+
+          throw new Error(serverMessage);
+        }
+
+        // A successful HTTP response only means the request was accepted
+        // according to the backend response; it does not confirm payment.
+        const accepted =
+          data.success === true ||
+          data.ResponseCode === "0" ||
+          data.responseCode === "0";
+
+        if (!accepted) {
+          throw new Error(
+            data.message ||
+            data.error ||
+            "The backend did not confirm that the STK request was accepted. Check the server response."
+          );
+        }
+
+        showMessage(
+          messageElement,
+          "STK Push request accepted for " + packageName +
+          " (KSh " + PACKAGE_PRICES[packageName].toLocaleString("en-KE") +
+          "). Check your phone for the M-Pesa prompt. Your membership is not confirmed until payment is verified.",
+          "success"
+        );
+      } catch (error) {
+        let message = error.message || "The payment request failed.";
+
+        if (error.name === "AbortError") {
+          message = "The request timed out. Check your phone and payment records before trying again.";
+        } else if (error instanceof TypeError) {
+          message = "Could not connect to the backend. Check your internet connection, Render service status, and CORS settings.";
+        }
+
+        showMessage(messageElement, message, "error");
+      } finally {
+        clearTimeout(timeoutId);
+        requestInProgress = false;
+        sendButton.disabled = false;
+        sendButton.textContent = "Send STK Push";
+
+        if (walletButton) {
+          walletButton.disabled = false;
+          walletButton.textContent = "Request M-Pesa Payment";
+        }
+      }
+    }
+
+    sendButton.addEventListener("click", () => {
+      const phone = document.getElementById("paymentPhone").value;
+      const packageName = document.getElementById("paymentPackage").value;
+      requestStkPush(phone, packageName, document.getElementById("paymentMessage"));
+    });
+
+    document.getElementById("walletPay").addEventListener("click", () => {
+      const phone = document.getElementById("walletPhone").value;
+      const packageName = document.getElementById("walletPackage").value;
+      requestStkPush(phone, packageName, document.getElementById("walletMessage"));
+    });
+
+    document.getElementById("profileSave").addEventListener("click", () => {
+      showMessage(
+        document.getElementById("profileMessage"),
+        "Profile saving is not connected yet. A secure member profile API is required to save these details.",
+        "info"
+      );
+    });
+
+    // Local category search only; it does not pretend to fetch live tasks.
+    const searchInput = document.getElementById("oppSearch");
+    const categoryFilter = document.getElementById("oppCategory");
+
+    function filterCategories() {
+      const search = searchInput.value.trim().toLowerCase();
+      const filter = categoryFilter.value.toLowerCase();
+      const cards = document.querySelectorAll(".category-card");
+      let visible = 0;
+
+      cards.forEach(card => {
+        const name = card.dataset.name || "";
+        const matchesSearch = !search || name.includes(search);
+        const matchesFilter = !filter || name.includes(filter);
+        const show = matchesSearch && matchesFilter;
+
+        card.style.display = show ? "" : "none";
+        if (show) visible++;
+      });
+
+      document.getElementById("noCategories").style.display =
+        visible === 0 ? "block" : "none";
+    }
+
+    searchInput.addEventListener("input", filterCategories);
+    categoryFilter.addEventListener("change", filterCategories);
+
+    // Health check is informational and must not block the dashboard.
+    async function checkBackend() {
+      const status = document.getElementById("apiStatus");
+
+      try {
+        const response = await fetch(API_BASE + "/health", {
+          method: "GET",
+          headers: { "Accept": "application/json" }
+        });
+
+        if (!response.ok) {
+          status.textContent = "API needs attention";
+          return;
+        }
+
+        const data = await response.json();
+
+        if (data.status === "healthy") {
+          status.textContent = "API connected";
+        } else {
+          status.textContent = "API responding";
+        }
+      } catch {
+        status.textContent = "API status unavailable";
+      }
+    }
+
+    checkBackend();
+  </script>
+</body>
+</html>
