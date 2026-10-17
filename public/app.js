@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     --------------------------------------------------------- */
 
     const MPESA_STK_ENDPOINT =
-        "https://zeronline-sphere-api.onrender.com/api/mpesa/stkpush";
+        "https://online-sphere-backend.onrender.com/api/mpesa/stkpush";
 
     const PACKAGE_PRICES = Object.freeze({
         Bronze: 1000,
