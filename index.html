@@ -1,1154 +1,647 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#07111f">
-
-  <title>Online Sphere | Discover. Learn. Work.</title>
-  <meta name="description" content="Discover digital opportunities, develop useful skills and explore the global digital economy with Online Sphere.">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="assets/css/style.css">
-
-  <style>
-    :root {
-      --blue: #2563eb;
-      --purple: #7c3aed;
-      --dark: #07111f;
-      --text: #172033;
-      --muted: #64748b;
-      --light: #f5f8fc;
-      --line: #e5eaf2;
-    }
-
-    * { box-sizing: border-box; }
-
-    html {
-      scroll-behavior: smooth;
-      scroll-padding-top: 85px;
-    }
-
-    body {
-      margin: 0;
-      color: var(--text);
-      background: var(--light);
-      font-family: "DM Sans", sans-serif;
-      line-height: 1.65;
-    }
-
-    img { display: block; max-width: 100%; }
-    a { color: inherit; text-decoration: none; }
-    button, input { font: inherit; }
-    button { cursor: pointer; }
-
-    .container {
-      width: min(1160px, calc(100% - 36px));
-      margin: auto;
-    }
-
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      border-bottom: 1px solid var(--line);
-      background: rgba(255,255,255,.96);
-      backdrop-filter: blur(15px);
-    }
-
-    .navbar {
-      min-height: 74px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-shrink: 0;
-    }
-
-    .brand-icon {
-      display: grid;
-      place-items: center;
-      width: 43px;
-      height: 43px;
-      border-radius: 14px;
-      color: white;
-      background: linear-gradient(135deg, var(--blue), var(--purple));
-      font-family: Manrope, sans-serif;
-      font-weight: 800;
-      font-size: 19px;
-    }
-
-    .brand-name {
-      display: block;
-      color: var(--dark);
-      font-family: Manrope, sans-serif;
-      font-size: 17px;
-      font-weight: 800;
-      line-height: 1.3;
-    }
-
-    .brand-tag {
-      display: block;
-      color: var(--muted);
-      font-size: 10px;
-      letter-spacing: 1px;
-    }
-
-    .main-nav {
-      display: flex;
-      align-items: center;
-      gap: 22px;
-    }
-
-    .main-nav a {
-      color: #526075;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .main-nav a:hover { color: var(--blue); }
-
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .btn {
-      min-height: 44px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 0 17px;
-      border: 1px solid transparent;
-      border-radius: 11px;
-      font-size: 12px;
-      font-weight: 800;
-      transition: .2s ease;
-    }
-
-    .btn:hover { transform: translateY(-2px); }
-
-    .btn-primary {
-      color: white;
-      background: linear-gradient(120deg, var(--blue), #4f46e5);
-      box-shadow: 0 8px 20px rgba(37,99,235,.2);
-    }
-
-    .btn-outline {
-      color: var(--blue);
-      background: white;
-      border-color: #d9e4f7;
-    }
-
-    .btn-white {
-      color: var(--dark);
-      background: white;
-    }
-
-    .menu-toggle {
-      display: none;
-      width: 42px;
-      height: 42px;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      background: white;
-      font-size: 21px;
-    }
-
-    /* HERO */
-
-    .hero {
-      position: relative;
-      overflow: hidden;
-      padding: 75px 0;
-      color: white;
-      background:
-        radial-gradient(ellipse at 85% 10%, rgba(124,58,237,.32), transparent 35%),
-        radial-gradient(ellipse at 5% 90%, rgba(37,99,235,.24), transparent 35%),
-        linear-gradient(125deg, #07111f, #112344);
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.05fr .95fr;
-      align-items: center;
-      gap: 48px;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-      padding: 8px 12px;
-      border: 1px solid rgba(255,255,255,.18);
-      border-radius: 50px;
-      color: #dbeafe;
-      background: rgba(255,255,255,.06);
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-
-    .eyebrow-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #60a5fa;
-    }
-
-    .hero h1 {
-      margin: 22px 0 18px;
-      font-family: Manrope, sans-serif;
-      font-size: clamp(42px, 5.2vw, 66px);
-      font-weight: 800;
-      line-height: 1.1;
-      letter-spacing: -2.8px;
-    }
-
-    .gradient-text {
-      color: #a5c7ff;
-      background: linear-gradient(90deg, #93c5fd, #c4b5fd);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero-copy {
-      max-width: 530px;
-      color: #c1cee1;
-      font-size: 15px;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 27px;
-    }
-
-    .hero-actions .btn {
-      min-height: 50px;
-      padding-inline: 22px;
-    }
-
-    .hero-note {
-      margin-top: 22px;
-      color: #b3c1d5;
-      font-size: 11px;
-    }
-
-    .hero-visual {
-      position: relative;
-      padding: 12px 8px 20px;
-    }
-
-    .hero-image {
-      position: relative;
-      min-height: 420px;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,.22);
-      border-radius: 27px;
-      background:
-        linear-gradient(180deg, transparent 45%, rgba(4,12,27,.82)),
-        url("https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1100&q=85") center/cover,
-        #172b48;
-      box-shadow: 0 30px 80px rgba(0,0,0,.3);
-    }
-
-    .hero-image-caption {
-      position: absolute;
-      right: 22px;
-      bottom: 22px;
-      left: 22px;
-    }
-
-    .hero-image-caption small {
-      color: #dbeafe;
-      font-size: 10px;
-      letter-spacing: 1.4px;
-      text-transform: uppercase;
-    }
-
-    .hero-image-caption h2 {
-      margin: 7px 0 0;
-      font-family: Manrope, sans-serif;
-      font-size: 25px;
-      line-height: 1.25;
-    }
-
-    .floating-card {
-      position: absolute;
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      padding: 13px 15px;
-      border: 1px solid rgba(255,255,255,.8);
-      border-radius: 15px;
-      color: var(--text);
-      background: white;
-      box-shadow: 0 18px 40px rgba(0,0,0,.18);
-    }
-
-    .float-top { top: 30px; left: -9px; }
-    .float-bottom { right: -5px; bottom: 0; }
-
-    .float-symbol {
-      display: grid;
-      place-items: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      color: var(--blue);
-      background: #eaf1ff;
-      font-size: 19px;
-    }
-
-    .floating-card strong {
-      display: block;
-      font-size: 11px;
-    }
-
-    .floating-card small {
-      display: block;
-      color: var(--muted);
-      font-size: 10px;
-    }
-
-    /* SECTIONS */
-
-    .section { padding: 76px 0; }
-    .section-white { background: white; }
-
-    .section-head {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 20px;
-      margin-bottom: 29px;
-    }
-
-    .kicker {
-      color: var(--blue);
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 1.6px;
-      text-transform: uppercase;
-    }
-
-    .section h2 {
-      margin: 8px 0 0;
-      color: var(--dark);
-      font-family: Manrope, sans-serif;
-      font-size: clamp(28px, 3.5vw, 40px);
-      line-height: 1.2;
-      letter-spacing: -1.3px;
-    }
-
-    .section-intro {
-      max-width: 570px;
-      margin: 12px 0 0;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .text-link {
-      color: var(--blue);
-      font-size: 12px;
-      font-weight: 800;
-      white-space: nowrap;
-    }
-
-    .opportunity-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 17px;
-    }
-
-    .opportunity-card {
-      overflow: hidden;
-      border: 1px solid var(--line);
-      border-radius: 17px;
-      background: white;
-      transition: .22s ease;
-    }
-
-    .opportunity-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 38px rgba(15,23,42,.09);
-    }
-
-    .opportunity-card img {
-      width: 100%;
-      height: 145px;
-      object-fit: cover;
-      background: #e5edf9;
-    }
-
-    .opportunity-content { padding: 16px; }
-
-    .opportunity-content h3 {
-      margin: 0 0 7px;
-      color: var(--dark);
-      font-family: Manrope, sans-serif;
-      font-size: 14px;
-    }
-
-    .opportunity-content p {
-      min-height: 42px;
-      margin: 0 0 13px;
-      color: var(--muted);
-      font-size: 11px;
-    }
-
-    .card-link {
-      color: var(--blue);
-      font-size: 11px;
-      font-weight: 800;
-    }
-
-    /* STEPS */
-
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 20px;
-      margin-top: 32px;
-    }
-
-    .step {
-      padding: 25px;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      background: white;
-    }
-
-    .step-number {
-      display: grid;
-      place-items: center;
-      width: 46px;
-      height: 46px;
-      margin-bottom: 18px;
-      border-radius: 14px;
-      color: var(--blue);
-      background: #eaf1ff;
-      font-family: Manrope, sans-serif;
-      font-weight: 800;
-    }
-
-    .step:nth-child(2) .step-number {
-      color: var(--purple);
-      background: #f1eaff;
-    }
-
-    .step:nth-child(3) .step-number {
-      color: #047857;
-      background: #dcfce7;
-    }
-
-    .step h3 {
-      margin: 0 0 9px;
-      color: var(--dark);
-      font-family: Manrope, sans-serif;
-      font-size: 16px;
-    }
-
-    .step p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    /* MEMBERSHIP */
-
-    .membership-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 20px;
-      margin-top: 32px;
-    }
-
-    .plan {
-      display: flex;
-      flex-direction: column;
-      padding: 26px;
-      border: 1px solid var(--line);
-      border-radius: 21px;
-      background: white;
-    }
-
-    .plan-featured {
-      border: 2px solid var(--blue);
-      box-shadow: 0 15px 40px rgba(37,99,235,.1);
-    }
-
-    .plan-badge {
-      align-self: flex-start;
-      margin-bottom: 13px;
-      padding: 5px 10px;
-      border-radius: 50px;
-      color: var(--blue);
-      background: #eaf1ff;
-      font-size: 10px;
-      font-weight: 800;
-    }
-
-    .plan h3 {
-      margin: 0;
-      color: var(--dark);
-      font-family: Manrope, sans-serif;
-      font-size: 21px;
-    }
-
-    .plan-description {
-      min-height: 42px;
-      margin: 7px 0 17px;
-      color: var(--muted);
-      font-size: 11px;
-    }
-
-    .plan-price {
-      margin-bottom: 18px;
-      color: var(--dark);
-      font-family: Manrope, sans-serif;
-      font-size: 32px;
-      font-weight: 800;
-      letter-spacing: -1px;
-    }
-
-    .plan ul {
-      display: grid;
-      gap: 11px;
-      margin: 0 0 23px;
-      padding: 0;
-      list-style: none;
-    }
-
-    .plan li {
-      color: #475569;
-      font-size: 11px;
-    }
-
-    .plan li::before {
-      content: "✓";
-      margin-right: 9px;
-      color: #16a34a;
-      font-weight: 800;
-    }
-
-    .plan .btn { width: 100%; margin-top: auto; }
-
-    .disclaimer {
-      max-width: 800px;
-      margin: 22px auto 0;
-      color: var(--muted);
-      font-size: 11px;
-      text-align: center;
-    }
-
-    /* M-PESA PANEL */
-
-    #paymentPanel {
-      max-width: 620px;
-      margin: 30px auto 0;
-      padding: 24px;
-      border: 1px solid #d9e5fb;
-      border-radius: 19px;
-      background: #f8fbff;
-      box-shadow: 0 12px 35px rgba(15,23,42,.06);
-    }
-
-    #paymentPanel[hidden] { display: none !important; }
-
-    .payment-heading {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 15px;
-      margin-bottom: 17px;
-    }
-
-    .payment-heading h3 {
-      margin: 0;
-      color: var(--dark);
-      font-family: Manrope, sans-serif;
-      font-size: 20px;
-    }
-
-    .payment-heading p {
-      margin: 5px 0 0;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    #closePayment {
-      width: 35px;
-      height: 35px;
-      flex-shrink: 0;
-      border: 1px solid var(--line);
-      border-radius: 9px;
-      background: white;
-      font-size: 19px;
-    }
-
-    #selectedPackageText {
-      margin-bottom: 16px;
-      padding: 12px;
-      border-radius: 10px;
-      color: #1d4ed8;
-      background: #eaf1ff;
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-    .form-label {
-      display: block;
-      margin-bottom: 7px;
-      font-size: 12px;
-      font-weight: 800;
-    }
-
-    #phoneNumber {
-      display: block;
-      width: 100%;
-      min-height: 49px;
-      margin-bottom: 13px;
-      padding: 12px;
-      border: 1px solid #cbd5e1;
-      border-radius: 10px;
-      outline: none;
-      background: white;
-    }
-
-    #phoneNumber:focus {
-      border-color: var(--blue);
-      box-shadow: 0 0 0 3px rgba(37,99,235,.1);
-    }
-
-    #stkSubmit { width: 100%; }
-
-    #stkSubmit:disabled {
-      cursor: wait;
-      opacity: .65;
-    }
-
-    #paymentStatus {
-      margin: 13px 0 0;
-      color: #b45309;
-      font-size: 12px;
-      overflow-wrap: anywhere;
-    }
-
-    #paymentStatus.status-success { color: #166534; }
-
-    .payment-note {
-      margin: 12px 0 0;
-      color: var(--muted);
-      font-size: 10px;
-    }
-
-    /* ABOUT BANNER */
-
-    .about-banner {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: center;
-      gap: 25px;
-      padding: 39px;
-      border-radius: 23px;
-      color: white;
-      background:
-        radial-gradient(circle at 90% 10%, rgba(124,58,237,.35), transparent 34%),
-        linear-gradient(120deg, #0b1730, #162c52);
-    }
-
-    .about-banner h2 {
-      margin: 8px 0 0;
-      color: white;
-      font-family: Manrope, sans-serif;
-      font-size: clamp(25px, 3vw, 35px);
-      line-height: 1.25;
-    }
-
-    .about-banner p {
-      max-width: 640px;
-      color: #cbd5e1;
-      font-size: 12px;
-    }
-
-    /* FOOTER */
-
-    .site-footer {
-      padding: 43px 0 22px;
-      color: #cbd5e1;
-      background: #07111f;
-    }
-
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 1.5fr 1fr 1fr;
-      gap: 35px;
-      padding-bottom: 30px;
-    }
-
-    .site-footer .brand-name { color: white; }
-    .site-footer .brand-tag { color: #9aa9bd; }
-
-    .footer-copy {
-      max-width: 340px;
-      color: #9aa9bd;
-      font-size: 11px;
-    }
-
-    .site-footer h3 {
-      margin: 0 0 13px;
-      color: white;
-      font-size: 12px;
-    }
-
-    .footer-links {
-      display: grid;
-      gap: 10px;
-    }
-
-    .footer-links a {
-      color: #aab7c9;
-      font-size: 11px;
-    }
-
-    .footer-bottom {
-      display: flex;
-      justify-content: space-between;
-      gap: 15px;
-      padding-top: 18px;
-      border-top: 1px solid rgba(255,255,255,.13);
-      color: #8d9bb0;
-      font-size: 10px;
-    }
-
-    @media (max-width: 980px) {
-      .main-nav { gap: 12px; }
-      .main-nav a { font-size: 11px; }
-      .hero-grid { gap: 28px; }
-      .opportunity-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-
-    @media (max-width: 760px) {
-      .container { width: calc(100% - 30px); }
-
-      .navbar { min-height: 68px; gap: 8px; }
-      .brand-icon { width: 38px; height: 38px; }
-      .brand-name { font-size: 15px; }
-      .brand-tag { font-size: 9px; }
-
-      .menu-toggle { display: block; }
-
-      .main-nav {
-        position: absolute;
-        top: 68px;
-        right: 0;
-        left: 0;
-        display: none;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0;
-        padding: 10px 20px 17px;
-        border-bottom: 1px solid var(--line);
-        background: white;
-      }
-
-      .main-nav.nav-open { display: flex; }
-      .main-nav a { padding: 11px 5px; font-size: 13px; }
-      .nav-actions { gap: 6px; }
-      .nav-actions .btn { min-height: 38px; padding: 0 10px; font-size: 10px; }
-
-      .hero { padding: 52px 0 60px; }
-      .hero-grid { grid-template-columns: 1fr; gap: 35px; }
-      .hero h1 { font-size: clamp(40px, 10vw, 57px); letter-spacing: -2px; }
-      .hero-copy { font-size: 13px; }
-      .hero-visual { padding-inline: 8px; }
-      .hero-image { min-height: 330px; }
-
-      .section { padding: 57px 0; }
-      .section-head { align-items: flex-start; flex-direction: column; gap: 12px; }
-      .section h2 { font-size: 30px; }
-      .steps-grid, .membership-grid { grid-template-columns: 1fr; }
-      .plan-description { min-height: auto; }
-      .about-banner { grid-template-columns: 1fr; padding: 27px; }
-      .about-banner .btn { justify-self: start; }
-      .footer-grid { grid-template-columns: 1fr 1fr; gap: 25px; }
-      .footer-grid > div:first-child { grid-column: 1 / -1; }
-      .footer-bottom { flex-direction: column; }
-    }
-
-    @media (max-width: 390px) {
-      .container { width: calc(100% - 24px); }
-      .nav-actions .btn { padding-inline: 8px; }
-      .hero h1 { font-size: 39px; }
-      .hero-actions .btn { width: 100%; }
-      .hero-image { min-height: 285px; }
-      .floating-card { padding: 10px; gap: 8px; }
-      .float-symbol { width: 34px; height: 34px; }
-      .opportunity-grid { gap: 10px; }
-      .opportunity-card img { height: 100px; }
-      .opportunity-content { padding: 11px; }
-      .opportunity-content p { min-height: 56px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#07111f">
+<title>Online Sphere | Discover. Learn. Work.</title>
+<meta name="description" content="Discover digital opportunities, develop useful skills and explore online work with Online Sphere.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --blue: #2563eb;
+  --purple: #7c3aed;
+  --dark: #07111f;
+  --muted: #64748b;
+  --bg: #f5f8fc;
+  --white: #fff;
+  --border: #e5eaf2;
+  --radius: 20px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: Inter, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--dark);
+  line-height: 1.6;
+}
+button, input, select { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; }
+.container { width: min(1160px, 92%); margin: auto; }
+header {
+  position: sticky; top: 0; z-index: 20;
+  background: rgba(255,255,255,.94);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.nav {
+  min-height: 76px; display: flex; align-items: center;
+  justify-content: space-between; gap: 20px;
+}
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 19px; }
+.logo {
+  width: 42px; height: 42px; border-radius: 14px;
+  background: linear-gradient(135deg,var(--blue),var(--purple));
+  color: white; display: grid; place-items: center; font-size: 22px;
+  box-shadow: 0 7px 20px #2563eb35;
+}
+.brand small { display: block; color: var(--muted); font-size: 10px; letter-spacing: 1.8px; }
+.navlinks { display: flex; align-items: center; gap: 24px; font-size: 13px; font-weight: 600; }
+.navlinks a:hover { color: var(--blue); }
+.btn {
+  border: 0; border-radius: 12px; padding: 12px 18px;
+  font-weight: 700; display: inline-flex; align-items: center;
+  justify-content: center; gap: 8px; transition: .2s;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn-primary { color: white; background: linear-gradient(135deg,var(--blue),var(--purple)); box-shadow: 0 8px 20px #2563eb2b; }
+.btn-light { background: white; border: 1px solid var(--border); color: var(--dark); }
+.menu-button { display: none; background: white; border: 1px solid var(--border); border-radius: 10px; padding: 9px 12px; }
+.mobile-menu { display: none; padding: 12px 4% 20px; border-top: 1px solid var(--border); }
+.mobile-menu.show { display: grid; gap: 14px; }
+.mobile-menu a { padding: 5px; font-weight: 600; }
+
+.hero {
+  padding: 76px 0 70px; color: white; overflow: hidden;
+  background: radial-gradient(ellipse at 12% 5%,#1e3a8a 0,transparent 44%),
+  linear-gradient(120deg,#07111f,#101c37 62%,#24144b);
+}
+.hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+.eyebrow {
+  display: inline-flex; gap: 8px; align-items: center;
+  padding: 7px 12px; border-radius: 99px;
+  background: #ffffff12; border: 1px solid #ffffff25;
+  color: #c7d2fe; font-size: 12px; font-weight: 700;
+}
+.hero h1 { font-size: clamp(40px,5vw,66px); line-height: 1.07; letter-spacing: -2.8px; margin: 23px 0; }
+.gradient-text { background: linear-gradient(90deg,#93c5fd,#c4b5fd); -webkit-background-clip: text; color: transparent; }
+.hero p { color: #cbd5e1; max-width: 500px; font-size: 16px; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 28px 0; }
+.hero .btn-light { color: white; background: #ffffff12; border-color: #ffffff30; }
+.hero-note { color: #94a3b8; font-size: 12px; }
+.hero-image-wrap { position: relative; }
+.hero-image {
+  width: 100%; height: 390px; object-fit: cover;
+  border-radius: 28px; border: 1px solid #ffffff30;
+  box-shadow: 0 30px 80px #0005;
+}
+.image-badge {
+  position: absolute; left: -18px; bottom: 25px;
+  padding: 15px 18px; border-radius: 16px;
+  background: white; color: var(--dark); box-shadow: 0 15px 40px #0003;
+  font-size: 12px; font-weight: 700;
+}
+.image-badge span { display: block; color: var(--muted); font-weight: 400; }
+
+section { padding: 76px 0; }
+.section-head { text-align: center; max-width: 650px; margin: 0 auto 38px; }
+.kicker { color: var(--blue); font-size: 12px; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; }
+.section-head h2 { font-size: clamp(28px,4vw,40px); line-height: 1.2; letter-spacing: -1.2px; margin: 10px 0; }
+.section-head p { color: var(--muted); margin: 0; }
+.search-box {
+  max-width: 780px; margin: 0 auto 30px; display: flex; gap: 10px;
+  padding: 10px; background: white; border: 1px solid var(--border);
+  border-radius: 16px; box-shadow: 0 10px 35px #0f172a08;
+}
+.search-box input { min-width: 0; flex: 1; border: 0; outline: none; padding: 8px 12px; }
+.grid { display: grid; gap: 22px; }
+.opportunity-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+.card {
+  background: white; border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+  transition: transform .2s,box-shadow .2s;
+}
+.card:hover { transform: translateY(-5px); box-shadow: 0 18px 38px #0f172a0d; }
+.card img { width: 100%; height: 185px; object-fit: cover; display: block; }
+.card-content { padding: 22px; }
+.tag { display: inline-block; padding: 5px 9px; border-radius: 8px; background: #eff6ff; color: #1d4ed8; font-size: 11px; font-weight: 800; }
+.card h3 { margin: 12px 0 7px; font-size: 19px; }
+.card p { color: var(--muted); font-size: 13px; margin: 0 0 18px; }
+.text-link { color: var(--blue); font-size: 13px; font-weight: 800; background: none; border: 0; padding: 0; }
+
+.steps-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+.step { padding: 26px; background: white; border: 1px solid var(--border); border-radius: var(--radius); }
+.step-icon { width: 48px; height: 48px; border-radius: 15px; display: grid; place-items: center; font-size: 22px; background: #eff6ff; }
+.step h3 { margin-bottom: 7px; }
+.step p { color: var(--muted); font-size: 13px; }
+
+.pricing-grid { grid-template-columns: repeat(3,minmax(0,1fr)); align-items: stretch; }
+.price-card { padding: 28px; background: white; border: 1px solid var(--border); border-radius: 22px; }
+.price-card.featured { border: 2px solid var(--blue); box-shadow: 0 15px 40px #2563eb15; }
+.price-card h3 { margin: 5px 0; }
+.price { font-size: 32px; font-weight: 800; letter-spacing: -1px; margin: 14px 0; }
+.price small { font-size: 12px; color: var(--muted); font-weight: 500; }
+.price-card p,.price-card li { color: var(--muted); font-size: 13px; }
+.price-card ul { padding-left: 18px; min-height: 82px; }
+.price-card .btn { width: 100%; margin-top: 10px; }
+
+.cta {
+  padding: 44px; color: white; border-radius: 26px;
+  background: linear-gradient(120deg,#1d4ed8,#6d28d9);
+  display: flex; align-items: center; justify-content: space-between; gap: 25px;
+}
+.cta h2 { margin: 0 0 8px; font-size: 30px; }
+.cta p { margin: 0; color: #e0e7ff; font-size: 14px; }
+
+footer { background: #07111f; color: #cbd5e1; padding: 48px 0 24px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 35px; }
+footer p,footer a { color: #94a3b8; font-size: 13px; }
+footer a { display: block; margin: 8px 0; }
+.footer-bottom { border-top: 1px solid #ffffff18; margin-top: 32px; padding-top: 18px; font-size: 12px; color: #64748b; }
+
+.modal {
+  display: none; position: fixed; inset: 0; z-index: 50;
+  background: #020617b8; padding: 18px; overflow-y: auto;
+  align-items: center; justify-content: center;
+}
+.modal.show { display: flex; }
+.modal-box { width: min(460px,100%); background: white; padding: 27px; border-radius: 22px; position: relative; }
+.modal-box h2 { margin-top: 0; }
+.close { position: absolute; top: 12px; right: 14px; border: 0; background: #f1f5f9; border-radius: 9px; padding: 6px 11px; font-size: 20px; }
+.field { display: grid; gap: 6px; margin: 13px 0; }
+.field label { font-size: 12px; font-weight: 700; }
+.field input,.field select { width: 100%; padding: 12px; border: 1px solid #dbe3ef; border-radius: 11px; outline-color: var(--blue); background: white; }
+.modal-box .btn { width: 100%; margin-top: 10px; }
+.form-switch { color: var(--blue); font-weight: 700; background: none; border: 0; padding: 8px 0; }
+.payment-status { display: none; padding: 13px; border-radius: 10px; margin-top: 15px; font-size: 12px; overflow-wrap: anywhere; }
+.payment-status.show { display: block; }
+.payment-status.waiting { background: #eff6ff; color: #1d4ed8; }
+.payment-status.error { background: #fef2f2; color: #b91c1c; }
+.payment-status.success { background: #f0fdf4; color: #166534; }
+.toast { position: fixed; bottom: 20px; left: 50%; transform: translate(-50%,20px); opacity: 0; pointer-events: none; z-index: 80; background: #07111f; color: white; padding: 13px 18px; border-radius: 12px; width: max-content; max-width: 90%; font-size: 13px; transition: .2s; }
+.toast.show { opacity: 1; transform: translate(-50%,0); }
+
+@media(max-width:850px) {
+  .navlinks { display: none; }
+  .menu-button { display: block; }
+  .hero-grid { grid-template-columns: 1fr; gap: 35px; }
+  .hero { padding: 55px 0; }
+  .hero-image { height: 310px; }
+  .image-badge { left: 10px; }
+  .opportunity-grid,.steps-grid,.pricing-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media(max-width:560px) {
+  .container { width: 91%; }
+  .nav { min-height: 68px; }
+  .brand { font-size: 16px; }
+  .logo { width: 38px; height: 38px; }
+  .hero h1 { letter-spacing: -1.8px; }
+  section { padding: 56px 0; }
+  .opportunity-grid,.steps-grid,.pricing-grid { grid-template-columns: 1fr; }
+  .search-box { flex-wrap: wrap; }
+  .search-box input { flex-basis: 100%; }
+  .search-box .btn { width: 100%; }
+  .card img { height: 205px; }
+  .cta { padding: 28px 22px; align-items: flex-start; flex-direction: column; }
+  .footer-grid { grid-template-columns: 1fr; gap: 20px; }
+  .hero-actions .btn { flex: 1; }
+}
+</style>
 </head>
 
 <body>
-
-<header class="site-header">
-  <div class="container navbar">
-
-    <a class="brand" href="index.html" aria-label="Online Sphere home">
-      <span class="brand-icon">OS</span>
-      <span>
-        <span class="brand-name">Online Sphere</span>
-        <span class="brand-tag">DISCOVER. LEARN. WORK.</span>
-      </span>
+<header>
+  <div class="container nav">
+    <a class="brand" href="#home">
+      <span class="logo">◎</span>
+      <span>ONLINE SPHERE<small>DISCOVER. LEARN. WORK.</small></span>
     </a>
-
-    <nav class="main-nav" id="mainNavigation" aria-label="Main navigation">
-      <a href="index.html" aria-current="page">Home</a>
-      <a href="opportunities.html">Opportunities</a>
-      <a href="how-it-works.html">How it works</a>
-      <a href="membership.html">Membership</a>
-      <a href="about.html">About</a>
+    <nav class="navlinks" aria-label="Main navigation">
+      <a href="#home">Home</a><a href="#opportunities">Opportunities</a>
+      <a href="#how">How it works</a><a href="#membership">Membership</a>
+      <a href="#about">About</a>
     </nav>
-
-    <div class="nav-actions">
-      <a class="btn btn-outline" href="login.html">Log in</a>
-      <a class="btn btn-primary" href="register.html">Join now ↗</a>
-      <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="mainNavigation">☰</button>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="btn btn-light" onclick="openModal('login')">Log in</button>
+      <button class="btn btn-primary" onclick="openModal('register')">Join</button>
+      <button class="menu-button" onclick="toggleMenu()" aria-expanded="false" aria-label="Toggle navigation">☰</button>
     </div>
-
   </div>
+  <nav class="mobile-menu" id="mobileMenu">
+    <a href="#home" onclick="toggleMenu()">Home</a>
+    <a href="#opportunities" onclick="toggleMenu()">Opportunities</a>
+    <a href="#how" onclick="toggleMenu()">How it works</a>
+    <a href="#membership" onclick="toggleMenu()">Membership</a>
+    <a href="#about" onclick="toggleMenu()">About</a>
+  </nav>
 </header>
 
 <main>
-
-  <section class="hero">
-    <div class="container hero-grid">
-
-      <div>
-        <div class="eyebrow">
-          <span class="eyebrow-dot"></span>
-          Explore the digital world
-        </div>
-
-        <h1>
-          Discover your next <span class="gradient-text">digital opportunity.</span>
-        </h1>
-
-        <p class="hero-copy">
-          Build useful skills, explore digital work categories and discover new possibilities in a connected global economy with Online Sphere.
-        </p>
-
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="opportunities.html">Explore opportunities →</a>
-          <a class="btn btn-white" href="how-it-works.html">How it works ↗</a>
-        </div>
-
-        <p class="hero-note">✦ Explore new skills. Learn continuously. Move forward.</p>
+<section class="hero" id="home">
+  <div class="container hero-grid">
+    <div>
+      <span class="eyebrow">✦ YOUR DIGITAL FUTURE STARTS HERE</span>
+      <h1>Discover. Learn.<br><span class="gradient-text">Work globally.</span></h1>
+      <p>Explore digital opportunities, build useful skills and discover ways to participate in the evolving digital economy.</p>
+      <div class="hero-actions">
+        <a href="#opportunities" class="btn btn-primary">Explore opportunities ↗</a>
+        <a href="#how" class="btn btn-light">How it works</a>
       </div>
-
-      <div class="hero-visual">
-        <div class="hero-image">
-          <div class="hero-image-caption">
-            <small>Your digital journey</small>
-            <h2>Skills for today.<br>Possibilities for tomorrow.</h2>
-          </div>
-        </div>
-
-        <div class="floating-card float-top">
-          <span class="float-symbol">◎</span>
-          <span>
-            <strong>Discover</strong>
-            <small>Explore your options</small>
-          </span>
-        </div>
-
-        <div class="floating-card float-bottom">
-          <span class="float-symbol">✦</span>
-          <span>
-            <strong>Develop your skills</strong>
-            <small>Keep learning and growing</small>
-          </span>
-        </div>
-      </div>
-
+      <div class="hero-note">Skills • Digital services • Learning • Global opportunities</div>
     </div>
-  </section>
-
-  <section class="section" id="opportunities">
-    <div class="container">
-
-      <div class="section-head">
-        <div>
-          <div class="kicker">Explore categories</div>
-          <h2>Find your area of interest</h2>
-          <p class="section-intro">
-            Explore different digital disciplines and learn about the skills and requirements involved.
-          </p>
-        </div>
-        <a class="text-link" href="opportunities.html">View all categories →</a>
-      </div>
-
-      <div class="opportunity-grid">
-
-        <a class="opportunity-card" href="opportunities.html?category=writing">
-          <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=600&q=80" alt="Writing and research workspace" loading="lazy">
-          <div class="opportunity-content">
-            <h3>Writing & Research</h3>
-            <p>Explore writing, research and content development.</p>
-            <span class="card-link">Explore category →</span>
-          </div>
-        </a>
-
-        <a class="opportunity-card" href="opportunities.html?category=data-entry">
-          <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80" alt="Laptop and digital workspace" loading="lazy">
-          <div class="opportunity-content">
-            <h3>Data & Transcription</h3>
-            <p>Learn about data entry and transcription activities.</p>
-            <span class="card-link">Explore category →</span>
-          </div>
-        </a>
-
-        <a class="opportunity-card" href="opportunities.html?category=design">
-          <img src="https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=600&q=80" alt="Creative graphic design materials" loading="lazy">
-          <div class="opportunity-content">
-            <h3>Design & Creativity</h3>
-            <p>Explore graphics, video editing and visual content.</p>
-            <span class="card-link">Explore category →</span>
-          </div>
-        </a>
-
-        <a class="opportunity-card" href="opportunities.html?category=technology">
-          <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&q=80" alt="Team collaborating with technology" loading="lazy">
-          <div class="opportunity-content">
-            <h3>Technology & Digital</h3>
-            <p>Discover technology and virtual assistance skills.</p>
-            <span class="card-link">Explore category →</span>
-          </div>
-        </a>
-
-      </div>
-
-      <p class="disclaimer">
-        These cards show example categories, not confirmed live tasks. Availability, eligibility and requirements must be verified on the platform.
-      </p>
-
+    <div class="hero-image-wrap">
+      <img class="hero-image" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=85" alt="Modern computer workspace for digital work" fetchpriority="high">
+      <div class="image-badge">🌐 A world of possibilities<span>Learn skills. Explore opportunities.</span></div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="section section-white" id="how-it-works">
-    <div class="container">
-      <div class="kicker">Getting started</div>
-      <h2>Your journey in three steps</h2>
-      <p class="section-intro">
-        Understand the platform, explore the available options and make informed decisions before participating.
-      </p>
-
-      <div class="steps-grid">
-        <article class="step">
-          <div class="step-number">01</div>
-          <h3>Create your profile</h3>
-          <p>Explore the platform and review its account requirements and terms.</p>
-        </article>
-
-        <article class="step">
-          <div class="step-number">02</div>
-          <h3>Explore & learn</h3>
-          <p>Review digital categories, develop skills and check opportunity requirements.</p>
-        </article>
-
-        <article class="step">
-          <div class="step-number">03</div>
-          <h3>Participate responsibly</h3>
-          <p>Follow the rules for each opportunity. Approval and payment depend on applicable terms and verification.</p>
-        </article>
-      </div>
-
-      <p style="margin-top:25px">
-        <a class="btn btn-primary" href="how-it-works.html">Learn more →</a>
-      </p>
+<section id="opportunities">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Explore your next step</span>
+      <h2>Find your digital opportunity</h2>
+      <p>Explore areas of digital work and skills. Availability and requirements depend on each opportunity.</p>
     </div>
-  </section>
-
-  <section class="section" id="membership">
-    <div class="container">
-
-      <div class="section-head">
-        <div>
-          <div class="kicker">Membership</div>
-          <h2>Explore membership options</h2>
-          <p class="section-intro">
-            Review the package prices and applicable terms before making a payment.
-          </p>
-        </div>
-        <a class="text-link" href="membership.html">More details →</a>
-      </div>
-
-      <div class="membership-grid">
-
-        <article class="plan">
-          <span class="plan-badge">Starter</span>
-          <h3>Bronze</h3>
-          <p class="plan-description">The Bronze membership option.</p>
-          <div class="plan-price">KSh 1,000</div>
-          <ul>
-            <li>Bronze package</li>
-            <li>Access subject to platform terms</li>
-            <li>Available support channels</li>
-          </ul>
-          <button class="btn btn-outline choose-package" type="button" data-package="Bronze">Choose Bronze →</button>
-        </article>
-
-        <article class="plan plan-featured">
-          <span class="plan-badge">Silver option</span>
-          <h3>Silver</h3>
-          <p class="plan-description">A mid-tier membership option.</p>
-          <div class="plan-price">KSh 1,750</div>
-          <ul>
-            <li>Silver package</li>
-            <li>Access subject to platform terms</li>
-            <li>Available support channels</li>
-          </ul>
-          <button class="btn btn-primary choose-package" type="button" data-package="Silver">Choose Silver →</button>
-        </article>
-
-        <article class="plan">
-          <span class="plan-badge">Gold</span>
-          <h3>Gold</h3>
-          <p class="plan-description">The Gold membership option.</p>
-          <div class="plan-price">KSh 2,500</div>
-          <ul>
-            <li>Gold package</li>
-            <li>Access subject to platform terms</li>
-            <li>Available support channels</li>
-          </ul>
-          <button class="btn btn-outline choose-package" type="button" data-package="Gold">Choose Gold →</button>
-        </article>
-
-      </div>
-
-      <p class="disclaimer">
-        Membership does not guarantee employment, task availability, earnings or approval of submitted work. Review package benefits, fees and refund terms before paying.
-      </p>
-
-      <!-- KEEP THESE IDS COMPATIBLE WITH app.js -->
-      <div id="paymentPanel" hidden>
-        <div class="payment-heading">
-          <div>
-            <h3>M-Pesa payment</h3>
-            <p>Enter the Kenyan number that should receive the STK prompt.</p>
-          </div>
-          <button id="closePayment" type="button" aria-label="Close payment panel">×</button>
-        </div>
-
-        <div id="selectedPackageText"></div>
-
-        <form id="stkForm">
-          <label class="form-label" for="phoneNumber">M-Pesa phone number</label>
-          <input
-            id="phoneNumber"
-            name="phoneNumber"
-            type="tel"
-            inputmode="tel"
-            autocomplete="tel"
-            placeholder="0712 345 678"
-            required
-          >
-
-          <button id="stkSubmit" class="btn btn-primary" type="submit">Send STK Push ↗</button>
-
-          <p id="paymentStatus" role="status" aria-live="polite"></p>
-        </form>
-
-        <p class="payment-note">
-          Check the package and amount on your phone before approving. An accepted request is not proof of payment; membership should only be confirmed after the payment is verified.
-        </p>
-      </div>
-
+    <div class="search-box">
+      <input id="opportunitySearch" type="search" placeholder="Search skills or opportunities..." aria-label="Search opportunities">
+      <button class="btn btn-primary" onclick="filterOpportunities()">Search opportunities</button>
     </div>
-  </section>
-
-  <section class="section section-white">
-    <div class="container">
-      <div class="about-banner">
-        <div>
-          <div class="kicker" style="color:#93c5fd">Our vision</div>
-          <h2>Discover more.<br>Learn continuously. Move forward.</h2>
-          <p>
-            Online Sphere is built around a simple vision: making it easier for people around the world to discover digital opportunities, develop valuable skills, and participate in the evolving digital economy.
-          </p>
-        </div>
-        <a class="btn btn-white" href="about.html">About Online Sphere ↗</a>
-      </div>
+    <div class="grid opportunity-grid" id="opportunityGrid">
+      <article class="card opportunity-card" data-search="writing transcription audio typing">
+        <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=800&q=80" alt="Notebook and writing workspace" loading="lazy">
+        <div class="card-content"><span class="tag">Writing & language</span><h3>Writing & Transcription</h3><p>Explore writing, proofreading, audio transcription and language-related work.</p><button class="text-link" onclick="viewOpportunity('Transcription')">Explore this area →</button></div>
+      </article>
+      <article class="card opportunity-card" data-search="graphic design creative branding">
+        <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=800&q=80" alt="Creative graphic design workspace" loading="lazy">
+        <div class="card-content"><span class="tag">Creative skills</span><h3>Graphic Design</h3><p>Learn about visual design, branding, digital artwork and creative services.</p><button class="text-link" onclick="viewOpportunity('Graphic Design')">Explore this area →</button></div>
+      </article>
+      <article class="card opportunity-card" data-search="technology coding web development">
+        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80" alt="Team collaborating on technology" loading="lazy">
+        <div class="card-content"><span class="tag">Technology</span><h3>Technology & Web</h3><p>Explore website creation, coding, technical support and digital tools.</p><button class="text-link" onclick="viewOpportunity('Technology')">Explore this area →</button></div>
+      </article>
+      <article class="card opportunity-card" data-search="virtual assistance data entry administration">
+        <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=800&q=80" alt="Professional office workspace" loading="lazy">
+        <div class="card-content"><span class="tag">Remote support</span><h3>Virtual Assistance</h3><p>Discover administrative support, data organization and online research.</p><button class="text-link" onclick="viewOpportunity('Virtual Assistance')">Explore this area →</button></div>
+      </article>
+      <article class="card opportunity-card" data-search="video editing media content creation">
+        <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=800&q=80" alt="Video production equipment" loading="lazy">
+        <div class="card-content"><span class="tag">Digital media</span><h3>Video & Content</h3><p>Explore video editing, social media content and multimedia production.</p><button class="text-link" onclick="viewOpportunity('Video Editing')">Explore this area →</button></div>
+      </article>
+      <article class="card opportunity-card" data-search="freelancing research translation academic">
+        <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=800&q=80" alt="Professionals collaborating on a project" loading="lazy">
+        <div class="card-content"><span class="tag">Independent work</span><h3>Freelancing & Research</h3><p>Explore client projects, research support and independent digital services.</p><button class="text-link" onclick="viewOpportunity('Freelancing')">Explore this area →</button></div>
+      </article>
     </div>
-  </section>
+    <p id="emptySearch" style="display:none;text-align:center;color:#64748b">No matching categories found. Try another search.</p>
+  </div>
+</section>
 
+<section id="how" style="background:#fff">
+  <div class="container">
+    <div class="section-head"><span class="kicker">Simple steps</span><h2>Your journey starts here</h2><p>Build your profile, explore available opportunities and check requirements before participating.</p></div>
+    <div class="grid steps-grid">
+      <article class="step"><div class="step-icon">👤</div><h3>01. Create a profile</h3><p>Set up your profile and provide accurate contact details.</p></article>
+      <article class="step"><div class="step-icon">🔎</div><h3>02. Explore & learn</h3><p>Browse digital fields, learn relevant skills and review opportunity requirements.</p></article>
+      <article class="step"><div class="step-icon">💻</div><h3>03. Participate</h3><p>Apply for eligible work and follow the relevant client's or platform's terms.</p></article>
+    </div>
+  </div>
+</section>
+
+<section id="membership">
+  <div class="container">
+    <div class="section-head"><span class="kicker">Membership options</span><h2>Choose your membership</h2><p>Review the package price and terms before making a payment. Membership does not guarantee work or earnings.</p></div>
+    <div class="grid pricing-grid">
+      <article class="price-card">
+        <span class="tag">BRONZE</span><h3>Bronze Membership</h3><div class="price">KSh 1,000</div>
+        <p>A starting membership option.</p><ul><li>Member profile</li><li>Explore digital categories</li><li>Access subject to platform terms</li></ul>
+        <button class="btn btn-primary" onclick="choosePackage('Bronze')">Choose Bronze</button>
+      </article>
+      <article class="price-card featured">
+        <span class="tag">SILVER</span><h3>Silver Membership</h3><div class="price">KSh 1,750</div>
+        <p>An alternative membership option.</p><ul><li>Member profile</li><li>Explore digital categories</li><li>Access subject to platform terms</li></ul>
+        <button class="btn btn-primary" onclick="choosePackage('Silver')">Choose Silver</button>
+      </article>
+      <article class="price-card">
+        <span class="tag">GOLD</span><h3>Gold Membership</h3><div class="price">KSh 2,500</div>
+        <p>A higher-tier membership option.</p><ul><li>Member profile</li><li>Explore digital categories</li><li>Access subject to platform terms</li></ul>
+        <button class="btn btn-primary" onclick="choosePackage('Gold')">Choose Gold</button>
+      </article>
+    </div>
+    <p style="text-align:center;font-size:12px;color:#64748b;margin-top:20px">Confirm exactly what each membership includes, along with fees, cancellation terms and refund policies, before paying.</p>
+  </div>
+</section>
+
+<section id="about">
+  <div class="container">
+    <div class="cta">
+      <div><h2>Ready to explore what's possible?</h2><p>Start by creating a profile and discovering digital skills and opportunities.</p></div>
+      <button class="btn btn-light" onclick="openModal('register')">Create your profile ↗</button>
+    </div>
+  </div>
+</section>
 </main>
 
-<footer class="site-footer">
+<footer>
   <div class="container">
-
     <div class="footer-grid">
-      <div>
-        <a class="brand" href="index.html">
-          <span class="brand-icon">OS</span>
-          <span>
-            <span class="brand-name">Online Sphere</span>
-            <span class="brand-tag">DISCOVER. LEARN. WORK.</span>
-          </span>
-        </a>
-        <p class="footer-copy">
-          Your gateway to exploring digital opportunities and developing useful skills for a connected world.
-        </p>
-      </div>
-
-      <div>
-        <h3>Explore</h3>
-        <div class="footer-links">
-          <a href="opportunities.html">Opportunities</a>
-          <a href="how-it-works.html">How it works</a>
-          <a href="membership.html">Membership</a>
-          <a href="about.html">About us</a>
-        </div>
-      </div>
-
-      <div>
-        <h3>Account</h3>
-        <div class="footer-links">
-          <a href="login.html">Log in</a>
-          <a href="register.html">Create account</a>
-          <a href="membership.html">Payment information</a>
-        </div>
-      </div>
+      <div><a class="brand" href="#home" style="color:white"><span class="logo">◎</span><span>ONLINE SPHERE<small>DISCOVER. LEARN. WORK.</small></span></a><p>Your gateway to digital opportunities around the world.</p></div>
+      <div><strong>Explore</strong><a href="#opportunities">Opportunities</a><a href="#how">How it works</a><a href="#membership">Membership</a></div>
+      <div><strong>Account</strong><a href="#" onclick="openModal('login');return false">Log in</a><a href="#" onclick="openModal('register');return false">Create profile</a><a href="mailto:support@onlinesphere.com">Contact</a></div>
     </div>
-
-    <div class="footer-bottom">
-      <span>© <span data-year></span> Online Sphere. All rights reserved.</span>
-      <span>Discover. Learn. Work.</span>
-    </div>
-
+    <div class="footer-bottom">© <span id="year"></span> Online Sphere. All rights reserved. Opportunities and earnings are not guaranteed.</div>
   </div>
 </footer>
 
-<script src="assets/js/app.js" defer></script>
+<!-- ACCOUNT MODAL -->
+<div class="modal" id="authModal" role="dialog" aria-modal="true" aria-label="Account form">
+  <div class="modal-box">
+    <button class="close" onclick="closeModal()" aria-label="Close">×</button>
+    <div id="registerPanel">
+      <h2>Create your profile</h2>
+      <p style="color:#64748b;font-size:13px">This demo stores a profile locally. It is not secure production authentication.</p>
+      <form id="registerForm">
+        <div class="field"><label for="registerName">Full name</label><input id="registerName" required autocomplete="name"></div>
+        <div class="field"><label for="registerEmail">Email address</label><input id="registerEmail" type="email" required autocomplete="email"></div>
+        <div class="field"><label for="registerPhone">M-Pesa phone number</label><input id="registerPhone" required inputmode="tel" placeholder="0712345678" autocomplete="tel"></div>
+        <div class="field"><label for="registerPassword">Demo password</label><input id="registerPassword" type="password" minlength="6" required autocomplete="new-password"></div>
+        <div class="field"><label for="registerPackage">Membership (optional)</label><select id="registerPackage"><option value="">Choose later</option><option>Bronze</option><option>Silver</option><option>Gold</option></select></div>
+        <button class="btn btn-primary" type="submit">Create demo profile</button>
+      </form>
+      <p style="font-size:13px">Already registered? <button class="form-switch" onclick="switchForm('login')">Log in</button></p>
+    </div>
+    <div id="loginPanel" style="display:none">
+      <h2>Welcome back</h2>
+      <p style="color:#64748b;font-size:13px">Log in to this browser's demo profile.</p>
+      <form id="loginForm">
+        <div class="field"><label for="loginEmail">Email address</label><input id="loginEmail" type="email" required autocomplete="email"></div>
+        <div class="field"><label for="loginPassword">Demo password</label><input id="loginPassword" type="password" required autocomplete="current-password"></div>
+        <button class="btn btn-primary" type="submit">Log in</button>
+      </form>
+      <button class="form-switch" onclick="switchForm('register')">Create a profile</button>
+    </div>
+  </div>
+</div>
 
+<!-- PAYMENT MODAL -->
+<div class="modal" id="paymentModal" role="dialog" aria-modal="true" aria-label="M-Pesa payment">
+  <div class="modal-box">
+    <button class="close" onclick="closePaymentModal()" aria-label="Close">×</button>
+    <span class="tag">SECURE PAYMENT REQUEST</span>
+    <h2>Pay with M-Pesa</h2>
+    <p style="color:#64748b;font-size:13px">Package: <strong id="paymentPackage"></strong></p>
+    <div class="price" id="paymentAmount">KSh 0</div>
+    <div class="field"><label for="mpesaPhone">M-Pesa phone number</label><input id="mpesaPhone" inputmode="tel" placeholder="0712345678" required></div>
+    <button class="btn btn-primary" id="mpesaButton" onclick="startMpesaPayment()">📱 Send M-Pesa STK Push</button>
+    <div class="payment-status" id="paymentStatus" role="status" aria-live="polite"></div>
+    <p style="font-size:11px;color:#64748b">Only enter your PIN on the genuine Safaricom M-Pesa prompt if you intend to pay. A request being accepted does not prove payment or activate membership.</p>
+  </div>
+</div>
+
+<!-- OPPORTUNITY MODAL -->
+<div class="modal" id="opportunityModal" role="dialog" aria-modal="true" aria-label="Opportunity details">
+  <div class="modal-box">
+    <button class="close" onclick="closeOpportunity()" aria-label="Close">×</button>
+    <span class="tag">OPPORTUNITY GUIDE</span>
+    <h2 id="opportunityTitle">Explore</h2>
+    <p id="opportunityText" style="color:#64748b"></p>
+    <button class="btn btn-primary" onclick="closeOpportunity()">Got it</button>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+"use strict";
+
+const MPESA_API = "https://online-sphere-backend.onrender.com";
+const PACKAGE_PRICES = Object.freeze({ Bronze: 1000, Silver: 1750, Gold: 2500 });
+
+let selectedPackageName = "";
+let paymentRequestInProgress = false;
+let toastTimer = null;
+
+const $ = id => document.getElementById(id);
+
+$("year").textContent = new Date().getFullYear();
+
+function toggleMenu() {
+  const menu = $("mobileMenu");
+  menu.classList.toggle("show");
+  document.querySelector(".menu-button").setAttribute(
+    "aria-expanded", menu.classList.contains("show") ? "true" : "false"
+  );
+}
+
+function openModal(type) {
+  $("authModal").classList.add("show");
+  switchForm(type);
+}
+function closeModal() { $("authModal").classList.remove("show"); }
+function switchForm(type) {
+  const login = type === "login";
+  $("loginPanel").style.display = login ? "block" : "none";
+  $("registerPanel").style.display = login ? "none" : "block";
+}
+
+function showToast(message) {
+  $("toast").textContent = message;
+  $("toast").classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => $("toast").classList.remove("show"), 3500);
+}
+
+function readDemoUser() {
+  try { return JSON.parse(localStorage.getItem("onlineSphereUser") || "null"); }
+  catch (_) { return null; }
+}
+
+/* Demo-only profile. Replace with real server authentication before production. */
+$("registerForm").addEventListener("submit", function(event) {
+  event.preventDefault();
+  const name = $("registerName").value.trim();
+  const email = $("registerEmail").value.trim().toLowerCase();
+  const phone = $("registerPhone").value.trim();
+  const password = $("registerPassword").value;
+  const packageName = $("registerPackage").value;
+
+  if (!name || !email || !phone || password.length < 6) {
+    showToast("Complete all required fields. Password must be at least 6 characters.");
+    return;
+  }
+
+  try {
+    localStorage.setItem("onlineSphereUser", JSON.stringify({
+      name, email, phone, package: "None",
+      membershipStatus: "INACTIVE",
+      createdAt: new Date().toISOString(),
+      demoPassword: password
+    }));
+  } catch (_) {
+    showToast("Unable to save this demo profile in your browser.");
+    return;
+  }
+
+  closeModal();
+  showToast("Demo profile created. Secure server registration is still required.");
+  if (PACKAGE_PRICES[packageName]) {
+    choosePackage(packageName);
+  }
+});
+
+$("loginForm").addEventListener("submit", function(event) {
+  event.preventDefault();
+  const user = readDemoUser();
+  if (!user || user.email !== $("loginEmail").value.trim().toLowerCase() ||
+      user.demoPassword !== $("loginPassword").value) {
+    showToast("Demo login details do not match this browser's profile.");
+    return;
+  }
+  closeModal();
+  showToast("Welcome back, " + (user.name || "member") + ".");
+});
+
+function choosePackage(name) {
+  if (!Object.prototype.hasOwnProperty.call(PACKAGE_PRICES, name)) {
+    showToast("Select a valid membership package.");
+    return;
+  }
+  const user = readDemoUser();
+  if (!user) {
+    $("registerPackage").value = name;
+    openModal("register");
+    showToast("Create your demo profile first.");
+    return;
+  }
+  selectedPackageName = name;
+  $("paymentPackage").textContent = name;
+  $("paymentAmount").textContent = "KSh " + PACKAGE_PRICES[name].toLocaleString("en-KE");
+  $("mpesaPhone").value = user.phone || "";
+  $("paymentStatus").textContent = "";
+  $("paymentStatus").className = "payment-status";
+  $("mpesaButton").disabled = false;
+  $("mpesaButton").textContent = "📱 Send M-Pesa STK Push";
+  $("paymentModal").classList.add("show");
+}
+
+function closePaymentModal() { $("paymentModal").classList.remove("show"); }
+function closeOpportunity() { $("opportunityModal").classList.remove("show"); }
+
+function normalizeKenyanPhone(value) {
+  const phone = String(value || "").replace(/\D/g, "");
+  if (/^(07|01)\d{8}$/.test(phone)) return "254" + phone.slice(1);
+  if (/^254[17]\d{8}$/.test(phone)) return phone;
+  if (/^[17]\d{8}$/.test(phone)) return "254" + phone;
+  throw new Error("Enter a valid Kenyan M-Pesa number, e.g. 0712345678.");
+}
+
+function paymentStatus(message, type) {
+  $("paymentStatus").textContent = message;
+  $("paymentStatus").className = "payment-status show " + type;
+}
+
+async function startMpesaPayment() {
+  if (paymentRequestInProgress) return;
+
+  if (!PACKAGE_PRICES[selectedPackageName]) {
+    paymentStatus("Please select a valid package first.", "error");
+    return;
+  }
+
+  let phone;
+  try { phone = normalizeKenyanPhone($("mpesaPhone").value); }
+  catch (error) { paymentStatus(error.message, "error"); return; }
+
+  if (!readDemoUser()) {
+    closePaymentModal();
+    openModal("register");
+    showToast("Create your profile first.");
+    return;
+  }
+
+  paymentRequestInProgress = true;
+  $("mpesaButton").disabled = true;
+  $("mpesaButton").textContent = "Connecting to M-Pesa…";
+  paymentStatus("Connecting to the M-Pesa service. Please wait…", "waiting");
+
+  try {
+    const response = await fetch(MPESA_API + "/api/mpesa/stkpush", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({ phone: phone, packageName: selectedPackageName })
+    });
+
+    const data = await response.json().catch(() => null);
+
+    if (!response.ok) {
+      throw new Error((data && data.message) || "Payment request failed (HTTP " + response.status + ").");
+    }
+    if (!data || data.success !== true) {
+      throw new Error((data && data.message) || "The backend did not confirm the STK Push request.");
+    }
+
+    $("mpesaButton").textContent = "Send Another STK Push";
+    $("mpesaButton").disabled = false;
+    paymentStatus(
+      "STK Push request accepted. Check " + phone +
+      " and follow the M-Pesa prompt if you intend to pay. This does not confirm payment or activate membership. Checkout reference: " +
+      (data.checkoutRequestID || "not provided") + ".",
+      "waiting"
+    );
+    showToast("STK Push request accepted. Check your phone.");
+  } catch (error) {
+    console.error("Online Sphere STK Push error:", error);
+    $("mpesaButton").disabled = false;
+    $("mpesaButton").textContent = "📱 Send M-Pesa STK Push";
+    paymentStatus("Unable to start payment: " + (error.message || "Please try again."), "error");
+  } finally {
+    paymentRequestInProgress = false;
+  }
+}
+
+const opportunityData = {
+  "Transcription": "Explore converting audio or video into written text. Requirements and payment terms vary by client.",
+  "Graphic Design": "Explore graphic design, branding and digital artwork. Build a portfolio and check each client's requirements.",
+  "Technology": "Explore web development, coding and technical support. Start with skills that match your experience.",
+  "Virtual Assistance": "Explore administrative support, online research and data organization.",
+  "Video Editing": "Explore video editing and multimedia production. Client requirements vary.",
+  "Freelancing": "Explore independent digital services, client projects, translation and research support."
+};
+
+function viewOpportunity(type) {
+  $("opportunityTitle").textContent = type;
+  $("opportunityText").textContent = opportunityData[type] ||
+    "Explore this digital area and carefully review its requirements.";
+  $("opportunityModal").classList.add("show");
+}
+
+function filterOpportunities() {
+  const query = $("opportunitySearch").value.trim().toLowerCase();
+  let count = 0;
+  document.querySelectorAll(".opportunity-card").forEach(card => {
+    const matches = (card.dataset.search + " " + card.innerText).toLowerCase().includes(query);
+    card.style.display = matches ? "" : "none";
+    if (matches) count++;
+  });
+  $("emptySearch").style.display = count ? "none" : "block";
+}
+$("opportunitySearch").addEventListener("input", filterOpportunities);
+
+["authModal","paymentModal","opportunityModal"].forEach(id => {
+  $(id).addEventListener("click", event => {
+    if (event.target !== $(id)) return;
+    if (id === "authModal") closeModal();
+    if (id === "paymentModal") closePaymentModal();
+    if (id === "opportunityModal") closeOpportunity();
+  });
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") {
+    closeModal(); closePaymentModal(); closeOpportunity();
+    $("mobileMenu").classList.remove("show");
+    document.querySelector(".menu-button").setAttribute("aria-expanded", "false");
+  }
+});
+</script>
 </body>
 </html>
