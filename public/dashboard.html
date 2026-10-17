@@ -1,3015 +1,851 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <meta
-        name="description"
-        content="Online Sphere - Discover legitimate ways to earn online."
-    >
-
-    <title>Dashboard | Online Sphere</title>
-
-    <link rel="stylesheet" href="style.css">
-
-    <style>
-        /* =====================================================
-           ONLINE SPHERE DASHBOARD
-        ===================================================== */
-
-        :root {
-            --dashboard-bg: #07111f;
-            --dashboard-card: rgba(16, 31, 50, 0.88);
-            --dashboard-border: rgba(255,255,255,0.08);
-            --dashboard-text: #f5f8fc;
-            --dashboard-muted: #93a4b8;
-            --dashboard-primary: #5eead4;
-            --dashboard-secondary: #60a5fa;
-            --dashboard-success: #4ade80;
-            --dashboard-warning: #fbbf24;
-            --dashboard-danger: #fb7185;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            background:
-                radial-gradient(
-                    circle at top right,
-                    rgba(37,99,235,0.15),
-                    transparent 35%
-                ),
-                radial-gradient(
-                    circle at bottom left,
-                    rgba(20,184,166,0.10),
-                    transparent 35%
-                ),
-                var(--dashboard-bg);
-            color: var(--dashboard-text);
-            font-family:
-                Inter,
-                system-ui,
-                -apple-system,
-                BlinkMacSystemFont,
-                "Segoe UI",
-                sans-serif;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        button,
-        input,
-        select {
-            font: inherit;
-        }
-
-        .dashboard-shell {
-            min-height: 100vh;
-        }
-
-        /* =====================================================
-           TOP NAVIGATION
-        ===================================================== */
-
-        .dashboard-topbar {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            min-height: 74px;
-            padding: 12px 5%;
-
-            border-bottom: 1px solid var(--dashboard-border);
-
-            background: rgba(7,17,31,0.88);
-            backdrop-filter: blur(20px);
-        }
-
-        .dashboard-brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-
-            font-size: 1.2rem;
-            font-weight: 800;
-        }
-
-        .dashboard-brand-mark {
-            width: 42px;
-            height: 42px;
-
-            display: grid;
-            place-items: center;
-
-            border-radius: 13px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #14b8a6,
-                    #2563eb
-                );
-
-            color: white;
-
-            box-shadow:
-                0 10px 30px rgba(37,99,235,0.25);
-        }
-
-        .dashboard-nav {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .dashboard-nav button {
-            border: 0;
-            background: transparent;
-            color: var(--dashboard-muted);
-
-            padding: 10px 13px;
-            border-radius: 10px;
-
-            cursor: pointer;
-        }
-
-        .dashboard-nav button:hover,
-        .dashboard-nav button.active {
-            color: white;
-            background: rgba(255,255,255,0.06);
-        }
-
-        .dashboard-user {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .dashboard-avatar {
-            width: 42px;
-            height: 42px;
-
-            display: grid;
-            place-items: center;
-
-            border-radius: 50%;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #0f766e,
-                    #1d4ed8
-                );
-
-            font-weight: 800;
-        }
-
-        .dashboard-user-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .dashboard-user-info strong {
-            font-size: 0.9rem;
-        }
-
-        .dashboard-user-info span {
-            color: var(--dashboard-muted);
-            font-size: 0.75rem;
-        }
-
-        .logout-btn {
-            border: 1px solid var(--dashboard-border);
-
-            background: rgba(255,255,255,0.04);
-
-            color: #fff;
-
-            padding: 9px 13px;
-
-            border-radius: 10px;
-
-            cursor: pointer;
-        }
-
-        .logout-btn:hover {
-            background: rgba(251,113,133,0.12);
-            border-color: rgba(251,113,133,0.25);
-        }
-
-        /* =====================================================
-           MAIN
-        ===================================================== */
-
-        .dashboard-main {
-            width: min(1400px, 92%);
-            margin: 0 auto;
-            padding: 38px 0 70px;
-        }
-
-        /* =====================================================
-           WELCOME
-        ===================================================== */
-
-        .dashboard-welcome {
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            gap: 20px;
-
-            margin-bottom: 28px;
-        }
-
-        .dashboard-welcome h1 {
-            margin: 0 0 8px;
-
-            font-size: clamp(2rem, 5vw, 3.2rem);
-
-            letter-spacing: -0.04em;
-        }
-
-        .dashboard-welcome p {
-            margin: 0;
-
-            color: var(--dashboard-muted);
-        }
-
-        .account-status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-
-            padding: 10px 15px;
-
-            border: 1px solid rgba(251,191,36,0.25);
-
-            border-radius: 999px;
-
-            color: var(--dashboard-warning);
-
-            background: rgba(251,191,36,0.08);
-
-            font-size: 0.85rem;
-            font-weight: 700;
-        }
-
-        .account-status-badge.active {
-            color: var(--dashboard-success);
-            border-color: rgba(74,222,128,0.22);
-            background: rgba(74,222,128,0.08);
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-
-            border-radius: 50%;
-
-            background: currentColor;
-
-            box-shadow: 0 0 12px currentColor;
-        }
-
-        /* =====================================================
-           WALLET
-        ===================================================== */
-
-        .wallet-grid {
-            display: grid;
-
-            grid-template-columns:
-                1.6fr
-                1fr
-                1fr
-                1fr;
-
-            gap: 16px;
-
-            margin-bottom: 30px;
-        }
-
-        .wallet-card {
-            position: relative;
-
-            overflow: hidden;
-
-            min-height: 150px;
-
-            padding: 25px;
-
-            border: 1px solid var(--dashboard-border);
-
-            border-radius: 22px;
-
-            background: var(--dashboard-card);
-
-            box-shadow:
-                0 20px 60px rgba(0,0,0,0.16);
-        }
-
-        .wallet-card.primary {
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(13,148,136,0.30),
-                    rgba(29,78,216,0.30)
-                );
-        }
-
-        .wallet-card::after {
-            content: "";
-
-            position: absolute;
-
-            width: 150px;
-            height: 150px;
-
-            right: -70px;
-            bottom: -80px;
-
-            border-radius: 50%;
-
-            background: rgba(255,255,255,0.04);
-        }
-
-        .wallet-label {
-            color: var(--dashboard-muted);
-            font-size: 0.82rem;
-            font-weight: 600;
-        }
-
-        .wallet-value {
-            margin-top: 10px;
-
-            font-size: clamp(1.6rem, 4vw, 2.3rem);
-
-            font-weight: 850;
-
-            letter-spacing: -0.04em;
-        }
-
-        .wallet-card.primary .wallet-value {
-            font-size: clamp(2rem, 5vw, 3rem);
-        }
-
-        .wallet-subtext {
-            margin-top: 8px;
-
-            color: var(--dashboard-muted);
-
-            font-size: 0.78rem;
-        }
-
-        /* =====================================================
-           ACCOUNT CARD
-        ===================================================== */
-
-        .account-card {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            gap: 20px;
-
-            margin-bottom: 30px;
-
-            padding: 22px 25px;
-
-            border: 1px solid var(--dashboard-border);
-
-            border-radius: 20px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(255,255,255,0.045),
-                    rgba(255,255,255,0.02)
-                );
-        }
-
-        .account-details {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .package-icon {
-            width: 55px;
-            height: 55px;
-
-            display: grid;
-            place-items: center;
-
-            border-radius: 17px;
-
-            background: rgba(255,255,255,0.07);
-
-            font-size: 1.5rem;
-        }
-
-        .account-details h3 {
-            margin: 0 0 5px;
-        }
-
-        .account-details p {
-            margin: 0;
-
-            color: var(--dashboard-muted);
-
-            font-size: 0.82rem;
-        }
-
-        .package-badge {
-            display: inline-flex;
-
-            padding: 7px 12px;
-
-            border-radius: 999px;
-
-            background: rgba(94,234,212,0.1);
-
-            color: var(--dashboard-primary);
-
-            font-size: 0.78rem;
-
-            font-weight: 800;
-        }
-
-        .activate-btn {
-            border: 0;
-
-            padding: 12px 20px;
-
-            border-radius: 12px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #14b8a6,
-                    #2563eb
-                );
-
-            color: white;
-
-            font-weight: 800;
-
-            cursor: pointer;
-
-            box-shadow:
-                0 12px 30px rgba(37,99,235,0.20);
-        }
-
-        .activate-btn:hover {
-            transform: translateY(-1px);
-        }
-
-        /* =====================================================
-           SECTION HEADER
-        ===================================================== */
-
-        .section-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            gap: 15px;
-
-            margin-bottom: 17px;
-        }
-
-        .section-header h2 {
-            margin: 0;
-
-            font-size: 1.35rem;
-        }
-
-        .section-header p {
-            margin: 5px 0 0;
-
-            color: var(--dashboard-muted);
-
-            font-size: 0.82rem;
-        }
-
-        .view-all-btn {
-            border: 0;
-
-            background: transparent;
-
-            color: var(--dashboard-primary);
-
-            cursor: pointer;
-
-            font-weight: 700;
-        }
-
-        /* =====================================================
-           OPPORTUNITY FILTER
-        ===================================================== */
-
-        .opportunity-tools {
-            display: flex;
-            gap: 10px;
-
-            margin-bottom: 18px;
-        }
-
-        .search-box {
-            flex: 1;
-
-            position: relative;
-        }
-
-        .search-box input {
-            width: 100%;
-
-            padding: 14px 17px;
-
-            border: 1px solid var(--dashboard-border);
-
-            border-radius: 13px;
-
-            outline: none;
-
-            background: rgba(255,255,255,0.045);
-
-            color: white;
-        }
-
-        .search-box input::placeholder {
-            color: #718196;
-        }
-
-        .category-select {
-            padding: 0 14px;
-
-            border: 1px solid var(--dashboard-border);
-
-            border-radius: 13px;
-
-            outline: none;
-
-            background: #101f32;
-
-            color: white;
-        }
-
-        /* =====================================================
-           OPPORTUNITIES
-        ===================================================== */
-
-        .opportunity-grid {
-            display: grid;
-
-            grid-template-columns:
-                repeat(3, minmax(0, 1fr));
-
-            gap: 17px;
-
-            margin-bottom: 40px;
-        }
-
-        .opportunity-card {
-            padding: 22px;
-
-            border: 1px solid var(--dashboard-border);
-
-            border-radius: 20px;
-
-            background: var(--dashboard-card);
-
-            transition:
-                transform 0.25s ease,
-                border-color 0.25s ease;
-        }
-
-        .opportunity-card:hover {
-            transform: translateY(-4px);
-
-            border-color:
-                rgba(94,234,212,0.20);
-        }
-
-        .opportunity-icon {
-            width: 52px;
-            height: 52px;
-
-            display: grid;
-            place-items: center;
-
-            margin-bottom: 17px;
-
-            border-radius: 15px;
-
-            background: rgba(255,255,255,0.055);
-
-            font-size: 1.45rem;
-        }
-
-        .opportunity-card h3 {
-            margin: 0 0 8px;
-
-            font-size: 1.05rem;
-        }
-
-        .opportunity-card p {
-            margin: 0 0 16px;
-
-            color: var(--dashboard-muted);
-
-            font-size: 0.82rem;
-
-            line-height: 1.6;
-        }
-
-        .opportunity-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 7px;
-
-            margin-bottom: 17px;
-        }
-
-        .meta-pill {
-            padding: 6px 9px;
-
-            border-radius: 8px;
-
-            background: rgba(255,255,255,0.05);
-
-            color: #b6c4d4;
-
-            font-size: 0.7rem;
-        }
-
-        .opportunity-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            gap: 10px;
-        }
-
-        .explore-btn {
-            border: 1px solid rgba(94,234,212,0.20);
-
-            background: rgba(94,234,212,0.07);
-
-            color: var(--dashboard-primary);
-
-            padding: 9px 12px;
-
-            border-radius: 10px;
-
-            cursor: pointer;
-
-            font-size: 0.8rem;
-
-            font-weight: 750;
-        }
-
-        .save-btn {
-            border: 1px solid var(--dashboard-border);
-
-            background: transparent;
-
-            color: var(--dashboard-muted);
-
-            width: 38px;
-            height: 38px;
-
-            border-radius: 10px;
-
-            cursor: pointer;
-        }
-
-        /* =====================================================
-           TRANSACTIONS
-        ===================================================== */
-
-        .dashboard-lower {
-            display: grid;
-
-            grid-template-columns:
-                1.5fr
-                1fr;
-
-            gap: 18px;
-        }
-
-        .panel {
-            padding: 22px;
-
-            border: 1px solid var(--dashboard-border);
-
-            border-radius: 20px;
-
-            background: var(--dashboard-card);
-        }
-
-        .transaction-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .transaction {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            gap: 15px;
-
-            padding: 14px 5px;
-
-            border-bottom:
-                1px solid rgba(255,255,255,0.05);
-        }
-
-        .transaction:last-child {
-            border-bottom: 0;
-        }
-
-        .transaction-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .transaction-icon {
-            width: 40px;
-            height: 40px;
-
-            display: grid;
-            place-items: center;
-
-            border-radius: 11px;
-
-            background: rgba(255,255,255,0.05);
-        }
-
-        .transaction-info strong {
-            display: block;
-
-            font-size: 0.84rem;
-        }
-
-        .transaction-info span {
-            display: block;
-
-            margin-top: 4px;
-
-            color: var(--dashboard-muted);
-
-            font-size: 0.7rem;
-        }
-
-        .transaction-amount {
-            text-align: right;
-
-            font-weight: 800;
-
-            font-size: 0.82rem;
-        }
-
-        .transaction-status {
-            display: block;
-
-            margin-top: 4px;
-
-            color: var(--dashboard-muted);
-
-            font-size: 0.68rem;
-
-            font-weight: 500;
-        }
-
-        /* =====================================================
-           LEARNING PANEL
-        ===================================================== */
-
-        .learning-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .learning-item {
-            display: flex;
-            align-items: center;
-
-            gap: 13px;
-
-            padding: 14px;
-
-            border-radius: 13px;
-
-            background: rgba(255,255,255,0.035);
-
-            cursor: pointer;
-        }
-
-        .learning-item:hover {
-            background: rgba(255,255,255,0.06);
-        }
-
-        .learning-item-icon {
-            width: 40px;
-            height: 40px;
-
-            display: grid;
-            place-items: center;
-
-            border-radius: 10px;
-
-            background: rgba(37,99,235,0.12);
-        }
-
-        .learning-item strong {
-            display: block;
-
-            font-size: 0.82rem;
-        }
-
-        .learning-item span {
-            display: block;
-
-            margin-top: 4px;
-
-            color: var(--dashboard-muted);
-
-            font-size: 0.7rem;
-        }
-
-        /* =====================================================
-           LOADING
-        ===================================================== */
-
-        .loading {
-            padding: 30px;
-
-            text-align: center;
-
-            color: var(--dashboard-muted);
-        }
-
-        .empty-state {
-            grid-column: 1 / -1;
-
-            padding: 40px 20px;
-
-            text-align: center;
-
-            color: var(--dashboard-muted);
-        }
-
-        /* =====================================================
-           MODAL
-        ===================================================== */
-
-        .dashboard-modal {
-            position: fixed;
-
-            inset: 0;
-
-            z-index: 2000;
-
-            display: none;
-
-            align-items: center;
-            justify-content: center;
-
-            padding: 20px;
-        }
-
-        .dashboard-modal.active {
-            display: flex;
-        }
-
-        .dashboard-modal-overlay {
-            position: absolute;
-
-            inset: 0;
-
-            background: rgba(0,0,0,0.72);
-
-            backdrop-filter: blur(8px);
-        }
-
-        .dashboard-modal-box {
-            position: relative;
-            z-index: 2;
-
-            width: min(600px, 100%);
-
-            max-height: 90vh;
-
-            overflow-y: auto;
-
-            padding: 28px;
-
-            border: 1px solid var(--dashboard-border);
-
-            border-radius: 24px;
-
-            background: #0c1a2b;
-
-            box-shadow:
-                0 40px 100px rgba(0,0,0,0.45);
-        }
-
-        .modal-close {
-            position: absolute;
-
-            top: 16px;
-            right: 16px;
-
-            width: 38px;
-            height: 38px;
-
-            border: 0;
-
-            border-radius: 10px;
-
-            background: rgba(255,255,255,0.05);
-
-            color: white;
-
-            cursor: pointer;
-        }
-
-        .package-options {
-            display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
-            gap: 12px;
-
-            margin-top: 20px;
-        }
-
-        .package-option {
-            padding: 18px;
-
-            border: 1px solid var(--dashboard-border);
-
-            border-radius: 16px;
-
-            background: rgba(255,255,255,0.03);
-
-            cursor: pointer;
-
-            text-align: left;
-
-            color: white;
-        }
-
-        .package-option:hover {
-            border-color:
-                rgba(94,234,212,0.35);
-        }
-
-        .package-option h3 {
-            margin: 0 0 7px;
-        }
-
-        .package-price {
-            font-size: 1.25rem;
-
-            font-weight: 850;
-        }
-
-        .package-option p {
-            color: var(--dashboard-muted);
-
-            font-size: 0.72rem;
-
-            line-height: 1.5;
-        }
-
-        .modal-message {
-            margin-top: 15px;
-
-            padding: 12px;
-
-            border-radius: 10px;
-
-            background: rgba(255,255,255,0.04);
-
-            color: var(--dashboard-muted);
-
-            font-size: 0.78rem;
-
-            line-height: 1.5;
-        }
-
-        /* =====================================================
-           RESPONSIVE
-        ===================================================== */
-
-        @media (max-width: 1100px) {
-
-            .wallet-grid {
-                grid-template-columns:
-                    repeat(2, 1fr);
-            }
-
-            .wallet-card.primary {
-                grid-column: span 2;
-            }
-
-            .opportunity-grid {
-                grid-template-columns:
-                    repeat(2, 1fr);
-            }
-
-            .dashboard-lower {
-                grid-template-columns: 1fr;
-            }
-
-        }
-
-        @media (max-width: 760px) {
-
-            .dashboard-topbar {
-                padding: 11px 4%;
-            }
-
-            .dashboard-nav {
-                display: none;
-            }
-
-            .dashboard-user-info {
-                display: none;
-            }
-
-            .dashboard-main {
-                width: 92%;
-                padding-top: 25px;
-            }
-
-            .dashboard-welcome {
-                align-items: flex-start;
-
-                flex-direction: column;
-            }
-
-            .wallet-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .wallet-card.primary {
-                grid-column: auto;
-            }
-
-            .account-card {
-                align-items: flex-start;
-
-                flex-direction: column;
-            }
-
-            .opportunity-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .opportunity-tools {
-                flex-direction: column;
-            }
-
-            .category-select {
-                min-height: 48px;
-            }
-
-            .package-options {
-                grid-template-columns: 1fr;
-            }
-
-        }
-
-        @media (max-width: 480px) {
-
-            .dashboard-brand span {
-                display: none;
-            }
-
-            .wallet-card {
-                min-height: 130px;
-            }
-
-            .panel {
-                padding: 18px;
-            }
-
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#07111f">
+<meta name="description" content="Online Sphere member dashboard. Discover, learn and explore digital opportunities.">
+<title>Member Dashboard | Online Sphere</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --bg:#07111f;
+    --panel:#0d1a2b;
+    --panel2:#101f32;
+    --border:rgba(255,255,255,.09);
+    --text:#f5f8fc;
+    --muted:#9aabc0;
+    --blue:#2563eb;
+    --purple:#7c3aed;
+    --green:#34d399;
+    --yellow:#fbbf24;
+    --red:#fb7185;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{
+    margin:0;
+    background:
+      radial-gradient(ellipse at 90% 0%,rgba(37,99,235,.17),transparent 36%),
+      radial-gradient(ellipse at 0% 65%,rgba(124,58,237,.10),transparent 35%),
+      var(--bg);
+    color:var(--text);
+    font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.55;cursor:not-allowed}
+a{color:inherit;text-decoration:none}
+.topbar{
+    position:sticky;top:0;z-index:20;
+    display:flex;align-items:center;justify-content:space-between;
+    gap:18px;padding:13px 5%;
+    background:rgba(7,17,31,.92);
+    border-bottom:1px solid var(--border);
+    backdrop-filter:blur(18px);
+}
+.brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:1.05rem}
+.brand-mark{
+    display:grid;place-items:center;width:43px;height:43px;border-radius:14px;
+    background:linear-gradient(135deg,var(--blue),var(--purple));
+    box-shadow:0 8px 24px rgba(37,99,235,.25)
+}
+.nav{display:flex;gap:6px;align-items:center}
+.nav button,.logout{
+    border:1px solid transparent;background:transparent;color:var(--muted);
+    padding:10px 12px;border-radius:10px
+}
+.nav button:hover,.logout:hover{background:rgba(255,255,255,.06);color:white}
+.user-area{display:flex;align-items:center;gap:10px}
+.avatar{
+    width:39px;height:39px;border-radius:50%;display:grid;place-items:center;
+    background:linear-gradient(135deg,var(--blue),var(--purple));font-weight:800
+}
+.user-meta{display:flex;flex-direction:column;gap:3px;font-size:.84rem}
+.user-meta span{color:var(--muted);font-size:.73rem}
+.logout{border-color:var(--border);color:white}
+main{width:min(1240px,92%);margin:auto;padding:34px 0 65px}
+.welcome{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:25px}
+.eyebrow{font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;color:#93b4ff;font-weight:800}
+h1{font-size:clamp(1.8rem,4vw,2.8rem);letter-spacing:-.05em;margin:9px 0}
+h2{font-size:1.25rem;margin:0}
+h3{margin:0 0 9px}
+p{line-height:1.65}
+.muted{color:var(--muted)}
+.status{
+    display:inline-flex;align-items:center;gap:8px;padding:10px 13px;
+    border:1px solid rgba(251,191,36,.25);border-radius:999px;
+    background:rgba(251,191,36,.08);color:var(--yellow);font-size:.78rem;font-weight:800
+}
+.status.active{color:var(--green);border-color:rgba(52,211,153,.25);background:rgba(52,211,153,.08)}
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:18px}
+.card{
+    background:linear-gradient(145deg,rgba(16,31,50,.97),rgba(10,23,39,.97));
+    border:1px solid var(--border);border-radius:20px;padding:21px;
+    box-shadow:0 16px 45px rgba(0,0,0,.12)
+}
+.stat-main{background:linear-gradient(135deg,rgba(37,99,235,.28),rgba(124,58,237,.20))}
+.stat-label{color:var(--muted);font-size:.81rem}
+.stat-value{font-size:clamp(1.35rem,2.7vw,2rem);font-weight:800;letter-spacing:-.04em;margin:12px 0 7px;overflow-wrap:anywhere}
+.stat-note{color:var(--muted);font-size:.74rem}
+.account-card{
+    display:flex;align-items:center;justify-content:space-between;gap:18px;
+    margin:18px 0 34px;padding:23px;border:1px solid var(--border);
+    border-radius:20px;background:rgba(13,26,43,.82)
+}
+.account-info{display:flex;align-items:center;gap:15px;min-width:0}
+.package-icon{
+    width:54px;height:54px;flex-shrink:0;display:grid;place-items:center;
+    border-radius:16px;background:linear-gradient(135deg,rgba(37,99,235,.2),rgba(124,58,237,.2));font-size:1.5rem
+}
+.account-info p{margin:5px 0;font-size:.83rem;color:var(--muted)}
+.account-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.badge{padding:7px 10px;border-radius:999px;background:rgba(251,191,36,.1);color:var(--yellow);font-size:.72rem;font-weight:800}
+.btn{
+    border:0;border-radius:12px;padding:12px 16px;font-weight:800;color:white;
+    background:linear-gradient(135deg,var(--blue),var(--purple));
+    box-shadow:0 8px 22px rgba(37,99,235,.15)
+}
+.btn:hover{filter:brightness(1.1)}
+.btn.secondary{background:rgba(255,255,255,.06);border:1px solid var(--border);box-shadow:none}
+.btn.small{padding:9px 12px;font-size:.8rem}
+.section{margin-top:34px}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:17px}
+.section-head p{margin:6px 0 0;font-size:.85rem;color:var(--muted)}
+.tools{display:flex;gap:10px;margin-bottom:16px}
+.field{
+    width:100%;min-width:0;background:#081423;color:white;
+    border:1px solid var(--border);border-radius:12px;padding:13px 14px;outline:none
+}
+.field:focus{border-color:rgba(96,165,250,.75);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+.tools select{max-width:220px}
+.opportunities{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.opportunity{display:flex;flex-direction:column;min-height:245px}
+.opportunity-icon{width:45px;height:45px;border-radius:14px;display:grid;place-items:center;font-size:1.4rem;background:rgba(37,99,235,.13);margin-bottom:16px}
+.opportunity h3{font-size:1.05rem}
+.opportunity p{font-size:.84rem;color:var(--muted);margin:0 0 17px}
+.pills{display:flex;flex-wrap:wrap;gap:7px;margin-top:auto;margin-bottom:15px}
+.pill{font-size:.7rem;padding:6px 9px;border-radius:999px;background:rgba(255,255,255,.06);color:#cbd5e1}
+.opportunity-actions{display:flex;gap:8px}
+.opportunity-actions .btn{flex:1}
+.lower{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;margin-top:30px}
+.transaction{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid var(--border)}
+.transaction:last-child{border-bottom:0}
+.transaction-left{display:flex;align-items:center;gap:11px;min-width:0}
+.transaction-icon{width:40px;height:40px;display:grid;place-items:center;background:rgba(255,255,255,.05);border-radius:12px;flex-shrink:0}
+.transaction-info{min-width:0}
+.transaction-info strong{display:block;font-size:.83rem;overflow-wrap:anywhere}
+.transaction-info span{display:block;color:var(--muted);font-size:.72rem;margin-top:5px;overflow-wrap:anywhere}
+.transaction-amount{text-align:right;font-size:.85rem;font-weight:800;white-space:nowrap}
+.transaction-status{display:block;font-size:.69rem;color:var(--muted);font-weight:500;margin-top:5px}
+.panel-title{margin-bottom:14px}
+.learning-item{padding:14px 0;border-bottom:1px solid var(--border)}
+.learning-item:last-child{border-bottom:0}
+.learning-item strong{font-size:.88rem}
+.learning-item p{font-size:.8rem;color:var(--muted);margin:5px 0 0}
+.empty,.loading{padding:28px 16px;text-align:center;color:var(--muted);border:1px dashed var(--border);border-radius:14px;line-height:1.7}
+.notice{padding:12px 14px;border-radius:12px;background:rgba(37,99,235,.10);border:1px solid rgba(96,165,250,.2);color:#c8dcff;font-size:.83rem;line-height:1.6}
+.modal{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:16px}
+.modal.open{display:flex}
+.overlay{position:absolute;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(5px)}
+.modal-box{position:relative;width:min(540px,100%);max-height:90vh;overflow:auto;background:#0d1a2b;border:1px solid var(--border);border-radius:22px;padding:25px;box-shadow:0 30px 100px rgba(0,0,0,.5)}
+.modal-top{display:flex;justify-content:space-between;align-items:center;gap:15px}
+.close{border:1px solid var(--border);border-radius:10px;background:rgba(255,255,255,.05);color:white;width:38px;height:38px;font-size:1.4rem}
+.modal-box>p{font-size:.85rem;color:var(--muted)}
+.package-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:17px 0}
+.package-option{
+    text-align:left;padding:14px 11px;border:1px solid var(--border);border-radius:14px;
+    background:#091626;color:white
+}
+.package-option:hover,.package-option.selected{border-color:#60a5fa;background:rgba(37,99,235,.12)}
+.package-option h3{font-size:.86rem;margin-bottom:8px}
+.package-price{font-weight:800;font-size:1rem}
+.package-option small{display:block;color:var(--muted);font-size:.7rem;margin-top:8px;line-height:1.5}
+.modal-message{margin-top:14px;padding:12px;border-radius:12px;background:rgba(255,255,255,.04);font-size:.82rem;line-height:1.6;overflow-wrap:anywhere}
+.modal-message.error{color:#fecdd3;background:rgba(251,113,133,.08)}
+.modal-message.success{color:#a7f3d0;background:rgba(52,211,153,.08)}
+.modal-footer{display:flex;gap:10px;margin-top:15px}
+.modal-footer .btn{flex:1}
+.footer{text-align:center;color:var(--muted);font-size:.75rem;margin-top:45px}
+.hidden{display:none!important}
+@media(max-width:1000px){
+    .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .opportunities{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .nav button{padding:9px 8px;font-size:.8rem}
+}
+@media(max-width:720px){
+    .topbar{padding:11px 4%;flex-wrap:wrap}
+    .brand{font-size:.95rem}
+    .brand-mark{width:38px;height:38px}
+    .nav{order:3;width:100%;overflow:auto;justify-content:flex-start}
+    .nav button{white-space:nowrap}
+    .user-meta{display:none}
+    main{width:92%;padding-top:25px}
+    .welcome{align-items:flex-start;flex-direction:column}
+    .account-card{align-items:flex-start;flex-direction:column}
+    .account-actions{width:100%;justify-content:space-between}
+    .opportunities{grid-template-columns:1fr}
+    .lower{grid-template-columns:1fr}
+    .tools{flex-direction:column}
+    .tools select{max-width:none}
+    .package-options{grid-template-columns:1fr}
+    .package-option{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .package-option small{max-width:42%;text-align:right}
+    .modal-box{padding:20px}
+}
+@media(max-width:420px){
+    .stats{grid-template-columns:1fr 1fr;gap:9px}
+    .card{padding:15px}
+    .stat-value{font-size:1.25rem}
+    .stat-note{font-size:.68rem}
+    .logout{padding:8px 9px;font-size:.78rem}
+    .account-info{align-items:flex-start}
+    .account-actions{align-items:flex-start;flex-direction:column}
+}
+</style>
 </head>
 
 <body>
+<header class="topbar">
+    <a href="index.html" class="brand">
+        <span class="brand-mark">OS</span>
+        <span>Online Sphere</span>
+    </a>
 
-<div class="dashboard-shell">
+    <nav class="nav" aria-label="Dashboard navigation">
+        <button data-scroll="overview">Overview</button>
+        <button data-scroll="opportunities">Opportunities</button>
+        <button data-scroll="transactions">Transactions</button>
+    </nav>
 
-    <!-- =====================================================
-         TOPBAR
-    ====================================================== -->
-
-    <header class="dashboard-topbar">
-
-        <a href="index.html" class="dashboard-brand">
-
-            <span class="dashboard-brand-mark">
-                OS
-            </span>
-
-            <span>
-                Online Sphere
-            </span>
-
-        </a>
-
-
-        <nav class="dashboard-nav">
-
-            <button
-                class="active"
-                data-scroll="overview"
-            >
-                Overview
-            </button>
-
-            <button data-scroll="opportunities">
-                Opportunities
-            </button>
-
-            <button data-scroll="transactions">
-                Transactions
-            </button>
-
-        </nav>
-
-
-        <div class="dashboard-user">
-
-            <div
-                class="dashboard-avatar"
-                id="userAvatar"
-            >
-                U
-            </div>
-
-            <div class="dashboard-user-info">
-
-                <strong id="userName">
-                    User
-                </strong>
-
-                <span id="userPackage">
-                    Account
-                </span>
-
-            </div>
-
-            <button
-                class="logout-btn"
-                id="logoutButton"
-            >
-                Logout
-            </button>
-
+    <div class="user-area">
+        <div class="avatar" id="userAvatar">OS</div>
+        <div class="user-meta">
+            <strong id="userName">Member</strong>
+            <span id="userPackage">Member account</span>
         </div>
-
-    </header>
-
-
-    <!-- =====================================================
-         MAIN
-    ====================================================== -->
-
-    <main class="dashboard-main">
-
-        <!-- WELCOME -->
-
-        <section
-            class="dashboard-welcome"
-            id="overview"
-        >
-
-            <div>
-
-                <h1>
-                    Welcome back,
-                    <span id="welcomeName">
-                        User
-                    </span>
-                    👋
-                </h1>
-
-                <p>
-                    Explore legitimate ways to work and earn online.
-                </p>
-
-            </div>
-
-
-            <div
-                class="account-status-badge"
-                id="accountStatus"
-            >
-
-                <span class="status-dot"></span>
-
-                <span>
-                    ACCOUNT INACTIVE
-                </span>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             WALLET
-        ================================================== -->
-
-        <section class="wallet-grid">
-
-            <article class="wallet-card primary">
-
-                <div class="wallet-label">
-                    Available Balance
-                </div>
-
-                <div
-                    class="wallet-value"
-                    id="balance"
-                >
-                    KSh 0.00
-                </div>
-
-                <div class="wallet-subtext">
-                    Available for eligible withdrawals
-                </div>
-
-            </article>
-
-
-            <article class="wallet-card">
-
-                <div class="wallet-label">
-                    Total Earned
-                </div>
-
-                <div
-                    class="wallet-value"
-                    id="totalEarned"
-                >
-                    KSh 0.00
-                </div>
-
-                <div class="wallet-subtext">
-                    Recorded account earnings
-                </div>
-
-            </article>
-
-
-            <article class="wallet-card">
-
-                <div class="wallet-label">
-                    Total Withdrawn
-                </div>
-
-                <div
-                    class="wallet-value"
-                    id="totalWithdrawn"
-                >
-                    KSh 0.00
-                </div>
-
-                <div class="wallet-subtext">
-                    Completed withdrawals
-                </div>
-
-            </article>
-
-
-            <article class="wallet-card">
-
-                <div class="wallet-label">
-                    Pending Withdrawal
-                </div>
-
-                <div
-                    class="wallet-value"
-                    id="pendingWithdrawal"
-                >
-                    KSh 0.00
-                </div>
-
-                <div class="wallet-subtext">
-                    Requests under review
-                </div>
-
-            </article>
-
-        </section>
-
-
-        <!-- =================================================
-             ACCOUNT
-        ================================================== -->
-
-        <section class="account-card">
-
-            <div class="account-details">
-
-                <div
-                    class="package-icon"
-                    id="packageIcon"
-                >
-                    🔐
-                </div>
-
-                <div>
-
-                    <h3>
-                        <span id="packageName">
-                            No package
-                        </span>
-                    </h3>
-
-                    <p>
-                        Account:
-                        <strong id="accountNumber">
-                            —
-                        </strong>
-                    </p>
-
-                    <p>
-                        Activation:
-                        <strong id="activationFee">
-                            KSh 0
-                        </strong>
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div>
-
-                <span
-                    class="package-badge"
-                    id="packageBadge"
-                >
-                    INACTIVE
-                </span>
-
-            </div>
-
-
-            <button
-                class="activate-btn"
-                id="activateButton"
-            >
-                Activate Account
-            </button>
-
-        </section>
-
-
-        <!-- =================================================
-             OPPORTUNITIES
-        ================================================== -->
-
-        <section id="opportunities">
-
-            <div class="section-header">
-
-                <div>
-
-                    <h2>
-                        Explore Ways to Earn
-                    </h2>
-
-                    <p>
-                        Discover skills, jobs and legitimate online work opportunities.
-                    </p>
-
-                </div>
-
-                <button
-                    class="view-all-btn"
-                    id="refreshOpportunities"
-                >
-                    Refresh
-                </button>
-
-            </div>
-
-
-            <div class="opportunity-tools">
-
-                <div class="search-box">
-
-                    <input
-                        type="search"
-                        id="opportunitySearch"
-                        placeholder="Search opportunities..."
-                    >
-
-                </div>
-
-
-                <select
-                    class="category-select"
-                    id="categoryFilter"
-                >
-
-                    <option value="">
-                        All Categories
-                    </option>
-
-                    <option value="Transcription">
-                        Transcription
-                    </option>
-
-                    <option value="Data Entry">
-                        Data Entry
-                    </option>
-
-                    <option value="Freelancing">
-                        Freelancing
-                    </option>
-
-                    <option value="Academic Writing">
-                        Academic Writing
-                    </option>
-
-                    <option value="Gaming">
-                        Gaming
-                    </option>
-
-                    <option value="Content">
-                        Content Creation
-                    </option>
-
-                    <option value="Design">
-                        Graphic Design
-                    </option>
-
-                    <option value="AI">
-                        AI Work
-                    </option>
-
-                    <option value="Remote Jobs">
-                        Remote Jobs
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div
-                class="opportunity-grid"
-                id="opportunityGrid"
-            >
-
-                <div class="loading">
-                    Loading opportunities...
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             LOWER PANELS
-        ================================================== -->
-
-        <section
-            class="dashboard-lower"
-            id="transactions"
-        >
-
-            <!-- TRANSACTIONS -->
-
-            <article class="panel">
-
-                <div class="section-header">
-
-                    <div>
-
-                        <h2>
-                            Recent Transactions
-                        </h2>
-
-                        <p>
-                            Your latest wallet activity.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div
-                    class="transaction-list"
-                    id="transactionList"
-                >
-
-                    <div class="loading">
-                        Loading transactions...
-                    </div>
-
-                </div>
-
-            </article>
-
-
-            <!-- LEARNING -->
-
-            <article class="panel">
-
-                <div class="section-header">
-
-                    <div>
-
-                        <h2>
-                            Learn & Grow
-                        </h2>
-
-                        <p>
-                            Improve your online earning skills.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="learning-list">
-
-                    <div class="learning-item">
-
-                        <div class="learning-item-icon">
-                            📖
-                        </div>
-
-                        <div>
-
-                            <strong>
-                                Beginner's Guide
-                            </strong>
-
-                            <span>
-                                Learn how online work operates.
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="learning-item">
-
-                        <div class="learning-item-icon">
-                            🛡️
-                        </div>
-
-                        <div>
-
-                            <strong>
-                                Scam Awareness
-                            </strong>
-
-                            <span>
-                                Learn how to identify suspicious offers.
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="learning-item">
-
-                        <div class="learning-item-icon">
-                            💼
-                        </div>
-
-                        <div>
-
-                            <strong>
-                                Freelancing Skills
-                            </strong>
-
-                            <span>
-                                Build a profile clients can trust.
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="learning-item">
-
-                        <div class="learning-item-icon">
-                            🚀
-                        </div>
-
-                        <div>
-
-                            <strong>
-                                Getting Started
-                            </strong>
-
-                            <span>
-                                Choose an opportunity that matches your skills.
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </article>
-
-        </section>
-
-    </main>
-
-</div>
-
-
-<!-- =========================================================
-     ACTIVATION MODAL
-========================================================= -->
-
-<div
-    class="dashboard-modal"
-    id="activationModal"
->
-
-    <div
-        class="dashboard-modal-overlay"
-        id="activationOverlay"
-    ></div>
-
-
-    <div class="dashboard-modal-box">
-
-        <button
-            class="modal-close"
-            id="closeActivation"
-        >
-            ×
-        </button>
-
-
-        <h2>
-            Activate Your Account
-        </h2>
-
-        <p style="color:#93a4b8;line-height:1.6;">
-            Choose a membership package to request account activation.
-        </p>
-
-
-        <div
-            class="package-options"
-            id="packageOptions"
-        >
-
-            <button
-                class="package-option"
-                data-package="Bronze"
-            >
-
-                <h3>
-                    🥉 Bronze
-                </h3>
-
-                <div class="package-price">
-                    KSh 1,000
-                </div>
-
-                <p>
-                    Basic access to opportunities and learning resources.
-                </p>
-
-            </button>
-
-
-            <button
-                class="package-option"
-                data-package="Silver"
-            >
-
-                <h3>
-                    🥈 Silver
-                </h3>
-
-                <div class="package-price">
-                    KSh 1,750
-                </div>
-
-                <p>
-                    Expanded opportunities and advanced learning resources.
-                </p>
-
-            </button>
-
-
-            <button
-                class="package-option"
-                data-package="Gold"
-            >
-
-                <h3>
-                    🥇 Gold
-                </h3>
-
-                <div class="package-price">
-                    KSh 2,500
-                </div>
-
-                <p>
-                    Full access to the Online Sphere opportunity library.
-                </p>
-
-            </button>
-
-        </div>
-
-
-        <div
-            class="modal-message"
-            id="activationMessage"
-        >
-            Select a package to continue.
-        </div>
-
+        <button class="logout" id="logoutButton">Log out</button>
     </div>
+</header>
 
-</div>
+<main>
+    <section class="welcome" id="overview">
+        <div>
+            <div class="eyebrow">Your digital workspace</div>
+            <h1>Welcome back, <span id="welcomeName">Member</span> 👋</h1>
+            <p class="muted">Discover. Learn. Work. Explore opportunities and develop useful digital skills.</p>
+        </div>
+        <div class="status" id="accountStatus"><span class="dot"></span><span id="statusText">Checking account</span></div>
+    </section>
 
+    <section class="stats" aria-label="Account summary">
+        <article class="card stat-main">
+            <div class="stat-label">Available Balance</div>
+            <div class="stat-value" id="balance">KSh 0.00</div>
+            <div class="stat-note">From verified account records</div>
+        </article>
+        <article class="card">
+            <div class="stat-label">Total Earned</div>
+            <div class="stat-value" id="totalEarned">KSh 0.00</div>
+            <div class="stat-note">Recorded earnings</div>
+        </article>
+        <article class="card">
+            <div class="stat-label">Total Withdrawn</div>
+            <div class="stat-value" id="totalWithdrawn">KSh 0.00</div>
+            <div class="stat-note">Completed withdrawals</div>
+        </article>
+        <article class="card">
+            <div class="stat-label">Pending Withdrawal</div>
+            <div class="stat-value" id="pendingWithdrawal">KSh 0.00</div>
+            <div class="stat-note">Requests under review</div>
+        </article>
+    </section>
 
-<!-- =========================================================
-     OPPORTUNITY MODAL
-========================================================= -->
+    <section class="account-card">
+        <div class="account-info">
+            <div class="package-icon" id="packageIcon">🔐</div>
+            <div>
+                <h3 id="packageName">No package selected</h3>
+                <p>Account number: <strong id="accountNumber">—</strong></p>
+                <p>Package fee: <strong id="activationFee">KSh 0</strong></p>
+            </div>
+        </div>
+        <div class="account-actions">
+            <span class="badge" id="packageBadge">NOT ACTIVE</span>
+            <button class="btn" id="activateButton">Choose Membership</button>
+        </div>
+    </section>
 
-<div
-    class="dashboard-modal"
-    id="opportunityModal"
->
-
-    <div
-        class="dashboard-modal-overlay"
-        id="opportunityOverlay"
-    ></div>
-
-
-    <div class="dashboard-modal-box">
-
-        <button
-            class="modal-close"
-            id="closeOpportunity"
-        >
-            ×
-        </button>
-
-
-        <div id="opportunityDetails">
-            Loading...
+    <section class="section" id="opportunities">
+        <div class="section-head">
+            <div>
+                <h2>Explore Opportunities</h2>
+                <p>Search available opportunities and learning categories.</p>
+            </div>
+            <button class="btn secondary small" id="refreshOpportunities">Refresh</button>
         </div>
 
-    </div>
+        <div class="tools">
+            <input class="field" type="search" id="opportunitySearch" placeholder="Search opportunities, skills or categories...">
+            <select class="field" id="categoryFilter" aria-label="Filter category">
+                <option value="">All categories</option>
+                <option>Transcription</option>
+                <option>Data Entry</option>
+                <option>Freelancing</option>
+                <option>Academic Writing</option>
+                <option>Gaming</option>
+                <option>Content</option>
+                <option>Design</option>
+                <option>AI</option>
+                <option>Remote Jobs</option>
+                <option>Translation</option>
+                <option>Virtual Assistance</option>
+            </select>
+        </div>
 
+        <div class="opportunities" id="opportunityGrid">
+            <div class="loading">Loading opportunities…</div>
+        </div>
+    </section>
+
+    <section class="lower" id="transactions">
+        <article class="card">
+            <div class="panel-title">
+                <h2>Recent Transactions</h2>
+                <p class="muted">Activity returned by your account service.</p>
+            </div>
+            <div id="transactionList"><div class="loading">Loading transactions…</div></div>
+        </article>
+
+        <article class="card">
+            <div class="panel-title">
+                <h2>Learning & Trust</h2>
+                <p class="muted">Build skills and use opportunities responsibly.</p>
+            </div>
+            <div class="learning-item">
+                <strong>🎯 Develop useful skills</strong>
+                <p>Explore learning materials and improve your digital work skills.</p>
+            </div>
+            <div class="learning-item">
+                <strong>🔎 Review each opportunity</strong>
+                <p>Check requirements, eligibility and terms before participating.</p>
+            </div>
+            <div class="learning-item">
+                <strong>🛡️ Payment transparency</strong>
+                <p>Membership payment requests are not proof of payment. Account activation must follow verified payment records.</p>
+            </div>
+            <div class="notice" style="margin-top:15px">
+                Online Sphere does not guarantee employment, tasks or income. Availability depends on genuine opportunities and eligibility.
+            </div>
+        </article>
+    </section>
+
+    <div class="footer">Online Sphere · Discover. Learn. Work.</div>
+</main>
+
+<!-- MEMBERSHIP MODAL -->
+<div class="modal" id="activationModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="overlay" id="activationOverlay"></div>
+    <div class="modal-box">
+        <div class="modal-top">
+            <h2 id="modalTitle">Membership & M-Pesa</h2>
+            <button class="close" id="closeActivation" aria-label="Close">×</button>
+        </div>
+        <p>Select a package and enter the Kenyan M-Pesa number that should receive the payment prompt.</p>
+
+        <label for="mpesaPhone" class="muted" style="display:block;font-size:.82rem;margin:15px 0 8px">M-Pesa phone number</label>
+        <input class="field" id="mpesaPhone" type="tel" inputmode="tel" autocomplete="tel" maxlength="16" placeholder="0712345678 or 254712345678">
+
+        <div class="package-options" id="packageOptions">
+            <button class="package-option" data-package="Bronze" type="button">
+                <span><h3>🥉 Bronze</h3><span class="package-price">KSh 1,000</span></span>
+                <small>Starter membership</small>
+            </button>
+            <button class="package-option" data-package="Silver" type="button">
+                <span><h3>🥈 Silver</h3><span class="package-price">KSh 1,750</span></span>
+                <small>Expanded membership</small>
+            </button>
+            <button class="package-option" data-package="Gold" type="button">
+                <span><h3>🥇 Gold</h3><span class="package-price">KSh 2,500</span></span>
+                <small>Full package access</small>
+            </button>
+        </div>
+
+        <div class="notice">After the request is accepted, check your phone for the M-Pesa prompt. Only enter your PIN in the official M-Pesa prompt. Do not share your PIN here.</div>
+        <div class="modal-message" id="activationMessage" aria-live="polite">Choose a package to continue.</div>
+        <div class="modal-footer">
+            <button class="btn secondary" id="cancelActivation" type="button">Cancel</button>
+        </div>
+    </div>
 </div>
 
+<!-- OPPORTUNITY DETAILS MODAL -->
+<div class="modal" id="opportunityModal" role="dialog" aria-modal="true" aria-labelledby="opportunityModalTitle">
+    <div class="overlay" id="opportunityOverlay"></div>
+    <div class="modal-box">
+        <div class="modal-top">
+            <h2 id="opportunityModalTitle">Opportunity details</h2>
+            <button class="close" id="closeOpportunity" aria-label="Close">×</button>
+        </div>
+        <div id="opportunityDetails"><div class="loading">Loading details…</div></div>
+    </div>
+</div>
 
 <script>
+"use strict";
 
-    /* =========================================================
-       CONFIGURATION
-    ========================================================= */
+/*
+ * Online Sphere dashboard configuration.
+ * If your active Render service has a different URL,
+ * change API_BASE to that exact backend URL.
+ */
+const API_BASE = "https://online-sphere-backend.onrender.com";
+const token = localStorage.getItem("onlineSphereToken");
 
-    /*
-       When dashboard and backend are served from the same
-       domain, leave API_BASE empty.
+let allOpportunities = [];
+let selectedPackage = "";
+let isSendingPayment = false;
 
-       If GitHub Pages is your frontend and Render is your
-       backend, later replace this with your Render URL.
+const $ = id => document.getElementById(id);
 
-       Example:
+function formatKES(amount) {
+    const number = Number(amount || 0);
+    return "KSh " + number.toLocaleString("en-KE", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+}
 
-       const API_BASE =
-           "https://online-sphere-xxxx.onrender.com";
-    */
+function escapeHTML(value) {
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
 
-    const API_BASE = "";
+function initials(name) {
+    const parts = String(name || "Member").trim().split(/\s+/);
+    if (parts.length < 2) return parts[0].slice(0, 2).toUpperCase();
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
 
+async function apiRequest(endpoint, options = {}) {
+    const headers = {
+        "Accept": "application/json",
+        ...(options.body ? {"Content-Type": "application/json"} : {}),
+        ...(options.headers || {})
+    };
 
-    /* =========================================================
-       AUTHENTICATION
-    ========================================================= */
+    if (token) headers.Authorization = "Bearer " + token;
 
-    const token =
-        localStorage.getItem("onlineSphereToken");
-
-
-    if (!token) {
-
-        window.location.href =
-            "auth.html";
-
+    let response;
+    try {
+        response = await fetch(API_BASE + endpoint, {
+            ...options,
+            headers
+        });
+    } catch (error) {
+        throw new Error("Could not reach the server. Check your internet connection and backend URL.");
     }
 
+    const data = await response.json().catch(() => ({}));
 
-    /* =========================================================
-       HELPERS
-    ========================================================= */
-
-    function formatKES(amount) {
-
-        const value =
-            Number(amount || 0);
-
-        return "KSh " +
-            value.toLocaleString(
-                "en-KE",
-                {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                }
-            );
-
+    if (response.status === 401) {
+        localStorage.removeItem("onlineSphereToken");
+        window.location.href = "auth.html";
+        return null;
     }
 
-
-    function escapeHTML(value) {
-
-        return String(value ?? "")
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-
+    if (!response.ok) {
+        throw new Error(data.message || data.error || ("Request failed (" + response.status + ")."));
     }
 
+    return data;
+}
 
-    async function apiRequest(
-        endpoint,
-        options = {}
-    ) {
+function setStatus(text, active = false) {
+    $("statusText").textContent = text;
+    $("accountStatus").classList.toggle("active", active);
+    $("packageBadge").textContent = active ? "ACTIVE" : "NOT ACTIVE";
+    $("packageBadge").style.color = active ? "var(--green)" : "var(--yellow)";
+}
 
-        const headers = {
-            "Content-Type": "application/json",
-            ...(options.headers || {})
-        };
+async function loadAccount() {
+    try {
+        const data = await apiRequest("/api/auth/me");
+        if (!data) return;
 
+        const user = data.user || {};
+        const account = data.account || {};
 
-        if (token) {
+        const fullName = user.fullName || user.full_name || user.name || "Member";
+        $("userName").textContent = fullName;
+        $("welcomeName").textContent = fullName.split(/\s+/)[0];
+        $("userAvatar").textContent = initials(fullName);
 
-            headers.Authorization =
-                "Bearer " + token;
+        $("accountNumber").textContent = account.account_number || account.accountNumber || "—";
+        $("balance").textContent = formatKES(account.balance);
+        $("totalEarned").textContent = formatKES(account.total_earned ?? account.totalEarned);
+        $("totalWithdrawn").textContent = formatKES(account.total_withdrawn ?? account.totalWithdrawn);
+        $("pendingWithdrawal").textContent = formatKES(account.pending_withdrawal ?? account.pendingWithdrawal);
 
+        const packageName = account.package || account.packageName || "No package selected";
+        $("packageName").textContent = packageName;
+        $("userPackage").textContent = packageName;
+        $("activationFee").textContent = formatKES(account.activation_fee ?? account.activationFee);
+        $("packageIcon").textContent = account.status === "active" ? "✓" : "🔐";
+
+        const active = String(account.status || "").toLowerCase() === "active";
+        setStatus(active ? "ACCOUNT ACTIVE" : "ACCOUNT NOT ACTIVE", active);
+
+        if (active) {
+            $("activateButton").textContent = "Account Active";
+            $("activateButton").disabled = true;
+        } else {
+            $("activateButton").textContent = "Choose Membership";
+            $("activateButton").disabled = false;
+        }
+    } catch (error) {
+        console.error("Account load:", error);
+        setStatus("ACCOUNT DATA UNAVAILABLE", false);
+        $("balance").textContent = "Unavailable";
+        $("totalEarned").textContent = "Unavailable";
+        $("totalWithdrawn").textContent = "Unavailable";
+        $("pendingWithdrawal").textContent = "Unavailable";
+    }
+}
+
+function iconFor(category) {
+    const icons = {
+        "Transcription":"🎧",
+        "Data Entry":"⌨️",
+        "Freelancing":"💼",
+        "Academic Writing":"📚",
+        "Gaming":"🎮",
+        "Content":"✍️",
+        "Design":"🎨",
+        "AI":"🤖",
+        "Remote Jobs":"🌍",
+        "Translation":"🌐",
+        "Virtual Assistance":"🗂️"
+    };
+    return icons[category] || "💡";
+}
+
+async function loadOpportunities() {
+    const grid = $("opportunityGrid");
+    grid.innerHTML = '<div class="loading">Loading opportunities…</div>';
+
+    try {
+        const data = await apiRequest("/api/opportunities");
+        if (!data) return;
+        allOpportunities = Array.isArray(data.opportunities) ? data.opportunities : [];
+        filterOpportunities();
+    } catch (error) {
+        console.error("Opportunities load:", error);
+        grid.innerHTML = '<div class="empty">Unable to load opportunities.<br>' +
+            escapeHTML(error.message) + '</div>';
+    }
+}
+
+function filterOpportunities() {
+    const search = $("opportunitySearch").value.trim().toLowerCase();
+    const category = $("categoryFilter").value.toLowerCase();
+
+    const filtered = allOpportunities.filter(item => {
+        const text = [
+            item.title, item.description, item.category,
+            item.difficulty, item.risk_level
+        ].join(" ").toLowerCase();
+
+        const matchesSearch = !search || text.includes(search);
+        const matchesCategory = !category ||
+            String(item.category || "").toLowerCase() === category;
+
+        return matchesSearch && matchesCategory;
+    });
+
+    renderOpportunities(filtered);
+}
+
+function renderOpportunities(items) {
+    const grid = $("opportunityGrid");
+
+    if (!items.length) {
+        grid.innerHTML = '<div class="empty">No opportunities currently available for this search. Try another category or check again later.</div>';
+        return;
+    }
+
+    grid.innerHTML = items.map(item => {
+        const id = escapeHTML(item.id ?? "");
+        const category = escapeHTML(item.category || "General");
+        const title = escapeHTML(item.title || "Opportunity");
+        const description = escapeHTML(item.description || "View the opportunity details for more information.");
+        const difficulty = escapeHTML(item.difficulty || "Not specified");
+        const risk = escapeHTML(item.risk_level || "Review details");
+
+        return `
+          <article class="card opportunity">
+            <div class="opportunity-icon">${iconFor(item.category)}</div>
+            <h3>${title}</h3>
+            <p>${description}</p>
+            <div class="pills">
+              <span class="pill">${category}</span>
+              <span class="pill">${difficulty}</span>
+              <span class="pill">${risk}</span>
+            </div>
+            <div class="opportunity-actions">
+              <button class="btn small" data-open-opportunity="${id}">View details</button>
+              <button class="btn secondary small" data-save-opportunity="${id}" aria-label="Save ${title}">☆ Save</button>
+            </div>
+          </article>`;
+    }).join("");
+}
+
+async function loadTransactions() {
+    const list = $("transactionList");
+    list.innerHTML = '<div class="loading">Loading transactions…</div>';
+
+    try {
+        const data = await apiRequest("/api/transactions");
+        if (!data) return;
+
+        const transactions = Array.isArray(data.transactions) ? data.transactions : [];
+        if (!transactions.length) {
+            list.innerHTML = '<div class="empty">No transactions recorded yet.</div>';
+            return;
         }
 
+        list.innerHTML = transactions.slice(0, 8).map(tx => {
+            const type = String(tx.type || "").toLowerCase();
+            const icon = type === "activation" ? "🔐" :
+                         type === "withdrawal" ? "💸" :
+                         type === "earning" ? "📈" : "💳";
+            const description = escapeHTML(tx.description || tx.type || "Transaction");
+            const reference = escapeHTML(tx.reference || "Reference unavailable");
+            const status = escapeHTML(tx.status || "Recorded");
+            const amount = formatKES(tx.amount);
 
-        const response =
-            await fetch(
-                API_BASE + endpoint,
-                {
-                    ...options,
-                    headers
-                }
-            );
+            return `
+              <div class="transaction">
+                <div class="transaction-left">
+                  <div class="transaction-icon">${icon}</div>
+                  <div class="transaction-info">
+                    <strong>${description}</strong>
+                    <span>${reference}</span>
+                  </div>
+                </div>
+                <div class="transaction-amount">
+                  ${escapeHTML(amount)}
+                  <span class="transaction-status">${status}</span>
+                </div>
+              </div>`;
+        }).join("");
+    } catch (error) {
+        console.error("Transactions load:", error);
+        list.innerHTML = '<div class="empty">Unable to load transactions.<br>' +
+            escapeHTML(error.message) + '</div>';
+    }
+}
 
+/* Membership modal */
+function openMembership() {
+    $("activationModal").classList.add("open");
+    $("activationMessage").className = "modal-message";
+    $("activationMessage").textContent = "Enter your phone number and select a package.";
+}
 
-        let data = {};
+function closeMembership() {
+    if (isSendingPayment) return;
+    $("activationModal").classList.remove("open");
+}
 
-        try {
+$("activateButton").addEventListener("click", openMembership);
+$("closeActivation").addEventListener("click", closeMembership);
+$("cancelActivation").addEventListener("click", closeMembership);
+$("activationOverlay").addEventListener("click", closeMembership);
 
-            data =
-                await response.json();
+document.querySelectorAll(".package-option").forEach(button => {
+    button.addEventListener("click", () => requestSTKPush(button.dataset.package));
+});
 
-        } catch (error) {
+function normalizeKenyanPhone(value) {
+    let phone = String(value || "").trim().replace(/[\s()+-]/g, "");
 
-            data = {};
+    if (phone.startsWith("+")) phone = phone.slice(1);
+    if (phone.startsWith("0")) phone = "254" + phone.slice(1);
 
-        }
+    if (!/^254[17]\d{8}$/.test(phone)) {
+        throw new Error("Enter a valid Kenyan M-Pesa number, e.g. 0712345678 or 254712345678.");
+    }
 
+    return phone;
+}
 
-        if (
-            response.status === 401
-        ) {
+async function requestSTKPush(packageName) {
+    if (isSendingPayment) return;
 
-            localStorage.removeItem(
-                "onlineSphereToken"
-            );
+    const message = $("activationMessage");
+    let phone;
 
-            window.location.href =
-                "auth.html";
+    try {
+        phone = normalizeKenyanPhone($("mpesaPhone").value);
+    } catch (error) {
+        message.className = "modal-message error";
+        message.textContent = error.message;
+        $("mpesaPhone").focus();
+        return;
+    }
 
-            return null;
+    const prices = { Bronze: 1000, Silver: 1750, Gold: 2500 };
+    if (!Object.prototype.hasOwnProperty.call(prices, packageName)) {
+        message.className = "modal-message error";
+        message.textContent = "Please select a valid membership package.";
+        return;
+    }
 
-        }
+    isSendingPayment = true;
+    document.querySelectorAll(".package-option").forEach(button => button.disabled = true);
+    message.className = "modal-message";
+    message.textContent = "Sending the KSh " + prices[packageName].toLocaleString("en-KE") +
+        " M-Pesa request for " + packageName + ". Please wait…";
 
+    try {
+        const response = await fetch(API_BASE + "/api/mpesa/stkpush", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                phone: phone,
+                packageName: packageName
+            })
+        });
+
+        const data = await response.json().catch(() => ({}));
 
         if (!response.ok) {
-
-            throw new Error(
-                data.message ||
-                "Something went wrong."
-            );
-
+            throw new Error(data.message || data.error ||
+                ("The backend rejected the request (HTTP " + response.status + ")."));
         }
 
+        message.className = "modal-message success";
+        message.textContent =
+            (data.message || "The M-Pesa request was accepted by the server.") +
+            " Package: " + packageName +
+            ". Amount: KSh " + prices[packageName].toLocaleString("en-KE") +
+            ". Check " + phone +
+            " for the payment prompt. Your membership remains pending until payment is verified.";
 
-        return data;
-
+        /*
+         * Do not mark membership active from the browser.
+         * The server must verify the Daraja callback/payment first.
+         */
+    } catch (error) {
+        console.error("STK Push:", error);
+        message.className = "modal-message error";
+        message.textContent = "Unable to start M-Pesa payment: " + error.message +
+            " If this continues, check the Render service and its ALLOWED_ORIGINS setting.";
+    } finally {
+        isSendingPayment = false;
+        document.querySelectorAll(".package-option").forEach(button => button.disabled = false);
     }
+}
 
+/* Opportunity detail and save actions */
+const opportunityModal = $("opportunityModal");
 
-    function getInitials(name) {
+function closeOpportunityModal() {
+    opportunityModal.classList.remove("open");
+}
+$("closeOpportunity").addEventListener("click", closeOpportunityModal);
+$("opportunityOverlay").addEventListener("click", closeOpportunityModal);
 
-        const parts =
-            String(name || "User")
-                .trim()
-                .split(/\s+/);
+async function showOpportunity(id) {
+    $("opportunityDetails").innerHTML = '<div class="loading">Loading opportunity details…</div>';
+    opportunityModal.classList.add("open");
 
-        if (parts.length === 1) {
+    try {
+        const data = await apiRequest("/api/opportunities/" + encodeURIComponent(id));
+        if (!data) return;
 
-            return parts[0]
-                .substring(0, 2)
-                .toUpperCase();
+        const item = data.opportunity || data;
+        $("opportunityModalTitle").textContent = item.title || "Opportunity details";
 
-        }
+        $("opportunityDetails").innerHTML = `
+          <div class="opportunity-icon">${iconFor(item.category)}</div>
+          <h3>${escapeHTML(item.title || "Opportunity")}</h3>
+          <p class="muted">${escapeHTML(item.description || "No description provided.")}</p>
+          <div class="pills">
+            <span class="pill">${escapeHTML(item.category || "General")}</span>
+            <span class="pill">${escapeHTML(item.difficulty || "Not specified")}</span>
+          </div>
+          <div class="notice" style="margin:15px 0">
+            Review the requirements and terms before participating. Availability and eligibility may vary.
+          </div>
+          <button class="btn secondary" id="saveDetailOpportunity" type="button">☆ Save opportunity</button>`;
 
-        return (
-            parts[0][0] +
-            parts[parts.length - 1][0]
-        ).toUpperCase();
-
+        $("saveDetailOpportunity").addEventListener("click", () => saveOpportunity(id));
+    } catch (error) {
+        $("opportunityDetails").innerHTML = '<div class="empty">Could not load opportunity details.<br>' +
+            escapeHTML(error.message) + '</div>';
     }
+}
 
+async function saveOpportunity(id) {
+    try {
+        const data = await apiRequest("/api/opportunities/" + encodeURIComponent(id) + "/save", {
+            method: "POST",
+            body: JSON.stringify({})
+        });
 
-    /* =========================================================
-       LOAD ACCOUNT
-    ========================================================= */
-
-    async function loadAccount() {
-
-        try {
-
-            const data =
-                await apiRequest(
-                    "/api/auth/me"
-                );
-
-
-            if (!data) return;
-
-
-            const user =
-                data.user;
-
-            const account =
-                data.account;
-
-
-            document.getElementById(
-                "userName"
-            ).textContent =
-                user.fullName;
-
-
-            document.getElementById(
-                "welcomeName"
-            ).textContent =
-                user.fullName.split(" ")[0];
-
-
-            document.getElementById(
-                "userAvatar"
-            ).textContent =
-                getInitials(user.fullName);
-
-
-            document.getElementById(
-                "accountNumber"
-            ).textContent =
-                account.account_number || "—";
-
-
-            document.getElementById(
-                "balance"
-            ).textContent =
-                formatKES(account.balance);
-
-
-            document.getElementById(
-                "totalEarned"
-            ).textContent =
-                formatKES(account.total_earned);
-
-
-            document.getElementById(
-                "totalWithdrawn"
-            ).textContent =
-                formatKES(account.total_withdrawn);
-
-
-            document.getElementById(
-                "pendingWithdrawal"
-            ).textContent =
-                formatKES(
-                    account.pending_withdrawal
-                );
-
-
-            document.getElementById(
-                "packageName"
-            ).textContent =
-                account.package ||
-                "No package";
-
-
-            document.getElementById(
-                "activationFee"
-            ).textContent =
-                formatKES(
-                    account.activation_fee
-                );
-
-
-            const packageBadge =
-                document.getElementById(
-                    "packageBadge"
-                );
-
-
-            const statusBadge =
-                document.getElementById(
-                    "accountStatus"
-                );
-
-
-            const activateButton =
-                document.getElementById(
-                    "activateButton"
-                );
-
-
-            if (
-                account.status === "active"
-            ) {
-
-                packageBadge.textContent =
-                    (
-                        account.package ||
-                        "ACTIVE"
-                    ).toUpperCase();
-
-
-                statusBadge.classList.add(
-                    "active"
-                );
-
-
-                statusBadge.querySelector(
-                    "span:last-child"
-                ).textContent =
-                    "ACCOUNT ACTIVE";
-
-
-                activateButton.textContent =
-                    "Account Activated";
-
-
-                activateButton.disabled =
-                    true;
-
-
-                activateButton.style.opacity =
-                    "0.55";
-
-
-                document.getElementById(
-                    "packageIcon"
-                ).textContent =
-                    "✓";
-
-            } else {
-
-                packageBadge.textContent =
-                    "INACTIVE";
-
-            }
-
-
-            document.getElementById(
-                "userPackage"
-            ).textContent =
-                account.package
-                    ? account.package + " Member"
-                    : "Not activated";
-
-        } catch (error) {
-
-            console.error(
-                "Account error:",
-                error
-            );
-
-        }
-
+        if (!data) return;
+        alert(data.message || "Save request completed.");
+    } catch (error) {
+        alert("Unable to save opportunity: " + error.message);
     }
-
-
-    /* =========================================================
-       LOAD OPPORTUNITIES
-    ========================================================= */
-
-    let allOpportunities = [];
-
-
-    async function loadOpportunities() {
-
-        const grid =
-            document.getElementById(
-                "opportunityGrid"
-            );
-
-
-        grid.innerHTML =
-            '<div class="loading">Loading opportunities...</div>';
-
-
-        try {
-
-            const data =
-                await apiRequest(
-                    "/api/opportunities"
-                );
-
-
-            if (!data) return;
-
-
-            allOpportunities =
-                data.opportunities || [];
-
-
-            renderOpportunities(
-                allOpportunities
-            );
-
-        } catch (error) {
-
-            console.error(error);
-
-
-            grid.innerHTML = `
-                <div class="empty-state">
-                    Unable to load opportunities.
-                    <br><br>
-                    ${escapeHTML(error.message)}
-                </div>
-            `;
-
-        }
-
-    }
-
-
-    function getOpportunityIcon(
-        category
-    ) {
-
-        const icons = {
-
-            "Transcription": "🎧",
-
-            "Data Entry": "⌨️",
-
-            "Freelancing": "💼",
-
-            "Academic Writing": "📚",
-
-            "Gaming": "🎮",
-
-            "Content": "✍️",
-
-            "Design": "🎨",
-
-            "AI": "🤖",
-
-            "Remote Jobs": "🌍"
-
-        };
-
-
-        return icons[category] || "💡";
-
-    }
-
-
-    function renderOpportunities(
-        opportunities
-    ) {
-
-        const grid =
-            document.getElementById(
-                "opportunityGrid"
-            );
-
-
-        if (!opportunities.length) {
-
-            grid.innerHTML = `
-                <div class="empty-state">
-                    No opportunities found.
-                </div>
-            `;
-
-            return;
-
-        }
-
-
-        grid.innerHTML =
-            opportunities
-                .map(
-                    opportunity => `
-
-                <article
-                    class="opportunity-card"
-                    data-id="${opportunity.id}"
-                >
-
-                    <div class="opportunity-icon">
-                        ${getOpportunityIcon(
-                            opportunity.category
-                        )}
-                    </div>
-
-                    <h3>
-                        ${escapeHTML(
-                            opportunity.title
-                        )}
-                    </h3>
-
-                    <p>
-                        ${escapeHTML(
-                            opportunity.description
-                        )}
-                    </p>
-
-                    <div class="opportunity-meta">
-
-                        <span class="meta-pill">
-                            ${escapeHTML(
-                                opportunity.category
-                            )}
-                        </span>
-
-                        <span class="meta-pill">
-                            ${escapeHTML(
-                                opportunity.difficulty ||
-                                "Beginner"
-                            )}
-                        </span>
-
-                        <span class="meta-pill">
-                            ${escapeHTML(
-                                opportunity.risk_level ||
-                                "Low"
-                            )} risk
-                        </span>
-
-                    </div>
-
-                    <div class="opportunity-footer">
-
-                        <button
-                            class="explore-btn"
-                            data-id="${opportunity.id}"
-                        >
-                            Explore
-                        </button>
-
-                        <button
-                            class="save-btn"
-                            title="Save opportunity"
-                            data-save-id="${opportunity.id}"
-                        >
-                            ☆
-                        </button>
-
-                    </div>
-
-                </article>
-
-            `
-                )
-                .join("");
-
-    }
-
-
-    /* =========================================================
-       SEARCH & FILTER
-    ========================================================= */
-
-    function filterOpportunities() {
-
-        const search =
-            document.getElementById(
-                "opportunitySearch"
-            )
-            .value
-            .toLowerCase()
-            .trim();
-
-
-        const category =
-            document.getElementById(
-                "categoryFilter"
-            ).value;
-
-
-        const filtered =
-            allOpportunities.filter(
-                opportunity => {
-
-                    const searchable = (
-
-                        opportunity.title +
-                        " " +
-                        opportunity.description +
-                        " " +
-                        opportunity.category
-
-                    ).toLowerCase();
-
-
-                    const matchesSearch =
-                        !search ||
-                        searchable.includes(
-                            search
-                        );
-
-
-                    const matchesCategory =
-                        !category ||
-                        opportunity.category ===
-                        category;
-
-
-                    return (
-                        matchesSearch &&
-                        matchesCategory
-                    );
-
-                }
-            );
-
-
-        renderOpportunities(
-            filtered
-        );
-
-    }
-
-
-    document.getElementById(
-        "opportunitySearch"
-    ).addEventListener(
-        "input",
-        filterOpportunities
-    );
-
-
-    document.getElementById(
-        "categoryFilter"
-    ).addEventListener(
-        "change",
-        filterOpportunities
-    );
-
-
-    document.getElementById(
-        "refreshOpportunities"
-    ).addEventListener(
-        "click",
-        loadOpportunities
-    );
-
-
-    /* =========================================================
-       OPPORTUNITY DETAILS
-    ========================================================= */
-
-    const opportunityModal =
-        document.getElementById(
-            "opportunityModal"
-        );
-
-
-    async function showOpportunity(
-        id
-    ) {
-
-        const details =
-            document.getElementById(
-                "opportunityDetails"
-            );
-
-
-        opportunityModal.classList.add(
-            "active"
-        );
-
-
-        details.innerHTML =
-            '<div class="loading">Loading opportunity...</div>';
-
-
-        try {
-
-            const data =
-                await apiRequest(
-                    "/api/opportunities/" +
-                    id
-                );
-
-
-            const opportunity =
-                data.opportunity;
-
-
-            details.innerHTML = `
-
-                <div class="opportunity-icon">
-                    ${getOpportunityIcon(
-                        opportunity.category
-                    )}
-                </div>
-
-                <h2>
-                    ${escapeHTML(
-                        opportunity.title
-                    )}
-                </h2>
-
-                <p
-                    style="
-                        color:#93a4b8;
-                        line-height:1.8;
-                    "
-                >
-                    ${escapeHTML(
-                        opportunity.description
-                    )}
-                </p>
-
-                <div class="opportunity-meta">
-
-                    <span class="meta-pill">
-                        Category:
-                        ${escapeHTML(
-                            opportunity.category
-                        )}
-                    </span>
-
-                    <span class="meta-pill">
-                        Difficulty:
-                        ${escapeHTML(
-                            opportunity.difficulty
-                        )}
-                    </span>
-
-                    <span class="meta-pill">
-                        Risk:
-                        ${escapeHTML(
-                            opportunity.risk_level
-                        )}
-                    </span>
-
-                </div>
-
-                <h3>
-                    How payment works
-                </h3>
-
-                <p
-                    style="
-                        color:#93a4b8;
-                        line-height:1.7;
-                    "
-                >
-                    ${escapeHTML(
-                        opportunity.earning_model ||
-                        "Payment depends on the specific opportunity or platform."
-                    )}
-                </p>
-
-                <h3>
-                    Requirements
-                </h3>
-
-                <p
-                    style="
-                        color:#93a4b8;
-                        line-height:1.7;
-                    "
-                >
-                    ${escapeHTML(
-                        opportunity.requirements ||
-                        "Requirements vary."
-                    )}
-                </p>
-
-                <div class="modal-message">
-
-                    ⚠️ Online Sphere does not guarantee
-                    income. Always research a platform
-                    carefully before providing personal
-                    information or making payments.
-
-                </div>
-
-            `;
-
-        } catch (error) {
-
-            details.innerHTML = `
-                <div class="empty-state">
-                    ${escapeHTML(
-                        error.message
-                    )}
-                </div>
-            `;
-
-        }
-
-    }
-
-
-    document.addEventListener(
-        "click",
-        event => {
-
-            const explore =
-                event.target.closest(
-                    ".explore-btn"
-                );
-
-
-            if (explore) {
-
-                showOpportunity(
-                    explore.dataset.id
-                );
-
-            }
-
-
-            const save =
-                event.target.closest(
-                    ".save-btn"
-                );
-
-
-            if (save) {
-
-                saveOpportunity(
-                    save.dataset.saveId
-                );
-
-            }
-
-        }
-    );
-
-
-    async function saveOpportunity(
-        id
-    ) {
-
-        try {
-
-            await apiRequest(
-                "/api/opportunities/" +
-                id +
-                "/save",
-                {
-                    method: "POST"
-                }
-            );
-
-
-            alert(
-                "Opportunity saved."
-            );
-
-        } catch (error) {
-
-            alert(
-                error.message
-            );
-
-        }
-
-    }
-
-
-    /* =========================================================
-       TRANSACTIONS
-    ========================================================= */
-
-    async function loadTransactions() {
-
-        const list =
-            document.getElementById(
-                "transactionList"
-            );
-
-
-        try {
-
-            const data =
-                await apiRequest(
-                    "/api/transactions"
-                );
-
-
-            if (!data) return;
-
-
-            const transactions =
-                data.transactions || [];
-
-
-            if (!transactions.length) {
-
-                list.innerHTML = `
-                    <div class="empty-state">
-                        No transactions yet.
-                    </div>
-                `;
-
-                return;
-
-            }
-
-
-            list.innerHTML =
-                transactions
-                    .slice(0, 8)
-                    .map(
-                        transaction => {
-
-                            let icon = "💳";
-
-                            if (
-                                transaction.type ===
-                                "activation"
-                            ) {
-                                icon = "🔐";
-                            }
-
-                            if (
-                                transaction.type ===
-                                "withdrawal"
-                            ) {
-                                icon = "💸";
-                            }
-
-                            if (
-                                transaction.type ===
-                                "earning"
-                            ) {
-                                icon = "📈";
-                            }
-
-
-                            return `
-
-                                <div class="transaction">
-
-                                    <div class="transaction-left">
-
-                                        <div class="transaction-icon">
-                                            ${icon}
-                                        </div>
-
-                                        <div class="transaction-info">
-
-                                            <strong>
-                                                ${escapeHTML(
-                                                    transaction.description ||
-                                                    transaction.type
-                                                )}
-                                            </strong>
-
-                                            <span>
-                                                ${escapeHTML(
-                                                    transaction.reference ||
-                                                    "No reference"
-                                                )}
-                                            </span>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="transaction-amount">
-
-                                        ${formatKES(
-                                            transaction.amount
-                                        )}
-
-                                        <span class="transaction-status">
-                                            ${escapeHTML(
-                                                transaction.status
-                                            )}
-                                        </span>
-
-                                    </div>
-
-                                </div>
-
-                            `;
-
-                        }
-                    )
-                    .join("");
-
-        } catch (error) {
-
-            list.innerHTML = `
-                <div class="empty-state">
-                    Unable to load transactions.
-                </div>
-            `;
-
-        }
-
-    }
-
-
-    /* =========================================================
-       ACTIVATION
-    ========================================================= */
-
-    const activationModal =
-        document.getElementById(
-            "activationModal"
-        );
-
-
-    document.getElementById(
-        "activateButton"
-    ).addEventListener(
-        "click",
-        () => {
-
-            activationModal.classList.add(
-                "active"
-            );
-
-        }
-    );
-
-
-    document.getElementById(
-        "closeActivation"
-    ).addEventListener(
-        "click",
-        () => {
-
-            activationModal.classList.remove(
-                "active"
-            );
-
-        }
-    );
-
-
-    document.getElementById(
-        "activationOverlay"
-    ).addEventListener(
-        "click",
-        () => {
-
-            activationModal.classList.remove(
-                "active"
-            );
-
-        }
-    );
-
-
-    document.querySelectorAll(
-        ".package-option"
-    ).forEach(
-        button => {
-
-            button.addEventListener(
-                "click",
-                async () => {
-
-                    const packageName =
-                        button.dataset.package;
-
-
-                    const message =
-                        document.getElementById(
-                            "activationMessage"
-                        );
-
-
-                    message.textContent =
-                        "Creating activation request...";
-
-
-                    try {
-
-                        const data =
-                            await apiRequest(
-                                "/api/account/activate",
-                                {
-                                    method: "POST",
-
-                                    body:
-                                        JSON.stringify({
-                                            packageName
-                                        })
-                                }
-                            );
-
-
-                        message.textContent =
-                            data.message +
-                            " Reference: " +
-                            data.reference;
-
-
-                        /*
-                           We deliberately do not mark
-                           the account as paid/active here.
-                           Payment verification will be
-                           connected separately.
-                        */
-
-                        await loadAccount();
-
-                        await loadTransactions();
-
-                    } catch (error) {
-
-                        message.textContent =
-                            error.message;
-
-                    }
-
-                }
-            );
-
-        }
-    );
-
-
-    /* =========================================================
-       CLOSE OPPORTUNITY MODAL
-    ========================================================= */
-
-    document.getElementById(
-        "closeOpportunity"
-    ).addEventListener(
-        "click",
-        () => {
-
-            opportunityModal.classList.remove(
-                "active"
-            );
-
-        }
-    );
-
-
-    document.getElementById(
-        "opportunityOverlay"
-    ).addEventListener(
-        "click",
-        () => {
-
-            opportunityModal.classList.remove(
-                "active"
-            );
-
-        }
-    );
-
-
-    /* =========================================================
-       NAVIGATION
-    ========================================================= */
-
-    document.querySelectorAll(
-        "[data-scroll]"
-    ).forEach(
-        button => {
-
-            button.addEventListener(
-                "click",
-                () => {
-
-                    const target =
-                        document.getElementById(
-                            button.dataset.scroll
-                        );
-
-
-                    if (target) {
-
-                        target.scrollIntoView({
-                            behavior: "smooth"
-                        });
-
-                    }
-
-                }
-            );
-
-        }
-    );
-
-
-    /* =========================================================
-       LOGOUT
-    ========================================================= */
-
-    document.getElementById(
-        "logoutButton"
-    ).addEventListener(
-        "click",
-        () => {
-
-            localStorage.removeItem(
-                "onlineSphereToken"
-            );
-
-            window.location.href =
-                "auth.html";
-
-        }
-    );
-
-
-    /* =========================================================
-       INITIALIZE
-    ========================================================= */
-
-    async function initializeDashboard() {
-
-        await loadAccount();
-
-        await loadOpportunities();
-
-        await loadTransactions();
-
-    }
-
-
-    initializeDashboard();
-
+}
+
+$("opportunityGrid").addEventListener("click", event => {
+    const openButton = event.target.closest("[data-open-opportunity]");
+    const saveButton = event.target.closest("[data-save-opportunity]");
+
+    if (openButton) showOpportunity(openButton.dataset.openOpportunity);
+    if (saveButton) saveOpportunity(saveButton.dataset.saveOpportunity);
+});
+
+$("opportunitySearch").addEventListener("input", filterOpportunities);
+$("categoryFilter").addEventListener("change", filterOpportunities);
+$("refreshOpportunities").addEventListener("click", loadOpportunities);
+
+document.querySelectorAll("[data-scroll]").forEach(button => {
+    button.addEventListener("click", () => {
+        const target = document.getElementById(button.dataset.scroll);
+        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+});
+
+$("logoutButton").addEventListener("click", () => {
+    localStorage.removeItem("onlineSphereToken");
+    window.location.href = "auth.html";
+});
+
+/* Start */
+if (!token) {
+    window.location.href = "auth.html";
+} else {
+    loadAccount();
+    loadOpportunities();
+    loadTransactions();
+}
 </script>
-
 </body>
 </html>
