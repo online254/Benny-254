@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ | Online Sphere</title>
+  <meta name="description" content="Find answers to common questions about Online Sphere, membership, digital opportunities and payments.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07111f;
+      --card: #101e32;
+      --blue: #2563eb;
+      --purple: #7c3aed;
+      --text: #f5f8ff;
+      --muted: #a9b7cc;
+      --border: rgba(255,255,255,.1);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, Arial, sans-serif;
+      background: radial-gradient(ellipse at top right, #20205b 0, var(--bg) 48%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: rgba(7,17,31,.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav {
+      max-width: 1100px;
+      margin: auto;
+      padding: 17px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      color: white;
+      font-weight: 800;
+      font-size: 20px;
+      text-decoration: none;
+    }
+
+    .brand span { color: #60a5fa; }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .links a:hover, .links a.active { color: white; }
+
+    main {
+      width: min(850px, 100%);
+      margin: auto;
+      padding: 65px 20px 80px;
+    }
+
+    .eyebrow {
+      color: #93c5fd;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    h1 {
+      font-size: clamp(36px, 7vw, 56px);
+      letter-spacing: -2px;
+      margin: 15px 0;
+    }
+
+    .intro {
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 35px;
+    }
+
+    .faq-item {
+      background: rgba(16,30,50,.85);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      margin: 12px 0;
+      overflow: hidden;
+    }
+
+    .faq-item summary {
+      padding: 20px;
+      cursor: pointer;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    .faq-item summary::marker { color: #60a5fa; }
+
+    .answer {
+      padding: 0 20px 20px;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 14px;
+    }
+
+    .cta {
+      margin-top: 30px;
+      padding: 25px;
+      border-radius: 18px;
+      background: linear-gradient(120deg, rgba(37,99,235,.2), rgba(124,58,237,.2));
+      border: 1px solid var(--border);
+    }
+
+    .cta a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 12px 18px;
+      border-radius: 10px;
+      background: var(--blue);
+      color: white;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 25px 20px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 600px) {
+      nav { align-items: flex-start; }
+      .links { gap: 13px; }
+      main { padding-top: 45px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <a class="brand" href="/index.html">ONLINE <span>SPHERE</span></a>
+      <div class="links">
+        <a href="/index.html">Home</a>
+        <a href="/opportunities.html">Opportunities</a>
+        <a href="/how-it-works.html">How It Works</a>
+        <a href="/membership.html">Membership</a>
+        <a href="/about.html">About</a>
+        <a class="active" href="/faq.html">FAQ</a>
+        <a href="/login.html">Login</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="eyebrow">Help centre</div>
+    <h1>Frequently asked questions.</h1>
+    <p class="intro">
+      Learn more about Online Sphere, digital opportunities, membership and account safety.
+      If something is unclear, contact the official support team through the contact details
+      published on our website.
+    </p>
+
+    <details class="faq-item">
+      <summary>What is Online Sphere?</summary>
+      <div class="answer">
+        Online Sphere is a digital platform designed to help people discover online
+        opportunities, develop useful skills and explore participation in the digital economy.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>How do I get started?</summary>
+      <div class="answer">
+        Explore the available pages, review each opportunity's requirements, and create an
+        account through the official registration process when it is available.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>What types of digital opportunities can I explore?</summary>
+      <div class="answer">
+        Categories may include transcription, data entry, writing, graphic design, video
+        editing, translation, research and virtual assistance. Availability varies, so check
+        the opportunities page for current listings.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>What membership packages are listed?</summary>
+      <div class="answer">
+        The listed packages are Bronze at KSh 1,000, Silver at KSh 1,750 and Gold at
+        KSh 2,500. Review the current membership terms and benefits before making a payment.
+        A package does not guarantee work, earnings or employment.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>How do M-Pesa payments work?</summary>
+      <div class="answer">
+        Where supported, you can request an M-Pesa payment prompt using your registered
+        Kenyan phone number. Check the package and amount before approving the request on
+        your phone. Only approve a payment you recognise.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>What should I do if a payment fails?</summary>
+      <div class="answer">
+        Check your M-Pesa message and account balance first. Avoid making repeated payments
+        until you confirm the status. Contact official support with the transaction details,
+        but never share your M-Pesa PIN or account passwords.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Does Online Sphere guarantee earnings or jobs?</summary>
+      <div class="answer">
+        No. Opportunities, eligibility and payment depend on the specific work and its
+        terms. Review all conditions carefully; never rely on guaranteed-income claims.
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>How do I keep my account safe?</summary>
+      <div class="answer">
+        Use your own accurate details, keep your password private, protect your phone and
+        never disclose your M-Pesa PIN or verification codes to another person.
+      </div>
+    </details>
+
+    <div class="cta">
+      <h2>Still need help?</h2>
+      <p class="intro">
+        Visit the homepage to find the platform's available support information.
+      </p>
+      <a href="/index.html">Return to homepage</a>
+    </div>
+  </main>
+
+  <footer>
+    © <span id="year"></span> Online Sphere. Discover. Learn. Work.
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
