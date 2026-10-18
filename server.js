@@ -523,7 +523,73 @@ app.use((err, req, res, next) => {
         message: "An internal server error occurred."
     });
 });
+// ONLINE SPHERE AI CHAT ENDPOINT
+app.post("/api/ai/chat", async (req, res) => {
+  try {
+    const apiKey = process.env.OPENAI_API_KEY;
 
+    if (!apiKey) {
+      return res.status(503).json({
+        error: "Online Sphere AI is not configured yet."
+      });
+    }
+
+    const message =
+      typeof req.body?.message === "string"
+        ? req.body.message.trim()
+        : "";
+
+    if (!message) {
+      return res.status(400).json({
+        error: "Please enter a message."
+      });
+    }
+
+    if (message.length > 2000) {
+      return res.status(413).json({
+        error: "Please keep your message under 2000 characters."
+      });
+    }
+
+    const OpenAI = require("openai");
+
+    const client = new OpenAI({
+      apiKey: apiKey,
+      timeout: 30000,
+      maxRetries: 1
+    });
+
+    const response = await client.responses.create({
+      model: process.env.OPENAI_MODEL || "gpt-5.5",
+      instructions:
+        "You are Online Sphere AI, the helpful digital assistant for Online Sphere. " +
+        "Help users understand website navigation, digital skills, opportunity categories, " +
+        "membership information, and online safety. Be friendly, clear, and honest. " +
+        "Never invent available tasks, member statistics, payments, testimonials, or job offers. " +
+        "Never guarantee earnings, employment, or approval for payment. " +
+        "Explain that opportunities depend on actual published listings and their requirements. " +
+        "Do not request passwords, API keys, or M-Pesa PINs. " +
+        "If you do not know a current platform detail, say so honestly.",
+      input: message,
+      max_output_tokens: 500
+    });
+
+    return res.json({
+      reply: response.output_text ||
+        "Sorry, I couldn't prepare an answer. Please try again."
+    });
+
+  } catch (error) {
+    console.error(
+      "Online Sphere AI request failed:",
+      error?.status || "Unexpected error"
+    );
+
+    return res.status(500).json({
+      error: "Online Sphere AI is temporarily unavailable. Please try again."
+    });
+  }
+});
 app.listen(PORT, () => {
     console.log(`Online Sphere backend running on port ${PORT}`);
 });
