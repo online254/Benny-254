@@ -382,6 +382,56 @@ button:disabled{opacity:.6;cursor:wait;transform:none}
 @media(prefers-reduced-motion:reduce){
   *,*:before,*:after{scroll-behavior:auto!important;transition:none!important}
 }
+/* ONLINE SPHERE INTRO SCREEN */
+#sphere-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle, #142b55, #07111f 65%, #030712);
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+#sphere-intro.intro-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.sphere-logo {
+  text-align: center;
+  animation: sphere-spin 2.2s linear infinite;
+  filter: drop-shadow(0 0 25px rgba(37, 99, 235, 0.7));
+}
+
+.sphere-globe {
+  font-size: clamp(100px, 35vw, 200px);
+  line-height: 1.2;
+}
+
+.sphere-name {
+  color: #ffffff;
+  font-size: clamp(24px, 7vw, 42px);
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+.sphere-name span {
+  color: #60a5fa;
+}
+
+@keyframes sphere-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 </style>
 </head>
 
@@ -976,6 +1026,27 @@ function filterCategories() {
 
 searchInput.addEventListener("input", filterCategories);
 categoryFilter.addEventListener("change", filterCategories);
+</script>
+<script>
+(function () {
+  const intro = document.getElementById("sphere-intro");
+
+  if (!intro) return;
+
+  document.documentElement.style.overflow = "hidden";
+  document.body.style.overflow = "hidden";
+
+  setTimeout(function () {
+    intro.classList.add("intro-hidden");
+
+    document.documentElement.style.overflow = "";
+    document.body.style.overflow = "";
+
+    setTimeout(function () {
+      intro.remove();
+    }, 500);
+  }, 7000);
+})();
 </script>
 </body>
 </html>
