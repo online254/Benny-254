@@ -439,7 +439,61 @@ button:disabled{opacity:.6;cursor:wait;transform:none}
   <!-- ONLINE SPHERE INTRO -->
 <div id="sphere-intro">
   <div class="sphere-logo">
-    <div class="sphere-globe">🌐</div>
+    <div class="sphere-globe">
+  <svg viewBox="0 0 200 200"
+       xmlns="http://www.w3.org/2000/svg"
+       role="img"
+       aria-label="Online Sphere logo">
+
+    <defs>
+      <linearGradient id="sphereGradient"
+                      x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#60a5fa"/>
+        <stop offset="55%" stop-color="#2563eb"/>
+        <stop offset="100%" stop-color="#7c3aed"/>
+      </linearGradient>
+
+      <filter id="sphereGlow" x="-50%" y="-50%"
+              width="200%" height="200%">
+        <feGaussianBlur stdDeviation="3" result="blur"/>
+        <feMerge>
+          <feMergeNode in="blur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+    </defs>
+
+    <circle cx="100" cy="100" r="83"
+            fill="#07111f"
+            stroke="url(#sphereGradient)"
+            stroke-width="5"
+            filter="url(#sphereGlow)"/>
+
+    <ellipse cx="100" cy="100" rx="36" ry="83"
+             fill="none"
+             stroke="#60a5fa"
+             stroke-width="3"/>
+
+    <ellipse cx="100" cy="100" rx="83" ry="30"
+             fill="none"
+             stroke="#60a5fa"
+             stroke-width="3"/>
+
+    <path d="M24 70 Q100 101 176 70"
+          fill="none"
+          stroke="#7c3aed"
+          stroke-width="3"/>
+
+    <path d="M24 130 Q100 99 176 130"
+          fill="none"
+          stroke="#7c3aed"
+          stroke-width="3"/>
+
+    <circle cx="100" cy="100" r="10" fill="#ffffff"/>
+    <circle cx="100" cy="100" r="5" fill="#2563eb"/>
+
+  </svg>
+</div>
     <div class="sphere-name">ONLINE <span>SPHERE</span></div>
   </div>
 </div>
