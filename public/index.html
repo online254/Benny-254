@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#050816">
-  <link rel="manifest" href="./manifest.json">
+<link rel="manifest" href="./manifest.json">
 <meta name="description" content="Online Sphere — Discover digital opportunities, develop useful skills and explore the global digital economy.">
 <title>Online Sphere | Discover. Learn. Work.</title>
 
@@ -69,6 +69,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{
 .btn-outline{border:1px solid var(--line);background:rgba(255,255,255,.035);color:white}
 .btn-small{padding:10px 13px;min-height:39px;font-size:12px}
 .muted{color:var(--muted)}
+
 /* NAVIGATION */
 header{
   position:sticky;top:0;z-index:100;
@@ -128,6 +129,7 @@ header{
 .mobile-nav a:hover,.mobile-nav a.active{
   background:rgba(57,132,255,.13);color:#76dfff
 }
+
 /* HERO */
 .hero{padding:70px 0 60px;min-height:590px;display:flex;align-items:center}
 .hero-grid{display:grid;grid-template-columns:1fr 1.04fr;gap:42px;align-items:center}
@@ -162,6 +164,7 @@ header{
   position:absolute;inset:-12px -12px -12px 0;border:1px solid rgba(95,137,255,.15);
   border-radius:50%;transform:rotate(-22deg);pointer-events:none
 }
+
 /* MILESTONES */
 .metrics{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(9,16,35,.6)}
 .metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);padding:25px 0}
@@ -169,11 +172,13 @@ header{
 .metric:last-child{border:0}
 .metric strong{display:block;font:700 25px "Space Grotesk"}
 .metric span{font-size:12px;color:var(--muted)}
+
 /* SECTION HEADINGS */
 .section-head{display:flex;justify-content:space-between;gap:25px;align-items:end;margin-bottom:32px}
 .section-head h2{font-size:clamp(29px,3.5vw,43px);letter-spacing:-1.5px;margin:13px 0 8px}
 .section-head p{margin:0;max-width:570px;font-size:14px}
 .text-link{color:#76dfff;font-size:13px;font-weight:700;white-space:nowrap}
+
 /* CATEGORY SEARCH */
 .search-panel{
   padding:13px;border:1px solid var(--line);border-radius:18px;
@@ -211,6 +216,7 @@ header{
   display:none;padding:30px;text-align:center;border:1px dashed var(--line);
   border-radius:15px;color:var(--muted)
 }
+
 /* FEATURE */
 .feature-section{
   background:linear-gradient(130deg,rgba(14,25,54,.65),rgba(7,11,26,.4));
@@ -232,6 +238,7 @@ header{
 }
 .feature-item strong{font-size:14px}
 .feature-item p{font-size:12px;margin:5px 0 0}
+
 /* STEPS */
 .steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
 .step-card{padding:23px 20px;border:1px solid var(--line);border-radius:18px;background:rgba(12,20,42,.65)}
@@ -239,6 +246,7 @@ header{
 .step-symbol{font-size:25px;margin:18px 0}
 .step-card h3{font-size:16px;margin-bottom:8px}
 .step-card p{font-size:12px;margin-bottom:0}
+
 /* IMAGE GALLERY */
 .gallery-grid{
   display:grid;grid-template-columns:1.3fr 1fr 1fr;
@@ -250,6 +258,7 @@ header{
 .gallery-item:hover img{transform:scale(1.06)}
 .gallery-item:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,8,21,.7),transparent 60%)}
 .gallery-label{position:absolute;z-index:1;bottom:14px;left:15px;font-size:13px;font-weight:700}
+
 /* MEMBERSHIP */
 .package-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:stretch}
 .package-card{
@@ -266,6 +275,7 @@ header{
 .package-card li:before{content:"✓";color:#69dff5;margin-right:10px}
 .package-card .btn{width:100%}
 .popular{position:absolute;top:16px;right:15px;font-size:10px;padding:6px 9px;background:rgba(140,94,255,.2);border-radius:30px;color:#d9c9ff}
+
 /* CTA */
 .cta-banner{
   padding:42px;border:1px solid rgba(116,141,255,.27);border-radius:26px;
@@ -274,6 +284,7 @@ header{
 }
 .cta-banner h2{font-size:clamp(26px,3vw,39px);margin:12px 0}
 .cta-banner p{margin-bottom:0;font-size:14px;max-width:570px}
+
 /* FOOTER */
 footer{padding:48px 0 20px;border-top:1px solid var(--line);background:rgba(4,7,17,.65)}
 .footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:35px;padding-bottom:35px}
@@ -282,6 +293,7 @@ footer{padding:48px 0 20px;border-top:1px solid var(--line);background:rgba(4,7,
 .footer-col a{display:block;color:var(--muted);font-size:12px;margin:11px 0}
 .footer-col a:hover{color:#80dfff}
 .footer-bottom{border-top:1px solid var(--line);padding-top:20px;display:flex;justify-content:space-between;gap:15px;font-size:11px;color:#8290af}
+
 /* PAYMENT MODAL */
 .modal{
   position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;
@@ -309,6 +321,7 @@ footer{padding:48px 0 20px;border-top:1px solid var(--line);background:rgba(4,7,
 .form-message{font-size:13px;line-height:1.6;margin-top:14px;overflow-wrap:anywhere}
 .disclaimer{font-size:11px;line-height:1.6}
 button:disabled{opacity:.6;cursor:wait;transform:none}
+
 /* RESPONSIVE */
 @media(max-width:1150px){
   .nav{gap:8px}
@@ -380,9 +393,7 @@ button:disabled{opacity:.6;cursor:wait;transform:none}
   .category-grid{grid-template-columns:1fr}
   .card-image{height:165px}
 }
-@media(prefers-reduced-motion:reduce){
-  *,*:before,*:after{scroll-behavior:auto!important;transition:none!important}
-}
+
 /* ONLINE SPHERE INTRO SCREEN */
 #sphere-intro {
   position: fixed;
@@ -391,7 +402,9 @@ button:disabled{opacity:.6;cursor:wait;transform:none}
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle, #142b55, #07111f 65%, #030712);
+  background:
+    radial-gradient(circle at 50% 45%, rgba(57,132,255,.19), transparent 35%),
+    radial-gradient(circle, #142b55, #07111f 65%, #030712);
   opacity: 1;
   visibility: visible;
   transition: opacity 0.5s ease, visibility 0.5s ease;
@@ -403,101 +416,156 @@ button:disabled{opacity:.6;cursor:wait;transform:none}
   pointer-events: none;
 }
 
+/* Keep the complete intro layout still */
 .sphere-logo {
   text-align: center;
-  animation: sphere-spin 2.2s linear infinite;
-  filter: drop-shadow(0 0 25px rgba(37, 99, 235, 0.7));
+  filter: drop-shadow(0 0 22px rgba(57,132,255,.28));
 }
 
+/* Only the globe rotates */
 .sphere-globe {
-  font-size: clamp(100px, 35vw, 200px);
-  line-height: 1.2;
+  width: clamp(100px, 35vw, 200px);
+  margin: 0 auto 22px;
+  line-height: 0;
+  animation: sphere-spin 5s linear infinite;
+  transform-origin: center;
+  will-change: transform;
 }
 
+.sphere-globe svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* TECNO-inspired flowing gradient text */
 .sphere-name {
-  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .25em;
+  font-family: "Space Grotesk", sans-serif;
   font-size: clamp(24px, 7vw, 42px);
-  font-weight: 900;
+  font-weight: 700;
+  line-height: 1.25;
   letter-spacing: 3px;
+  white-space: nowrap;
 }
 
 .sphere-name span {
-  color: #60a5fa;
+  display: inline-block;
+  background: linear-gradient(
+    100deg,
+    #3984ff 0%,
+    #4ce6f5 20%,
+    #a36bff 40%,
+    #ff65c5 60%,
+    #4ce6f5 80%,
+    #3984ff 100%
+  );
+  background-size: 300% 100%;
+  background-position: 0% center;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: sphere-text-colors 4s linear infinite;
+  filter: drop-shadow(0 0 9px rgba(76,230,245,.18));
 }
 
 @keyframes sphere-spin {
-  from {
-    transform: rotate(0deg);
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes sphere-text-colors {
+  0% { background-position: 0% center; }
+  100% { background-position: 300% center; }
+}
+
+/* Respect reduced-motion preferences */
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{
+    scroll-behavior:auto!important;
+    transition:none!important;
   }
-  to {
-    transform: rotate(360deg);
+
+  .sphere-globe,
+  .sphere-name span {
+    animation:none!important;
   }
 }
 </style>
 </head>
 
 <body>
-  <!-- ONLINE SPHERE INTRO -->
+<!-- ONLINE SPHERE INTRO -->
 <div id="sphere-intro">
   <div class="sphere-logo">
     <div class="sphere-globe">
-  <svg viewBox="0 0 200 200"
-       xmlns="http://www.w3.org/2000/svg"
-       role="img"
-       aria-label="Online Sphere logo">
+      <svg viewBox="0 0 200 200"
+           xmlns="http://www.w3.org/2000/svg"
+           role="img"
+           aria-label="Online Sphere globe logo">
 
-    <defs>
-      <linearGradient id="sphereGradient"
-                      x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#60a5fa"/>
-        <stop offset="55%" stop-color="#2563eb"/>
-        <stop offset="100%" stop-color="#7c3aed"/>
-      </linearGradient>
+        <defs>
+          <linearGradient id="sphereGradient"
+                          x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#60a5fa"/>
+            <stop offset="55%" stop-color="#2563eb"/>
+            <stop offset="100%" stop-color="#7c3aed"/>
+          </linearGradient>
 
-      <filter id="sphereGlow" x="-50%" y="-50%"
-              width="200%" height="200%">
-        <feGaussianBlur stdDeviation="3" result="blur"/>
-        <feMerge>
-          <feMergeNode in="blur"/>
-          <feMergeNode in="SourceGraphic"/>
-        </feMerge>
-      </filter>
-    </defs>
+          <filter id="sphereGlow" x="-50%" y="-50%"
+                  width="200%" height="200%">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
 
-    <circle cx="100" cy="100" r="83"
-            fill="#07111f"
-            stroke="url(#sphereGradient)"
-            stroke-width="5"
-            filter="url(#sphereGlow)"/>
+        <circle cx="100" cy="100" r="83"
+                fill="#07111f"
+                stroke="url(#sphereGradient)"
+                stroke-width="5"
+                filter="url(#sphereGlow)"/>
 
-    <ellipse cx="100" cy="100" rx="36" ry="83"
-             fill="none"
-             stroke="#60a5fa"
-             stroke-width="3"/>
+        <ellipse cx="100" cy="100" rx="36" ry="83"
+                 fill="none"
+                 stroke="#60a5fa"
+                 stroke-width="3"/>
 
-    <ellipse cx="100" cy="100" rx="83" ry="30"
-             fill="none"
-             stroke="#60a5fa"
-             stroke-width="3"/>
+        <ellipse cx="100" cy="100" rx="83" ry="30"
+                 fill="none"
+                 stroke="#60a5fa"
+                 stroke-width="3"/>
 
-    <path d="M24 70 Q100 101 176 70"
-          fill="none"
-          stroke="#7c3aed"
-          stroke-width="3"/>
+        <path d="M24 70 Q100 101 176 70"
+              fill="none"
+              stroke="#7c3aed"
+              stroke-width="3"/>
 
-    <path d="M24 130 Q100 99 176 130"
-          fill="none"
-          stroke="#7c3aed"
-          stroke-width="3"/>
+        <path d="M24 130 Q100 99 176 130"
+              fill="none"
+              stroke="#7c3aed"
+              stroke-width="3"/>
 
-    <circle cx="100" cy="100" r="10" fill="#ffffff"/>
-    <circle cx="100" cy="100" r="5" fill="#2563eb"/>
+        <circle cx="100" cy="100" r="10" fill="#ffffff"/>
+        <circle cx="100" cy="100" r="5" fill="#2563eb"/>
+      </svg>
+    </div>
 
-  </svg>
-</div>
-    <div class="sphere-name">ONLINE <span>SPHERE</span></div>
+    <div class="sphere-name">
+      <span>ONLINE</span>
+      <span>SPHERE</span>
+    </div>
   </div>
 </div>
+
 <header>
   <div class="wrap nav">
     <a href="index.html" class="brand" aria-label="Online Sphere home">
@@ -1082,6 +1150,7 @@ function filterCategories() {
 searchInput.addEventListener("input", filterCategories);
 categoryFilter.addEventListener("change", filterCategories);
 </script>
+
 <script>
 (function () {
   const intro = document.getElementById("sphere-intro");
@@ -1103,6 +1172,7 @@ categoryFilter.addEventListener("change", filterCategories);
   }, 7000);
 })();
 </script>
+
 <script>
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
