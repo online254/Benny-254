@@ -497,6 +497,249 @@ button:disabled{opacity:.6;cursor:wait;transform:none}
     animation:none!important;
   }
 }
+/* ==========================================
+   ONLINE SPHERE — PREMIUM HOMEPAGE UPGRADE
+   Version 1.0
+   ========================================== */
+
+:root {
+  --line: rgba(130, 160, 255, 0.19);
+  --radius: 22px;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgba(57, 132, 255, 0.4);
+  color: #ffffff;
+}
+
+/* Premium navigation */
+header {
+  background: rgba(5, 8, 22, 0.88);
+  border-bottom-color: rgba(120, 155, 255, 0.18);
+}
+
+.brand-symbol {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 0 28px rgba(57, 132, 255, 0.25);
+}
+
+.main-nav a,
+.mobile-nav a {
+  transition:
+    background 0.22s ease,
+    color 0.22s ease,
+    border-color 0.22s ease;
+}
+
+.main-nav a:hover,
+.mobile-nav a:hover {
+  background: rgba(57, 132, 255, 0.15);
+  color: #75e3ff;
+}
+
+/* Refined buttons */
+.btn {
+  position: relative;
+  border-radius: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1px;
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    border-color 0.22s ease;
+}
+
+.btn-primary {
+  background: linear-gradient(115deg, #2878ff, #8051ed);
+  box-shadow: 0 8px 25px rgba(57, 110, 255, 0.2);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 12px 32px rgba(89, 103, 255, 0.3);
+}
+
+.btn-outline:hover {
+  border-color: rgba(91, 210, 255, 0.55);
+  background: rgba(57, 132, 255, 0.09);
+}
+
+/* Stronger homepage hero */
+.hero h1 {
+  text-wrap: balance;
+  line-height: 1.06;
+}
+
+.hero-copy {
+  line-height: 1.85;
+}
+
+.hero-image {
+  background: #0b1124;
+  box-shadow: 0 25px 85px rgba(38, 86, 255, 0.19);
+}
+
+.hero-image img,
+.feature-art img {
+  transition: transform 0.6s ease;
+}
+
+.hero-image:hover img,
+.feature-art:hover img {
+  transform: scale(1.025);
+}
+
+.floating-card {
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.28),
+    inset 0 1px rgba(255, 255, 255, 0.04);
+}
+
+/* Better category cards */
+.category-card,
+.step-card,
+.package-card {
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.09);
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.category-card:hover,
+.step-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(95, 155, 255, 0.5);
+  box-shadow: 0 16px 38px rgba(27, 73, 170, 0.14);
+}
+
+.card-body h3,
+.step-card h3,
+.package-card h3 {
+  letter-spacing: -0.35px;
+}
+
+.card-body p,
+.step-card p {
+  line-height: 1.75;
+}
+
+/* Membership presentation */
+.package-card {
+  border-color: rgba(130, 160, 255, 0.2);
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(91, 92, 255, 0.09),
+      transparent 45%
+    ),
+    linear-gradient(145deg, #111c38, #080d1d);
+}
+
+.package-card.featured {
+  border-color: rgba(163, 107, 255, 0.75);
+  box-shadow: 0 12px 40px rgba(112, 75, 255, 0.14);
+}
+
+.package-card li {
+  line-height: 1.65;
+}
+
+/* Refined sections and footer */
+.section-head h2,
+.feature-copy h2,
+.cta-banner h2 {
+  text-wrap: balance;
+}
+
+.metrics {
+  background: rgba(10, 18, 39, 0.72);
+}
+
+.cta-banner {
+  box-shadow: 0 20px 60px rgba(33, 65, 155, 0.1);
+}
+
+.footer-col a {
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.footer-col a:hover {
+  transform: translateX(3px);
+}
+
+/* Clear keyboard focus */
+.btn:focus-visible,
+.main-nav a:focus-visible,
+.mobile-nav a:focus-visible {
+  outline: 2px solid #4ce6f5;
+  outline-offset: 4px;
+}
+
+/* Android and small-screen refinements */
+@media (max-width: 680px) {
+  section {
+    padding-top: 55px;
+    padding-bottom: 55px;
+  }
+
+  .hero {
+    padding-top: 40px;
+    padding-bottom: 35px;
+  }
+
+  .hero h1 {
+    line-height: 1.08;
+    letter-spacing: -1.8px;
+  }
+
+  .hero-actions {
+    gap: 10px;
+  }
+
+  .hero-actions .btn {
+    min-height: 48px;
+  }
+
+  .section-head h2 {
+    letter-spacing: -0.8px;
+  }
+
+  .package-card {
+    border-radius: 20px;
+  }
+
+  .cta-banner {
+    border-radius: 22px;
+  }
+
+  .modal-card {
+    border-radius: 20px;
+  }
+}
+
+/* Respect reduced-motion settings */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
 </style>
 </head>
 
