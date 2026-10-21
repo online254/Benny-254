@@ -17,6 +17,7 @@ app.use(cors({
 }));
 
 app.use(express.json({ limit: "100kb" }));
+app.use("/api/auth", createAuthRouter(db));
 app.use(express.urlencoded({ extended: false }));
 
 // MEMBERSHIP PACKAGES
