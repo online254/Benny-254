@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#07111f">
+<meta name="description" content="Access your Online Sphere account. Discover. Learn. Work.">
 <title>Login | Online Sphere</title>
-<meta name="description" content="Access your Online Sphere account or explore registration. Discover. Learn. Work.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -127,13 +127,6 @@ input:focus { border-color:#638aff; box-shadow:0 0 0 3px #2563eb20; }
   background:none; border:0; color:#9fb4ff; cursor:pointer;
   font-size:12px; font-weight:700;
 }
-.row-between {
-  display:flex; justify-content:space-between;
-  align-items:center; gap:10px; margin:5px 0 19px;
-}
-.check { display:flex; align-items:center; gap:8px; color:var(--muted); font-size:12px; }
-.check input { width:auto; accent-color:var(--blue); }
-.small-link { color:#a9bcff; font-size:12px; }
 .submit {
   width:100%; border:0; border-radius:12px; padding:14px;
   background:linear-gradient(110deg,var(--blue),var(--purple));
@@ -148,11 +141,13 @@ input:focus { border-color:#638aff; box-shadow:0 0 0 3px #2563eb20; }
 .status.show { display:block; }
 .status.error { color:#ffb8b8; background:#e5484812; }
 .status.info { color:#c3d3ff; background:#2563eb16; }
+.status.success { color:#b6f5d0; background:#16834b18; }
+.check { display:flex; align-items:center; gap:8px; color:var(--muted); font-size:12px; margin-bottom:17px; }
+.check input { width:auto; accent-color:var(--blue); }
+.small-link { color:#a9bcff; font-size:12px; }
 .terms { color:#8798b0; font-size:11px; margin-top:17px; }
 .terms a { color:#b1c3ff; text-decoration:underline; }
-.divider {
-  height:1px; background:var(--border); margin:22px 0;
-}
+.divider { height:1px; background:var(--border); margin:22px 0; }
 .bottom-text { color:var(--muted); font-size:13px; text-align:center; }
 .bottom-text a { color:#b1c3ff; font-weight:700; }
 footer {
@@ -226,58 +221,51 @@ footer {
         <button class="tab" id="registerTab" type="button">Create account</button>
       </div>
 
-      <div id="formHeading">
-        <h2 id="title">Welcome back</h2>
-        <p class="subtitle" id="subtitle">Enter your account details to continue.</p>
-      </div>
+      <h2 id="title">Welcome back</h2>
+      <p class="subtitle" id="subtitle">Enter your account details to continue.</p>
 
       <form id="authForm">
         <div class="field" id="nameField" hidden>
           <label for="fullName">Full name</label>
           <input id="fullName" name="fullName" type="text"
-            autocomplete="name" placeholder="Enter your full name">
+            autocomplete="name" minlength="2" maxlength="100"
+            placeholder="Enter your full name">
         </div>
 
         <div class="field">
           <label for="email">Email address</label>
           <input id="email" name="email" type="email"
-            autocomplete="email" placeholder="you@example.com" required>
+            autocomplete="email" maxlength="254"
+            placeholder="you@example.com" required>
         </div>
 
         <div class="field" id="phoneField" hidden>
-          <label for="phone">Phone number (optional)</label>
+          <label for="phone">Kenyan phone number</label>
           <input id="phone" name="phone" type="tel"
-            autocomplete="tel" placeholder="e.g. 07XXXXXXXX">
+            autocomplete="tel" inputmode="tel"
+            placeholder="07XXXXXXXX or 2547XXXXXXXX">
         </div>
 
         <div class="field">
           <label for="password">Password</label>
           <div class="password-wrap">
             <input id="password" name="password" type="password"
-              autocomplete="current-password" minlength="8"
+              autocomplete="current-password" minlength="10" maxlength="128"
               placeholder="Enter your password" required>
             <button class="show-password" id="showPassword" type="button">Show</button>
           </div>
         </div>
 
-        <div class="row-between" id="loginOptions">
-          <label class="check">
-            <input type="checkbox" id="remember">
-            Remember me
-          </label>
-          <a class="small-link" href="help.html">Need help?</a>
-        </div>
-
         <div class="field" id="confirmField" hidden>
           <label for="confirmPassword">Confirm password</label>
-          <input id="confirmPassword" type="password"
-            autocomplete="new-password" minlength="8"
+          <input id="confirmPassword" name="confirmPassword" type="password"
+            autocomplete="new-password" minlength="10" maxlength="128"
             placeholder="Enter password again">
         </div>
 
-        <label class="check" id="termsCheck" hidden style="margin-bottom:17px;">
+        <label class="check" id="termsCheck" hidden>
           <input type="checkbox" id="agreeTerms">
-          I have read the <a class="small-link" href="membership.html">membership information</a> and understand that outcomes are not guaranteed.
+          <span>I have reviewed the <a class="small-link" href="membership.html">membership information</a>.</span>
         </label>
 
         <button class="submit" id="submitBtn" type="submit">Log in</button>
@@ -305,15 +293,11 @@ footer {
 </footer>
 
 <script>
-/*
-  FRONT-END LOGIN INTERFACE
+"use strict";
 
-  This page does not authenticate users by itself.
-  Configure AUTH_API_URL only after you have a real authentication
-  backend with secure registration, login and session handling.
-  Do not store passwords in localStorage or sessionStorage.
-*/
-const AUTH_API_URL = "";
+const AUTH_API_URL = "https://online-sphere-backend.onrender.com/api/auth";
+const TOKEN_KEY = "onlineSphereSessionToken";
+const DASHBOARD_URL = "dashboard.html";
 
 const loginTab = document.getElementById("loginTab");
 const registerTab = document.getElementById("registerTab");
@@ -322,13 +306,11 @@ const nameField = document.getElementById("nameField");
 const phoneField = document.getElementById("phoneField");
 const confirmField = document.getElementById("confirmField");
 const termsCheck = document.getElementById("termsCheck");
-const loginOptions = document.getElementById("loginOptions");
 const title = document.getElementById("title");
 const subtitle = document.getElementById("subtitle");
 const submitBtn = document.getElementById("submitBtn");
 const statusBox = document.getElementById("status");
 const switchText = document.getElementById("switchText");
-const switchLink = document.getElementById("switchLink");
 const password = document.getElementById("password");
 const confirmPassword = document.getElementById("confirmPassword");
 const fullName = document.getElementById("fullName");
@@ -361,12 +343,15 @@ function setMode(nextMode) {
   phoneField.hidden = !registering;
   confirmField.hidden = !registering;
   termsCheck.hidden = !registering;
-  loginOptions.hidden = registering;
 
   fullName.required = registering;
+  phone.required = registering;
   confirmPassword.required = registering;
   agreeTerms.required = registering;
+
   password.autocomplete = registering ? "new-password" : "current-password";
+  password.minLength = 10;
+  password.maxLength = 128;
 
   title.textContent = registering ? "Create your account" : "Welcome back";
   subtitle.textContent = registering
@@ -374,44 +359,82 @@ function setMode(nextMode) {
     : "Enter your account details to continue.";
   submitBtn.textContent = registering ? "Create account" : "Log in";
 
-  switchText.innerHTML = registering
-    ? "Already registered? <a href='#' id='switchLink'>Log in</a>"
-    : "New to Online Sphere? <a href='#' id='switchLink'>Create an account</a>";
+  switchText.textContent = registering
+    ? "Already registered? "
+    : "New to Online Sphere? ";
 
-  document.getElementById("switchLink").addEventListener("click", function (event) {
+  const link = document.createElement("a");
+  link.href = "#";
+  link.textContent = registering ? "Log in" : "Create an account";
+  link.addEventListener("click", function(event) {
     event.preventDefault();
     setMode(registering ? "login" : "register");
   });
+  switchText.appendChild(link);
 
   clearStatus();
 }
 
-loginTab.addEventListener("click", function () {
+async function apiRequest(endpoint, payload, token) {
+  const headers = { "Content-Type": "application/json" };
+
+  if (token) {
+    headers.Authorization = "Bearer " + token;
+  }
+
+  const response = await fetch(AUTH_API_URL + endpoint, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(payload)
+  });
+
+  const result = await response.json().catch(function() {
+    return {};
+  });
+
+  if (!response.ok) {
+    throw new Error(result.message || "The request could not be completed.");
+  }
+
+  return result;
+}
+
+async function verifySession(token) {
+  const response = await fetch(AUTH_API_URL + "/me", {
+    method: "GET",
+    headers: { Authorization: "Bearer " + token }
+  });
+
+  const result = await response.json().catch(function() {
+    return {};
+  });
+
+  return response.ok && result.success === true && !!result.user;
+}
+
+loginTab.addEventListener("click", function() {
   setMode("login");
 });
 
-registerTab.addEventListener("click", function () {
+registerTab.addEventListener("click", function() {
   setMode("register");
 });
 
-switchLink.addEventListener("click", function (event) {
-  event.preventDefault();
-  setMode("register");
-});
-
-document.getElementById("showPassword").addEventListener("click", function () {
+document.getElementById("showPassword").addEventListener("click", function() {
   const visible = password.type === "password";
   password.type = visible ? "text" : "password";
   this.textContent = visible ? "Hide" : "Show";
 });
 
-form.addEventListener("submit", async function (event) {
+form.addEventListener("submit", async function(event) {
   event.preventDefault();
   clearStatus();
 
+  if (!form.reportValidity()) return;
+
   if (mode === "register") {
     if (password.value !== confirmPassword.value) {
-      showStatus("The passwords do not match. Please check them and try again.", "error");
+      showStatus("The passwords do not match. Please check them.", "error");
       return;
     }
 
@@ -419,14 +442,6 @@ form.addEventListener("submit", async function (event) {
       showStatus("Please confirm that you have reviewed the membership information.", "error");
       return;
     }
-  }
-
-  if (!AUTH_API_URL) {
-    showStatus(
-      "Account access is not connected yet. This page is a front-end interface only; no account has been created and no login has been performed. Contact the site administrator to connect a secure authentication backend.",
-      "info"
-    );
-    return;
   }
 
   const endpoint = mode === "register" ? "/register" : "/login";
@@ -444,34 +459,39 @@ form.addEventListener("submit", async function (event) {
   submitBtn.textContent = "Please wait...";
 
   try {
-    const response = await fetch(AUTH_API_URL.replace(/\/$/, "") + endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify(payload)
-    });
+    const result = await apiRequest(endpoint, payload);
 
-    const result = await response.json().catch(function () {
-      return {};
-    });
-
-    if (!response.ok) {
-      throw new Error(result.message || "Unable to complete your request.");
+    if (!result.success || !result.token) {
+      throw new Error("The server did not return a valid session. Please try again.");
     }
 
-    if (mode === "register") {
-      showStatus(
-        result.message || "Registration response received. Follow the instructions provided by the server.",
-        "info"
-      );
-    } else {
-      showStatus(
-        result.message || "Login response received. Confirm that the server has created a secure authenticated session before continuing.",
-        "info"
-      );
+    sessionStorage.setItem(TOKEN_KEY, result.token);
+
+    const valid = await verifySession(result.token);
+
+    if (!valid) {
+      sessionStorage.removeItem(TOKEN_KEY);
+      throw new Error("Your session could not be verified. Please try again.");
     }
+
+    showStatus(
+      mode === "register"
+        ? "Your account has been created. Opening your dashboard..."
+        : "Login successful. Opening your dashboard...",
+      "success"
+    );
+
+    window.location.replace(DASHBOARD_URL);
   } catch (error) {
-    showStatus(error.message || "Unable to reach the authentication server. Please try again later.", "error");
+    sessionStorage.removeItem(TOKEN_KEY);
+
+    let message = error.message || "Unable to connect to the authentication server.";
+
+    if (error instanceof TypeError) {
+      message = "Could not reach the server. Check your internet connection and try again. If this continues, the backend may need a CORS or deployment check.";
+    }
+
+    showStatus(message, "error");
   } finally {
     submitBtn.disabled = false;
     submitBtn.textContent = mode === "register" ? "Create account" : "Log in";
@@ -482,4 +502,3 @@ setMode("login");
 </script>
 </body>
 </html>
-
