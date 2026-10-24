@@ -951,3 +951,64 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }, 1800);
 });
+/* =========================================================
+   ONLINE SPHERE — LIVE OPPORTUNITIES FROM NEON
+   ========================================================= */
+(async function loadLiveOpportunities() {
+  const API_URL =
+    "https://online-sphere-backend.onrender.com/api/opportunities";
+
+  const statusBox = document.getElementById("liveOpportunitiesStatus");
+  const grid = document.getElementById("liveOpportunitiesGrid");
+
+  if (!statusBox || !grid) return;
+
+  try {
+    statusBox.textContent = "Loading opportunities...";
+
+    const response = await fetch(API_URL);
+    if (!response.ok) throw new Error("Could not load opportunities.");
+
+    const data = await response.json();
+    if (!data.success || !Array.isArray(data.opportunities)) {
+      throw new Error("Unexpected response.");
+    }
+
+    const opportunities = data.opportunities;
+    grid.replaceChildren();
+
+    if (opportunities.length === 0) {
+      statusBox.textContent = "No opportunities are currently available.";
+      return;
+    }
+
+    opportunities.forEach((item) => {
+      const card = document.createElement("article");
+      card.className = "category-card";
+
+      const body = document.createElement("div");
+      body.className = "card-body";
+
+      const title = document.createElement("h3");
+      title.textContent = item.title || "Digital opportunity";
+
+      const description = document.createElement("p");
+      description.textContent =
+        item.description || "Explore this digital opportunity.";
+
+      const category = document.createElement("p");
+      category.textContent = "Category: " + (item.category || "General");
+
+      body.append(title, description, category);
+      card.appendChild(body);
+      grid.appendChild(card);
+    });
+
+    statusBox.textContent =
+      "Showing " + opportunities.length + " opportunities.";
+  } catch (error) {
+    console.error("Live opportunities:", error);
+    statusBox.textContent =
+      "Opportunities could not load right now. Please try again later.";
+  }
+})();
