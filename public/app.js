@@ -966,7 +966,8 @@ document.addEventListener("DOMContentLoaded", () => {
   try {
     statusBox.textContent = "Loading opportunities...";
 
-    const response = await fetch(API_URL);
+    const response = await fetch(API_URL, { cache: "no-store" });
+console.log("Online Sphere API response status:", response.status);
     if (!response.ok) throw new Error("Could not load opportunities.");
 
     const data = await response.json();
