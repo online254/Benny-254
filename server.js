@@ -160,7 +160,37 @@ app.get("/api/packages", (req, res) => {
         }))
     });
 });
+// OPPORTUNITIES — READ FROM NEON POSTGRESQL
+app.get("/api/opportunities", async (req, res) => {
+    try {
+        const result = await postgres.query(
+            `SELECT id, title, category, description, difficulty,
+                    earning_model, requirements, platform_name,
+                    external_url, risk_level, featured, status,
+                    created_at, updated_at
+             FROM opportunities
+             WHERE status = $1
+             ORDER BY featured DESC, created_at DESC, id ASC`,
+            ["active"]
+        );
 
+        return res.json({
+            success: true,
+            count: result.rows.length,
+            opportunities: result.rows
+        });
+    } catch (error) {
+        console.error(
+            "[opportunities] Neon query failed:",
+            error.message
+        );
+
+        return res.status(503).json({
+            success: false,
+            message: "Opportunities are temporarily unavailable."
+        });
+    }
+});
 // M-PESA STK PUSH
 app.post("/api/mpesa/stkpush", async (req, res) => {
     const requestId = crypto.randomUUID();
