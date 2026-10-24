@@ -4,7 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const crypto = require("crypto");
 const db = require("./database/database.db.js");
-
+const postgres = require("./database/postgres.js");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -646,4 +646,17 @@ app.use((err, req, res, next) => {
 // START SERVER
 app.listen(PORT, () => {
     console.log(`Online Sphere backend running on port ${PORT}`);
+
+    postgres.checkConnection()
+        .then(({ database }) => {
+            console.log("[postgres] Neon connection successful", {
+                database
+            });
+        })
+        .catch((error) => {
+            console.error(
+                "[postgres] Neon connection failed:",
+                error.message
+            );
+        });
 });
