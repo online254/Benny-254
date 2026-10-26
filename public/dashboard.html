@@ -232,6 +232,17 @@ h3{font-size:15px}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 15px}
 .full{grid-column:1/-1}
 .form-card{max-width:650px}
+.profile-layout{display:grid;grid-template-columns:minmax(220px, .72fr) minmax(0, 1.7fr);gap:17px;align-items:start}
+.profile-summary{text-align:center;padding:27px 21px}
+.profile-avatar{width:78px;height:78px;margin:0 auto 15px;border-radius:24px;display:grid;place-items:center;background:linear-gradient(135deg,#2563eb,#7c3aed);font:800 30px Manrope,sans-serif;box-shadow:0 12px 30px rgba(59,130,246,.22)}
+.profile-summary-name{font:800 18px Manrope,sans-serif;overflow-wrap:anywhere}
+.profile-summary-email{color:var(--muted);font-size:11px;margin:7px 0 15px;overflow-wrap:anywhere}
+.profile-divider{height:1px;background:var(--line);margin:22px 0 5px}
+.profile-meta{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);text-align:left;font-size:11px}
+.profile-meta span{color:var(--muted)}
+.profile-meta strong{font-weight:700;text-align:right}
+.profile-tip{margin:20px 0 0;color:var(--muted);font-size:11px;line-height:1.7;text-align:left}
+.profile-form-card{max-width:none}
 .table-wrap{width:100%;overflow-x:auto;margin-top:18px}
 table{border-collapse:collapse;width:100%;min-width:480px;text-align:left}
 th,td{padding:14px 12px;border-bottom:1px solid var(--line);font-size:11px}
@@ -288,6 +299,12 @@ td.muted{color:var(--muted)}
   .hero{padding:23px 19px}
   .hero:after{right:-150px}
   .grid-2{grid-template-columns:1fr}
+  .profile-layout{grid-template-columns:1fr}
+  .profile-summary{text-align:left;display:grid;grid-template-columns:auto 1fr;column-gap:14px;align-items:center}
+  .profile-avatar{grid-row:span 2;margin:0}
+  .profile-summary-email{margin:4px 0 10px}
+  .profile-summary .status{grid-column:2;justify-self:start}
+  .profile-divider,.profile-meta,.profile-tip{grid-column:1/-1}
   .stats{gap:10px}
   .stat{padding:14px}
   .stat-value{font-size:20px}
@@ -594,26 +611,42 @@ td.muted{color:var(--muted)}
 
     <!-- PROFILE -->
     <section class="page" id="page-profile">
-      <div class="welcome"><div><h1>My Profile</h1><p class="muted small">Edit your display details for this browser session.</p></div></div>
-      <div class="panel form-card">
-        <div class="panel-title">Personal details</div>
-        <div class="panel-sub">These fields are not saved to a server by this standalone HTML file.</div>
-        <form id="profileForm">
-          <div class="field"><label for="fullName">Full name</label><input id="fullName" type="text" placeholder="Enter your full name" required></div>
-          <div class="field"><label for="email">Email address</label><input id="email" type="email" placeholder="you@example.com"></div>
-          <div class="field"><label for="profilePhone">Phone number</label><input id="profilePhone" type="tel" placeholder="Your phone number"></div>
-          <div class="field"><label for="country">Country</label>
-            <select id="country">
-              <option value="">Select country</option>
-              <option>Kenya</option><option>Tanzania</option><option>Uganda</option>
-              <option>Rwanda</option><option>Nigeria</option><option>South Africa</option>
-              <option>Ghana</option><option>United States</option><option>United Kingdom</option>
-              <option>Canada</option><option>Other</option>
-            </select>
-          </div>
-          <button class="btn btn-primary" type="submit">Update display</button>
-          <div id="profileMessage" class="notice" style="display:none" role="status"></div>
-        </form>
+      <div class="welcome">
+        <div><h1>My Profile</h1><p class="muted small">Keep your member details clear and up to date.</p></div>
+      </div>
+      <div class="profile-layout">
+        <aside class="panel profile-summary">
+          <div class="profile-avatar" id="profileAvatar">M</div>
+          <div class="profile-summary-name" id="profileSummaryName">Member</div>
+          <div class="profile-summary-email" id="profileSummaryEmail">Complete your details below</div>
+          <span class="status">Profile pending</span>
+          <div class="profile-divider"></div>
+          <div class="profile-meta"><span>Member since</span><strong>Not verified</strong></div>
+          <div class="profile-meta"><span>Membership</span><strong id="profileMembershipSummary">Unverified</strong></div>
+          <p class="profile-tip">Your profile details help us keep your account and membership records accurate.</p>
+        </aside>
+        <div class="panel form-card profile-form-card">
+          <div class="panel-title">Personal details</div>
+          <div class="panel-sub">Update the display information shown across your member area.</div>
+          <form id="profileForm">
+            <div class="form-grid">
+              <div class="field full"><label for="fullName">Full name</label><input id="fullName" type="text" placeholder="Enter your full name" required></div>
+              <div class="field"><label for="email">Email address</label><input id="email" type="email" placeholder="you@example.com"></div>
+              <div class="field"><label for="profilePhone">Phone number</label><input id="profilePhone" type="tel" placeholder="Your phone number"></div>
+              <div class="field full"><label for="country">Country</label>
+                <select id="country">
+                  <option value="">Select country</option>
+                  <option>Kenya</option><option>Tanzania</option><option>Uganda</option>
+                  <option>Rwanda</option><option>Nigeria</option><option>South Africa</option>
+                  <option>Ghana</option><option>United States</option><option>United Kingdom</option>
+                  <option>Canada</option><option>Other</option>
+                </select>
+              </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Save profile changes</button>
+            <div id="profileMessage" class="notice" style="display:none" role="status"></div>
+          </form>
+        </div>
       </div>
     </section>
 
@@ -933,6 +966,9 @@ document.getElementById("profileForm").addEventListener("submit", function(event
 
   document.getElementById("welcomeName").textContent = name.split(/\s+/)[0];
   document.getElementById("topAvatar").textContent = name.charAt(0).toUpperCase();
+  document.getElementById("profileAvatar").textContent = name.charAt(0).toUpperCase();
+  document.getElementById("profileSummaryName").textContent = name;
+  document.getElementById("profileSummaryEmail").textContent = email || phone || "Details added";
   document.getElementById("profileStatusText").textContent =
     "Display details entered; server verification not performed";
 
