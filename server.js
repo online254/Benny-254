@@ -4,7 +4,9 @@ const express = require("express");
 const cors = require("cors");
 const crypto = require("crypto");
 const db = require("./database/database.db.js");
-const postgres = require("./database/postgres.js");
+const postgres = process.env.DATABASE_URL
+    ? require("./database/postgres.js")
+    : null;
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -162,6 +164,13 @@ app.get("/api/packages", (req, res) => {
 });
 // OPPORTUNITIES — READ FROM NEON POSTGRESQL
 app.get("/api/opportunities", async (req, res) => {
+    if (!postgres) {
+        return res.status(503).json({
+            success: false,
+            message: "Opportunities service is not configured."
+        });
+    }
+
     try {
         const result = await postgres.query(
             `SELECT id, title, category, description, difficulty,
@@ -676,6 +685,11 @@ app.use((err, req, res, next) => {
 // START SERVER
 app.listen(PORT, () => {
     console.log(`Online Sphere backend running on port ${PORT}`);
+
+    if (!postgres) {
+        console.warn("[postgres] DATABASE_URL is not configured; running without Neon features.");
+        return;
+    }
 
     postgres.checkConnection()
         .then(({ database }) => {
